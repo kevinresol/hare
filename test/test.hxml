@@ -1,0 +1,24 @@
+## Neko
+-main TestMain
+-lib munit
+-lib rpg-engine
+##-lib hamcrest
+-cp src
+
+-cp test
+-neko build/neko_test.n
+
+--next
+
+## CPP
+-main TestMain
+-lib munit
+-lib rpg-engine
+##-lib hamcrest
+-cp src
+
+-cp test
+#-D HXCPP_M64
+-cpp build/cpp_test
+
+

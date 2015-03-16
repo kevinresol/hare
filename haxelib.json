@@ -1,0 +1,14 @@
+{
+  "name": "rpg-engine",  
+  "classPath": "src",
+  "url" : "http://www.kevinresol.com",  
+  "license": "MIT",  
+  "tags": ["game", "cross"],
+  "description": "A RPG engine for Haxe.",
+  "version": "0.0.1",
+  "releasenote": "Work in Progress",
+  "contributors": ["KevinResoL"],
+  "dependencies": {
+	  "lua":""
+  }
+}
