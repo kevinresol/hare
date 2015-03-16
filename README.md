@@ -1,6 +1,11 @@
 # RPG Engine
 
-A RPG engine for Haxe. The visuals and user input are abstracted away. 
+A RPG engine for Haxe including the following core components while the visuals and user input are abstracted away:
+
+- 2D Map
+- Events (Scripted with Lua)
+- Items
+
 A default implementation for HaxeFlixel is provided. 
 But it could be easily implemented on other game frameworks.
 
