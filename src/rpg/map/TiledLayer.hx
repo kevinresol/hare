@@ -72,7 +72,7 @@ class TiledLayer
 			var chunk = _xmlData.innerData;
 			var compressed = false;
 			
-			var bytes = Base64.decode(chunk);
+			var bytes = Base64.decode(StringTools.trim(chunk));
 			
 			if (_xmlData.has.compression)
 			{
@@ -182,7 +182,7 @@ class TiledLayer
 			var position = 0;
 			while (position < mapData.length)
 			{
-				tileArray.push(resolveTile(mapData.getInt32(position)));
+				tileArray.push(resolveTile(mapData.getInt32(position) - 1)); // tmx use 1-based indices
 				position += 4; // 32 bit == 4 bytes
 			}
 		}
