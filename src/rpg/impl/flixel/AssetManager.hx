@@ -13,11 +13,15 @@ class AssetManager implements IAssetManager
 		
 	}
 	
-	/* INTERFACE rpg.IAssetManager */
-	
 	public function getMapData(id:String):String 
 	{
 		return Assets.getText('assets/data/map/$id.tmx');
+	}
+	
+	public function getScript(id:Int):String 
+	{
+		var file = "event-" + StringTools.lpad(Std.string(id), "0", 4) + ".lua";
+		return Assets.getText('assets/data/script/$file');
 	}
 	
 }

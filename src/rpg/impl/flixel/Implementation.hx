@@ -1,6 +1,7 @@
 package rpg.impl.flixel;
 import flixel.FlxState;
 import flixel.tile.FlxTilemap;
+import rpg.IHost;
 
 /**
  * ...
@@ -9,12 +10,14 @@ import flixel.tile.FlxTilemap;
 class Implementation implements IImplementation
 {
 	public var assetManager:IAssetManager;
+	public var host:IHost;
 	
 	private var state:FlxState;
 
 	public function new(state:FlxState) 
 	{
 		assetManager = new AssetManager();
+		host = new Host();
 		
 		this.state = state;
 	}

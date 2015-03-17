@@ -24,6 +24,7 @@ class TiledObject
 	public static inline var POLYLINE = 3;
 	public static inline var TILE = 4;
 	
+	public var id:Int;
 	public var x:Int;
 	public var y:Int;
 	public var width:Int;
@@ -68,17 +69,18 @@ class TiledObject
 	 */
 	public var points:Array<Point>;
 	
-	public function new(Source:Fast, Parent:TiledObjectGroup)
+	public function new(source:Fast, parent:TiledObjectGroup)
 	{
-		xmlData = Source;
-		group = Parent;
-		name = (Source.has.name) ? Source.att.name : "[object]";
-		type = (Source.has.type) ? Source.att.type : Parent.name;
-		x = Std.parseInt(Source.att.x);
-		y = Std.parseInt(Source.att.y);
-		width = (Source.has.width) ? Std.parseInt(Source.att.width) : 0;
-		height = (Source.has.height) ? Std.parseInt(Source.att.height) : 0;
-		angle = (Source.has.rotation) ? Std.parseFloat(Source.att.rotation) : 0;
+		xmlData = source;
+		group = parent;
+		name = (source.has.name) ? source.att.name : "[object]";
+		type = (source.has.type) ? source.att.type : parent.name;
+		id = Std.parseInt(source.att.id);
+		x = Std.parseInt(source.att.x);
+		y = Std.parseInt(source.att.y);
+		width = (source.has.width) ? Std.parseInt(source.att.width) : 0;
+		height = (source.has.height) ? Std.parseInt(source.att.height) : 0;
+		angle = (source.has.rotation) ? Std.parseFloat(source.att.rotation) : 0;
 		// By default let's it be a rectangle object
 		objectType = RECTANGLE;
 		
@@ -87,10 +89,9 @@ class TiledObject
 		gid = -1;
 		
 		// object with tile association?
-		if (Source.has.gid && Source.att.gid.length != 0) 
+		if (source.has.gid && source.att.gid.length != 0) 
 		{
-			gid = Std.parseInt(Source.att.gid);
-			var set:TiledTileSet;
+			gid = Std.parseInt(source.att.gid);
 			
 			for (set in group.map.tilesets)
 			{
@@ -106,23 +107,22 @@ class TiledObject
 		}
 		
 		// load properties
-		var node:Xml;
 		custom = new TiledPropertySet();
 		
-		for (node in Source.nodes.properties)
+		for (node in source.nodes.properties)
 		{
 			custom.extend(node);
 		}
 		
 		// Let's see if it's another object
-		if (Source.hasNode.ellipse) {
+		if (source.hasNode.ellipse) {
 			objectType = ELLIPSE;
-		} else if (Source.hasNode.polygon) {
+		} else if (source.hasNode.polygon) {
 			objectType = POLYGON;
-			getPoints(Source.node.polygon);
-		} else if (Source.hasNode.polyline) {
+			getPoints(source.node.polygon);
+		} else if (source.hasNode.polyline) {
 			objectType = POLYLINE;
-			getPoints(Source.node.polyline);
+			getPoints(source.node.polyline);
 		}
 	}
 	

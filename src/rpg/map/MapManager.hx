@@ -28,6 +28,16 @@ class MapManager
 		// TODO: Display objects
 		
 		// TODO: Load and run scripts
+		var objectLayer = map.objectGroups[0];
+		for (o in objectLayer.objects)
+		{
+			switch(o.type)
+			{
+				case "event":
+					engine.eventManager.register(o.id);
+				default:
+			}
+		}
 	}
 	
 }
