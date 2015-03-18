@@ -127,7 +127,6 @@ class TiledMap
 	{
 		for (set in tilesets)
 		{
-			trace(set.name, set.firstGID);
 			if (set.hasGid(gid))
 			{
 				return set;

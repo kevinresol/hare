@@ -62,12 +62,12 @@ class Implementation implements IImplementation
 	
 	public function displayMap(map:GameMap):Void
 	{
+		// draw floor layer
 		for (imageSource in map.floor.data.keys())
 		{
 			var tilemap = new FlxTilemap();
 			var tiles = map.floor.data[imageSource];
 			tiles = tiles.map(function(i) return i - 1);
-			trace(imageSource, tiles.length, tiles);
 			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight);
 			state.add(tilemap);
 		}

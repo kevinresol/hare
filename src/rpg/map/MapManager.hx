@@ -24,9 +24,7 @@ class MapManager
 		
 		var map = new GameMap(tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
 		var tiledLayer = tiledMap.layers.filter(function(l) return l.properties.get("type") == "floor")[0];
-		trace(tiledMap.getGidOwner(tiledLayer.tileArray.filter(function(t) return t != 0)[0]).imageSource);
 		
-		var imageSource = tiledMap.getGidOwner(tiledLayer.tileArray.filter(function(t) return t != 0)[0]).imageSource;
 		map.floor = createTileLayer(tiledLayer);
 		
 		// Display the map
@@ -59,7 +57,7 @@ class MapManager
 			{
 				var tileset = layer.map.getGidOwner(tile.tileID);
 				var imageSource = tileset.imageSource;
-				imageSource = StringTools.replace(imageSource, "../..", "assets");
+				imageSource = StringTools.replace(imageSource, "../..", "assets"); // TODO remove hardcode path?
 				
 				if (!result.data.exists(imageSource))
 					result.data.set(imageSource, [for(j in 0...layer.tiles.length) 0]);

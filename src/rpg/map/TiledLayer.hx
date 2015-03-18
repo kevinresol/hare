@@ -58,6 +58,7 @@ class TiledLayer
 			throw "Error loading TiledLayer level data";
 		}
 		
+		get_tileArray(); // populate the tile arrays
 	}
 
 	public inline function getEncoding():String
@@ -101,9 +102,9 @@ class TiledLayer
 
 	
 
-	private function resolveTile(GlobalTileID:Int):Int
+	private function resolveTile(gid:Int):Int
 	{
-		var tile = new TiledTile(GlobalTileID);
+		var tile = new TiledTile(gid);
 
 		var tilesetID = tile.tilesetID;
 		for (tileset in map.tilesets)
