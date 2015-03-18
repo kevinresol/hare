@@ -12,21 +12,19 @@ class EventManager
 	private var engine:Engine;
 	private var lua:Lua;
 	private var registeredIds:Array<Int>;
+	private var scriptHost:ScriptHost;
 	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
 		registeredIds = [];
 		
+		scriptHost = new ScriptHost(engine);
+		
 		lua = new Lua();
 		lua.loadLibs(["base", "coroutine"]);
 		lua.setVars({
-			host_showText:
-				function(message) 
-				{
-					trace("set showing text = true");
-					engine.impl.host.showText(function(){trace("set showing text = false"); resume(currentEvent);}, message);
-				}
+			host_showText: scriptHost.showText
 		});
 		
 		var bridgeScript = EventMacro.getBridgeScript();
@@ -51,9 +49,11 @@ class EventManager
 		resume(id);
 	}
 	
-	public function resume(id:Int):Void
+	public function resume(id:Int = -1):Void
 	{
-		execute('local result = coroutine.resume(co$id) return result');
+		if (id == -1)
+			id = currentEvent;
+		execute('coroutine.resume(co$id)');
 	}
 	
 	public function register(id:Int):Void

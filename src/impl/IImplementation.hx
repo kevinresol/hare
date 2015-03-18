@@ -17,4 +17,5 @@ interface IImplementation
 	var playerMovementDirection:IntPoint;
 	
 	function teleportPlayer(x:Int, y:Int):Void;
+	function movePlayer(dx:Int, dy:Int):Void;
 }

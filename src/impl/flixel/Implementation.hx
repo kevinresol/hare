@@ -70,11 +70,6 @@ class Implementation implements IImplementation
 			engine.release(KDown);
 		if (justReleased.ENTER || justReleased.SPACE)
 			engine.release(KEnter);
-			
-		if (playerTween == null)
-		{
-			movePlayer();
-		}
 	}
 	
 	private function set_currentMap(map:GameMap):GameMap
@@ -118,22 +113,17 @@ class Implementation implements IImplementation
 		engine.updatePlayerPosition(x, y);
 	}
 	
-	
-	private function movePlayer(speed:Float = 200):Void
+	public function movePlayer(dx:Int, dy:Int):Void
 	{
-		var dx = playerMovementDirection.x;
-		var dy = playerMovementDirection.y;
+		var speed = 200;
 		
 		if (dx == 1) player.animation.play("walking-right");
 		else if (dx == -1) player.animation.play("walking-left");
 		else if (dy == 1) player.animation.play("walking-down");
 		else if (dy == -1) player.animation.play("walking-up");
-		else 
-		{
-			player.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
-			playerTween = null;
-			return;
-		}
+		
+		//if (playerTween != null && playerTween.active)
+		//	playerTween.cancel();
 		
 		playerTween = FlxTween.linearMotion(
 			player, 
@@ -145,6 +135,7 @@ class Implementation implements IImplementation
 			false,
 			{onComplete:movePlayer_onComplete} 
 		);
+		
 	}
 	
 	private function movePlayer_onComplete(tween:FlxTween):Void
@@ -157,7 +148,12 @@ class Implementation implements IImplementation
 		player.y = gridY * currentMap.tileHeight -16;
 		
 		engine.updatePlayerPosition(gridX, gridY);
-		movePlayer();
+		
+		if (!engine.endMove())
+		{
+			player.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
+			playerTween = null;
+		}
 	}
 	
 }

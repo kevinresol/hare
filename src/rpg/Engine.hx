@@ -40,9 +40,24 @@ class Engine
 		movementManager.update(elapsed);
 	}
 	
-	public function updatePlayerPosition(x:Int, y:Int):Void
+	public inline function endMove():Bool
+	{
+		return movementManager.endMove();
+	}
+	
+	public inline function updatePlayerPosition(x:Int, y:Int):Void
 	{
 		movementManager.updatePlayerPosition(x, y);
+	}
+	
+	private inline function enableMovement():Void
+	{
+		movementManager.enableMovement();
+	}
+	
+	private inline function disableMovement():Void
+	{
+		movementManager.disableMovement();
 	}
 	
 	public inline function press(key:InputKey):Void
