@@ -95,6 +95,8 @@ class MovementManager
 	 */
 	public function attemptMove(dx:Int, dy:Int):Bool
 	{
+		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
+		
 		if (!movementEnabled || playerMoving) return false;
 		
 		for (event in engine.mapManager.currentMap.events)
