@@ -1,6 +1,7 @@
 package rpg.map;
 import rpg.Engine;
 import rpg.geom.Direction;
+import rpg.map.GameMap.EventTrigger;
 import rpg.map.GameMap.TileLayer;
 
 /**
@@ -34,7 +35,17 @@ class MapManager
 		{
 			if (o.type == "event")
 			{
-				map.addEvent(o.id, "", Std.int(o.x / tiledMap.tileWidth), Std.int(o.y / tiledMap.tileHeight) -1 );
+				var trigger:EventTrigger = switch (o.custom.trigger) 
+				{
+					case "action": EAction;
+					case "playertouch": EPlayerTouch;
+					case "eventtouch": EEventTouch;
+					case "autorun": EAutorun;
+					case "parallel": EParallel;
+					default: EAction;
+						
+				}
+				map.addEvent(o.id, "", Std.int(o.x / tiledMap.tileWidth), Std.int(o.y / tiledMap.tileHeight) -1, trigger );
 			}
 		}
 		

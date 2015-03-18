@@ -33,9 +33,9 @@ class GameMap
 		events = [];
 	}
 	
-	public function addEvent(id, imageSource, x, y):Void
+	public function addEvent(id, imageSource, x, y, trigger):Void
 	{
-		events.push(new Event(id, imageSource, x, y));
+		events.push(new Event(id, imageSource, x, y, trigger));
 	}
 	
 }
@@ -68,18 +68,28 @@ class Event
 	public var id:Int;
 	public var x:Int;
 	public var y:Int;
+	public var trigger:EventTrigger;
 	
-	public function new(id, imageSource, x, y)
+	public function new(id, imageSource, x, y, trigger)
 	{
 		this.id = id;
 		this.imageSource = imageSource;
 		this.x = x;
 		this.y = y;
+		this.trigger = trigger;
 	}
 	
 	public function toString():String
 	{
 		return 'Event $id: ($x, $y)';
 	}
-	
+}
+
+enum EventTrigger
+{
+	EAction;
+	EPlayerTouch;
+	EEventTouch;
+	EAutorun;
+	EParallel;
 }

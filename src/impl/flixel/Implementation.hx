@@ -4,13 +4,11 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
-import rpg.Engine;
-import rpg.geom.Direction;
-import rpg.geom.IntPoint;
-import rpg.geom.Point;
 import impl.IAssetManager;
 import impl.IHost;
 import impl.IImplementation;
+import rpg.Engine;
+import rpg.geom.Direction;
 import rpg.map.GameMap;
 
 /**
@@ -24,7 +22,6 @@ class Implementation implements IImplementation
 	public var host:IHost;
 	
 	public var currentMap(default, set):GameMap;
-	public var playerMovementDirection:IntPoint;
 	private var playerTween:FlxTween;
 	
 	private var state:FlxState;
@@ -36,8 +33,6 @@ class Implementation implements IImplementation
 	{
 		assetManager = new AssetManager();
 		host = new Host(state);
-		
-		playerMovementDirection = new IntPoint();
 		
 		this.state = state;
 		
@@ -147,9 +142,7 @@ class Implementation implements IImplementation
 			case Direction.RIGHT: player.animation.play("right");
 			case Direction.TOP: player.animation.play("up");
 			case Direction.BOTTOM: player.animation.play("down");
-				
 			default:
-				
 		}
 	}
 	

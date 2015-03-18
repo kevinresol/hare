@@ -8,7 +8,7 @@ import rpg.input.InputManager.InputKey;
  * ...
  * @author Kevin
  */
-class MovementManager
+class InteractionManager
 {
 	public var playerPosition:IntPoint;
 	public var playerFacing:Int;
@@ -16,7 +16,7 @@ class MovementManager
 	
 	private var engine:Engine;
 	
-	private var movementEnabled:Bool = true;
+	private var justPressedListener:Int;
 	
 	public function new(engine:Engine) 
 	{
@@ -24,7 +24,7 @@ class MovementManager
 		
 		playerPosition = new IntPoint();
 		
-		Events.on("key.justPressed", function(key:InputKey)
+		justPressedListener = Events.on("key.justPressed", function(key:InputKey)
 		{
 			switch (key) 
 			{
@@ -36,7 +36,17 @@ class MovementManager
 					attemptMove(0, -1);
 				case KDown:
 					attemptMove(0, 1);
-				default:
+				case KEnter:
+					var dx = if (playerFacing == Direction.LEFT) -1 else if (playerFacing == Direction.RIGHT) 1 else 0;
+					var dy = if (playerFacing == Direction.TOP) -1 else if (playerFacing == Direction.BOTTOM) 1 else 0;
+						
+					for (event in engine.mapManager.currentMap.events)
+					{
+						if (event.trigger == EAction && event.x == playerPosition.x + dx && event.y == playerPosition.y + dy)
+						{
+							engine.eventManager.trigger(event.id);
+						}
+					}
 			}
 		});
 		
@@ -48,12 +58,13 @@ class MovementManager
 	
 	public function enableMovement():Void
 	{
-		movementEnabled = true;
+		Events.enable(justPressedListener);
+		
 	}
 	
 	public function disableMovement():Void
 	{
-		movementEnabled = false;
+		Events.disable(justPressedListener);
 	}
 	
 	public function updatePlayerPosition(x:Int, y:Int):Void
@@ -97,11 +108,14 @@ class MovementManager
 	{
 		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
 		
-		if (!movementEnabled || playerMoving) return false;
+		if (playerMoving) return false;
+		
+		var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.BOTTOM else if (dy == -1) Direction.TOP else 0;
+		playerFacing = dir;
 		
 		for (event in engine.mapManager.currentMap.events)
 		{
-			if (event.x == playerPosition.x + dx && event.y == playerPosition.y + dy)
+			if (event.trigger == EPlayerTouch && event.x == playerPosition.x + dx && event.y == playerPosition.y + dy)
 			{
 				engine.eventManager.trigger(event.id);
 			}
@@ -114,7 +128,6 @@ class MovementManager
 		}
 		else // can't move because the attempted direction is impassable, just change the facing
 		{
-			var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.BOTTOM else if (dy == -1) Direction.TOP else 0;
 			engine.impl.changePlayerFacing(dir);
 		}
 		

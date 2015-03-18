@@ -1,6 +1,5 @@
 package impl ;
 import rpg.Engine;
-import rpg.geom.IntPoint;
 import rpg.map.GameMap;
 
 /**
@@ -14,7 +13,6 @@ interface IImplementation
 	var host:IHost;
 
 	var currentMap(default, set):GameMap;
-	var playerMovementDirection:IntPoint;
 	
 	function teleportPlayer(x:Int, y:Int):Void;
 	function movePlayer(dx:Int, dy:Int):Void;

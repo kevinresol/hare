@@ -3,7 +3,7 @@ import impl.IImplementation;
 import rpg.event.EventManager;
 import rpg.input.InputManager;
 import rpg.map.MapManager;
-import rpg.movement.MovementManager;
+import rpg.movement.InteractionManager;
 
 /**
  * ...
@@ -16,7 +16,7 @@ class Engine
 	private var mapManager:MapManager;
 	private var eventManager:EventManager;
 	private var inputManager:InputManager;
-	private var movementManager:MovementManager;
+	private var movementManager:InteractionManager;
 	
 	public function new(impl:IImplementation, entryPointMapId:String) 
 	{
@@ -26,7 +26,7 @@ class Engine
 		mapManager = new MapManager(this);
 		eventManager = new EventManager(this);
 		inputManager = new InputManager(this);
-		movementManager = new MovementManager(this);
+		movementManager = new InteractionManager(this);
 		
 		mapManager.loadMap(entryPointMapId);
 		

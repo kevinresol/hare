@@ -31,7 +31,6 @@ class Host implements IHost
 			if (key == KEnter)
 			{
 				state.remove(text);
-				trace("remove", text.text);
 				callback();
 				Events.off(id);
 			}
