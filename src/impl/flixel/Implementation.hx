@@ -5,6 +5,7 @@ import flixel.FlxState;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import rpg.Engine;
+import rpg.geom.Direction;
 import rpg.geom.IntPoint;
 import rpg.geom.Point;
 import impl.IAssetManager;
@@ -136,6 +137,20 @@ class Implementation implements IImplementation
 			{onComplete:movePlayer_onComplete} 
 		);
 		
+	}
+	
+	public function changePlayerFacing(dir:Int):Void
+	{
+		switch (dir) 
+		{
+			case Direction.LEFT: player.animation.play("left");
+			case Direction.RIGHT: player.animation.play("right");
+			case Direction.TOP: player.animation.play("up");
+			case Direction.BOTTOM: player.animation.play("down");
+				
+			default:
+				
+		}
 	}
 	
 	private function movePlayer_onComplete(tween:FlxTween):Void

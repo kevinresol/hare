@@ -37,7 +37,6 @@ class Engine
 	public function update(elapsed:Float):Void
 	{
 		eventManager.update(elapsed);
-		movementManager.update(elapsed);
 	}
 	
 	public inline function endMove():Bool

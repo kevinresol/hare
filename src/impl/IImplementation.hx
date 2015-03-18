@@ -18,4 +18,5 @@ interface IImplementation
 	
 	function teleportPlayer(x:Int, y:Int):Void;
 	function movePlayer(dx:Int, dy:Int):Void;
+	function changePlayerFacing(dir:Int):Void;
 }

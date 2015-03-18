@@ -12,14 +12,8 @@ class MovementManager
 {
 	public var playerPosition:IntPoint;
 	public var playerFacing:Int;
-	public var playerMoving(default, set):Bool = false;
+	public var playerMoving:Bool = false;
 	
-	private function set_playerMoving(v)
-	{
-		playerMoving = v;
-		trace(v);
-		return v;
-	}
 	private var engine:Engine;
 	
 	private var movementEnabled:Bool = true;
@@ -116,29 +110,13 @@ class MovementManager
 			startMove(dx, dy);
 			return true;
 		}
+		else // can't move because the attempted direction is impassable, just change the facing
+		{
+			var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.BOTTOM else if (dy == -1) Direction.TOP else 0;
+			engine.impl.changePlayerFacing(dir);
+		}
 		
 		return false;
-	}
-	
-	public function update(elapsed:Float):Void
-	{
-		var dir = engine.impl.playerMovementDirection;
-		
-		if (movementEnabled)
-		{
-			if (engine.inputManager.right && checkPassage(1, 0))
-				dir.set(1, 0);
-			else if (engine.inputManager.left && checkPassage(-1, 0))
-				dir.set(-1, 0);
-			else if (engine.inputManager.up && checkPassage(0, -1))
-				dir.set(0, -1);
-			else if (engine.inputManager.down && checkPassage(0, 1))
-				dir.set(0, 1);
-			else
-				dir.set(0, 0);
-		}
-		else
-			dir.set(0, 0);
 	}
 	
 	private function checkPassage(dx:Int, dy:Int):Bool
