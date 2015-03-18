@@ -9,6 +9,12 @@ A RPG engine for Haxe including the following core components while the visuals 
 A default implementation for HaxeFlixel is provided. 
 But it could be easily implemented on other game frameworks.
 
+## Install
+
+```
+haxelib git rpg-engine http://gitlab.vicehope.com/kevin/rpg-engine
+```
+
 ## Usage with HaxeFlixel
 
 In any `FlxState`:
