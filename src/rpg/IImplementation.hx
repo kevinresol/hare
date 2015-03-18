@@ -1,4 +1,5 @@
 package rpg;
+import rpg.map.GameMap;
 
 /**
  * @author Kevin
@@ -6,8 +7,9 @@ package rpg;
 
 interface IImplementation 
 {
+	var engine:Engine;
 	var assetManager:IAssetManager;
 	var host:IHost;
 	
-	function displayMap(imagePath:String, tileArray:Array<Int>, gridWidth:Int, gridHeight:Int, tileWidth:Int, tileHeight:Int):Void;
+	function displayMap(map:GameMap):Void;
 }

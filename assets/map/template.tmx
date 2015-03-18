@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" nextobjectid="3">
+ <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
+  <image source="../../../../../Dropbox/Dropbox/Projects/RPG_Pandora/Art TempAssets/Office_A5_Ground.png" width="256" height="64"/>
+ </tileset>
+ <tileset firstgid="17" name="wall" tilewidth="32" tileheight="32">
+  <image source="C:/Users/kevin/Desktop/wall.png" width="96" height="64"/>
+ </tileset>
+ <tileset firstgid="23" name="expandedAutotile" tilewidth="32" tileheight="32">
+  <image source="C:/Users/kevin/Desktop/expandedAutotile.png" width="256" height="192"/>
+  <terraintypes>
+   <terrain name="Void" tile="-1"/>
+  </terraintypes>
+ </tileset>
+ <layer name="Walls and Floor" width="20" height="20">
+  <properties>
+   <property name="type" value="floor"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYEAAaSA2JgHLM+AH+kAsRAJWJ8I8URIwMebxkoBHzUMFkkCsDcTWeMywhKoBYQkC5hHjTkJuGjUPES/YMLFxMApGATEAAHxzDZA=
+  </data>
+ </layer>
+ <layer name="Passage" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApIBwAGQAAB
+  </data>
+ </layer>
+ <objectgroup name="Below">
+  <object id="1" type="event" gid="2" x="224" y="160"/>
+ </objectgroup>
+ <objectgroup name="Character">
+  <properties>
+   <property name="type" value="character"/>
+  </properties>
+  <object id="2" type="player" gid="3" x="320" y="160"/>
+ </objectgroup>
+ <objectgroup name="Above"/>
+</map>

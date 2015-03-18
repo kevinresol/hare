@@ -1,5 +1,6 @@
-package rpg.impl.flixel;
+package impl.flixel ;
 import openfl.Assets;
+import rpg.IAssetManager;
 
 /**
  * ...

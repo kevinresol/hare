@@ -7,7 +7,7 @@ import haxe.xml.Fast;
  * (original by Matt Tuttle based on Thomas Jahn's. Haxe port by Adrien Fischer)
  * This content is released under the MIT License.
  */
-class TiledTileSet
+class TiledTileset
 {
 	public var firstGID:Int;
 	public var name:String;

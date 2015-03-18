@@ -1,5 +1,7 @@
 package rpg.map;
 import rpg.Engine;
+import rpg.map.GameMap.TileLayer;
+import rpg.map.TiledTileset;
 
 /**
  * ...
@@ -18,17 +20,22 @@ class MapManager
 	{
 		var impl = engine.impl;
 		var mapData = impl.assetManager.getMapData(id);
-		var map = new TiledMap(Xml.parse(mapData));
-		var layer = map.layers[0];
-		var tileset = map.getTileSet("Office_A4_Walls");
+		var tiledMap = new TiledMap(Xml.parse(mapData));
+		
+		var map = new GameMap(tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
+		var tiledLayer = tiledMap.layers.filter(function(l) return l.properties.get("type") == "floor")[0];
+		trace(tiledMap.getGidOwner(tiledLayer.tileArray.filter(function(t) return t != 0)[0]).imageSource);
+		
+		var imageSource = tiledMap.getGidOwner(tiledLayer.tileArray.filter(function(t) return t != 0)[0]).imageSource;
+		map.floor = createTileLayer(tiledLayer);
 		
 		// Display the map
-		impl.displayMap("assets/images/Office_A4_Walls.png", layer.tileArray, layer.width, layer.height, tileset.tileWidth, tileset.tileHeight);
+		impl.displayMap(map);
 		
 		// TODO: Display objects
 		
 		// TODO: Load and run scripts
-		var objectLayer = map.objectGroups[0];
+		var objectLayer = tiledMap.objectGroups[0];
 		for (o in objectLayer.objects)
 		{
 			switch(o.type)
@@ -40,4 +47,28 @@ class MapManager
 		}
 	}
 	
+	private function createTileLayer(layer:TiledLayer):TileLayer
+	{
+		var result = new TileLayer();
+		
+		var tilesets = [];
+		for (i in 0...layer.tiles.length)
+		{
+			var tile = layer.tiles[i];
+			if (tile != null)
+			{
+				var tileset = layer.map.getGidOwner(tile.tileID);
+				var imageSource = tileset.imageSource;
+				imageSource = StringTools.replace(imageSource, "../..", "assets");
+				
+				if (!result.data.exists(imageSource))
+					result.data.set(imageSource, [for(j in 0...layer.tiles.length) 0]);
+				
+				var tiles = result.data[imageSource];
+				tiles[i] = tileset.fromGid(tile.tileID);
+			}
+		}
+		
+		return result;
+	}
 }

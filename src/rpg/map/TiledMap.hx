@@ -22,14 +22,7 @@ class TiledMap
 	
 	public var properties:TiledPropertySet;
 	
-	// Add a "noload" property to your Map Properties.
-	// Add comma separated values of tilesets, layers, or object names.
-	// These will not be loaded.
-	private var noLoadHash:Map<String, Bool>;
-	
-	// Use hash, we don't care about order
-	public var tilesets: Map<String, TiledTileSet>;
-	// Use array to preserve load order
+	public var tilesets:Array<TiledTileset>;
 	public var layers:Array<TiledLayer>;
 	public var objectGroups:Array<TiledObjectGroup>;
 	
@@ -62,10 +55,9 @@ class TiledMap
 		fullWidth = width * tileWidth;
 		fullHeight = height * tileHeight;
 		
-		noLoadHash = new Map<String, Bool>();
-		tilesets = new Map<String, TiledTileSet>();
-		layers = new Array<TiledLayer>();
-		objectGroups = new Array<TiledObjectGroup>();
+		tilesets = [];
+		layers = [];
+		objectGroups = [];
 		
 		// read properties
 		for (node in source.nodes.properties)
@@ -73,66 +65,40 @@ class TiledMap
 			properties.extend(node);
 		}
 		
-		var noLoadStr = properties.get("noload");
-		
-		if (noLoadStr != null)
-		{
-			var regExp = ~/[,;|]/;
-			var noLoadArr = regExp.split(noLoadStr);
-			
-			for (s in noLoadArr)
-			{
-				noLoadHash.set(StringTools.trim(s), true);
-			}
-		}
-		
 		// load tilesets
-		var name:String;
 		for (node in source.nodes.tileset)
 		{
-			name = node.att.name;
-			
-			if (!noLoadHash.exists(name))
-			{
-				tilesets.set(name, new TiledTileSet(node));
-			}
+			tilesets.push(new TiledTileset(node));
 		}
 		
 		// load layer
 		for (node in source.nodes.layer)
 		{
-			name = node.att.name;
-			
-			if (!noLoadHash.exists(name))
-			{
-				layers.push(new TiledLayer(node, this));
-			}
+			layers.push(new TiledLayer(node, this));
 		}
 		
 		// load object group
 		for (node in source.nodes.objectgroup)
 		{
-			name = node.att.name;
-			
-			if (!noLoadHash.exists(name))
-			{
-				objectGroups.push(new TiledObjectGroup(node, this));
-			}
+			objectGroups.push(new TiledObjectGroup(node, this));
 		}
 	}
 	
-	public function getTileSet(Name:String):TiledTileSet
+	public function getTileSet(name:String):TiledTileset
 	{
-		return tilesets.get(Name);
+		for (tileset in tilesets)
+			if (tileset.name == name) return tileset;
+			
+		return null;
 	}
 	
-	public function getLayer(Name:String):TiledLayer
+	public function getLayer(name:String):TiledLayer
 	{
 		var i = layers.length;
 		
 		while (i > 0)
 		{
-			if (layers[--i].name == Name)
+			if (layers[--i].name == name)
 			{
 				return layers[i];
 			}
@@ -141,13 +107,13 @@ class TiledMap
 		return null;
 	}
 	
-	public function getObjectGroup(Name:String):TiledObjectGroup
+	public function getObjectGroup(name:String):TiledObjectGroup
 	{
 		var i = objectGroups.length;
 		
 		while (i > 0)
 		{
-			if (objectGroups[--i].name == Name)
+			if (objectGroups[--i].name == name)
 			{
 				return objectGroups[i];
 			}
@@ -157,14 +123,12 @@ class TiledMap
 	}
 	
 	// works only after TiledTileSet has been initialized with an image...
-	public function getGidOwner(Gid:Int):TiledTileSet
+	public function getGidOwner(gid:Int):TiledTileset
 	{
-		var last:TiledTileSet = null;
-		var set:TiledTileSet;
-		
 		for (set in tilesets)
 		{
-			if (set.hasGid(Gid))
+			trace(set.name, set.firstGID);
+			if (set.hasGid(gid))
 			{
 				return set;
 			}

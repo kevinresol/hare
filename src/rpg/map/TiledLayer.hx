@@ -103,9 +103,9 @@ class TiledLayer
 
 	private function resolveTile(GlobalTileID:Int):Int
 	{
-		var tile:TiledTile = new TiledTile(GlobalTileID);
+		var tile = new TiledTile(GlobalTileID);
 
-		var tilesetID:Int = tile.tilesetID;
+		var tilesetID = tile.tilesetID;
 		for (tileset in map.tilesets)
 		{
 			if (tileset.hasGid(tilesetID))
@@ -182,7 +182,7 @@ class TiledLayer
 			var position = 0;
 			while (position < mapData.length)
 			{
-				tileArray.push(resolveTile(mapData.getInt32(position) - 1)); // tmx use 1-based indices
+				tileArray.push(resolveTile(mapData.getInt32(position)));
 				position += 4; // 32 bit == 4 bytes
 			}
 		}
