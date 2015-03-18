@@ -6,6 +6,6 @@ package impl ;
 
 interface IHost 
 {
-	function showText(message:String):Void;
+	function showText(callback:Void->Void, message:String):Void;
 	function log(message:String):Void;
 }

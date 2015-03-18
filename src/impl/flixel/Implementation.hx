@@ -34,7 +34,7 @@ class Implementation implements IImplementation
 	public function new(state:FlxState) 
 	{
 		assetManager = new AssetManager();
-		host = new Host();
+		host = new Host(state);
 		
 		playerMovementDirection = new IntPoint();
 		

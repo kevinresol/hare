@@ -44,6 +44,7 @@ class MovementManager
 			if (event.x == x && event.y == y)
 			{
 				trace("trigger" + event.id);
+				engine.eventManager.trigger(event.id);
 			}
 		}
 	}

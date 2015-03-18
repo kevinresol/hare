@@ -24,7 +24,7 @@ class MapManager
 		var mapData = impl.assetManager.getMapData(id);
 		var tiledMap = new TiledMap(Xml.parse(mapData));
 		
-		var map = new GameMap(tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
+		var map = new GameMap(id, tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
 		var tiledLayer = tiledMap.getLayer("Walls and Floor");
 		map.floor = createTileLayer(tiledLayer);
 		
@@ -51,7 +51,7 @@ class MapManager
 			switch(o.type)
 			{
 				case "event":
-					engine.eventManager.register(o.id);
+					//engine.eventManager.register(o.id);
 				default:
 			}
 		}
