@@ -1,6 +1,6 @@
 package impl.flixel ;
 import flixel.FlxG;
-import rpg.IHost;
+import impl.IHost;
 
 /**
  * ...

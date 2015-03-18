@@ -6,9 +6,9 @@ import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import rpg.Engine;
 import rpg.geom.Point;
-import rpg.IAssetManager;
-import rpg.IHost;
-import rpg.IImplementation;
+import impl.IAssetManager;
+import impl.IHost;
+import impl.IImplementation;
 import rpg.map.GameMap;
 
 /**

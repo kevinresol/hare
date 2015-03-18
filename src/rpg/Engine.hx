@@ -1,4 +1,5 @@
 package rpg;
+import impl.IImplementation;
 import rpg.event.EventManager;
 import rpg.input.InputManager;
 import rpg.map.MapManager;
@@ -8,10 +9,7 @@ import rpg.movement.MovementManager;
  * ...
  * @author Kevin
  */
-@:allow(rpg.map)
-@:allow(rpg.event)
-@:allow(rpg.input)
-@:allow(rpg.movement)
+@:allow(rpg)
 class Engine
 {
 	private var impl:IImplementation;

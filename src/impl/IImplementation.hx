@@ -1,4 +1,5 @@
-package rpg;
+package impl ;
+import rpg.Engine;
 import rpg.geom.Point;
 import rpg.map.GameMap;
 

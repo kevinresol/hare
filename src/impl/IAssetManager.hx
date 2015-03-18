@@ -1,4 +1,4 @@
-package rpg;
+package impl ;
 
 /**
  * @author Kevin
