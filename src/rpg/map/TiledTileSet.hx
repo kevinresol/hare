@@ -1,6 +1,7 @@
 package rpg.map;
 
 import haxe.xml.Fast;
+import rpg.geom.Rectangle;
 
 /**
  * Copyright (c) 2013 by Samuel Batista
@@ -134,21 +135,5 @@ class TiledTileset
 	{
 		// TODO: consider spacing & margin
 		return new Rectangle((ID % numCols) * tileWidth, (ID / numCols) * tileHeight);
-	}
-}
-
-private class Rectangle
-{
-	public var x:Float;
-	public var y:Float;
-	public var width:Float;
-	public var height:Float;
-	
-	public function new(x = 0.0, y = 0.0, width = 0.0, height = 0.0)
-	{
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
 	}
 }

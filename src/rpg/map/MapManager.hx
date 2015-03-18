@@ -28,7 +28,7 @@ class MapManager
 		map.floor = createTileLayer(tiledLayer);
 		
 		// Display the map
-		impl.displayMap(map);
+		impl.currentMap = map;
 		
 		// TODO: Display objects
 		

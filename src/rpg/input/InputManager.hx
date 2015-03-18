@@ -7,27 +7,71 @@ import rpg.Engine;
  */
 class InputManager
 {
-	private var engine:Engine;
+	public var up(default, null):Bool;
+	public var down(default, null):Bool;
+	public var left(default, null):Bool;
+	public var right(default, null):Bool;
+	public var enter(default, null):Bool;
 	
-	private var states:Map<InputKey, InputState>;
+	private var engine:Engine;
 	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
-		states = new Map();
-		
-		for (key in Type.allEnums(InputKey))
-			states.set(key, SUp);
 	}
 	
-	public function setKeyState(key:InputKey, state:InputState):Void
+	public function press(key:InputKey):Void
 	{
-		var currentState = states.get(key);
-		
-		if(currentState != state)
+		switch (key) 
 		{
-			states.set(key, state);
+			case KUp:
+				if (!up) up = true; 
+				else return;
+				
+			case KDown:
+				if (!down) down = true; 
+				else return;
+				
+			case KRight:
+				if (!right) right= true; 
+				else return;
+				
+			case KLeft:
+				if (!left) left = true; 
+				else return;
+				
+			case KEnter:
+				if (!enter) enter = true; 
+				else return;
 		}
+		Events.dispatch("key.justPressed", key);
+	}
+	
+	public function release(key:InputKey):Void
+	{
+		switch (key) 
+		{
+			case KUp:
+				if (up) up = false; 
+				else return;
+				
+			case KDown:
+				if (down) down = false; 
+				else return;
+				
+			case KRight:
+				if (right) right= false; 
+				else return;
+				
+			case KLeft:
+				if (left) left = false; 
+				else return;
+				
+			case KEnter:
+				if (enter) enter = false; 
+				else return;
+		}
+		Events.dispatch("key.justReleased", key);
 	}
 }
 
@@ -38,10 +82,4 @@ enum InputKey
 	KRight;
 	KLeft;
 	KEnter;
-}
-
-enum InputState
-{
-	SDown;
-	SUp;
 }

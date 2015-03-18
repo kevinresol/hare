@@ -1,6 +1,7 @@
 package rpg.map;
 
 import haxe.xml.Fast;
+import rpg.geom.Point;
 
 /**
  * Last modified 10/3/2013 by Samuel Batista
@@ -148,17 +149,5 @@ class TiledObject
 	private inline function get_flippedVertically():Bool
 	{
 		return cast (gid & FLIPPED_VERTICALLY_FLAG);
-	}
-}
-
-private class Point
-{
-	public var x:Float;
-	public var y:Float;
-	
-	public function new(x, y)
-	{
-		this.x = x;
-		this.y = y;
 	}
 }
