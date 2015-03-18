@@ -5,6 +5,7 @@ import flixel.FlxState;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import rpg.Engine;
+import rpg.geom.IntPoint;
 import rpg.geom.Point;
 import impl.IAssetManager;
 import impl.IHost;
@@ -22,7 +23,7 @@ class Implementation implements IImplementation
 	public var host:IHost;
 	
 	public var currentMap(default, set):GameMap;
-	public var playerMovementDirection:Point;
+	public var playerMovementDirection:IntPoint;
 	private var playerTween:FlxTween;
 	
 	private var state:FlxState;
@@ -35,7 +36,7 @@ class Implementation implements IImplementation
 		assetManager = new AssetManager();
 		host = new Host();
 		
-		playerMovementDirection = new Point();
+		playerMovementDirection = new IntPoint();
 		
 		this.state = state;
 		
@@ -84,31 +85,37 @@ class Implementation implements IImplementation
 			var tilemap = new FlxTilemap();
 			var tiles = map.floor.data[imageSource];
 			tiles = tiles.map(function(i) return i - 1);
-			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight);
+			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
 			state.add(tilemap);
 		}
 		return currentMap = map;
 	}
 	
-	public function addPlayer(x:Int, y:Int):Void
+	public function teleportPlayer(x:Int, y:Int):Void
 	{
-		player = new FlxSprite();
-		player.loadGraphic("assets/images/harrison2.png", true, 32, 48);
-		player.animation.add("walking-left", [3, 4, 5], 8);
-		player.animation.add("walking-right", [6, 7, 8], 8);
-		player.animation.add("walking-down", [0, 1, 2], 8);
-		player.animation.add("walking-up", [9, 10, 11], 8);
-		player.animation.add("left", [4], 0);
-		player.animation.add("right", [7], 0);
-		player.animation.add("down", [1], 0);
-		player.animation.add("up", [10], 0);
-		player.animation.play("down");
+		if (player == null)
+		{
+			player = new FlxSprite();
+			player.loadGraphic("assets/images/harrison2.png", true, 32, 48);
+			player.animation.add("walking-left", [3, 4, 5, 4], 8);
+			player.animation.add("walking-right", [6, 7, 8, 7], 8);
+			player.animation.add("walking-down", [0, 1, 2, 1], 8);
+			player.animation.add("walking-up", [9, 10, 11, 10], 8);
+			player.animation.add("left", [4], 0);
+			player.animation.add("right", [7], 0);
+			player.animation.add("down", [1], 0);
+			player.animation.add("up", [10], 0);
+			player.animation.play("down");
+			state.add(player);
+			
+			
+			FlxG.camera.follow(player, LOCKON);
+			FlxG.camera.setScrollBoundsRect(0, 0, currentMap.gridWidth * currentMap.tileWidth, currentMap.gridHeight * currentMap.tileHeight);
+		}
+		
 		player.x = x * currentMap.tileWidth;
 		player.y = y * currentMap.tileHeight - 16;
-		state.add(player);
-		
-		FlxG.camera.follow(player, LOCKON);
-		FlxG.camera.setScrollBoundsRect(0, 0, currentMap.gridWidth * currentMap.tileWidth, currentMap.gridHeight * currentMap.tileHeight);
+		engine.updatePlayerPosition(x, y);
 	}
 	
 	
@@ -136,8 +143,21 @@ class Implementation implements IImplementation
 			player.y + dy * currentMap.tileHeight, 
 			speed, 
 			false,
-			{onComplete:function(t) movePlayer()} 
+			{onComplete:movePlayer_onComplete} 
 		);
+	}
+	
+	private function movePlayer_onComplete(tween:FlxTween):Void
+	{
+		var gridX = Math.round(player.x / currentMap.tileWidth);
+		var gridY = Math.round(player.y / currentMap.tileHeight);
+		
+		// make sure it is at the exact position
+		player.x = gridX * currentMap.tileWidth;
+		player.y = gridY * currentMap.tileHeight -16;
+		
+		engine.updatePlayerPosition(gridX, gridY);
+		movePlayer();
 	}
 	
 }

@@ -94,14 +94,21 @@ class TiledMap
 	
 	public function getLayer(name:String):TiledLayer
 	{
-		var i = layers.length;
-		
-		while (i > 0)
+		for (layer in layers)
 		{
-			if (layers[--i].name == name)
-			{
-				return layers[i];
-			}
+			if (layer.name == name)
+				return layer;
+		}
+		
+		return null;
+	}
+	
+	public function getLayerByProperty(name:String, value:String):TiledLayer
+	{
+		for (layer in layers)
+		{
+			if (layer.properties.get(name) == value)
+				return layer;
 		}
 		
 		return null;

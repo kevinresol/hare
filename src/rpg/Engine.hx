@@ -29,7 +29,8 @@ class Engine
 		movementManager = new MovementManager(this);
 		
 		mapManager.loadMap(entryPointMapId);
-		impl.addPlayer(5, 5);
+		
+		impl.teleportPlayer(5,5);
 		
 	}
 	
@@ -37,6 +38,11 @@ class Engine
 	{
 		eventManager.update(elapsed);
 		movementManager.update(elapsed);
+	}
+	
+	public function updatePlayerPosition(x:Int, y:Int):Void
+	{
+		movementManager.updatePlayerPosition(x, y);
 	}
 	
 	public inline function press(key:InputKey):Void
