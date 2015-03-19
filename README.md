@@ -17,6 +17,12 @@ haxelib git rpg-engine http://gitlab.vicehope.com/kevin/rpg-engine
 
 ## Usage with HaxeFlixel
 
+```
+haxelib git flixel https://github.com/HaxeFlixel/flixel.git
+haxelib git lua https://github.com/kevinresol/hx-lua
+lime rebuild lua windows
+```
+
 In any `FlxState`:
 
 ```haxe
@@ -36,6 +42,7 @@ override public function update(elapsed:Float):Void
 	impl.update(elapsed);
 }
 ```
+
 
 ## Implement on other game frameworks
 
