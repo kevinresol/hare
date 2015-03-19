@@ -2,6 +2,7 @@ package impl.flixel ;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import impl.IAssetManager;
@@ -25,6 +26,8 @@ class Implementation implements IImplementation
 	private var playerTween:FlxTween;
 	
 	private var state:FlxState;
+	private var layers:Array<FlxGroup>;
+	
 	
 	private var player:FlxSprite;
 	
@@ -35,6 +38,8 @@ class Implementation implements IImplementation
 		host = new Host(state);
 		
 		this.state = state;
+		
+		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
 		
 	}
 	
@@ -77,7 +82,33 @@ class Implementation implements IImplementation
 			var tiles = map.floor.data[imageSource];
 			tiles = tiles.map(function(i) return i - 1);
 			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
-			state.add(tilemap);
+			layers[0].add(tilemap);
+		}
+		
+		for (imageSource in map.below.data.keys())
+		{
+			var tilemap = new FlxTilemap();
+			var tiles = map.below.data[imageSource];
+			tiles = tiles.map(function(i) return i - 1);
+			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
+			layers[1].add(tilemap);
+		}
+		
+		for (imageSource in map.above.data.keys())
+		{
+			var tilemap = new FlxTilemap();
+			var tiles = map.above.data[imageSource];
+			tiles = tiles.map(function(i) return i - 1);
+			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
+			layers[3].add(tilemap);
+		}
+		
+		for (event in map.events)
+		{
+			var sprite = new FlxSprite(event.x * map.tileWidth, event.y * map.tileHeight);
+			sprite.loadGraphic(event.imageSource, true, 32, 32);
+			sprite.animation.frameIndex = event.tileId - 1;
+			state.add(sprite);
 		}
 		return currentMap = map;
 	}
@@ -97,7 +128,7 @@ class Implementation implements IImplementation
 			player.animation.add("down", [1], 0);
 			player.animation.add("up", [10], 0);
 			player.animation.play("down");
-			state.add(player);
+			layers[2].add(player);
 			
 			
 			FlxG.camera.follow(player, LOCKON);

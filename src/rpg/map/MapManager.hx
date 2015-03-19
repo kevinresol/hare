@@ -26,9 +26,9 @@ class MapManager
 		var tiledMap = new TiledMap(Xml.parse(mapData));
 		
 		var map = new GameMap(id, tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
-		var tiledLayer = tiledMap.getLayer("Walls and Floor");
-		map.floor = createTileLayer(tiledLayer);
-		
+		map.floor = createTileLayer(tiledMap.getLayer("Walls and Floor"));
+		map.above = createTileLayer(tiledMap.getLayer("Above"));
+		map.below = createTileLayer(tiledMap.getLayer("Below"));
 		map.passage = createPassageMap(tiledMap.getLayer("Passage"));
 		
 		for (o in tiledMap.getObjectGroup("Below").objects)
@@ -43,9 +43,12 @@ class MapManager
 					case "autorun": EAutorun;
 					case "parallel": EParallel;
 					default: EAction;
-						
 				}
-				map.addEvent(o.id, "", Std.int(o.x / tiledMap.tileWidth), Std.int(o.y / tiledMap.tileHeight) -1, trigger );
+				
+				var tileset = tiledMap.getGidOwner(o.gid);
+				var imageSource = tileset.imageSource;
+				imageSource = StringTools.replace(imageSource, "../..", "assets");
+				map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), Std.int(o.x / tiledMap.tileWidth), Std.int(o.y / tiledMap.tileHeight) -1, trigger );
 			}
 		}
 		

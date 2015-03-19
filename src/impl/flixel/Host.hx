@@ -44,9 +44,4 @@ class Host implements IHost
 		trace(message);
 	}
 	
-	private function dismissText():Void
-	{
-		
-	}
-	
 }

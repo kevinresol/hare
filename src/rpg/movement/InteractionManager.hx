@@ -84,6 +84,7 @@ class InteractionManager
 	 */
 	public function endMove():Bool
 	{
+		//TODO combine updateplayerposition
 		playerMoving = false;
 		
 		if (engine.inputManager.right)
