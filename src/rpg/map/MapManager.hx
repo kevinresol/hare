@@ -27,7 +27,7 @@ class MapManager
 		
 		// Display the map
 		currentMap = map;
-		engine.impl.switchMap(null, currentMap);
+		engine.impl.switchMap(function(){}, currentMap);
 		
 		// TODO: Display objects
 		

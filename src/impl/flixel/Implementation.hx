@@ -75,6 +75,8 @@ class Implementation implements IImplementation
 	
 	public function switchMap(callback:Void->Void, map:GameMap):Void
 	{
+		checkCallback(callback);
+		
 		layers[2].remove(player, true);
 		
 		for (layer in layers)
@@ -118,12 +120,13 @@ class Implementation implements IImplementation
 			layers[1].add(sprite);
 		}
 		
-		if (callback != null)
-			callback();
+		callback();
 	}
 	
 	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void
 	{
+		checkCallback(callback);
+		
 		var speed = 200;
 		
 		if (dx == 1) player.animation.play("walking-right");
@@ -172,6 +175,8 @@ class Implementation implements IImplementation
 	
 	public function showText(callback:Void->Void, message:String):Void 
 	{
+		checkCallback(callback);
+		
 		showTextPanel.showText(message);
 		state.add(showTextPanel);
 		
@@ -203,6 +208,8 @@ class Implementation implements IImplementation
 	
 	public function teleportPlayer(callback:Void->Void, x:Int, y:Int):Void
 	{
+		checkCallback(callback);
+		
 		var map = engine.currentMap;
 		
 		if (player == null)
@@ -228,7 +235,13 @@ class Implementation implements IImplementation
 		player.x = x * map.tileWidth;
 		player.y = y * map.tileHeight - 16;
 		
-		if (callback != null)
-			callback();
+		callback();
+	}
+	
+	private inline function checkCallback(callback:Dynamic):Void
+	{
+		#if debug
+		if (callback == null) throw "callback cannot be null";
+		#end
 	}
 }
