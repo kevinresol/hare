@@ -12,6 +12,7 @@ class InputManager
 	public var left(default, null):Bool;
 	public var right(default, null):Bool;
 	public var enter(default, null):Bool;
+	public var esc(default, null):Bool;
 	
 	private var engine:Engine;
 	
@@ -43,6 +44,10 @@ class InputManager
 			case KEnter:
 				if (!enter) enter = true; 
 				else return;
+				
+			case KEsc:
+				if (!esc) esc = true; 
+				else return;
 		}
 		Events.dispatch("key.justPressed", key);
 	}
@@ -70,6 +75,10 @@ class InputManager
 			case KEnter:
 				if (enter) enter = false; 
 				else return;
+				
+			case KEsc:
+				if (esc) esc = false; 
+				else return;
 		}
 		Events.dispatch("key.justReleased", key);
 	}
@@ -82,4 +91,5 @@ enum InputKey
 	KRight;
 	KLeft;
 	KEnter;
+	KEsc;
 }

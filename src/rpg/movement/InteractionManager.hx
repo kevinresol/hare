@@ -16,7 +16,7 @@ class InteractionManager
 	
 	private var engine:Engine;
 	
-	private var justPressedListener:Int;
+	private var movementKeyListener:Int;
 	
 	public function new(engine:Engine) 
 	{
@@ -24,7 +24,7 @@ class InteractionManager
 		
 		playerPosition = new IntPoint();
 		
-		justPressedListener = Events.on("key.justPressed", function(key:InputKey)
+		movementKeyListener = Events.on("key.justPressed", function(key:InputKey)
 		{
 			switch (key) 
 			{
@@ -47,6 +47,7 @@ class InteractionManager
 							engine.eventManager.trigger(event.id);
 						}
 					}
+				default:
 			}
 		});
 		
@@ -58,12 +59,12 @@ class InteractionManager
 	
 	public function enableMovement():Void
 	{
-		Events.enable(justPressedListener);
+		Events.enable(movementKeyListener);
 	}
 	
 	public function disableMovement():Void
 	{
-		Events.disable(justPressedListener);
+		Events.disable(movementKeyListener);
 	}
 	
 	public function startMove(dx:Int, dy:Int):Void
