@@ -41,13 +41,17 @@ class EventManager
 	
 	public function update(elapsed:Float):Void
 	{
-		for (id in registeredIds)
+		/*for (id in registeredIds)
 		{
 			var script = 'co$id()';
 			execute(script);
-		}
+		}*/
 	}
 	
+	/**
+	 * Trigger a event (i.e. start running a piece of Lua script)
+	 * @param	id
+	 */
 	public function trigger(id:Int):Void
 	{
 		currentEvent = id;
@@ -57,6 +61,12 @@ class EventManager
 		resume(id);
 	}
 	
+	/**
+	 * Resume a Lua script (which was halted by coroutine.yield())
+	 * If this is called during script execution, the resume will be queue until the end of the script execution
+	 * @param	id
+	 * @param	data
+	 */
 	public function resume(id:Int = -1, ?data:ResumeData):Void
 	{
 		if (id == -1)
@@ -73,19 +83,24 @@ class EventManager
 	
 	public function register(id:Int):Void
 	{
-		registeredIds.push(id);
+		/*registeredIds.push(id);
 		var body = engine.impl.assetManager.getScript(id);
 		var script = 'co$id = coroutine.wrap(function() $body end) return true';
-		execute(script);
+		execute(script);*/
 	}
 	
 	public function unregister(id:Int):Void
 	{
-		registeredIds.remove(id);
+		/*registeredIds.remove(id);
 		var script = 'co$id = nil return true';
-		execute(script);
+		execute(script);*/
 	}
 	
+	/**
+	 * Execute a piece of Lua code. Resume any queued resumes afterwards
+	 * @param	script
+	 * @return
+	 */
 	private inline function execute(script:String):Dynamic
 	{
 		executing = true;
@@ -105,6 +120,11 @@ class EventManager
 		return r;
 	}
 	
+	/**
+	 * Helper function for converting data into Lua script strings
+	 * @param	data
+	 * @return
+	 */
 	private function dataToString(data:ResumeData):String
 	{
 		if (data == null)
