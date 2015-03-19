@@ -1,4 +1,5 @@
 package rpg.event;
+import haxe.Timer;
 import rpg.Engine;
 
 /**
@@ -39,6 +40,16 @@ class ScriptHost
 			engine.interactionManager.playerPosition.set(x, y);
 			engine.eventManager.resume(); 
 		}, map, x, y, options);
+	}
+	
+	public function sleep(ms:Int):Void
+	{
+		engine.interactionManager.disableMovement();
+		Timer.delay(function()
+		{
+			engine.interactionManager.enableMovement(); 
+			engine.eventManager.resume(); 
+		}, ms);
 	}
 }
 

@@ -28,7 +28,9 @@ class EventManager
 		lua.loadLibs(["base", "coroutine"]);
 		lua.setVars({
 			host_showText: scriptHost.showText,
-			host_teleportPlayer: scriptHost.teleportPlayer
+			host_teleportPlayer: scriptHost.teleportPlayer,
+			
+			host_sleep: scriptHost.sleep,
 		});
 		
 		var bridgeScript = EventMacro.getBridgeScript();
