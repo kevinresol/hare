@@ -21,6 +21,12 @@ class Events
 		"key.justReleased",
 	];
 	
+	/**
+	 * Register a event listener
+	 * @param	name
+	 * @param	listener
+	 * @return	the id of the listener
+	 */
 	public static function on(name:String, listener:Dynamic->Void):Int
 	{
 		#if debug // check if the event name exists
@@ -32,18 +38,30 @@ class Events
 		return counter;
 	}
 	
+	/**
+	 * Remove a event listener
+	 * @param	id
+	 */
 	public static function off(id:Int):Void
 	{
 		listeners[id].destroy();
 		listeners.remove(id);
 	}
 	
+	/**
+	 * Temporarily disable a event listener
+	 * @param	id
+	 */
 	public static function disable(id:Int):Void
 	{
 		listeners[id].enabled = false;
 		pendingEnable.remove(id);
 	}
 	
+	/**
+	 * Re-enable a disabled event listener
+	 * @param	id
+	 */
 	public static function enable(id:Int):Void
 	{
 		if (dispatching)
@@ -52,6 +70,11 @@ class Events
 			listeners[id].enabled = true;
 	}
 	
+	/**
+	 * Fire a event
+	 * @param	name
+	 * @param	data
+	 */
 	public static function dispatch(name:String, ?data:Dynamic):Void
 	{
 		#if debug // check if the event name exists
