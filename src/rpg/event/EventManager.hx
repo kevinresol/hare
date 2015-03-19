@@ -8,16 +8,19 @@ import rpg.Engine;
 class EventManager
 {
 	public var currentEvent:Int;
+	public var executing(default, null):Bool;
 	
 	private var engine:Engine;
 	private var lua:Lua;
 	private var registeredIds:Array<Int>;
 	private var scriptHost:ScriptHost;
+	private var pendingResumes:Array<Int>;
 	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
 		registeredIds = [];
+		pendingResumes = [];
 		
 		scriptHost = new ScriptHost(engine);
 		
@@ -54,7 +57,11 @@ class EventManager
 	{
 		if (id == -1)
 			id = currentEvent;
-		execute('coroutine.resume(co$id)');
+			
+		if (executing)
+			pendingResumes.push(id);
+		else
+			execute('coroutine.resume(co$id)');
 	}
 	
 	public function register(id:Int):Void
@@ -74,6 +81,18 @@ class EventManager
 	
 	private inline function execute(script:String):Dynamic
 	{
-		return lua.execute(script);
+		executing = true;
+		var r = lua.execute(script);
+		executing = false;
+		
+		while(pendingResumes.length > 0)
+		{
+			var id = pendingResumes.shift();
+			executing = true;
+			lua.execute('coroutine.resume(co$id)');
+			executing = false;
+		}
+			
+		return r;
 	}
 }
