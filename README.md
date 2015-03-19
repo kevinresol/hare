@@ -40,5 +40,5 @@ override public function update(elapsed:Float):Void
 ## Implement on other game frameworks
 
 Implement the follow interfaces:
-- TBC
-- TBC
+- `IAssetManager`
+- `IImplementation`
