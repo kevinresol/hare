@@ -16,24 +16,24 @@ class ScriptHost
 	
 	public function showText(message:String):Void
 	{
-		engine.disableMovement();
+		engine.interactionManager.disableMovement();
 		engine.impl.showText(function()
 		{
-			engine.enableMovement(); 
+			engine.interactionManager.enableMovement(); 
 			engine.eventManager.resume();
 		}, message);
 	}
 	
 	public function teleportPlayer(mapId:String, x:Int, y:Int):Void
 	{
-		engine.disableMovement();
+		engine.interactionManager.disableMovement();
 		
 		var teleport = function()
 		{
 			engine.impl.teleportPlayer(function() 
 			{ 
-				engine.enableMovement(); 
-				engine.interactionManager.playerPosition.set(x, y); 
+				engine.interactionManager.enableMovement(); 
+				engine.interactionManager.playerPosition.set(x, y);
 				engine.eventManager.resume(); 
 			}, x, y);
 		};

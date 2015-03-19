@@ -41,21 +41,6 @@ class Engine
 		eventManager.update(elapsed);
 	}
 	
-	public inline function endMove(x:Int, y:Int):Bool
-	{
-		return interactionManager.endMove(x, y);
-	}
-	
-	private inline function enableMovement():Void
-	{
-		interactionManager.enableMovement();
-	}
-	
-	private inline function disableMovement():Void
-	{
-		interactionManager.disableMovement();
-	}
-	
 	public inline function press(key:InputKey):Void
 	{
 		inputManager.press(key);
