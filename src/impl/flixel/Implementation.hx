@@ -5,7 +5,7 @@ import flixel.FlxState;
 import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
-import impl.flixel.display.ShowTextPanel;
+import impl.flixel.display.DialogPanel;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
@@ -13,9 +13,7 @@ import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
-import rpg.Events;
 import rpg.geom.Direction;
-import rpg.input.InputManager.InputKey;
 import rpg.map.GameMap;
 
 /**
@@ -35,7 +33,7 @@ class Implementation implements IImplementation
 	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
 	
 	
-	private var showTextPanel:ShowTextPanel;
+	private var dialogPanel:DialogPanel;
 	private var player:FlxSprite;
 	
 
@@ -47,9 +45,9 @@ class Implementation implements IImplementation
 		state.add(gameLayer = new FlxGroup());
 		state.add(hudLayer = new FlxGroup());
 		
-		showTextPanel = new ShowTextPanel();
-		hudLayer.add(showTextPanel);
-		showTextPanel.visible = false;
+		dialogPanel = new DialogPanel();
+		hudLayer.add(dialogPanel);
+		dialogPanel.visible = false;
 		
 		layers = [for (i in 0...5) cast gameLayer.add(new FlxGroup())];
 	}
@@ -137,14 +135,14 @@ class Implementation implements IImplementation
 	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void
 	{
 		checkCallback(callback);
-		showTextPanel.showText(callback, characterId, message, options);
+		dialogPanel.showText(callback, characterId, message, options);
 		
 	}
 	
 	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
 	{
 		checkCallback(callback);
-		showTextPanel.showChoices(callback, prompt, choices, options);
+		dialogPanel.showChoices(callback, prompt, choices, options);
 	}
 	
 	public function log(message:String):Void 

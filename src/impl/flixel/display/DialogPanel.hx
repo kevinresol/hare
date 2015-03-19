@@ -14,11 +14,22 @@ import rpg.input.InputManager.InputKey;
  * TODO handle disabled and hidden choices
  * @author Kevin
  */
-class ShowTextPanel extends FlxSpriteGroup
+class DialogPanel extends FlxSpriteGroup
 {
+	/**
+	 * Text by default are shown letter by letter.
+	 * This Bool indicates if the text has been completely shown
+	 */
 	public var completed(get, never):Bool;
 	
+	/**
+	 * The border sprite
+	 */
 	private var border:Slice9Sprite;
+	
+	/**
+	 * The selector sprite for choices
+	 */
 	private var selector:Slice9Sprite;
 	private var background:FlxSprite;
 	private var tween:FlxTween;
@@ -69,16 +80,19 @@ class ShowTextPanel extends FlxSpriteGroup
 			{
 				if (!completed)
 				{
+					// immediately show all text
 					showAll();
 				}
 				else
 				{
+					// dismiss this text panel
 					visible = false;
 					Events.disable(showTextListener);
 					showTextCallback();
 				}
 			}
 		});
+		// disable the listener for now, it will be enabled when showText
 		Events.disable(showTextListener);
 		
 		
@@ -97,10 +111,12 @@ class ShowTextPanel extends FlxSpriteGroup
 				case KEnter:
 					if (!completed)
 					{
+						// immediately show all text
 						showAll();
 					}
 					else
 					{
+						// dismiss this text panel
 						visible = false;
 						Events.disable(showChoicesListener);
 						showChoicesCallback(selected + 1);
@@ -110,9 +126,8 @@ class ShowTextPanel extends FlxSpriteGroup
 					
 			}
 		});
+		// disable the listener for now, it will be enabled when showChoices
 		Events.disable(showChoicesListener);
-		
-		
 	}
 	
 	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
