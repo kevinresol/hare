@@ -125,7 +125,7 @@ class Implementation implements IImplementation
 			callback();
 	}
 	
-	public function movePlayer(dx:Int, dy:Int):Void
+	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void
 	{
 		var speed = 200;
 		
@@ -145,7 +145,18 @@ class Implementation implements IImplementation
 			player.y + dy * engine.currentMap.tileHeight, 
 			speed, 
 			false,
-			{onComplete:movePlayer_onComplete} 
+			{onComplete:function(t)
+			{
+				var map = engine.currentMap;
+				// make sure it is at the exact position
+				player.x = Math.round(player.x / map.tileWidth) * map.tileWidth;
+				player.y = Math.round(player.y / map.tileHeight) * map.tileHeight -16;
+				if (!callback())
+				{
+					player.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
+					playerTween = null;
+				}
+			}} 
 		);
 		
 	}
@@ -223,22 +234,4 @@ class Implementation implements IImplementation
 		if (callback != null)
 			callback();
 	}
-	
-	private function movePlayer_onComplete(tween:FlxTween):Void
-	{
-		var map = engine.currentMap;
-		var gridX = Math.round(player.x / map.tileWidth);
-		var gridY = Math.round(player.y / map.tileHeight);
-		
-		// make sure it is at the exact position
-		player.x = gridX * map.tileWidth;
-		player.y = gridY * map.tileHeight -16;
-		
-		if (!engine.endMove(gridX, gridY))
-		{
-			player.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
-			playerTween = null;
-		}
-	}
-	
 }

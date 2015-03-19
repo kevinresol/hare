@@ -69,7 +69,7 @@ class InteractionManager
 	public function startMove(dx:Int, dy:Int):Void
 	{
 		playerMoving = true;
-		engine.impl.movePlayer(dx, dy);
+		engine.impl.movePlayer(endMove.bind(playerPosition.x + dx, playerPosition.y + dy), dx, dy);
 	}
 	
 	/**
