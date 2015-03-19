@@ -9,6 +9,7 @@ import impl.flixel.display.ShowTextPanel;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
+import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.Events;
 import rpg.geom.Direction;
@@ -124,11 +125,11 @@ class Implementation implements IImplementation
 		}
 	}
 	
-	public function showText(callback:Void->Void, message:String):Void 
+	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void
 	{
 		checkCallback(callback);
 		
-		showTextPanel.showText(message);
+		showTextPanel.showText(characterId, message, options);
 		state.add(showTextPanel);
 		
 		var id = 0;
@@ -185,7 +186,7 @@ class Implementation implements IImplementation
 			layers[2].add(player);
 			player.x = x * map.tileWidth;
 			player.y = y * map.tileHeight - 16;
-			if (options.facing != null)
+			if (options.facing != "unchanged")
 				player.animation.play(options.facing);
 		}
 		

@@ -15,20 +15,32 @@ class ScriptHost
 		this.engine = engine;
 	}
 	
-	public function showText(message:String):Void
+	public function showText(characterId:String, message:String, ?options:ShowTextOptions):Void
 	{
+		if (options == null)
+			options = {};
+		
+		if (options.background == null)
+			options.background = "normal";
+			
+		if (options.position == null)
+			options.position = "bottom";
+		
 		engine.interactionManager.disableMovement();
 		engine.impl.showText(function()
 		{
 			engine.interactionManager.enableMovement(); 
 			engine.eventManager.resume();
-		}, message);
+		}, characterId, message, options);
 	}
 	
 	public function teleportPlayer(mapId:String, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
 		if (options == null)
-			options = {};
+			options = { };
+			
+		if (options.facing == null)
+			options.facing = "unchanged";
 		
 		engine.interactionManager.disableMovement();
 		
@@ -51,6 +63,12 @@ class ScriptHost
 			engine.eventManager.resume(); 
 		}, ms);
 	}
+}
+
+typedef ShowTextOptions =
+{
+	?position:String,
+	?background:String,
 }
 
 typedef TeleportPlayerOptions =

@@ -1,5 +1,5 @@
-showText = function(message)
-	host_showText(message)
+showText = function(characterId, message, options)
+	host_showText(characterId, message, options)
 	coroutine.yield()
 end
 

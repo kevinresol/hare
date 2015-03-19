@@ -1,5 +1,6 @@
 package impl ;
 import rpg.Engine;
+import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.map.GameMap;
 
@@ -25,6 +26,6 @@ interface IImplementation
 	 * @param	dy
 	 */
 	function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void;
-	function showText(callback:Void->Void, message:String):Void;
+	function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void;
 	function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
 }
