@@ -10,7 +10,6 @@ import sys.io.File;
  */
 class EventMacro
 {
-
 	macro public static function getBridgeScript():Expr
 	{
 		var p = Context.resolvePath("../assets/script/bridge.lua");
@@ -18,5 +17,4 @@ class EventMacro
 		var s = File.getContent(p);
 		return macro $v{s};
 	}
-	
 }

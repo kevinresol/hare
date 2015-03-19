@@ -67,6 +67,11 @@ class InteractionManager
 		Events.disable(movementKeyListener);
 	}
 	
+	/**
+	 * Tell the implementation to start a move
+	 * @param	dx
+	 * @param	dy
+	 */
 	public function startMove(dx:Int, dy:Int):Void
 	{
 		playerMoving = true;
@@ -74,7 +79,7 @@ class InteractionManager
 	}
 	
 	/**
-	 * Called when a move is ended
+	 * Called by the implementation when a move is ended
 	 * @return true if continue moving
 	 */
 	public function endMove(x:Int, y:Int):Bool
@@ -95,7 +100,8 @@ class InteractionManager
 	}
 	
 	/**
-	 * Attempt moving
+	 * Attempt a move (check if the destination is passable)
+	 * The passage map is defined in the "Passage" layer of the .tmx map files
 	 * @param	dx
 	 * @param	dy
 	 * @return	true if success (will start moving)

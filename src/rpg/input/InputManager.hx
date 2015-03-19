@@ -7,6 +7,7 @@ import rpg.Engine;
  */
 class InputManager
 {
+	// A set of booleans keeping the state of a key (true = down, false = up)
 	public var up(default, null):Bool;
 	public var down(default, null):Bool;
 	public var left(default, null):Bool;
@@ -21,6 +22,10 @@ class InputManager
 		this.engine = engine;
 	}
 	
+	/**
+	 * Called by the implementation when a key is pressed
+	 * @param	key
+	 */
 	public function press(key:InputKey):Void
 	{
 		switch (key) 
@@ -52,6 +57,10 @@ class InputManager
 		Events.dispatch("key.justPressed", key);
 	}
 	
+	/**
+	 * Called by the implementation when a key is released
+	 * @param	key
+	 */
 	public function release(key:InputKey):Void
 	{
 		switch (key) 
