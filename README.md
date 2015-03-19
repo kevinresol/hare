@@ -9,6 +9,10 @@ A RPG engine for Haxe including the following core components while the visuals 
 A default implementation for HaxeFlixel is provided. 
 But it could be easily implemented on other game frameworks.
 
+## Targets
+
+Currently only supports neko and cpp due to the Lua dependency.
+
 ## Install
 
 ```
