@@ -17,7 +17,7 @@ import rpg.geom.Direction;
 import rpg.map.GameMap;
 
 /**
- * ...
+ * A HaxeFlixel implementation for rpg-engine
  * @author Kevin
  */
 class Implementation implements IImplementation
