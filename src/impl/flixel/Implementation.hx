@@ -73,56 +73,6 @@ class Implementation implements IImplementation
 			engine.release(KEnter);
 	}
 	
-	public function switchMap(callback:Void->Void, map:GameMap):Void
-	{
-		checkCallback(callback);
-		
-		layers[2].remove(player, true);
-		
-		for (layer in layers)
-			layer.destroy();
-			
-		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
-			
-		// draw floor layer
-		for (imageSource in map.floor.data.keys())
-		{
-			var tilemap = new FlxTilemap();
-			var tiles = map.floor.data[imageSource];
-			tiles = tiles.map(function(i) return i - 1);
-			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
-			layers[0].add(tilemap);
-		}
-		
-		for (imageSource in map.below.data.keys())
-		{
-			var tilemap = new FlxTilemap();
-			var tiles = map.below.data[imageSource];
-			tiles = tiles.map(function(i) return i - 1);
-			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
-			layers[1].add(tilemap);
-		}
-		
-		for (imageSource in map.above.data.keys())
-		{
-			var tilemap = new FlxTilemap();
-			var tiles = map.above.data[imageSource];
-			tiles = tiles.map(function(i) return i - 1);
-			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
-			layers[3].add(tilemap);
-		}
-		
-		for (event in map.events)
-		{
-			var sprite = new FlxSprite(event.x * map.tileWidth, event.y * map.tileHeight);
-			sprite.loadGraphic(event.imageSource, true, 32, 32);
-			sprite.animation.frameIndex = event.tileId - 1;
-			layers[1].add(sprite);
-		}
-		
-		callback();
-	}
-	
 	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void
 	{
 		checkCallback(callback);
@@ -206,12 +156,11 @@ class Implementation implements IImplementation
 		trace(message);
 	}
 	
-	public function teleportPlayer(callback:Void->Void, x:Int, y:Int):Void
+	public function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int):Void
 	{
 		checkCallback(callback);
 		
-		var map = engine.currentMap;
-		
+		// create player
 		if (player == null)
 		{
 			player = new FlxSprite();
@@ -230,12 +179,72 @@ class Implementation implements IImplementation
 			FlxG.camera.setScrollBoundsRect(0, 0, map.gridWidth * map.tileWidth, map.gridHeight * map.tileHeight);
 		}
 		
+		// switch map if needed
+		if (map != engine.currentMap)
+		{
+			FlxG.camera.fade(0, 0.2, false, function() {
+				switchMap(map);
+				layers[2].add(player);
+				player.x = x * map.tileWidth;
+				player.y = y * map.tileHeight - 16;
+				FlxG.camera.fade(0, 0.2, true, callback, true);
+			});
+		}
+		else
+		{
+			layers[2].add(player);
+			player.x = x * map.tileWidth;
+			player.y = y * map.tileHeight - 16;
+			callback();
+		}
+	}
+	
+	private function switchMap(map:GameMap):Void
+	{
+		layers[2].remove(player, true);
+		
+		for (layer in layers)
+			layer.destroy();
+			
+		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
+			
+		// draw floor layer
+		for (imageSource in map.floor.data.keys())
+		{
+			var tilemap = new FlxTilemap();
+			var tiles = map.floor.data[imageSource];
+			tiles = tiles.map(function(i) return i - 1);
+			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
+			layers[0].add(tilemap);
+		}
+		
+		for (imageSource in map.below.data.keys())
+		{
+			var tilemap = new FlxTilemap();
+			var tiles = map.below.data[imageSource];
+			tiles = tiles.map(function(i) return i - 1);
+			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
+			layers[1].add(tilemap);
+		}
+		
+		for (imageSource in map.above.data.keys())
+		{
+			var tilemap = new FlxTilemap();
+			var tiles = map.above.data[imageSource];
+			tiles = tiles.map(function(i) return i - 1);
+			tilemap.loadMapFromArray(tiles, map.gridWidth, map.gridHeight, imageSource, map.tileWidth, map.tileHeight, null, 0, 0);
+			layers[3].add(tilemap);
+		}
+		
+		for (event in map.events)
+		{
+			var sprite = new FlxSprite(event.x * map.tileWidth, event.y * map.tileHeight);
+			sprite.loadGraphic(event.imageSource, true, 32, 32);
+			sprite.animation.frameIndex = event.tileId - 1;
+			layers[1].add(sprite);
+		}
+		
 		layers[2].add(player);
-		
-		player.x = x * map.tileWidth;
-		player.y = y * map.tileHeight - 16;
-		
-		callback();
 	}
 	
 	private inline function checkCallback(callback:Dynamic):Void

@@ -28,23 +28,13 @@ class ScriptHost
 	{
 		engine.interactionManager.disableMovement();
 		
-		var teleport = function()
-		{
-			engine.impl.teleportPlayer(function() 
-			{ 
-				engine.interactionManager.enableMovement(); 
-				engine.interactionManager.playerPosition.set(x, y);
-				engine.eventManager.resume(); 
-			}, x, y);
-		};
-		
-		if(mapId != engine.currentMap.name)
-		{
-			var map = engine.mapManager.getMap(mapId);
+		var map = engine.mapManager.getMap(mapId);
+		engine.impl.teleportPlayer(function() 
+		{ 
+			engine.interactionManager.enableMovement(); 
 			engine.mapManager.currentMap = map;
-			engine.impl.switchMap(teleport, map);
-		}
-		else
-			teleport();
+			engine.interactionManager.playerPosition.set(x, y);
+			engine.eventManager.resume(); 
+		}, map, x, y);
 	}
 }

@@ -25,6 +25,5 @@ interface IImplementation
 	 */
 	function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void;
 	function showText(callback:Void->Void, message:String):Void;
-	function switchMap(callback:Void->Void, map:GameMap):Void;
-	function teleportPlayer(callback:Void->Void, x:Int, y:Int):Void;
+	function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int):Void;
 }

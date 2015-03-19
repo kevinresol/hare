@@ -21,29 +21,6 @@ class MapManager
 		maps = new Map();
 	}
 	
-	public function loadMap(id:String):Void
-	{
-		var map = getMap(id);
-		
-		// Display the map
-		currentMap = map;
-		engine.impl.switchMap(function(){}, currentMap);
-		
-		// TODO: Display objects
-		
-		// TODO: Load and run scripts
-		/*var objectLayer = tiledMap.objectGroups[0];
-		for (o in objectLayer.objects)
-		{
-			switch(o.type)
-			{
-				case "event":
-					//engine.eventManager.register(o.id);
-				default:
-			}
-		}*/
-	}
-	
 	public function getMap(id:String):GameMap
 	{
 		if (maps[id] == null)

@@ -9,11 +9,11 @@ class EventManager
 {
 	public var currentEvent:Int;
 	public var executing(default, null):Bool;
+	public var scriptHost:ScriptHost;
 	
 	private var engine:Engine;
 	private var lua:Lua;
 	private var registeredIds:Array<Int>;
-	private var scriptHost:ScriptHost;
 	private var pendingResumes:Array<Int>;
 	
 	public function new(engine:Engine) 

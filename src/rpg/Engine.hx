@@ -31,9 +31,7 @@ class Engine
 		inputManager = new InputManager(this);
 		interactionManager = new InteractionManager(this);
 		
-		mapManager.loadMap(entryPointMapId);
-		
-		impl.teleportPlayer(interactionManager.playerPosition.set.bind(5, 5), 5, 5);
+		eventManager.scriptHost.teleportPlayer(entryPointMapId, 5, 5);
 	}
 	
 	public function update(elapsed:Float):Void
