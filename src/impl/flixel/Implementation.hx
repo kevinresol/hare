@@ -5,11 +5,13 @@ import flixel.FlxState;
 import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
+import impl.flixel.display.ShowTextPanel;
 import impl.IAssetManager;
-import impl.IHost;
 import impl.IImplementation;
 import rpg.Engine;
+import rpg.Events;
 import rpg.geom.Direction;
+import rpg.input.InputManager.InputKey;
 import rpg.map.GameMap;
 
 /**
@@ -20,7 +22,6 @@ class Implementation implements IImplementation
 {
 	public var engine:Engine;
 	public var assetManager:IAssetManager;
-	public var host:IHost;
 	
 	private var playerTween:FlxTween;
 	
@@ -28,15 +29,17 @@ class Implementation implements IImplementation
 	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
 	
 	
+	private var showTextPanel:ShowTextPanel;
 	private var player:FlxSprite;
 	
 
 	public function new(state:FlxState) 
 	{
 		assetManager = new AssetManager();
-		host = new Host(state, this);
 		
 		this.state = state;
+		
+		showTextPanel = new ShowTextPanel();
 		
 		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
 		
@@ -73,7 +76,7 @@ class Implementation implements IImplementation
 			engine.release(KEnter);
 	}
 	
-	public function switchMap(map:GameMap):Void
+	public function switchMap(callback:Void->Void, map:GameMap):Void
 	{
 		layers[2].remove(player, true);
 		
@@ -117,34 +120,9 @@ class Implementation implements IImplementation
 			sprite.animation.frameIndex = event.tileId - 1;
 			layers[1].add(sprite);
 		}
-	}
-	
-	public function teleportPlayer(x:Int, y:Int):Void
-	{
-		var map = engine.currentMap;
 		
-		if (player == null)
-		{
-			player = new FlxSprite();
-			player.loadGraphic("assets/images/harrison2.png", true, 32, 48);
-			player.animation.add("walking-left", [3, 4, 5, 4], 8);
-			player.animation.add("walking-right", [6, 7, 8, 7], 8);
-			player.animation.add("walking-down", [0, 1, 2, 1], 8);
-			player.animation.add("walking-up", [9, 10, 11, 10], 8);
-			player.animation.add("left", [4], 0);
-			player.animation.add("right", [7], 0);
-			player.animation.add("down", [1], 0);
-			player.animation.add("up", [10], 0);
-			player.animation.play("down");
-			
-			FlxG.camera.follow(player, LOCKON);
-			FlxG.camera.setScrollBoundsRect(0, 0, map.gridWidth * map.tileWidth, map.gridHeight * map.tileHeight);
-		}
-		
-		layers[2].add(player);
-		
-		player.x = x * map.tileWidth;
-		player.y = y * map.tileHeight - 16;
+		if (callback != null)
+			callback();
 	}
 	
 	public function movePlayer(dx:Int, dy:Int):Void
@@ -182,6 +160,68 @@ class Implementation implements IImplementation
 			case Direction.BOTTOM: player.animation.play("down");
 			default:
 		}
+	}
+	
+	public function showText(callback:Void->Void, message:String):Void 
+	{
+		showTextPanel.showText(message);
+		state.add(showTextPanel);
+		
+		var id = 0;
+		id = Events.on("key.justPressed", function(key:InputKey)
+		{
+			if (key == KEnter)
+			{
+				if (!showTextPanel.completed)
+				{
+					showTextPanel.showAll();
+				}
+				else
+				{
+					state.remove(showTextPanel);
+					callback();
+					Events.off(id);
+				}
+			}
+			
+		});
+	}
+	
+	public function log(message:String):Void 
+	{
+		FlxG.log.add(message);
+		trace(message);
+	}
+	
+	public function teleportPlayer(callback:Void->Void, x:Int, y:Int):Void
+	{
+		var map = engine.currentMap;
+		
+		if (player == null)
+		{
+			player = new FlxSprite();
+			player.loadGraphic("assets/images/harrison2.png", true, 32, 48);
+			player.animation.add("walking-left", [3, 4, 5, 4], 8);
+			player.animation.add("walking-right", [6, 7, 8, 7], 8);
+			player.animation.add("walking-down", [0, 1, 2, 1], 8);
+			player.animation.add("walking-up", [9, 10, 11, 10], 8);
+			player.animation.add("left", [4], 0);
+			player.animation.add("right", [7], 0);
+			player.animation.add("down", [1], 0);
+			player.animation.add("up", [10], 0);
+			player.animation.play("down");
+			
+			FlxG.camera.follow(player, LOCKON);
+			FlxG.camera.setScrollBoundsRect(0, 0, map.gridWidth * map.tileWidth, map.gridHeight * map.tileHeight);
+		}
+		
+		layers[2].add(player);
+		
+		player.x = x * map.tileWidth;
+		player.y = y * map.tileHeight - 16;
+		
+		if (callback != null)
+			callback();
 	}
 	
 	private function movePlayer_onComplete(tween:FlxTween):Void

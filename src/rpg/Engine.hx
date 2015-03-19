@@ -33,7 +33,7 @@ class Engine
 		
 		mapManager.loadMap(entryPointMapId);
 		
-		impl.teleportPlayer(5, 5);
+		impl.teleportPlayer(null, 5, 5);
 		interactionManager.playerPosition.set(5, 5);
 	}
 	

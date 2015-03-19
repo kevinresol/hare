@@ -10,10 +10,11 @@ interface IImplementation
 {
 	var engine:Engine;
 	var assetManager:IAssetManager;
-	var host:IHost;
 
-	function switchMap(map:GameMap):Void;
-	function teleportPlayer(x:Int, y:Int):Void;
 	function movePlayer(dx:Int, dy:Int):Void;
 	function changePlayerFacing(dir:Int):Void;
+	
+	function showText(callback:Void->Void, message:String):Void;
+	function switchMap(callback:Void->Void, map:GameMap):Void;
+	function teleportPlayer(callback:Void->Void, x:Int, y:Int):Void;
 }

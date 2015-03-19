@@ -17,7 +17,7 @@ class ScriptHost
 	public function showText(message:String):Void
 	{
 		engine.disableMovement();
-		engine.impl.host.showText(function()
+		engine.impl.showText(function()
 		{
 			engine.enableMovement(); 
 			engine.eventManager.resume();
@@ -26,19 +26,25 @@ class ScriptHost
 	
 	public function teleportPlayer(mapId:String, x:Int, y:Int):Void
 	{
+		engine.disableMovement();
+		
+		var teleport = function()
+		{
+			engine.impl.teleportPlayer(function() 
+			{ 
+				engine.enableMovement(); 
+				engine.interactionManager.playerPosition.set(x, y); 
+				engine.eventManager.resume(); 
+			}, x, y);
+		};
+		
 		if(mapId != engine.currentMap.name)
 		{
 			var map = engine.mapManager.getMap(mapId);
 			engine.mapManager.currentMap = map;
-			engine.impl.switchMap(map);
+			engine.impl.switchMap(teleport, map);
 		}
-		
-		engine.disableMovement();
-		engine.impl.host.teleportPlayer(function() 
-		{ 
-			engine.enableMovement(); 
-			engine.interactionManager.playerPosition.set(x, y); 
-			engine.eventManager.resume(); 
-		}, x, y);
+		else
+			teleport();
 	}
 }
