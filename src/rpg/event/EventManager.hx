@@ -57,7 +57,7 @@ class EventManager
 		resume(id);
 	}
 	
-	public function resume(id:Int = -1, ?data:Dynamic):Void
+	public function resume(id:Int = -1, ?data:ResumeData):Void
 	{
 		if (id == -1)
 			id = currentEvent;
@@ -105,7 +105,7 @@ class EventManager
 		return r;
 	}
 	
-	private function dataToString(data:Dynamic):String
+	private function dataToString(data:ResumeData):String
 	{
 		if (data == null)
 			return '';
@@ -117,3 +117,10 @@ class EventManager
 		throw "unsupported data";
 	}
 }
+
+typedef ResumeData = OneOfThree<String, Int, Float>;
+
+private abstract OneOfTwo<T1, T2>(Dynamic) from T1 from T2 to T1 to T2 { }
+private abstract OneOfThree<T1, T2, T3>(Dynamic) from T1 from T2 from T3 to T1 to T2 to T3 {}
+private abstract OneOfFour<T1, T2, T3, T4>(Dynamic) from T1 from T2 from T3 from T4 to T1 to T2 to T3 to T4 { }
+private abstract OneOfFive<T1, T2, T3, T4, T5>(Dynamic) from T1 from T2 from T3 from T4 from T5 to T1 to T2 to T3 to T4 to T5 { }

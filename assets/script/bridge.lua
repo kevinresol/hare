@@ -3,7 +3,7 @@ showText = function(characterId, message, options)
 	coroutine.yield()
 end
 
-showChoices = function(choices)
+showChoices = function(prompt, choices)
 	local host_choices = {}
 	for i, choice in ipairs(choices) do
 		host_choices[i] = 
@@ -14,7 +14,7 @@ showChoices = function(choices)
 		}
 	end
 	
-	host_showChoices(host_choices)
+	host_showChoices(prompt, host_choices)
 	local selected = coroutine.yield()
 	choices[selected].callback()
 end

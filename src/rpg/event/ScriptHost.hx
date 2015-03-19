@@ -34,10 +34,15 @@ class ScriptHost
 		}, characterId, message, options);
 	}
 	
-	public function showChoices(choices:Array<ShowChoicesChoice>)
+	public function showChoices(prompt:String, choices:Array<ShowChoicesChoice>)
 	{
-		trace(choices);
-		engine.eventManager.resume(-1, 1);
+		engine.interactionManager.disableMovement();
+		engine.impl.showChoices(function(selected) 
+		{
+			engine.interactionManager.enableMovement(); 
+			engine.eventManager.resume(-1, selected);
+		}, prompt, choices);
+		
 	}
 	
 	public function teleportPlayer(mapId:String, x:Int, y:Int, ?options:TeleportPlayerOptions):Void

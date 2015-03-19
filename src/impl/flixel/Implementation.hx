@@ -9,6 +9,7 @@ import impl.flixel.display.ShowTextPanel;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
+import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.Events;
@@ -28,6 +29,8 @@ class Implementation implements IImplementation
 	private var playerTween:FlxTween;
 	
 	private var state:FlxState;
+	private var gameLayer:FlxGroup;
+	private var hudLayer:FlxGroup;
 	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
 	
 	
@@ -40,9 +43,14 @@ class Implementation implements IImplementation
 		assetManager = new AssetManager();
 		
 		this.state = state;
-		showTextPanel = new ShowTextPanel();
+		state.add(gameLayer = new FlxGroup());
+		state.add(hudLayer = new FlxGroup());
 		
-		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
+		showTextPanel = new ShowTextPanel();
+		hudLayer.add(showTextPanel);
+		showTextPanel.visible = false;
+		
+		layers = [for (i in 0...5) cast gameLayer.add(new FlxGroup())];
 	}
 	
 	public function update(elapsed:Float):Void
@@ -128,8 +136,13 @@ class Implementation implements IImplementation
 	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void
 	{
 		checkCallback(callback);
+		showTextPanel.showText(callback, characterId, message, options);
 		
-		showTextPanel.showText(characterId, message, options);
+	}
+	
+	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>):Void
+	{
+		showTextPanel.showChoices(prompt, choices);
 		state.add(showTextPanel);
 		
 		var id = 0;
@@ -144,11 +157,10 @@ class Implementation implements IImplementation
 				else
 				{
 					state.remove(showTextPanel);
-					callback();
+					callback(1);
 					Events.off(id);
 				}
 			}
-			
 		});
 	}
 	
@@ -211,9 +223,12 @@ class Implementation implements IImplementation
 		layers[2].remove(player, true);
 		
 		for (layer in layers)
+		{
 			layer.destroy();
 			
-		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
+		}
+			
+		layers = [for (i in 0...4) cast gameLayer.add(new FlxGroup())];
 			
 		// draw floor layer
 		for (imageSource in map.floor.data.keys())
