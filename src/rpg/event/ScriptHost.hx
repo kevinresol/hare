@@ -24,8 +24,11 @@ class ScriptHost
 		}, message);
 	}
 	
-	public function teleportPlayer(mapId:String, x:Int, y:Int):Void
+	public function teleportPlayer(mapId:String, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
+		if (options == null)
+			options = {};
+		
 		engine.interactionManager.disableMovement();
 		
 		var map = engine.mapManager.getMap(mapId);
@@ -35,6 +38,11 @@ class ScriptHost
 			engine.mapManager.currentMap = map;
 			engine.interactionManager.playerPosition.set(x, y);
 			engine.eventManager.resume(); 
-		}, map, x, y);
+		}, map, x, y, options);
 	}
+}
+
+typedef TeleportPlayerOptions =
+{
+	?facing:String,
 }

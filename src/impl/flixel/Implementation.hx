@@ -9,6 +9,7 @@ import impl.flixel.display.ShowTextPanel;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
+import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.Events;
 import rpg.geom.Direction;
 import rpg.input.InputManager.InputKey;
@@ -156,7 +157,7 @@ class Implementation implements IImplementation
 		trace(message);
 	}
 	
-	public function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int):Void
+	public function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void
 	{
 		checkCallback(callback);
 		
@@ -179,22 +180,27 @@ class Implementation implements IImplementation
 			FlxG.camera.setScrollBoundsRect(0, 0, map.gridWidth * map.tileWidth, map.gridHeight * map.tileHeight);
 		}
 		
+		var putPlayer = function()
+		{
+			layers[2].add(player);
+			player.x = x * map.tileWidth;
+			player.y = y * map.tileHeight - 16;
+			if (options.facing != null)
+				player.animation.play(options.facing);
+		}
+		
 		// switch map if needed
 		if (map != engine.currentMap)
 		{
 			FlxG.camera.fade(0, 0.2, false, function() {
 				switchMap(map);
-				layers[2].add(player);
-				player.x = x * map.tileWidth;
-				player.y = y * map.tileHeight - 16;
+				putPlayer();
 				FlxG.camera.fade(0, 0.2, true, callback, true);
 			});
 		}
 		else
 		{
-			layers[2].add(player);
-			player.x = x * map.tileWidth;
-			player.y = y * map.tileHeight - 16;
+			putPlayer();
 			callback();
 		}
 	}
