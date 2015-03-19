@@ -21,14 +21,40 @@ interface IImplementation
 	
 	
 	/* ====== Async Functions ====== */
+	
 	/**
-	 * 
-	 * @param	callback return true if continue moving (useful for determining the animation)
+	 * Move the player
+	 * @param	callback 	should be called by the implementation when the move is finished, will return true if the player continue moving (useful for determining the animation)
 	 * @param	dx
 	 * @param	dy
 	 */
 	function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void;
+	
+	/**
+	 * Show a piece of text
+	 * @param	callback	should be called by the implementation when the text is dismissed by player
+	 * @param	characterId
+	 * @param	message
+	 * @param	options
+	 */
 	function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void;
+	
+	/**
+	 * Prompt the user to select from a list of choices
+	 * @param	callback 	should be called by the implementation when a choice is made by the player, passing the selected index as paramenter (1-based)
+	 * @param	prompt
+	 * @param	choices
+	 * @param	options
+	 */
 	function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void;
+	
+	/**
+	 * Teleport the player to a certain location
+	 * @param	callback	should be called by the implementation when the teleport is finished
+	 * @param	map
+	 * @param	x
+	 * @param	y
+	 * @param	options
+	 */
 	function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
 }
