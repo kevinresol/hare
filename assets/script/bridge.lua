@@ -5,9 +5,11 @@ end
 
 showChoices = function(prompt, choices, options)
 	local host_choices = {}
+	local defaultCondition = function() return false end
+	
 	for i, choice in ipairs(choices) do
-		local disableCondition = choice.disableCondition or function() return false end
-		local hideCondition = choice.hideCondition or function() return false end
+		local disableCondition = choice.disableCondition or defaultCondition
+		local hideCondition = choice.hideCondition or defaultCondition
 		
 		host_choices[i] = 
 		{

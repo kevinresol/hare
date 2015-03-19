@@ -9,7 +9,7 @@ showChoices("Please choose one",
 	{
 		text = "Choice 2", 
 		callback = function() 
-			showChoices("Choose again", 
+			showChoices("You selected 2, now please choose again", 
 			{
 			  {
 				text = "Choice 1", 
@@ -40,7 +40,7 @@ teleportPlayer("template2", 12, 20, {facing="up"})
 
 showText("", "Welcome to the new map!\n(pos: center, bg: transparent)", {position="center", background="transparent"})
 
-showText("", "After this message, the script will wait for 3 second")
+showText("", "After this message, \nthe script will wait for 3 second")
 
 sleep(3000)
 

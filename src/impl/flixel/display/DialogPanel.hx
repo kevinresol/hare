@@ -63,7 +63,7 @@ class DialogPanel extends FlxSpriteGroup
 		background.alpha = 0.9;
 		background.setGraphicSize(640, 150);
 		
-		text = new FlxText(100, 15, 500, "", 20);
+		text = new FlxText(100, 15, 1000, "", 20);
 		
 		add(background);
 		add(border);
