@@ -38,12 +38,9 @@ class Implementation implements IImplementation
 		assetManager = new AssetManager();
 		
 		this.state = state;
-		
 		showTextPanel = new ShowTextPanel();
 		
 		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
-		
-		
 	}
 	
 	public function update(elapsed:Float):Void

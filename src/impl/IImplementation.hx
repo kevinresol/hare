@@ -11,8 +11,12 @@ interface IImplementation
 	var engine:Engine;
 	var assetManager:IAssetManager;
 	
+	/* ====== Sync Functions ====== */
 	function changePlayerFacing(dir:Int):Void;
+	function log(message:String):Void;
 	
+	
+	/* ====== Async Functions ====== */
 	/**
 	 * 
 	 * @param	callback return true if continue moving (useful for determining the animation)
