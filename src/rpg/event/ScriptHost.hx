@@ -63,6 +63,11 @@ class ScriptHost
 			engine.eventManager.resume(); 
 		}, ms);
 	}
+	
+	public function log(message:String):Void
+	{
+		engine.impl.log(message);
+	}
 }
 
 typedef ShowTextOptions =

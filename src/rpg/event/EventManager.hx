@@ -31,6 +31,7 @@ class EventManager
 			host_teleportPlayer: scriptHost.teleportPlayer,
 			
 			host_sleep: scriptHost.sleep,
+			host_log: scriptHost.log,
 		});
 		
 		var bridgeScript = EventMacro.getBridgeScript();

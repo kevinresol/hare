@@ -12,3 +12,7 @@ sleep = function(ms)
 	host_sleep(ms)
 	coroutine.yield()
 end
+
+log = function(message)
+	host_log(message)
+end
