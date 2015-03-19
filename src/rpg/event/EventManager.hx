@@ -14,7 +14,7 @@ class EventManager
 	private var engine:Engine;
 	private var lua:Lua;
 	private var registeredIds:Array<Int>;
-	private var pendingResumes:Array<Int>;
+	private var pendingResumes:Array<{id:Int, data:Dynamic}>;
 	
 	public function new(engine:Engine) 
 	{
@@ -28,6 +28,7 @@ class EventManager
 		lua.loadLibs(["base", "coroutine"]);
 		lua.setVars({
 			host_showText: scriptHost.showText,
+			host_showChoices: scriptHost.showChoices,
 			host_teleportPlayer: scriptHost.teleportPlayer,
 			
 			host_sleep: scriptHost.sleep,
@@ -56,15 +57,18 @@ class EventManager
 		resume(id);
 	}
 	
-	public function resume(id:Int = -1):Void
+	public function resume(id:Int = -1, ?data:Dynamic):Void
 	{
 		if (id == -1)
 			id = currentEvent;
 			
 		if (executing)
-			pendingResumes.push(id);
+			pendingResumes.push({id:id, data:data});
 		else
-			execute('coroutine.resume(co$id)');
+		{
+			var params = dataToString(data);
+			execute('coroutine.resume(co$id $params)');
+		}
 	}
 	
 	public function register(id:Int):Void
@@ -90,12 +94,26 @@ class EventManager
 		
 		while(pendingResumes.length > 0)
 		{
-			var id = pendingResumes.shift();
+			var pr = pendingResumes.shift();
+			var id = pr.id;
+			var params = dataToString(pr.data);
 			executing = true;
-			lua.execute('coroutine.resume(co$id)');
+			lua.execute('coroutine.resume(co$id $params)');
 			executing = false;
 		}
 			
 		return r;
+	}
+	
+	private function dataToString(data:Dynamic):String
+	{
+		if (data == null)
+			return '';
+		if (Std.is(data, String))
+			return ', "$data"';
+		if (Std.is(data, Int) || Std.is(data, Float))
+			return ', $data';
+			
+		throw "unsupported data";
 	}
 }

@@ -34,6 +34,12 @@ class ScriptHost
 		}, characterId, message, options);
 	}
 	
+	public function showChoices(choices:Array<ShowChoicesChoice>)
+	{
+		trace(choices);
+		engine.eventManager.resume(-1, 1);
+	}
+	
 	public function teleportPlayer(mapId:String, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
 		if (options == null)
@@ -68,6 +74,13 @@ class ScriptHost
 	{
 		engine.impl.log(message);
 	}
+}
+
+typedef ShowChoicesChoice =
+{
+	text:String,
+	?disabled:Bool,
+	?hidden:Bool,
 }
 
 typedef ShowTextOptions =
