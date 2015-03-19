@@ -1,6 +1,7 @@
 package impl ;
 import rpg.Engine;
 import rpg.event.ScriptHost.ShowChoicesChoice;
+import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.map.GameMap;
@@ -28,6 +29,6 @@ interface IImplementation
 	 */
 	function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void;
 	function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void;
-	function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>):Void;
+	function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void;
 	function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
 }

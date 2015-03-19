@@ -34,14 +34,23 @@ class ScriptHost
 		}, characterId, message, options);
 	}
 	
-	public function showChoices(prompt:String, choices:Array<ShowChoicesChoice>)
+	public function showChoices(prompt:String, choices:Array<ShowChoicesChoice>, ?options:ShowChoicesOptions)
 	{
+		if (options == null)
+			options = {};
+		
+		if (options.background == null)
+			options.background = "normal";
+			
+		if (options.position == null)
+			options.position = "bottom";
+			
 		engine.interactionManager.disableMovement();
 		engine.impl.showChoices(function(selected) 
 		{
 			engine.interactionManager.enableMovement(); 
 			engine.eventManager.resume(-1, selected);
-		}, prompt, choices);
+		}, prompt, choices, options);
 		
 	}
 	
@@ -92,6 +101,11 @@ typedef ShowTextOptions =
 {
 	?position:String,
 	?background:String,
+}
+
+typedef ShowChoicesOptions =
+{>ShowTextOptions,
+	
 }
 
 typedef TeleportPlayerOptions =

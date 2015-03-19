@@ -10,6 +10,7 @@ import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
 import rpg.event.ScriptHost.ShowChoicesChoice;
+import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.Events;
@@ -140,28 +141,10 @@ class Implementation implements IImplementation
 		
 	}
 	
-	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>):Void
+	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
 	{
-		showTextPanel.showChoices(prompt, choices);
-		state.add(showTextPanel);
-		
-		var id = 0;
-		id = Events.on("key.justPressed", function(key:InputKey)
-		{
-			if (key == KEnter)
-			{
-				if (!showTextPanel.completed)
-				{
-					showTextPanel.showAll();
-				}
-				else
-				{
-					state.remove(showTextPanel);
-					callback(1);
-					Events.off(id);
-				}
-			}
-		});
+		checkCallback(callback);
+		showTextPanel.showChoices(callback, prompt, choices, options);
 	}
 	
 	public function log(message:String):Void 

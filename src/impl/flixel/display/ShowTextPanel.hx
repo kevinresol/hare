@@ -4,13 +4,14 @@ import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import rpg.event.ScriptHost.ShowChoicesChoice;
+import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.Events;
 import rpg.geom.Rectangle;
 import rpg.input.InputManager.InputKey;
 
 /**
- * ...
+ * TODO handle disabled and hidden choices
  * @author Kevin
  */
 class ShowTextPanel extends FlxSpriteGroup
@@ -30,6 +31,9 @@ class ShowTextPanel extends FlxSpriteGroup
 	private var showTextCallback:Void->Void;
 	private var showChoicesCallback:Int->Void;
 	
+	private var numChoices:Int;
+	private var selected(default, set):Int;
+	
 	public function new() 
 	{
 		super();
@@ -38,8 +42,9 @@ class ShowTextPanel extends FlxSpriteGroup
 		border.setGraphicSize(640, 150);
 		
 		selector = new Slice9Sprite("assets/images/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
-		selector.setPosition(100, 40);
-		selector.setGraphicSize(500, 30);
+		selector.setPosition(95, 40);
+		selector.setGraphicSize(500, 25);
+		selector.visible = false;
 		
 		background = new FlxSprite();
 		background.loadGraphic("assets/images/system.png", true, 64, 64);
@@ -52,6 +57,7 @@ class ShowTextPanel extends FlxSpriteGroup
 		add(background);
 		add(border);
 		add(text);
+		add(selector);
 		
 		scrollFactor.set();
 		y = 480 - 150;
@@ -81,8 +87,12 @@ class ShowTextPanel extends FlxSpriteGroup
 			switch (key) 
 			{
 				case KUp:
+					if(completed)
+						selected -= 1;
 					
 				case KDown:
+					if(completed)
+						selected += 1;
 					
 				case KEnter:
 					if (!completed)
@@ -93,7 +103,7 @@ class ShowTextPanel extends FlxSpriteGroup
 					{
 						visible = false;
 						Events.disable(showChoicesListener);
-						showChoicesCallback(1);
+						showChoicesCallback(selected + 1);
 					}
 					
 				default:
@@ -105,19 +115,54 @@ class ShowTextPanel extends FlxSpriteGroup
 		
 	}
 	
-	public function showChoices(prompt:String, choices:Array<ShowChoicesChoice>):Void
+	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
 	{
+		visible = true;
+		selector.visible = false;
+		handleOptions(options);
+		
+		showChoicesCallback = callback;
+		numChoices = choices.length;
+		selected = 0;
+		
 		message = prompt;
 		for (c in choices)
 		{
 			message += "\n" + c.text;
 		}
-		visible = true;
 		text.text = "";
-		tween = FlxTween.num(0, message.length, message.length / 15, null, function(v) text.text = message.substr(0, Std.int(v)));
+		tween = FlxTween.num(0, message.length, message.length / 15, {onComplete:function(t) selector.visible = true}, function(v) text.text = message.substr(0, Std.int(v)));
+		
+		Events.enable(showChoicesListener);
 	}
 	
 	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void
+	{
+		visible = true;
+		selector.visible = false;
+		handleOptions(options);
+		
+		showTextCallback = callback;
+		
+		this.message = message = (characterId == "" ? message : characterId + ": " + message);
+		text.text = "";
+		tween = FlxTween.num(0, message.length, message.length / 15, null, function(v) text.text = message.substr(0, Std.int(v)));
+		
+		Events.enable(showTextListener);
+	}
+	
+	private function showAll():Void
+	{
+		if (!completed)
+		{
+			if (tween.onComplete != null) 
+				tween.onComplete(tween);
+			tween.cancel();
+		}
+		text.text = message;
+	}
+	
+	private function handleOptions(options:ShowTextOptions):Void
 	{
 		y = switch (options.position) 
 		{
@@ -130,32 +175,28 @@ class ShowTextPanel extends FlxSpriteGroup
 		{
 			case "transparent":
 				background.alpha = 0;
-				border.alpha = 0;
+				border.visible = false;
 			case "dimmed":
 				background.alpha = 0.5;
-				border.alpha = 0;
+				border.visible = false;
 			default:
 				background.alpha = 0.9;
-				border.alpha = 1;
+				border.visible = true;
 		}
-		trace("show text");
-		visible = true;
-		showTextCallback = callback;
-		this.message = message = (characterId == "" ? message : characterId + ": " + message);
-		text.text = "";
-		tween = FlxTween.num(0, message.length, message.length / 15, null, function(v) text.text = message.substr(0, Std.int(v)));
-		Events.enable(showTextListener);
-	}
-	
-	public function showAll():Void
-	{
-		if (!completed)
-			tween.cancel();
-		text.text = message;
 	}
 	
 	private inline function get_completed():Bool 
 	{
 		return tween == null || !tween.active;
+	}
+	
+	private function set_selected(v:Int):Int
+	{
+		if (v < 0) v = numChoices - 1;
+		else if (v >= numChoices) v = 0;
+		
+		selector.y = y + 40 + 25 * v;
+		
+		return selected = v;
 	}
 }
