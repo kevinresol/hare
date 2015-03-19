@@ -59,7 +59,6 @@ class InteractionManager
 	public function enableMovement():Void
 	{
 		Events.enable(justPressedListener);
-		
 	}
 	
 	public function disableMovement():Void

@@ -7,6 +7,7 @@ import impl.flixel.display.ShowTextPanel;
 import impl.IHost;
 import rpg.Events;
 import rpg.input.InputManager.InputKey;
+import rpg.map.GameMap;
 
 /**
  * ...
@@ -16,11 +17,12 @@ class Host implements IHost
 {
 	private var state:FlxState;
 	private var showTextPanel:ShowTextPanel;
+	private var impl:Implementation;
 	
-	public function new(state:FlxState) 
+	public function new(state:FlxState, impl:Implementation) 
 	{
 		this.state = state;
-		
+		this.impl = impl;
 		
 		showTextPanel = new ShowTextPanel();
 	}
@@ -54,6 +56,13 @@ class Host implements IHost
 	{
 		FlxG.log.add(message);
 		trace(message);
+	}
+	
+	
+	public function teleportPlayer(callback:Void->Void, x:Int, y:Int):Void
+	{
+		impl.teleportPlayer(x, y);
+		callback();
 	}
 	
 }

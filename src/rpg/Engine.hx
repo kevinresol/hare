@@ -2,6 +2,7 @@ package rpg;
 import impl.IImplementation;
 import rpg.event.EventManager;
 import rpg.input.InputManager;
+import rpg.map.GameMap;
 import rpg.map.MapManager;
 import rpg.movement.InteractionManager;
 
@@ -12,11 +13,13 @@ import rpg.movement.InteractionManager;
 @:allow(rpg)
 class Engine
 {
+	public var currentMap(get, never):GameMap;
+	
 	private var impl:IImplementation;
 	private var mapManager:MapManager;
 	private var eventManager:EventManager;
 	private var inputManager:InputManager;
-	private var movementManager:InteractionManager;
+	private var interactionManager:InteractionManager;
 	
 	public function new(impl:IImplementation, entryPointMapId:String) 
 	{
@@ -26,12 +29,12 @@ class Engine
 		mapManager = new MapManager(this);
 		eventManager = new EventManager(this);
 		inputManager = new InputManager(this);
-		movementManager = new InteractionManager(this);
+		interactionManager = new InteractionManager(this);
 		
 		mapManager.loadMap(entryPointMapId);
 		
 		impl.teleportPlayer(5, 5);
-		movementManager.playerPosition.set(5, 5);
+		interactionManager.playerPosition.set(5, 5);
 	}
 	
 	public function update(elapsed:Float):Void
@@ -41,17 +44,17 @@ class Engine
 	
 	public inline function endMove(x:Int, y:Int):Bool
 	{
-		return movementManager.endMove(x, y);
+		return interactionManager.endMove(x, y);
 	}
 	
 	private inline function enableMovement():Void
 	{
-		movementManager.enableMovement();
+		interactionManager.enableMovement();
 	}
 	
 	private inline function disableMovement():Void
 	{
-		movementManager.disableMovement();
+		interactionManager.disableMovement();
 	}
 	
 	public inline function press(key:InputKey):Void
@@ -62,6 +65,11 @@ class Engine
 	public inline function release(key:InputKey):Void
 	{
 		inputManager.release(key);
+	}
+	
+	private inline function get_currentMap():GameMap
+	{
+		return mapManager.currentMap;
 	}
 }
 

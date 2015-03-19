@@ -22,7 +22,6 @@ class Implementation implements IImplementation
 	public var assetManager:IAssetManager;
 	public var host:IHost;
 	
-	public var currentMap(default, set):GameMap;
 	private var playerTween:FlxTween;
 	
 	private var state:FlxState;
@@ -35,7 +34,7 @@ class Implementation implements IImplementation
 	public function new(state:FlxState) 
 	{
 		assetManager = new AssetManager();
-		host = new Host(state);
+		host = new Host(state, this);
 		
 		this.state = state;
 		
@@ -74,8 +73,15 @@ class Implementation implements IImplementation
 			engine.release(KEnter);
 	}
 	
-	private function set_currentMap(map:GameMap):GameMap
+	public function switchMap(map:GameMap):Void
 	{
+		layers[2].remove(player, true);
+		
+		for (layer in layers)
+			layer.destroy();
+			
+		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
+			
 		// draw floor layer
 		for (imageSource in map.floor.data.keys())
 		{
@@ -111,11 +117,12 @@ class Implementation implements IImplementation
 			sprite.animation.frameIndex = event.tileId - 1;
 			layers[1].add(sprite);
 		}
-		return currentMap = map;
 	}
 	
 	public function teleportPlayer(x:Int, y:Int):Void
 	{
+		var map = engine.currentMap;
+		
 		if (player == null)
 		{
 			player = new FlxSprite();
@@ -129,15 +136,15 @@ class Implementation implements IImplementation
 			player.animation.add("down", [1], 0);
 			player.animation.add("up", [10], 0);
 			player.animation.play("down");
-			layers[2].add(player);
-			
 			
 			FlxG.camera.follow(player, LOCKON);
-			FlxG.camera.setScrollBoundsRect(0, 0, currentMap.gridWidth * currentMap.tileWidth, currentMap.gridHeight * currentMap.tileHeight);
+			FlxG.camera.setScrollBoundsRect(0, 0, map.gridWidth * map.tileWidth, map.gridHeight * map.tileHeight);
 		}
 		
-		player.x = x * currentMap.tileWidth;
-		player.y = y * currentMap.tileHeight - 16;
+		layers[2].add(player);
+		
+		player.x = x * map.tileWidth;
+		player.y = y * map.tileHeight - 16;
 	}
 	
 	public function movePlayer(dx:Int, dy:Int):Void
@@ -156,8 +163,8 @@ class Implementation implements IImplementation
 			player, 
 			player.x, 
 			player.y, 
-			player.x + dx * currentMap.tileWidth, 
-			player.y + dy * currentMap.tileHeight, 
+			player.x + dx * engine.currentMap.tileWidth, 
+			player.y + dy * engine.currentMap.tileHeight, 
 			speed, 
 			false,
 			{onComplete:movePlayer_onComplete} 
@@ -179,12 +186,13 @@ class Implementation implements IImplementation
 	
 	private function movePlayer_onComplete(tween:FlxTween):Void
 	{
-		var gridX = Math.round(player.x / currentMap.tileWidth);
-		var gridY = Math.round(player.y / currentMap.tileHeight);
+		var map = engine.currentMap;
+		var gridX = Math.round(player.x / map.tileWidth);
+		var gridY = Math.round(player.y / map.tileHeight);
 		
 		// make sure it is at the exact position
-		player.x = gridX * currentMap.tileWidth;
-		player.y = gridY * currentMap.tileHeight -16;
+		player.x = gridX * map.tileWidth;
+		player.y = gridY * map.tileHeight -16;
 		
 		if (!engine.endMove(gridX, gridY))
 		{

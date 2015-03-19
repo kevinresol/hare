@@ -13,53 +13,26 @@ class MapManager
 	public var currentMap:GameMap;
 	
 	private var engine:Engine;
+	private var maps:Map<String, GameMap>;
 	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
+		maps = new Map();
 	}
 	
 	public function loadMap(id:String):Void
 	{
-		var impl = engine.impl;
-		var mapData = impl.assetManager.getMapData(id);
-		var tiledMap = new TiledMap(Xml.parse(mapData));
-		
-		var map = new GameMap(id, tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
-		map.floor = createTileLayer(tiledMap.getLayer("Walls and Floor"));
-		map.above = createTileLayer(tiledMap.getLayer("Above"));
-		map.below = createTileLayer(tiledMap.getLayer("Below"));
-		map.passage = createPassageMap(tiledMap.getLayer("Passage"));
-		
-		for (o in tiledMap.getObjectGroup("Below").objects)
-		{
-			if (o.type == "event")
-			{
-				var trigger:EventTrigger = switch (o.custom.trigger) 
-				{
-					case "action": EAction;
-					case "playertouch": EPlayerTouch;
-					case "eventtouch": EEventTouch;
-					case "autorun": EAutorun;
-					case "parallel": EParallel;
-					default: EAction;
-				}
-				
-				var tileset = tiledMap.getGidOwner(o.gid);
-				var imageSource = tileset.imageSource;
-				imageSource = StringTools.replace(imageSource, "../..", "assets");
-				map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), Std.int(o.x / tiledMap.tileWidth), Std.int(o.y / tiledMap.tileHeight) -1, trigger );
-			}
-		}
+		var map = getMap(id);
 		
 		// Display the map
 		currentMap = map;
-		impl.currentMap = map;
+		engine.impl.switchMap(currentMap);
 		
 		// TODO: Display objects
 		
 		// TODO: Load and run scripts
-		var objectLayer = tiledMap.objectGroups[0];
+		/*var objectLayer = tiledMap.objectGroups[0];
 		for (o in objectLayer.objects)
 		{
 			switch(o.type)
@@ -68,7 +41,45 @@ class MapManager
 					//engine.eventManager.register(o.id);
 				default:
 			}
+		}*/
+	}
+	
+	public function getMap(id:String):GameMap
+	{
+		if (maps[id] == null)
+		{
+			var mapData = engine.impl.assetManager.getMapData(id);
+			var tiledMap = new TiledMap(Xml.parse(mapData));
+			
+			var map = new GameMap(id, tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
+			map.floor = createTileLayer(tiledMap.getLayer("Walls and Floor"));
+			map.above = createTileLayer(tiledMap.getLayer("Above"));
+			map.below = createTileLayer(tiledMap.getLayer("Below"));
+			map.passage = createPassageMap(tiledMap.getLayer("Passage"));
+			
+			for (o in tiledMap.getObjectGroup("Below").objects)
+			{
+				if (o.type == "event")
+				{
+					var trigger:EventTrigger = switch (o.custom.trigger) 
+					{
+						case "action": EAction;
+						case "playertouch": EPlayerTouch;
+						case "eventtouch": EEventTouch;
+						case "autorun": EAutorun;
+						case "parallel": EParallel;
+						default: EAction;
+					}
+					
+					var tileset = tiledMap.getGidOwner(o.gid);
+					var imageSource = tileset.imageSource;
+					imageSource = StringTools.replace(imageSource, "../..", "assets");
+					map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), Std.int(o.x / tiledMap.tileWidth), Std.int(o.y / tiledMap.tileHeight) -1, trigger );
+				}
+			}
+			maps[id] = map;
 		}
+		return maps[id];
 	}
 	
 	private function createPassageMap(layer:TiledLayer):Array<Int>

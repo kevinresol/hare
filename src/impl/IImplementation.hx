@@ -12,8 +12,7 @@ interface IImplementation
 	var assetManager:IAssetManager;
 	var host:IHost;
 
-	var currentMap(default, set):GameMap;
-	
+	function switchMap(map:GameMap):Void;
 	function teleportPlayer(x:Int, y:Int):Void;
 	function movePlayer(dx:Int, dy:Int):Void;
 	function changePlayerFacing(dir:Int):Void;
