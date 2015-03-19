@@ -1,3 +1,4 @@
 *.hxproj
 test/build/
 test/report/
+samples/flixel/export/

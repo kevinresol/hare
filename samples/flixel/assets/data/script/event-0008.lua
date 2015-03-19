@@ -1,0 +1,1 @@
+showText("from lua 8")
