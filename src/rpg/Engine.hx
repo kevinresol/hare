@@ -30,8 +30,8 @@ class Engine
 		
 		mapManager.loadMap(entryPointMapId);
 		
-		impl.teleportPlayer(5,5);
-		
+		impl.teleportPlayer(5, 5);
+		movementManager.playerPosition.set(5, 5);
 	}
 	
 	public function update(elapsed:Float):Void
@@ -39,14 +39,9 @@ class Engine
 		eventManager.update(elapsed);
 	}
 	
-	public inline function endMove():Bool
+	public inline function endMove(x:Int, y:Int):Bool
 	{
-		return movementManager.endMove();
-	}
-	
-	public inline function updatePlayerPosition(x:Int, y:Int):Void
-	{
-		movementManager.updatePlayerPosition(x, y);
+		return movementManager.endMove(x, y);
 	}
 	
 	private inline function enableMovement():Void

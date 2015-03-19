@@ -26,7 +26,7 @@ class Implementation implements IImplementation
 	private var playerTween:FlxTween;
 	
 	private var state:FlxState;
-	private var layers:Array<FlxGroup>;
+	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
 	
 	
 	private var player:FlxSprite;
@@ -40,6 +40,7 @@ class Implementation implements IImplementation
 		this.state = state;
 		
 		layers = [for (i in 0...4) cast state.add(new FlxGroup())];
+		
 		
 	}
 	
@@ -108,7 +109,7 @@ class Implementation implements IImplementation
 			var sprite = new FlxSprite(event.x * map.tileWidth, event.y * map.tileHeight);
 			sprite.loadGraphic(event.imageSource, true, 32, 32);
 			sprite.animation.frameIndex = event.tileId - 1;
-			state.add(sprite);
+			layers[1].add(sprite);
 		}
 		return currentMap = map;
 	}
@@ -137,7 +138,6 @@ class Implementation implements IImplementation
 		
 		player.x = x * currentMap.tileWidth;
 		player.y = y * currentMap.tileHeight - 16;
-		engine.updatePlayerPosition(x, y);
 	}
 	
 	public function movePlayer(dx:Int, dy:Int):Void
@@ -186,9 +186,7 @@ class Implementation implements IImplementation
 		player.x = gridX * currentMap.tileWidth;
 		player.y = gridY * currentMap.tileHeight -16;
 		
-		engine.updatePlayerPosition(gridX, gridY);
-		
-		if (!engine.endMove())
+		if (!engine.endMove(gridX, gridY))
 		{
 			player.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
 			playerTween = null;

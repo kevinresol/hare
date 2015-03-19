@@ -3,6 +3,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.text.FlxText;
 import haxe.Timer;
+import impl.flixel.display.ShowTextPanel;
 import impl.IHost;
 import rpg.Events;
 import rpg.input.InputManager.InputKey;
@@ -14,25 +15,36 @@ import rpg.input.InputManager.InputKey;
 class Host implements IHost
 {
 	private var state:FlxState;
+	private var showTextPanel:ShowTextPanel;
 	
 	public function new(state:FlxState) 
 	{
 		this.state = state;
+		
+		
+		showTextPanel = new ShowTextPanel();
 	}
 	
 	public function showText(callback:Void->Void, message:String):Void 
 	{
-		var text = new FlxText(0, 100, 200, message);
-		state.add(text);
+		showTextPanel.showText(message);
+		state.add(showTextPanel);
 		
 		var id = 0;
 		id = Events.on("key.justPressed", function(key:InputKey)
 		{
 			if (key == KEnter)
 			{
-				state.remove(text);
-				callback();
-				Events.off(id);
+				if (!showTextPanel.completed)
+				{
+					showTextPanel.showAll();
+				}
+				else
+				{
+					state.remove(showTextPanel);
+					callback();
+					Events.off(id);
+				}
 			}
 			
 		});

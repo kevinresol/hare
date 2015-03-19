@@ -67,11 +67,6 @@ class InteractionManager
 		Events.disable(justPressedListener);
 	}
 	
-	public function updatePlayerPosition(x:Int, y:Int):Void
-	{
-		playerPosition.set(x, y);
-	}
-	
 	public function startMove(dx:Int, dy:Int):Void
 	{
 		playerMoving = true;
@@ -82,9 +77,9 @@ class InteractionManager
 	 * Called when a move is ended
 	 * @return true if continue moving
 	 */
-	public function endMove():Bool
+	public function endMove(x:Int, y:Int):Bool
 	{
-		//TODO combine updateplayerposition
+		playerPosition.set(x, y);
 		playerMoving = false;
 		
 		if (engine.inputManager.right)
