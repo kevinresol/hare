@@ -1,2 +1,2 @@
-cd test && haxelib run munit test
+cd test && haxelib run munit test -neko
 PAUSE
