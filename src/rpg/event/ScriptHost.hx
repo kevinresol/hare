@@ -77,7 +77,7 @@ class ScriptHost
 	public function sleep(ms:Int):Void
 	{
 		engine.interactionManager.disableMovement();
-		Timer.delay(function()
+		engine.delayedCall(function()
 		{
 			engine.interactionManager.enableMovement(); 
 			engine.eventManager.resume(); 

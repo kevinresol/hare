@@ -1,6 +1,7 @@
 import massive.munit.TestSuite;
 
 import ExampleTest;
+import rpg.EngineTest;
 import rpg.map.TiledMapTest;
 
 /**
@@ -16,6 +17,7 @@ class TestSuite extends massive.munit.TestSuite
 		super();
 
 		add(ExampleTest);
+		add(rpg.EngineTest);
 		add(rpg.map.TiledMapTest);
 	}
 }
