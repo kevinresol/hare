@@ -51,9 +51,12 @@ override public function update(elapsed:Float):Void
 }
 ```
 
-
 ## Implement on other game frameworks
 
 Implement the follow interfaces:
 - `IAssetManager`
 - `IImplementation`
+
+## Game contents
+
+For game contents like maps/script/images/sounds, please refer to wiki
