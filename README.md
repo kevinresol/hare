@@ -5,6 +5,8 @@ A RPG engine for Haxe including the following core components while the visuals 
 - 2D Map
 - Events (Scripted with Lua)
 - Items
+- Screen effects
+
 
 A default implementation for HaxeFlixel is provided. 
 But it could be easily implemented on other game frameworks.
@@ -55,4 +57,3 @@ override public function update(elapsed:Float):Void
 Implement the follow interfaces:
 - `IAssetManager`
 - `IImplementation`
-
