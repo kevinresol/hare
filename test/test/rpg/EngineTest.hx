@@ -36,9 +36,11 @@ class EngineTest
 	}
 	
 	@Test
-	public function testExample():Void
+	public function testTeleportPlayer():Void
 	{
-		Assert.isTrue(true);
+		engine.eventManager.scriptHost.teleportPlayer("template", 12, 13);
+		Assert.isTrue(engine.interactionManager.playerPosition.x == 12);
+		Assert.isTrue(engine.interactionManager.playerPosition.y == 13);
 	}
 	
 	/*@AsyncTest

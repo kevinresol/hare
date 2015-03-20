@@ -37,22 +37,22 @@ class TestImplementation implements IImplementation
 	
 	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void 
 	{
-		
+		callback();
 	}
 	
 	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void 
 	{
-		
+		callback();
 	}
 	
 	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void 
 	{
-		
+		callback(1);
 	}
 	
 	public function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void 
 	{
-		
+		callback();
 	}
 	
 }
