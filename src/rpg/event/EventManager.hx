@@ -39,7 +39,11 @@ class EventManager
 		});
 		
 		var bridgeScript = EventMacro.getBridgeScript();
-		execute(bridgeScript);
+		var result = execute(bridgeScript);
+		
+		#if debug
+		trace(result);
+		#end
 	}
 	
 	public function update(elapsed:Float):Void
@@ -108,7 +112,6 @@ class EventManager
 	{
 		executing = true;
 		var r = lua.execute(script);
-		//trace(r);
 		executing = false;
 		
 		while(pendingResumes.length > 0)
