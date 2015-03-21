@@ -1,3 +1,19 @@
+local callbackForSelection2 = function ()
+	showChoices("You selected 2, now please choose again", 
+	{
+	  {
+		text = "Choice 1", 
+		diableCondition = function() return false end, 
+		hideCondition = function() return true end,
+		callback = function() showText("", "You selected 1") end
+	  },
+	  {
+		text = "Choice 2", 
+		callback = function() showText("", "You selected 2") end
+	  }
+	}) 
+end
+
 showChoices("Please choose one", 
 {
 	{
@@ -8,21 +24,7 @@ showChoices("Please choose one",
 	},
 	{
 		text = "Choice 2", 
-		callback = function() 
-			showChoices("You selected 2, now please choose again", 
-			{
-			  {
-				text = "Choice 1", 
-				diableCondition = function() return false end, 
-				hideCondition = function() return true end,
-				callback = function() showText("", "You selected 1") end
-			  },
-			  {
-				text = "Choice 2", 
-				callback = function() showText("", "You selected 2") end
-			  }
-			}) 
-		end
+		callback = callbackForSelection2
 	},
 	{
 		text = "Choice 3", 
