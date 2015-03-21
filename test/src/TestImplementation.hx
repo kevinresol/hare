@@ -23,8 +23,6 @@ class TestImplementation implements IImplementation
 		assetManager = new TestAssetManager();
 	}
 	
-	/* INTERFACE impl.IImplementation */
-	
 	public function changePlayerFacing(dir:Int):Void 
 	{
 		
@@ -53,6 +51,31 @@ class TestImplementation implements IImplementation
 	public function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void 
 	{
 		callback();
+	}
+	
+	public function playSound(id:Int, volume:Float, pitch:Float):Void 
+	{
+		
+	}
+	
+	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void 
+	{
+		
+	}
+	
+	public function saveBackgroundMusic():Void 
+	{
+		
+	}
+	
+	public function restoreBackgroundMusic():Void 
+	{
+		
+	}
+	
+	public function fadeOutBackgroundMusic(ms:Int):Void 
+	{
+		
 	}
 	
 }

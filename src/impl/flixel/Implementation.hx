@@ -151,6 +151,33 @@ class Implementation implements IImplementation
 		trace(message);
 	}
 	
+	
+	public function playSound(id:Int, volume:Float, pitch:Float):Void
+	{
+		
+	}
+	
+	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
+	{
+		
+	}
+	
+	public function saveBackgroundMusic():Void
+	{
+		
+	}
+	
+	public function restoreBackgroundMusic():Void
+	{
+		
+	}
+	
+	public function fadeOutBackgroundMusic(ms:Int):Void
+	{
+		
+	}
+	
+	
 	public function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void
 	{
 		checkCallback(callback);
