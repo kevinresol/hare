@@ -159,7 +159,7 @@ class Implementation implements IImplementation
 	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
 	{
-		
+		FlxG.sound.playMusic(assetManager.getMusic(id), volume);
 	}
 	
 	public function saveBackgroundMusic():Void

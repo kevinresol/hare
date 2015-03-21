@@ -1,6 +1,7 @@
 package impl.flixel ;
 import openfl.Assets;
 import impl.IAssetManager;
+import openfl.media.Sound;
 import sys.FileSystem;
 
 /**
@@ -11,11 +12,13 @@ class AssetManager implements IAssetManager
 {
 	private var maps:Map<Int, String>;
 	private var scripts:Map<Int, Map<Int, String>>;
+	private var musics:Map<Int, String>;
 
 	public function new() 
 	{
 		maps = new Map();
 		scripts = new Map();
+		musics = new Map();
 		
 		for (f in FileSystem.readDirectory("assets/data/map"))
 		{
@@ -31,6 +34,12 @@ class AssetManager implements IAssetManager
 			var eventId = Std.parseInt(s[1]);
 			scripts[mapId][eventId] = f;
 		}
+		
+		for (f in FileSystem.readDirectory("assets/music"))
+		{
+			var id =  Std.parseInt(f.split("-")[0]);
+			musics[id] = f;
+		}
 	}
 	
 	public function getMapData(id:Int):String 
@@ -45,4 +54,9 @@ class AssetManager implements IAssetManager
 		return Assets.getText('assets/data/script/$filename');
 	}
 	
+	public function getMusic(musicId:Int):String
+	{
+		var filename = musics[musicId];
+		return Assets.getPath('assets/music/$filename');
+	}
 }

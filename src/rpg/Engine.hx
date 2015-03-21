@@ -37,6 +37,7 @@ class Engine
 		interactionManager = new InteractionManager(this);
 		
 		eventManager.scriptHost.teleportPlayer(entryPointMapId, 5, 5);
+		impl.playBackgroundMusic(1, 5, 5); //TODO: to be removed
 	}
 	
 	public function update(elapsed:Float):Void
