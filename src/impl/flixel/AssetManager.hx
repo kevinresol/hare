@@ -45,7 +45,6 @@ class AssetManager implements IAssetManager
 		
 		for (f in FileSystem.readDirectory("assets/sounds"))
 		{
-			trace(f);
 			var id =  Std.parseInt(f.split("-")[0]);
 			sounds[id] = f;
 		}
