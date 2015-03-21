@@ -16,8 +16,11 @@ interface IImplementation
 	var assetManager:IAssetManager;
 	
 	/* ====== Sync Functions ====== */
-	function changePlayerFacing(dir:Int):Void;
 	function log(message:String):Void;
+	
+	function changePlayerFacing(dir:Int):Void;
+	function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
+	
 	function playSound(id:Int, volume:Float, pitch:Float):Void;
 	
 	function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void;
@@ -59,13 +62,4 @@ interface IImplementation
 	 */
 	function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void;
 	
-	/**
-	 * Teleport the player to a certain location
-	 * @param	callback	should be called by the implementation when the teleport is finished
-	 * @param	map
-	 * @param	x
-	 * @param	y
-	 * @param	options
-	 */
-	function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
 }

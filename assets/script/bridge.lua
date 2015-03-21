@@ -25,8 +25,24 @@ showChoices = function(prompt, choices, options)
 end
 
 teleportPlayer = function(mapId, x, y, options)
+	options = options or {}
+	options.fading = options.fading or "normal"
+	if options.fading == "normal" then fadeOutScreen(200) end
 	host_teleportPlayer(mapId, x, y, options)
 	coroutine.yield()
+	if options.fading == "normal" then fadeInScreen(200) end
+end
+
+fadeOutScreen = function(ms)
+	host_fadeOutScreen(ms)
+	coroutine.yield()
+	sleep(ms)
+end
+
+fadeInScreen = function(ms)
+	host_fadeInScreen(ms)
+	coroutine.yield()
+	sleep(ms)
 end
 
 sleep = function(ms)
@@ -36,4 +52,7 @@ end
 
 log = function(message)
 	host_log(message)
+	coroutine.yield()
 end
+
+return true

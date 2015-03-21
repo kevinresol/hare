@@ -51,27 +51,33 @@ class ScriptHost
 			engine.interactionManager.enableMovement(); 
 			engine.eventManager.resume(-1, selected);
 		}, prompt, choices, options);
-		
+	}
+	
+	public function fadeOutScreen(ms:Int):Void
+	{
+		engine.impl.fadeOutScreen(ms);
+		engine.eventManager.resume();
+	}
+	
+	public function fadeInScreen(ms:Int):Void
+	{
+		engine.impl.fadeInScreen(ms);
+		engine.eventManager.resume();
 	}
 	
 	public function teleportPlayer(mapId:Int, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
 		if (options == null)
-			options = { };
+			options = {};
 			
 		if (options.facing == null)
 			options.facing = "unchanged";
 		
-		engine.interactionManager.disableMovement();
-		
 		var map = engine.mapManager.getMap(mapId);
-		engine.impl.teleportPlayer(function() 
-		{ 
-			engine.interactionManager.enableMovement(); 
-			engine.mapManager.currentMap = map;
-			engine.interactionManager.playerPosition.set(x, y);
-			engine.eventManager.resume(); 
-		}, map, x, y, options);
+		engine.impl.teleportPlayer(map, x, y, options);
+		engine.mapManager.currentMap = map;
+		engine.interactionManager.playerPosition.set(x, y);
+		engine.eventManager.resume();
 	}
 	
 	public function sleep(ms:Int):Void
@@ -87,6 +93,7 @@ class ScriptHost
 	public function log(message:String):Void
 	{
 		engine.impl.log(message);
+		engine.eventManager.resume();
 	}
 }
 

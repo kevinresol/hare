@@ -178,10 +178,8 @@ class Implementation implements IImplementation
 	}
 	
 	
-	public function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void
+	public function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void
 	{
-		checkCallback(callback);
-		
 		// create player
 		if (player == null)
 		{
@@ -201,29 +199,15 @@ class Implementation implements IImplementation
 			FlxG.camera.setScrollBoundsRect(0, 0, map.gridWidth * map.tileWidth, map.gridHeight * map.tileHeight);
 		}
 		
-		var putPlayer = function()
-		{
-			layers[2].add(player);
-			player.x = x * map.tileWidth;
-			player.y = y * map.tileHeight - 16;
-			if (options.facing != "unchanged")
-				player.animation.play(options.facing);
-		}
-		
-		// switch map if needed
 		if (map != engine.currentMap)
-		{
-			FlxG.camera.fade(0, 0.2, false, function() {
-				switchMap(map);
-				putPlayer();
-				FlxG.camera.fade(0, 0.2, true, callback, true);
-			});
-		}
-		else
-		{
-			putPlayer();
-			callback();
-		}
+			switchMap(map);
+		
+		layers[2].add(player);
+		player.x = x * map.tileWidth;
+		player.y = y * map.tileHeight - 16;
+		
+		if (options.facing != "unchanged")
+			player.animation.play(options.facing);
 	}
 	
 	public function fadeOutScreen(ms:Int):Void 
@@ -233,7 +217,7 @@ class Implementation implements IImplementation
 	
 	public function fadeInScreen(ms:Int):Void 
 	{
-		FlxG.camera.fade(0, ms / 1000, false, null, true);
+		FlxG.camera.fade(0, ms / 1000, true, null, true);
 	}
 	
 	public function tintScreen(color:Int, ms:Int):Void 

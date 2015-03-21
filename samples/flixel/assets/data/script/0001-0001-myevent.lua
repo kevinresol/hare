@@ -40,9 +40,9 @@ teleportPlayer(2, 12, 20, {facing="up"})
 
 showText("", "Welcome to the new map!\n(pos: center, bg: transparent)", {position="center", background="transparent"})
 
-showText("", "After this message, \nthe script will wait for 3 second")
+showText("", "After this message, \nthe script will wait for 1 second")
 
-sleep(3000)
+sleep(1000)
 
 showText("", "The waiting has ended\nYou can move now")
 

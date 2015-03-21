@@ -26,7 +26,10 @@ class EventManager
 		
 		lua = new Lua();
 		lua.loadLibs(["base", "coroutine"]);
-		lua.setVars({
+		lua.setVars( {
+			host_fadeOutScreen: scriptHost.fadeOutScreen,
+			host_fadeInScreen: scriptHost.fadeInScreen,
+			
 			host_showText: scriptHost.showText,
 			host_showChoices: scriptHost.showChoices,
 			host_teleportPlayer: scriptHost.teleportPlayer,
@@ -105,6 +108,7 @@ class EventManager
 	{
 		executing = true;
 		var r = lua.execute(script);
+		//trace(r);
 		executing = false;
 		
 		while(pendingResumes.length > 0)

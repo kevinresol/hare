@@ -48,9 +48,9 @@ class TestImplementation implements IImplementation
 		callback(1);
 	}
 	
-	public function teleportPlayer(callback:Void->Void, map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void 
+	public function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void 
 	{
-		callback();
+		
 	}
 	
 	public function playSound(id:Int, volume:Float, pitch:Float):Void 
