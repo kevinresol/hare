@@ -25,4 +25,9 @@ class TestAssetManager implements IAssetManager
 		return "";
 	}
 	
+	public function getMusic(musicId:Int):String
+	{
+		return "";
+	}
+	
 }
