@@ -25,7 +25,11 @@ interface IImplementation
 	function restoreBackgroundMusic():Void;
 	function fadeOutBackgroundMusic(ms:Int):Void;
 	
-	
+	function fadeOutScreen(ms:Int):Void;
+	function fadeInScreen(ms:Int):Void;
+	function tintScreen(color:Int, ms:Int):Void;
+	function flashScreen(color:Int, strength:Int, ms:Int):Void;
+	function shakeScreen(power:Int, screen:Int, ms:Int):Void;
 	
 	/* ====== Async Functions ====== */
 	

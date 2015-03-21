@@ -226,6 +226,31 @@ class Implementation implements IImplementation
 		}
 	}
 	
+	public function fadeOutScreen(ms:Int):Void 
+	{
+		FlxG.camera.fade(0, ms / 1000, false, null, true);
+	}
+	
+	public function fadeInScreen(ms:Int):Void 
+	{
+		FlxG.camera.fade(0, ms / 1000, false, null, true);
+	}
+	
+	public function tintScreen(color:Int, ms:Int):Void 
+	{
+		
+	}
+	
+	public function flashScreen(color:Int, strength:Int, ms:Int):Void 
+	{
+		
+	}
+	
+	public function shakeScreen(power:Int, screen:Int, ms:Int):Void 
+	{
+		
+	}
+	
 	private function switchMap(map:GameMap):Void
 	{
 		layers[2].remove(player, true);
