@@ -30,4 +30,9 @@ class TestAssetManager implements IAssetManager
 		return "";
 	}
 	
+	public function getSound(soundId:Int):String
+	{
+		return "";
+	}
+	
 }

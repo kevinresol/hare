@@ -154,11 +154,13 @@ class Implementation implements IImplementation
 	
 	public function playSound(id:Int, volume:Float, pitch:Float):Void
 	{
-		
+		//TODO: implement sound pitch support here
+		FlxG.sound.play(assetManager.getSound(id), volume);
 	}
 	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
 	{
+		//TODO: implement sound pitch support here
 		FlxG.sound.playMusic(assetManager.getMusic(id), volume);
 	}
 	
