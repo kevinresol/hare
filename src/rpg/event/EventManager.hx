@@ -55,7 +55,7 @@ class EventManager
 	public function trigger(id:Int):Void
 	{
 		currentEvent = id;
-		var body = engine.impl.assetManager.getScript(id);
+		var body = engine.impl.assetManager.getScript(engine.currentMap.id, id);
 		var script = 'co$id = coroutine.create(function() $body end)';
 		execute(script);
 		resume(id);

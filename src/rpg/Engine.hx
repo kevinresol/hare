@@ -24,7 +24,7 @@ class Engine
 	private var delayedCalls:Array<DelayedCall>;
 	private var called:Array<DelayedCall>;
 	
-	public function new(impl:IImplementation, entryPointMapId:String) 
+	public function new(impl:IImplementation, entryPointMapId:Int) 
 	{
 		this.impl = impl;
 		impl.engine = this;

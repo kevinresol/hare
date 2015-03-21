@@ -54,7 +54,7 @@ class ScriptHost
 		
 	}
 	
-	public function teleportPlayer(mapId:String, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
+	public function teleportPlayer(mapId:Int, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
 		if (options == null)
 			options = { };

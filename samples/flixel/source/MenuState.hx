@@ -19,7 +19,7 @@ class MenuState extends FlxState
 		super.create();
 		
 		impl = new Implementation(this);
-		new Engine(impl, "template");
+		new Engine(impl, 1);
 	}
 	
 	override public function update(elapsed:Float):Void 

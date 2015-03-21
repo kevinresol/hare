@@ -15,12 +15,12 @@ class TestAssetManager implements IAssetManager
 	
 	/* INTERFACE impl.IAssetManager */
 	
-	public function getMapData(id:String):String 
+	public function getMapData(id:Int):String 
 	{
 		return AssetMacro.getTestMapData();
 	}
 	
-	public function getScript(id:Int):String 
+	public function getScript(mapId:Int, eventId:Int):String 
 	{
 		return "";
 	}

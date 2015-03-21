@@ -17,7 +17,7 @@ class EngineTest
 	public function beforeClass():Void
 	{
 		var impl = new TestImplementation();
-		engine = new Engine(impl, "template");
+		engine = new Engine(impl, 1);
 	}
 	
 	@AfterClass
@@ -38,7 +38,7 @@ class EngineTest
 	@Test
 	public function testTeleportPlayer():Void
 	{
-		engine.eventManager.scriptHost.teleportPlayer("template", 12, 13);
+		engine.eventManager.scriptHost.teleportPlayer(1, 12, 13);
 		Assert.isTrue(engine.interactionManager.playerPosition.x == 12);
 		Assert.isTrue(engine.interactionManager.playerPosition.y == 13);
 	}

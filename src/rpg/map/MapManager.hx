@@ -13,7 +13,7 @@ class MapManager
 	public var currentMap:GameMap;
 	
 	private var engine:Engine;
-	private var maps:Map<String, GameMap>;
+	private var maps:Map<Int, GameMap>;
 	
 	public function new(engine:Engine) 
 	{
@@ -21,7 +21,7 @@ class MapManager
 		maps = new Map();
 	}
 	
-	public function getMap(id:String):GameMap
+	public function getMap(id:Int):GameMap
 	{
 		if (maps[id] == null)
 		{

@@ -6,6 +6,6 @@ package impl ;
 
 interface IAssetManager 
 {
-	function getMapData(id:String):String;
-	function getScript(id:Int):String;
+	function getMapData(id:Int):String;
+	function getScript(mapId:Int, eventId:Int):String;
 }

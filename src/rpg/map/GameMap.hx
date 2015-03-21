@@ -6,7 +6,7 @@ package rpg.map;
  */
 class GameMap
 {
-	public var name:String;
+	public var id:Int;
 	
 	public var gridWidth:Int;
 	public var gridHeight:Int;
@@ -24,9 +24,9 @@ class GameMap
 	public var player:Dynamic;
 	
 
-	public function new(name, gridWidth, gridHeight, tileWidth, tileHeight) 
+	public function new(id, gridWidth, gridHeight, tileWidth, tileHeight) 
 	{
-		this.name = name;
+		this.id = id;
 		this.gridWidth = gridWidth;
 		this.gridHeight = gridHeight;
 		this.tileWidth = tileWidth;
