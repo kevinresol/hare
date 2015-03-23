@@ -72,10 +72,17 @@ class EventManager
 	public function trigger(id:Int):Void
 	{
 		currentEvent = id;
+		engine.interactionManager.disableMovement();
 		var body = engine.impl.assetManager.getScript(engine.currentMap.id, id);
 		var script = 'co$id = coroutine.create(function() $body end)';
 		execute(script);
 		resume(id);
+	}
+	
+	public function endEvent():Void
+	{
+		currentEvent = -1;
+		engine.interactionManager.enableMovement();
 	}
 	
 	/**
@@ -95,9 +102,10 @@ class EventManager
 		{
 			var params = dataToString(data);
 			
-			var resumeStatus = execute('coroutine.resume(co$id $params) return coroutine.status(co$id)');
-			if (resumeStatus == "dead")
-				currentEvent = -1;
+			execute('coroutine.resume(co$id $params)');
+			
+			if (lua.execute('return coroutine.status(co$id)') == "dead")
+				endEvent();
 		}
 	}
 	
@@ -133,10 +141,11 @@ class EventManager
 			var id = pr.id;
 			var params = dataToString(pr.data);
 			executing = true;
-			var resumeStatus = lua.execute('coroutine.resume(co$id $params) return coroutine.status(co$id)');
+			lua.execute('coroutine.resume(co$id $params)');
 			executing = false;
-			if (resumeStatus == "dead")
-				currentEvent = -1;
+			
+			if (lua.execute('return coroutine.status(co$id)') == "dead")
+				endEvent();
 		}
 			
 		return r;

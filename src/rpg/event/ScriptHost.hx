@@ -9,10 +9,20 @@ import rpg.Engine;
 class ScriptHost
 {
 	private var engine:Engine;
+	private var resume:Void->Void;
+	private var resumeWithData:Dynamic->Void;
 	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
+		resume = function() engine.eventManager.resume();
+		resumeWithData = function(data) engine.eventManager.resume(-1, data);
+	}
+	
+	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
+	{
+		engine.impl.playBackgroundMusic(id, volume, pitch);
+		engine.eventManager.resume();
 	}
 	
 	public function showText(characterId:String, message:String, ?options:ShowTextOptions):Void
@@ -26,12 +36,7 @@ class ScriptHost
 		if (options.position == null)
 			options.position = "bottom";
 		
-		engine.interactionManager.disableMovement();
-		engine.impl.showText(function()
-		{
-			engine.interactionManager.enableMovement(); 
-			engine.eventManager.resume();
-		}, characterId, message, options);
+		engine.impl.showText(resume, characterId, message, options);
 	}
 	
 	public function showChoices(prompt:String, choices:Array<ShowChoicesChoice>, ?options:ShowChoicesOptions)
@@ -44,13 +49,8 @@ class ScriptHost
 			
 		if (options.position == null)
 			options.position = "bottom";
-			
-		engine.interactionManager.disableMovement();
-		engine.impl.showChoices(function(selected) 
-		{
-			engine.interactionManager.enableMovement(); 
-			engine.eventManager.resume(-1, selected);
-		}, prompt, choices, options);
+		
+		engine.impl.showChoices(resumeWithData, prompt, choices, options);
 	}
 	
 	public function fadeOutScreen(ms:Int):Void
@@ -83,12 +83,7 @@ class ScriptHost
 	
 	public function sleep(ms:Int):Void
 	{
-		engine.interactionManager.disableMovement();
-		engine.delayedCall(function()
-		{
-			engine.interactionManager.enableMovement(); 
-			engine.eventManager.resume(); 
-		}, ms);
+		engine.delayedCall(resume, ms);
 	}
 	
 	public function log(message:String):Void
