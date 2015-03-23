@@ -20,6 +20,11 @@ class ScriptHost
 		resumeWithData = function(data) engine.eventManager.resume(-1, data);
 	}
 	
+	public function playSound(id:Int, volume:Float, pitch:Float):Void
+	{
+		engine.impl.playSound(id, volume, pitch);
+	}
+	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
 	{
 		engine.impl.playBackgroundMusic(id, volume, pitch);
@@ -33,6 +38,11 @@ class ScriptHost
 	public function restoreBackgroundMusic():Void
 	{
 		engine.impl.restoreBackgroundMusic();
+	}
+	
+	public function fadeOutBackgroundMusic(ms:Int):Void
+	{
+		engine.impl.fadeOutBackgroundMusic(ms);
 	}
 	
 	public function showText(characterId:String, message:String, ?options:ShowTextOptions):Void
