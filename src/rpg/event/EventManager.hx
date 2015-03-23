@@ -120,7 +120,7 @@ class EventManager
 		
 		execute('coroutine.resume(co$id $params)');
 		
-		if (lua.execute('return coroutine.status(co$id)') == "dead")
+		if (execute('return coroutine.status(co$id)') == "dead")
 			endEvent();
 		
 	}
@@ -137,8 +137,7 @@ class EventManager
 	 */
 	private inline function execute(script:String):Dynamic
 	{
-		var r = lua.execute(script);
-		return r;
+		return lua.execute(script);
 	}
 	
 	/**
