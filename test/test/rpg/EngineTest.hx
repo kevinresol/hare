@@ -39,8 +39,9 @@ class EngineTest
 	public function testTeleportPlayer():Void
 	{
 		engine.eventManager.scriptHost.teleportPlayer(1, 12, 13);
-		Assert.isTrue(engine.interactionManager.playerPosition.x == 12);
-		Assert.isTrue(engine.interactionManager.playerPosition.y == 13);
+		Assert.isTrue(engine.interactionManager.player.map.id == 1);
+		Assert.isTrue(engine.interactionManager.player.position.x == 12);
+		Assert.isTrue(engine.interactionManager.player.position.y == 13);
 	}
 	
 	/*@AsyncTest
