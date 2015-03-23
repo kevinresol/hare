@@ -27,6 +27,11 @@ class EventManager
 		lua = new Lua();
 		lua.loadLibs(["base", "coroutine"]);
 		lua.setVars( {
+			game: {
+				variables: {},
+				eventVariables:{}
+			},
+			
 			host_playBackgroundMusic: scriptHost.playBackgroundMusic,
 			
 			host_fadeOutScreen: scriptHost.fadeOutScreen,
@@ -75,8 +80,11 @@ class EventManager
 	{
 		currentEvent = id;
 		engine.interactionManager.disableMovement();
+		var init = 'game.eventVariables[$id] = game.eventVariables[$id] or {}';
+		var getEventVar = 'local getEventVar = function(name) return game.eventVariables[$id][name] end';
+		var setEventVar = 'local setEventVar = function(name, value) game.eventVariables[$id][name] = value end';
 		var body = engine.impl.assetManager.getScript(engine.currentMap.id, id);
-		var script = 'co$id = coroutine.create(function() $body end)';
+		var script = 'co$id = coroutine.create(function() $init $getEventVar $setEventVar $body end)';
 		execute(script);
 		resume(id);
 	}

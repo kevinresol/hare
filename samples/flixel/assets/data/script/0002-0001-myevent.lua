@@ -1,5 +1,7 @@
 playBackgroundMusic(1, 1, 1)
 
+log(getGameVar("globalVar"))
+
 local callbackForSelection2 = function ()
 	showChoices("You selected 2, now please choose again", 
 	{

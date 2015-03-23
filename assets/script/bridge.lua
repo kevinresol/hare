@@ -1,3 +1,12 @@
+getGameVar = function(name)
+	return game.variables[name]
+end
+
+setGameVar = function(name, value)
+	game.variables[name] = value
+end
+
+
 playBackgroundMusic = function(id, volume, pitch)
 	host_playBackgroundMusic(id, volume, pitch)
 end
