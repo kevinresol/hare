@@ -7,6 +7,7 @@ import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import impl.flixel.display.DialogPanel;
 import impl.flixel.display.MainMenu;
+import impl.flixel.display.SaveLoadScreen;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
@@ -34,6 +35,7 @@ class Implementation implements IImplementation
 	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
 	
 	private var mainMenu:MainMenu;
+	private var saveLoadScreen:SaveLoadScreen;
 	private var dialogPanel:DialogPanel;
 	private var player:FlxSprite;
 	
@@ -70,6 +72,8 @@ class Implementation implements IImplementation
 			engine.press(KDown);
 		if (justPressed.ENTER || justPressed.SPACE)
 			engine.press(KEnter);
+		if (justPressed.ESCAPE)
+			engine.press(KEsc);
 		
 		if (justReleased.LEFT)
 			engine.release(KLeft);
@@ -81,24 +85,57 @@ class Implementation implements IImplementation
 			engine.release(KDown);
 		if (justReleased.ENTER || justReleased.SPACE)
 			engine.release(KEnter);
+		if (justReleased.ESCAPE)
+			engine.release(KEsc);
 	}
 	
-	public function showMainMenu():Void
+	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
 	{
 		if (mainMenu == null)
 		{
-			mainMenu = new MainMenu(engine);
+			mainMenu = new MainMenu(startGameCallback, loadGameCallback);
 			mainMenu.x = (FlxG.width - mainMenu.width) / 2;
 			mainMenu.y = FlxG.height * 0.75;
 		}
 			
-		state.add(mainMenu);
+		hudLayer.add(mainMenu);
+		mainMenu.show();
 	}
 	
 	public function hideMainMenu():Void
 	{
-		state.remove(mainMenu, true);
+		hudLayer.remove(mainMenu, true);
 	}
+	
+	
+	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void
+	{
+		if (saveLoadScreen == null)
+			saveLoadScreen = new SaveLoadScreen(engine);
+		
+		hudLayer.add(saveLoadScreen);
+		saveLoadScreen.showSaveScreen(saveGameCallback, cancelCallback);
+	}
+	
+	public function hideSaveScreen():Void
+	{
+		hudLayer.remove(saveLoadScreen, true);
+	}
+	
+	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void
+	{
+		if (saveLoadScreen == null)
+			saveLoadScreen = new SaveLoadScreen(engine);
+		
+		hudLayer.add(saveLoadScreen);
+		saveLoadScreen.showLoadScreen(loadGameCallback, cancelCallback);
+	}
+	
+	public function hideLoadScreen():Void
+	{
+		hudLayer.remove(saveLoadScreen, true);
+	}
+	
 	
 	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void
 	{
@@ -140,14 +177,7 @@ class Implementation implements IImplementation
 	
 	public function changePlayerFacing(dir:Int):Void
 	{
-		switch (dir) 
-		{
-			case Direction.LEFT: player.animation.play("left");
-			case Direction.RIGHT: player.animation.play("right");
-			case Direction.TOP: player.animation.play("up");
-			case Direction.BOTTOM: player.animation.play("down");
-			default:
-		}
+		player.animation.play(Direction.toString(dir));
 	}
 	
 	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void

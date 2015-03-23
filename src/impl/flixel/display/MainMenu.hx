@@ -4,7 +4,6 @@ import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import openfl.system.System;
-import rpg.Engine;
 import rpg.Events;
 import rpg.geom.Rectangle;
 import rpg.input.InputManager.InputKey;
@@ -15,8 +14,6 @@ import rpg.input.InputManager.InputKey;
  */
 class MainMenu extends FlxSpriteGroup
 {
-	private var engine:Engine;
-	
 	private var border:Slice9Sprite;
 	private var selector:Slice9Sprite;
 	private var text:FlxText;
@@ -25,12 +22,15 @@ class MainMenu extends FlxSpriteGroup
 	
 	private var listener:Int;
 	private var selected(default, set):Int;
+	private var startGameCallback:Void->Void;
+	private var loadGameCallback:Void->Void;
 
-	public function new(engine:Engine) 
+	public function new(startGameCallback:Void->Void, loadGameCallback:Void->Void) 
 	{
 		super();
 		
-		this.engine = engine;
+		this.startGameCallback = startGameCallback;
+		this.loadGameCallback = loadGameCallback;
 		
 		border = new Slice9Sprite("assets/images/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
 		border.setGraphicSize(180, 80);
@@ -63,11 +63,12 @@ class MainMenu extends FlxSpriteGroup
 					switch (selected) 
 					{
 						case 0: // New Game
-							engine.startGame();
+							startGameCallback();
 							Events.disable(listener);
 							
 						case 1: // Load Game
-							// show save file selection screen
+							loadGameCallback();
+							Events.disable(listener);
 							
 						case 2: // Quit Game
 							System.exit();
@@ -79,6 +80,12 @@ class MainMenu extends FlxSpriteGroup
 					
 			}
 		});
+		Events.disable(listener);
+	}
+	
+	public function show():Void
+	{
+		Events.enable(listener);
 	}
 	
 	private function set_selected(v:Int):Int

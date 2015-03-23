@@ -5,6 +5,7 @@ import rpg.input.InputManager;
 import rpg.map.GameMap;
 import rpg.map.MapManager;
 import rpg.movement.InteractionManager;
+import rpg.save.SaveManager;
 
 /**
  * ...
@@ -20,8 +21,9 @@ class Engine
 	private var eventManager:EventManager;
 	private var inputManager:InputManager;
 	private var interactionManager:InteractionManager;
+	private var saveManager:SaveManager;
 	
-	private var gameState:GameState;
+	private var gameState(default, set):GameState;
 	
 	private var delayedCalls:Array<DelayedCall>;
 	private var called:Array<DelayedCall>;
@@ -37,22 +39,34 @@ class Engine
 		eventManager = new EventManager(this);
 		inputManager = new InputManager(this);
 		interactionManager = new InteractionManager(this);
+		saveManager = new SaveManager(this);
 		
 		gameState = SMainMenu;
-		impl.showMainMenu();
-		
 	}
 	
+	/**
+	 * Start new game
+	 */
 	public function startGame():Void
 	{
 		gameState = SGame;
-		impl.hideMainMenu();
 		mapManager.currentMap = mapManager.getMap(1); // always start game at map 1
 	}
 	
+	/**
+	 * Load a game
+	 * @param	id
+	 */
 	public function loadGame(id:Int):Void
 	{
-		//TODO: request file contents from asset manager
+		saveManager.load(id);
+		gameState = SGame;
+	}
+	
+	public function saveGame(id:Int):Void
+	{
+		saveManager.save(id);
+		gameState = SGame;
 	}
 	
 	public function update(elapsed:Float):Void
@@ -92,6 +106,49 @@ class Engine
 	{
 		return mapManager.currentMap;
 	}
+	
+	private function set_gameState(v:GameState):GameState
+	{
+		if (gameState == v) return v;
+		
+		var currentState = gameState;
+		
+		#if neko if(currentState != null) #end
+		switch (currentState) 
+		{
+			case SMainMenu:
+				impl.hideMainMenu();
+				
+			case SLoadScreen:
+				impl.hideLoadScreen();
+				
+			case SSaveScreen:
+				impl.hideSaveScreen();
+				
+			default:
+				
+		}
+		
+		switch (v) 
+		{
+			case SMainMenu:
+				impl.showMainMenu(startGame, function() gameState = SLoadScreen);
+				
+			case SLoadScreen:
+				impl.showLoadScreen(loadGame, function() gameState = currentState);
+				
+			case SSaveScreen:
+				impl.showSaveScreen(saveGame, function() gameState = currentState);
+				
+			default:
+				
+		}
+		
+		// don't process input during state change
+		Events.skip(interactionManager.movementKeyListener);
+		
+		return gameState = v;
+	}
 }
 
 private class DelayedCall
@@ -111,4 +168,6 @@ enum GameState
 	SMainMenu;
 	SGame;
 	SGameMenu;
+	SLoadScreen;
+	SSaveScreen;
 }

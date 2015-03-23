@@ -16,8 +16,12 @@ interface IImplementation
 	var assetManager:IAssetManager;
 	
 	/* ===== System Functions ===== */
-	function showMainMenu():Void;
+	function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void;
 	function hideMainMenu():Void;
+	function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void;
+	function hideSaveScreen():Void;
+	function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void;
+	function hideLoadScreen():Void;
 	
 	/* ====== Sync Functions ====== */
 	function log(message:String):Void;

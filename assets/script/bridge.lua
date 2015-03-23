@@ -64,4 +64,8 @@ log = function(message)
 	host_log(message)
 end
 
+showSaveScreen = function()
+	host_showSaveScreen()
+end
+
 return true

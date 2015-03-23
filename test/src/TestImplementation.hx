@@ -48,6 +48,38 @@ class TestImplementation implements IImplementation
 		callback(1);
 	}
 	
+	/* INTERFACE impl.IImplementation */
+	
+	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void 
+	{
+		
+	}
+	
+	public function hideMainMenu():Void 
+	{
+		
+	}
+	
+	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void 
+	{
+		
+	}
+	
+	public function hideSaveScreen():Void 
+	{
+		
+	}
+	
+	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void 
+	{
+		
+	}
+	
+	public function hideLoadScreen():Void 
+	{
+		
+	}
+	
 	public function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void 
 	{
 		
@@ -78,8 +110,6 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	/* INTERFACE impl.IImplementation */
-	
 	public function fadeOutScreen(ms:Int):Void 
 	{
 		
@@ -101,18 +131,6 @@ class TestImplementation implements IImplementation
 	}
 	
 	public function shakeScreen(power:Int, screen:Int, ms:Int):Void 
-	{
-		
-	}
-	
-	/* INTERFACE impl.IImplementation */
-	
-	public function showMainMenu():Void 
-	{
-		
-	}
-	
-	public function hideMainMenu():Void 
 	{
 		
 	}

@@ -71,20 +71,20 @@ class MapManager
 				var tilesetId = layer.map.getGidOwner(tile.tileID).fromGid(tile.tileID);
 				var passage = switch (tilesetId) 
 				{
-					case 1: Direction.TOP | Direction.LEFT;
-					case 2: Direction.TOP | Direction.RIGHT;
-					case 3: Direction.LEFT | Direction.BOTTOM;
-					case 4: Direction.RIGHT | Direction.BOTTOM;
+					case 1: Direction.UP | Direction.LEFT;
+					case 2: Direction.UP | Direction.RIGHT;
+					case 3: Direction.LEFT | Direction.DOWN;
+					case 4: Direction.RIGHT | Direction.DOWN;
 					case 5: Direction.LEFT | Direction.RIGHT;
-					case 6: Direction.TOP | Direction.BOTTOM;
+					case 6: Direction.UP | Direction.DOWN;
 					case 7: Direction.ALL;
 					case 8: Direction.NONE;
-					case 9: Direction.TOP;
+					case 9: Direction.UP;
 					case 10: Direction.LEFT;
-					case 11: Direction.BOTTOM;
+					case 11: Direction.DOWN;
 					case 12: Direction.RIGHT;
-					case 13: ~Direction.BOTTOM;
-					case 14: ~Direction.TOP;
+					case 13: ~Direction.DOWN;
+					case 14: ~Direction.UP;
 					case 15: ~Direction.RIGHT;
 					case 16: ~Direction.LEFT;
 					default: 0;

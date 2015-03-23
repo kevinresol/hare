@@ -1,5 +1,6 @@
 package rpg.event;
 import rpg.Engine;
+import rpg.save.SaveManager.GameData;
 
 /**
  * ...
@@ -43,6 +44,7 @@ class EventManager
 			
 			host_sleep: scriptHost.sleep,
 			host_log: scriptHost.log,
+			host_showSaveScreen: scriptHost.showSaveScreen,
 		});
 		
 		var bridgeScript = EventMacro.getBridgeScript();
@@ -127,6 +129,16 @@ class EventManager
 	public function eraseEvent(id:Int):Void
 	{
 		erasedEvents.push(id);
+	}
+	
+	public function getGameData():GameData
+	{
+		return execute('return game');
+	}
+	
+	public function setGameData(data:GameData):Void
+	{
+		lua.setVars({game:data});
 	}
 	
 	private inline function execute(script:String):Dynamic

@@ -52,5 +52,8 @@ sleep(1000)
 
 showText("", "The waiting has ended\nYou can move now")
 
+showSaveScreen()
+
 log("end event")
+
 

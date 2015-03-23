@@ -11,6 +11,7 @@ class Events
 	private static var dispatching:Bool = false;
 	
 	private static var pendingEnable:Array<Int> = [];
+	private static var skipList:Array<Listener> = [];
 	
 	private static var commands = [
 		
@@ -73,6 +74,15 @@ class Events
 	}
 	
 	/**
+	 * Skip the listener in current dispatch only
+	 * @param	id
+	 */
+	public static function skip(id:Int):Void
+	{
+		skipList.push(listeners[id]);
+	}
+	
+	/**
 	 * Fire a event
 	 * @param	name
 	 * @param	data
@@ -86,13 +96,16 @@ class Events
 		dispatching = true;
 		for (listener in listeners)
 		{
-			if (listener != null && listener.enabled && listener.name == name)
+			if (listener != null && listener.enabled && listener.name == name && skipList.indexOf(listener) == -1)
 				listener.listener(data);
 		}
 		dispatching = false;
 		
 		while (pendingEnable.length > 0)
 			listeners[pendingEnable.pop()].enabled = true;
+			
+		while (skipList.length > 0)
+			skipList.pop();
 	}
 	
 	private static function valid(name:String):Bool

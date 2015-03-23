@@ -3,6 +3,7 @@ import openfl.Assets;
 import impl.IAssetManager;
 import openfl.media.Sound;
 import sys.FileSystem;
+import sys.io.File;
 
 /**
  * ...
@@ -73,5 +74,17 @@ class AssetManager implements IAssetManager
 	{
 		var filename = sounds[soundId];
 		return Assets.getPath('assets/sounds/$filename');
+	}
+	
+	public function getSaveData(id:Int):String 
+	{
+		var filename = "data" + StringTools.lpad(Std.string(id), "0", 4) + ".savedata";
+		return File.getContent('assets/data/save/$filename');
+	}
+	
+	public function setSaveData(id:Int, data:String):Void 
+	{
+		var filename = "data" + StringTools.lpad(Std.string(id), "0", 4) + ".savedata";
+		File.saveContent('assets/data/save/$filename', data);
 	}
 }

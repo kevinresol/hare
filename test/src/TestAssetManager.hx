@@ -35,4 +35,16 @@ class TestAssetManager implements IAssetManager
 		return "";
 	}
 	
+	/* INTERFACE impl.IAssetManager */
+	
+	public function getSaveData(id:Int):String 
+	{
+		return "";
+	}
+	
+	public function setSaveData(id:Int, data:String):Void 
+	{
+		
+	}
+	
 }

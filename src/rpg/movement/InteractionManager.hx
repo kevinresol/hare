@@ -12,10 +12,10 @@ import rpg.map.GameMap;
 class InteractionManager
 {
 	public var player:Player;
+	public var movementKeyListener(default, null):Int;
 	
 	private var engine:Engine;
 	
-	private var movementKeyListener:Int;
 	
 	public function new(engine:Engine) 
 	{
@@ -27,10 +27,6 @@ class InteractionManager
 		{
 			switch(engine.gameState)
 			{
-				case SMainMenu:
-					
-				case SGameMenu:
-					
 				case SGame:
 					if (player.map == engine.mapManager.currentMap) //check inputs only if the player is in current map
 					{
@@ -46,7 +42,7 @@ class InteractionManager
 								attemptMove(0, 1);
 							case KEnter:
 								var dx = if (player.facing == Direction.LEFT) -1 else if (player.facing == Direction.RIGHT) 1 else 0;
-								var dy = if (player.facing == Direction.TOP) -1 else if (player.facing == Direction.BOTTOM) 1 else 0;
+								var dy = if (player.facing == Direction.UP) -1 else if (player.facing == Direction.DOWN) 1 else 0;
 									
 								for (event in engine.mapManager.currentMap.events)
 								{
@@ -55,9 +51,11 @@ class InteractionManager
 										engine.eventManager.trigger(event.id);
 									}
 								}
-							default:
+							case KEsc:
+								engine.gameState = SSaveScreen;
 						}
 					}
+				default:
 			}
 		});
 		
@@ -122,7 +120,7 @@ class InteractionManager
 		
 		if (player.moving) return false;
 		
-		var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.BOTTOM else if (dy == -1) Direction.TOP else 0;
+		var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.DOWN else if (dy == -1) Direction.UP else 0;
 		player.facing = dir;
 		
 		for (event in engine.mapManager.currentMap.events)
@@ -159,8 +157,8 @@ class InteractionManager
 		
 		if (dx == 1) dir = Direction.LEFT; // moving right => check if destination allow moving from left
 		else if (dx == -1) dir = Direction.RIGHT; 
-		else if (dy == 1) dir = Direction.TOP; 
-		else if (dy == -1) dir = Direction.BOTTOM;
+		else if (dy == 1) dir = Direction.UP; 
+		else if (dy == -1) dir = Direction.DOWN;
 		
 		return (passage & dir == 0);
 	}

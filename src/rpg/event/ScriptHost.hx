@@ -1,6 +1,7 @@
 package rpg.event;
 import haxe.Timer;
 import rpg.Engine;
+import rpg.geom.Direction;
 
 /**
  * ...
@@ -75,6 +76,9 @@ class ScriptHost
 		engine.mapManager.currentMap = map;
 		engine.interactionManager.player.map = map;
 		engine.interactionManager.player.position.set(x, y);
+		
+		if(options.facing != "unchanged")
+			engine.interactionManager.player.facing = Direction.fromString(options.facing);
 	}
 	
 	public function sleep(ms:Int):Void
@@ -85,6 +89,11 @@ class ScriptHost
 	public function log(message:String):Void
 	{
 		engine.impl.log(message);
+	}
+	
+	public function showSaveScreen():Void
+	{
+		engine.gameState = SSaveScreen;
 	}
 }
 
