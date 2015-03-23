@@ -7,4 +7,4 @@ setGameVar("globalVar", "hello, world!")
 
 showText("", "this is autorun event\nwhich will just teleport to next map")
 
-teleportPlayer(2, 5, 5, {facing="up"})
+teleportPlayer(2, 9, 11, {facing="down"})

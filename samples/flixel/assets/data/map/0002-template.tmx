@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="37" height="23" tilewidth="32" tileheight="32" nextobjectid="3">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="3">
  <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
   <image source="../../images/Office_A5_Ground.png" width="256" height="64"/>
  </tileset>
@@ -18,37 +18,39 @@
  <tileset firstgid="87" name="Office-B" tilewidth="32" tileheight="32">
   <image source="../../images/Office-B.png" width="512" height="512"/>
  </tileset>
- <layer name="Walls and Floor" width="37" height="23">
+ <tileset firstgid="343" name="Office-C" tilewidth="32" tileheight="32">
+  <image source="../../images/Office-C.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Walls and Floor" width="30" height="25">
   <properties>
    <property name="type" value="floor"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBicQBqIjQcYy6O5SR+IhQYYq2Nxk+gAY2xu4h1gPOqmUTeNumnUTYPVTfYMqHXMYHCTIANqHTMY3CTCgFrHDAY3wfBgdpMkEGsDsfUgchMMDFR4WULDBIQlBomb0MNm1E2kuwmW1umN0dMQAF06NaE=
+   eJxjYEAAaSA2phDLM5AO9IFYiEKsTqa9ohRicu3lpRATay9ynNrS0V7kOBWms72wuBGjs72U2jVq78ix154BfzlKK3sFGfCXo7SyV4QBfzlKK3sJ4VF7qYMtgVgbD6aVvcTmX0kkt1jT0V5kQM96Hxkg+51cLEGGvaOAdgAAqpAl0A==
   </data>
  </layer>
- <layer name="Below" width="37" height="23">
+ <layer name="Below" width="30" height="25">
   <data encoding="base64" compression="zlib">
-   eJztxgEJACAMAMEthV2MpiZQK9jVJZCBMEH+4OFFAOAvSc+fVcIUq1rN+RG6Nazp/Ajr4gEAeGUDDGcP3Q==
+   eJxjYBg8IJ6RgSEBiBOBOAmImxkxxTqB6s4D6ctQfAWI4xgpszcfqL8AiAuBuIgRt9h9IP0Yip8AcR6F9hIL3gPt+QzFX4C4jk720gLMhdLijLjZIGBFZT9WAXE1ENcQyaYW6ALibiDuIZJNDvgPCismBoaHSGGGHrbWjAhxZDa6elIAP9BOASD+OITTIyngPjScFZlQxX3R/G/DiJ1NLgDlf1A4GyLZex2IbwDxTSC+hYcNAmlIZpUBzXoKxM+AWAZoniwTgiYGPAfiF0D8Eohf4WGXguxC0/sVaOc3ILYB2mXLhKDRgTxQTAGIGYl0E7HAB2ieLxOCRgf6QDEDIBbEIocrTqkRv9gAsfF7nQI7QOWGAlp6JjZ+n1NgLz80nA2pHL+jYBSMFAAAe9lcFA==
   </data>
  </layer>
  <objectgroup name="Below">
-  <object id="1" type="event" gid="2" x="96" y="192"/>
+  <object id="1" type="event" gid="2" x="864" y="512"/>
  </objectgroup>
  <objectgroup name="Character">
   <properties>
    <property name="type" value="character"/>
   </properties>
-  <object id="2" type="player" gid="3" x="160" y="192"/>
  </objectgroup>
  <objectgroup name="Above"/>
- <layer name="Above" width="37" height="23" opacity="0.5">
+ <layer name="Above" width="30" height="25" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALSQRQFbFqBLCDOBuIcItlxdHATCHAwEs+ml5tIAb0D7YBRMApGwSgYBaNgkAIA3oAINA==
+   eJxjYBgFIxFEUcCmBGQBcTYQ5xDJjqOSvSDAwUg8mxx73ZkYGDyA2JOJsFpcYdtLhr3UAHMHyF5yACnhTGtwHIhPAPFJID6Fh00L8AuIfxJgp1Jg/mAK54ECxMbvcQrswBbOVxkJx68SUP0fLObJAMVlmTDpUTDw4DwwXi+QiS8yEjZ/FIwMAACD4TlI
   </data>
  </layer>
- <layer name="Passage" width="37" height="23" opacity="0.5">
+ <layer name="Passage" width="30" height="25" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJztlNsKgDAIQPd3XSCs9f//Ug9JIqsZ5KXYAUHZBmfMmVLj6yzOwcnvX/ExM6vRabIWIVw5efInp0zOroKc7td06vaAo4ZK3hs5DUn+v0cjp9K7SHItJ02akwzsUySCE0J7MQr0DXGeeBOlr3AOQ2HNy+luhjWnk9qsB4fgbHV9Lfk=
+   eJztld0KgCAMhfd2lRT9XPT+j1JGwgqna7M06oOBKHK2s4kA32ZUhoRJl/LG8HLdjrGW6rreGLRXrdEzoxboUt42wJ8lnO+Vets9Zs8Z5SeFtl4ppetaQj7fpUvVy5nn2nPvqXk+exS7h0npM5fUcxUCv0lNf6kec/H5zO2vgSOxfB05328KzyS6jlz/r4X798X691MGC0nDMoc=
   </data>
  </layer>
 </map>
