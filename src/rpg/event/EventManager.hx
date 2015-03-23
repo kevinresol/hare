@@ -107,7 +107,6 @@ class EventManager
 	
 	/**
 	 * Resume a Lua script (which was halted by coroutine.yield())
-	 * If this is called during script execution, the resume will be queue until the end of the script execution
 	 * @param	id
 	 * @param	data
 	 */
@@ -130,11 +129,6 @@ class EventManager
 		erasedEvents.push(id);
 	}
 	
-	/**
-	 * Execute a piece of Lua code. Resume any queued resumes afterwards
-	 * @param	script
-	 * @return
-	 */
 	private inline function execute(script:String):Dynamic
 	{
 		return lua.execute(script);
