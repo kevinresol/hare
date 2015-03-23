@@ -105,4 +105,16 @@ class TestImplementation implements IImplementation
 		
 	}
 	
+	/* INTERFACE impl.IImplementation */
+	
+	public function showMainMenu():Void 
+	{
+		
+	}
+	
+	public function hideMainMenu():Void 
+	{
+		
+	}
+	
 }
