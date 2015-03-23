@@ -26,28 +26,36 @@ class InteractionManager
 		
 		movementKeyListener = Events.on("key.justPressed", function(key:InputKey)
 		{
-			switch (key) 
+			switch(engine.gameState)
 			{
-				case KLeft:
-					attemptMove(-1, 0);
-				case KRight:
-					attemptMove(1, 0);
-				case KUp:
-					attemptMove(0, -1);
-				case KDown:
-					attemptMove(0, 1);
-				case KEnter:
-					var dx = if (playerFacing == Direction.LEFT) -1 else if (playerFacing == Direction.RIGHT) 1 else 0;
-					var dy = if (playerFacing == Direction.TOP) -1 else if (playerFacing == Direction.BOTTOM) 1 else 0;
-						
-					for (event in engine.mapManager.currentMap.events)
+				case SMainMenu:
+					
+				case SGameMenu:
+					
+				case SGame:
+					switch (key) 
 					{
-						if (event.trigger == EAction && event.x == playerPosition.x + dx && event.y == playerPosition.y + dy)
-						{
-							engine.eventManager.trigger(event.id);
-						}
+						case KLeft:
+							attemptMove(-1, 0);
+						case KRight:
+							attemptMove(1, 0);
+						case KUp:
+							attemptMove(0, -1);
+						case KDown:
+							attemptMove(0, 1);
+						case KEnter:
+							var dx = if (playerFacing == Direction.LEFT) -1 else if (playerFacing == Direction.RIGHT) 1 else 0;
+							var dy = if (playerFacing == Direction.TOP) -1 else if (playerFacing == Direction.BOTTOM) 1 else 0;
+								
+							for (event in engine.mapManager.currentMap.events)
+							{
+								if (event.trigger == EAction && event.x == playerPosition.x + dx && event.y == playerPosition.y + dy)
+								{
+									engine.eventManager.trigger(event.id);
+								}
+							}
+						default:
 					}
-				default:
 			}
 		});
 		

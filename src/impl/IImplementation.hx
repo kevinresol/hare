@@ -15,6 +15,10 @@ interface IImplementation
 	var engine:Engine;
 	var assetManager:IAssetManager;
 	
+	/* ===== System Functions ===== */
+	function showMainMenu():Void;
+	function hideMainMenu():Void;
+	
 	/* ====== Sync Functions ====== */
 	function log(message:String):Void;
 	

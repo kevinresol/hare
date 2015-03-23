@@ -6,6 +6,7 @@ import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import impl.flixel.display.DialogPanel;
+import impl.flixel.display.MainMenu;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
@@ -32,7 +33,7 @@ class Implementation implements IImplementation
 	private var hudLayer:FlxGroup;
 	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
 	
-	
+	private var mainMenu:MainMenu;
 	private var dialogPanel:DialogPanel;
 	private var player:FlxSprite;
 	
@@ -80,6 +81,23 @@ class Implementation implements IImplementation
 			engine.release(KDown);
 		if (justReleased.ENTER || justReleased.SPACE)
 			engine.release(KEnter);
+	}
+	
+	public function showMainMenu():Void
+	{
+		if (mainMenu == null)
+		{
+			mainMenu = new MainMenu(engine);
+			mainMenu.x = (FlxG.width - mainMenu.width) / 2;
+			mainMenu.y = FlxG.height * 0.75;
+		}
+			
+		state.add(mainMenu);
+	}
+	
+	public function hideMainMenu():Void
+	{
+		state.remove(mainMenu, true);
 	}
 	
 	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void

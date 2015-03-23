@@ -21,10 +21,12 @@ class Engine
 	private var inputManager:InputManager;
 	private var interactionManager:InteractionManager;
 	
+	private var gameState:GameState;
+	
 	private var delayedCalls:Array<DelayedCall>;
 	private var called:Array<DelayedCall>;
 	
-	public function new(impl:IImplementation, entryPointMapId:Int) 
+	public function new(impl:IImplementation) 
 	{
 		this.impl = impl;
 		impl.engine = this;
@@ -36,8 +38,22 @@ class Engine
 		inputManager = new InputManager(this);
 		interactionManager = new InteractionManager(this);
 		
-		eventManager.scriptHost.teleportPlayer(entryPointMapId, 5, 5);
+		gameState = SMainMenu;
+		impl.showMainMenu();
+		
+	}
+	
+	public function startGame():Void
+	{
+		gameState = SGame;
+		impl.hideMainMenu();
+		eventManager.scriptHost.teleportPlayer(1, 5, 5); //TODO: don't hardcode teleport, just switch to first map and let script teleport
 		impl.playBackgroundMusic(1, 1, 1); //TODO: to be removed
+	}
+	
+	public function loadGame(id:Int):Void
+	{
+		//TODO: request file contents from asset manager
 	}
 	
 	public function update(elapsed:Float):Void
@@ -89,4 +105,11 @@ private class DelayedCall
 		this.callback = callback;
 		this.callAt = callAt;
 	}
+}
+
+enum GameState
+{
+	SMainMenu;
+	SGame;
+	SGameMenu;
 }
