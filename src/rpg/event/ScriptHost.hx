@@ -27,13 +27,11 @@ class ScriptHost
 	
 	public function saveBackgroundMusic():Void
 	{
-		trace("ScrpitHost saveBackgroundMusic");
 		engine.impl.saveBackgroundMusic();
 	}
 	
 	public function restoreBackgroundMusic():Void
 	{
-		trace("ScrpitHost restoreBackgroundMusic");
 		engine.impl.restoreBackgroundMusic();
 	}
 	
