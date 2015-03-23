@@ -6,6 +6,7 @@ import flixel.group.FlxGroup;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import impl.flixel.display.DialogPanel;
+import impl.flixel.display.GameMenu;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
 import impl.IAssetManager;
@@ -35,6 +36,7 @@ class Implementation implements IImplementation
 	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
 	
 	private var mainMenu:MainMenu;
+	private var gameMenu:GameMenu;
 	private var saveLoadScreen:SaveLoadScreen;
 	private var dialogPanel:DialogPanel;
 	private var player:FlxSprite;
@@ -47,6 +49,10 @@ class Implementation implements IImplementation
 		this.state = state;
 		state.add(gameLayer = new FlxGroup());
 		state.add(hudLayer = new FlxGroup());
+		
+		mainMenu = new MainMenu();
+		gameMenu = new GameMenu();
+		saveLoadScreen = new SaveLoadScreen();
 		
 		dialogPanel = new DialogPanel();
 		hudLayer.add(dialogPanel);
@@ -90,16 +96,9 @@ class Implementation implements IImplementation
 	}
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
-	{
-		if (mainMenu == null)
-		{
-			mainMenu = new MainMenu(startGameCallback, loadGameCallback);
-			mainMenu.x = (FlxG.width - mainMenu.width) / 2;
-			mainMenu.y = FlxG.height * 0.75;
-		}
-			
+	{	
 		hudLayer.add(mainMenu);
-		mainMenu.show();
+		mainMenu.show(startGameCallback, loadGameCallback);
 	}
 	
 	public function hideMainMenu():Void
@@ -110,9 +109,6 @@ class Implementation implements IImplementation
 	
 	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void
 	{
-		if (saveLoadScreen == null)
-			saveLoadScreen = new SaveLoadScreen(engine);
-		
 		hudLayer.add(saveLoadScreen);
 		saveLoadScreen.showSaveScreen(saveGameCallback, cancelCallback);
 	}
@@ -124,9 +120,6 @@ class Implementation implements IImplementation
 	
 	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void
 	{
-		if (saveLoadScreen == null)
-			saveLoadScreen = new SaveLoadScreen(engine);
-		
 		hudLayer.add(saveLoadScreen);
 		saveLoadScreen.showLoadScreen(loadGameCallback, cancelCallback);
 	}
@@ -134,6 +127,16 @@ class Implementation implements IImplementation
 	public function hideLoadScreen():Void
 	{
 		hudLayer.remove(saveLoadScreen, true);
+	}
+	
+	public function showGameMenu():Void
+	{
+		
+	}
+	
+	public function hideGameMenu():Void
+	{
+		
 	}
 	
 	

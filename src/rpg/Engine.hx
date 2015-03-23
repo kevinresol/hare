@@ -113,20 +113,21 @@ class Engine
 		
 		var currentState = gameState;
 		
-		#if neko if(currentState != null) #end
-		switch (currentState) 
+		if (currentState != null)
 		{
-			case SMainMenu:
-				impl.hideMainMenu();
-				
-			case SLoadScreen:
-				impl.hideLoadScreen();
-				
-			case SSaveScreen:
-				impl.hideSaveScreen();
-				
-			default:
-				
+			switch (currentState) 
+			{
+				case SMainMenu:
+					impl.hideMainMenu();
+					
+				case SLoadScreen:
+					impl.hideLoadScreen();
+					
+				case SSaveScreen:
+					impl.hideSaveScreen();
+					
+				default:
+			}
 		}
 		
 		switch (v) 

@@ -1,5 +1,6 @@
 package impl.flixel.display;
 
+import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
@@ -25,12 +26,9 @@ class MainMenu extends FlxSpriteGroup
 	private var startGameCallback:Void->Void;
 	private var loadGameCallback:Void->Void;
 
-	public function new(startGameCallback:Void->Void, loadGameCallback:Void->Void) 
+	public function new() 
 	{
 		super();
-		
-		this.startGameCallback = startGameCallback;
-		this.loadGameCallback = loadGameCallback;
 		
 		border = new Slice9Sprite("assets/images/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
 		border.setGraphicSize(180, 80);
@@ -48,6 +46,9 @@ class MainMenu extends FlxSpriteGroup
 		add(border);
 		add(selector);
 		add(text);
+		
+		x = (FlxG.width - width) / 2;
+		y = FlxG.height * 0.75;
 		
 		listener = Events.on("key.justPressed", function(key:InputKey)
 		{
@@ -83,8 +84,10 @@ class MainMenu extends FlxSpriteGroup
 		Events.disable(listener);
 	}
 	
-	public function show():Void
+	public function show(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
 	{
+		this.startGameCallback = startGameCallback;
+		this.loadGameCallback = loadGameCallback;
 		Events.enable(listener);
 	}
 	

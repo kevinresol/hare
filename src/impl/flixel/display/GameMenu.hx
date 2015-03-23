@@ -12,7 +12,7 @@ import rpg.input.InputManager.InputKey;
  * ...
  * @author Kevin
  */
-class SaveLoadScreen extends FlxSpriteGroup
+class GameMenu extends FlxSpriteGroup
 {
 	private var listener:Int;
 	
@@ -55,7 +55,6 @@ class SaveLoadScreen extends FlxSpriteGroup
 					selected ++;
 					
 				case KEnter:
-					callback(selected + 1);
 					Events.disable(listener);
 					
 				case KEsc:
