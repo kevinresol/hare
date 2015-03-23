@@ -7,7 +7,7 @@ import rpg.Engine;
  */
 class EventManager
 {
-	public var currentEvent:Int;
+	public var currentEvent:Int = -1;
 	public var executing(default, null):Bool;
 	public var scriptHost:ScriptHost;
 	
@@ -42,17 +42,27 @@ class EventManager
 		var result = execute(bridgeScript);
 		
 		#if debug
-		trace(result);
+		trace("bridge script result: " + result);
 		#end
 	}
 	
 	public function update(elapsed:Float):Void
 	{
-		/*for (id in registeredIds)
+		if (currentEvent == -1 && engine.gameState == SGame) // no other events running
 		{
-			var script = 'co$id()';
-			execute(script);
-		}*/
+			for (event in engine.mapManager.currentMap.events)
+			{
+				switch (event.trigger) 
+				{
+					case EAutorun:
+						trigger(event.id);
+						break;
+						
+					default:
+						
+				}
+			}
+		}
 	}
 	
 	/**
@@ -84,7 +94,10 @@ class EventManager
 		else
 		{
 			var params = dataToString(data);
-			execute('coroutine.resume(co$id $params)');
+			
+			var resumeStatus = execute('coroutine.resume(co$id $params) return coroutine.status(co$id)');
+			if (resumeStatus == "dead")
+				currentEvent = -1;
 		}
 	}
 	
@@ -120,8 +133,10 @@ class EventManager
 			var id = pr.id;
 			var params = dataToString(pr.data);
 			executing = true;
-			lua.execute('coroutine.resume(co$id $params)');
+			var resumeStatus = lua.execute('coroutine.resume(co$id $params) return coroutine.status(co$id)');
 			executing = false;
+			if (resumeStatus == "dead")
+				currentEvent = -1;
 		}
 			
 		return r;

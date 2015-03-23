@@ -76,7 +76,8 @@ class ScriptHost
 		var map = engine.mapManager.getMap(mapId);
 		engine.impl.teleportPlayer(map, x, y, options);
 		engine.mapManager.currentMap = map;
-		engine.interactionManager.playerPosition.set(x, y);
+		engine.interactionManager.player.map = map;
+		engine.interactionManager.player.position.set(x, y);
 		engine.eventManager.resume();
 	}
 	

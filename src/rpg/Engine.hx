@@ -47,7 +47,7 @@ class Engine
 	{
 		gameState = SGame;
 		impl.hideMainMenu();
-		eventManager.scriptHost.teleportPlayer(1, 5, 5); //TODO: don't hardcode teleport, just switch to first map and let script teleport
+		mapManager.currentMap = mapManager.getMap(1); // always start game at map 1
 		impl.playBackgroundMusic(1, 1, 1); //TODO: to be removed
 	}
 	

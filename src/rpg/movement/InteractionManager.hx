@@ -3,6 +3,7 @@ import rpg.Engine;
 import rpg.geom.Direction;
 import rpg.geom.IntPoint;
 import rpg.input.InputManager.InputKey;
+import rpg.map.GameMap;
 
 /**
  * ...
@@ -10,9 +11,7 @@ import rpg.input.InputManager.InputKey;
  */
 class InteractionManager
 {
-	public var playerPosition:IntPoint;
-	public var playerFacing:Int;
-	public var playerMoving:Bool = false;
+	public var player:Player;
 	
 	private var engine:Engine;
 	
@@ -22,7 +21,7 @@ class InteractionManager
 	{
 		this.engine = engine;
 		
-		playerPosition = new IntPoint();
+		player = new Player();
 		
 		movementKeyListener = Events.on("key.justPressed", function(key:InputKey)
 		{
@@ -33,28 +32,31 @@ class InteractionManager
 				case SGameMenu:
 					
 				case SGame:
-					switch (key) 
+					if (player.map == engine.mapManager.currentMap) //check inputs only if the player is in current map
 					{
-						case KLeft:
-							attemptMove(-1, 0);
-						case KRight:
-							attemptMove(1, 0);
-						case KUp:
-							attemptMove(0, -1);
-						case KDown:
-							attemptMove(0, 1);
-						case KEnter:
-							var dx = if (playerFacing == Direction.LEFT) -1 else if (playerFacing == Direction.RIGHT) 1 else 0;
-							var dy = if (playerFacing == Direction.TOP) -1 else if (playerFacing == Direction.BOTTOM) 1 else 0;
-								
-							for (event in engine.mapManager.currentMap.events)
-							{
-								if (event.trigger == EAction && event.x == playerPosition.x + dx && event.y == playerPosition.y + dy)
+						switch (key) 
+						{
+							case KLeft:
+								attemptMove(-1, 0);
+							case KRight:
+								attemptMove(1, 0);
+							case KUp:
+								attemptMove(0, -1);
+							case KDown:
+								attemptMove(0, 1);
+							case KEnter:
+								var dx = if (player.facing == Direction.LEFT) -1 else if (player.facing == Direction.RIGHT) 1 else 0;
+								var dy = if (player.facing == Direction.TOP) -1 else if (player.facing == Direction.BOTTOM) 1 else 0;
+									
+								for (event in engine.mapManager.currentMap.events)
 								{
-									engine.eventManager.trigger(event.id);
+									if (event.trigger == EAction && event.x == player.position.x + dx && event.y == player.position.y + dy)
+									{
+										engine.eventManager.trigger(event.id);
+									}
 								}
-							}
-						default:
+							default:
+						}
 					}
 			}
 		});
@@ -82,8 +84,8 @@ class InteractionManager
 	 */
 	public function startMove(dx:Int, dy:Int):Void
 	{
-		playerMoving = true;
-		engine.impl.movePlayer(endMove.bind(playerPosition.x + dx, playerPosition.y + dy), dx, dy);
+		player.moving = true;
+		engine.impl.movePlayer(endMove.bind(player.position.x + dx, player.position.y + dy), dx, dy);
 	}
 	
 	/**
@@ -92,8 +94,8 @@ class InteractionManager
 	 */
 	public function endMove(x:Int, y:Int):Bool
 	{
-		playerPosition.set(x, y);
-		playerMoving = false;
+		player.position.set(x, y);
+		player.moving = false;
 		
 		if (engine.inputManager.right)
 			return attemptMove(1, 0);
@@ -118,14 +120,14 @@ class InteractionManager
 	{
 		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
 		
-		if (playerMoving) return false;
+		if (player.moving) return false;
 		
 		var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.BOTTOM else if (dy == -1) Direction.TOP else 0;
-		playerFacing = dir;
+		player.facing = dir;
 		
 		for (event in engine.mapManager.currentMap.events)
 		{
-			if (event.trigger == EPlayerTouch && event.x == playerPosition.x + dx && event.y == playerPosition.y + dy)
+			if (event.trigger == EPlayerTouch && event.x == player.position.x + dx && event.y == player.position.y + dy)
 			{
 				engine.eventManager.trigger(event.id);
 			}
@@ -149,8 +151,8 @@ class InteractionManager
 		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
 		
 		var map = engine.mapManager.currentMap;
-		var x = playerPosition.x + dx;
-		var y = playerPosition.y + dy;
+		var x = player.position.x + dx;
+		var y = player.position.y + dy;
 		var index = y * map.gridWidth + x;
 		var passage = map.passage[index];
 		var dir = 0;
@@ -161,5 +163,18 @@ class InteractionManager
 		else if (dy == -1) dir = Direction.BOTTOM;
 		
 		return (passage & dir == 0);
+	}
+}
+
+class Player
+{
+	public var map:GameMap;
+	public var position:IntPoint;
+	public var facing:Int;
+	public var moving:Bool = false;
+	
+	public function new()
+	{
+		position = new IntPoint();
 	}
 }

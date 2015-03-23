@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="37" height="23" tilewidth="32" tileheight="32" nextobjectid="3">
+ <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
+  <image source="../../images/Office_A5_Ground.png" width="256" height="64"/>
+ </tileset>
+ <tileset firstgid="17" name="wall" tilewidth="32" tileheight="32">
+  <image source="../../images/wall.png" width="96" height="64"/>
+ </tileset>
+ <tileset firstgid="23" name="expandedAutotile" tilewidth="32" tileheight="32">
+  <image source="../../images/expandedAutotile.png" width="256" height="192"/>
+  <terraintypes>
+   <terrain name="Void" tile="-1"/>
+  </terraintypes>
+ </tileset>
+ <tileset firstgid="71" name="passage" tilewidth="32" tileheight="32">
+  <image source="../../images/passage.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="87" name="Office-B" tilewidth="32" tileheight="32">
+  <image source="../../images/Office-B.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Walls and Floor" width="37" height="23">
+  <properties>
+   <property name="type" value="floor"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBicQBqIjQcYy6O5SR+IhQYYq2Nxk+gAY2xu4h1gPOqmUTeNumnUTYPVTfYMqHXMYHCTIANqHTMY3CTCgFrHDAY3wfBgdpMkEGsDsfUgchMMDFR4WULDBIQlBomb0MNm1E2kuwmW1umN0dMQAF06NaE=
+  </data>
+ </layer>
+ <layer name="Below" width="37" height="23">
+  <data encoding="base64" compression="zlib">
+   eJztxgEJACAMAMEthV2MpiZQK9jVJZCBMEH+4OFFAOAvSc+fVcIUq1rN+RG6Nazp/Ajr4gEAeGUDDGcP3Q==
+  </data>
+ </layer>
+ <objectgroup name="Below">
+  <object id="1" type="event" gid="2" x="96" y="192">
+   <properties>
+    <property name="trigger" value="autorun"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Character">
+  <properties>
+   <property name="type" value="character"/>
+  </properties>
+  <object id="2" type="player" gid="3" x="160" y="192"/>
+ </objectgroup>
+ <objectgroup name="Above"/>
+ <layer name="Above" width="37" height="23" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjALSQRQFbFqBLCDOBuIcItlxdHATCHAwEs+ml5tIAb0D7YBRMApGwSgYBaNgkAIA3oAINA==
+  </data>
+ </layer>
+ <layer name="Passage" width="37" height="23" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJztlNsKgDAIQPd3XSCs9f//Ug9JIqsZ5KXYAUHZBmfMmVLj6yzOwcnvX/ExM6vRabIWIVw5efInp0zOroKc7td06vaAo4ZK3hs5DUn+v0cjp9K7SHItJ02akwzsUySCE0J7MQr0DXGeeBOlr3AOQ2HNy+luhjWnk9qsB4fgbHV9Lfk=
+  </data>
+ </layer>
+</map>

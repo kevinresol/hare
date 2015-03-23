@@ -38,7 +38,7 @@ showChoices("Please choose one",
 
 showText("", "Going to teleport you to another map\n(pos: top, bg: dimmed)", {position="top", background="dimmed"})
 
-teleportPlayer(2, 12, 20, {facing="up"})
+teleportPlayer(3, 12, 20, {facing="up"})
 
 showText("", "Welcome to the new map!\n(pos: center, bg: transparent)", {position="center", background="transparent"})
 
