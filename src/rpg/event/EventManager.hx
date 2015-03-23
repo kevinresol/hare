@@ -8,19 +8,16 @@ import rpg.Engine;
 class EventManager
 {
 	public var currentEvent:Int = -1;
-	public var executing(default, null):Bool;
 	public var scriptHost:ScriptHost;
 	
 	private var engine:Engine;
 	private var lua:Lua;
-	private var registeredIds:Array<Int>;
 	private var pendingResumes:Array<{id:Int, data:Dynamic}>;
 	private var erasedEvents:Array<Int>;
 	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
-		registeredIds = [];
 		pendingResumes = [];
 		
 		scriptHost = new ScriptHost(engine);
@@ -118,18 +115,14 @@ class EventManager
 	{
 		if (id == -1)
 			id = currentEvent;
-			
-		if (executing)
-			pendingResumes.push({id:id, data:data});
-		else
-		{
-			var params = dataToString(data);
-			
-			execute('coroutine.resume(co$id $params)');
-			
-			if (lua.execute('return coroutine.status(co$id)') == "dead")
-				endEvent();
-		}
+		
+		var params = dataToString(data);
+		
+		execute('coroutine.resume(co$id $params)');
+		
+		if (lua.execute('return coroutine.status(co$id)') == "dead")
+			endEvent();
+		
 	}
 	
 	public function eraseEvent(id:Int):Void
@@ -144,23 +137,7 @@ class EventManager
 	 */
 	private inline function execute(script:String):Dynamic
 	{
-		executing = true;
 		var r = lua.execute(script);
-		executing = false;
-		
-		while(pendingResumes.length > 0)
-		{
-			var pr = pendingResumes.shift();
-			var id = pr.id;
-			var params = dataToString(pr.data);
-			executing = true;
-			lua.execute('coroutine.resume(co$id $params)');
-			executing = false;
-			
-			if (lua.execute('return coroutine.status(co$id)') == "dead")
-				endEvent();
-		}
-			
 		return r;
 	}
 	
