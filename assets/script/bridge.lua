@@ -11,6 +11,14 @@ playBackgroundMusic = function(id, volume, pitch)
 	host_playBackgroundMusic(id, volume, pitch)
 end
 
+saveBackgroundMusic = function()
+	host_saveBackgroundMusic()
+end
+
+restoreBackgroundMusic = function()
+	host_restoreBackgroundMusic()
+end
+
 showText = function(characterId, message, options)
 	host_showText(characterId, message, options)
 	coroutine.yield()

@@ -25,6 +25,18 @@ class ScriptHost
 		engine.impl.playBackgroundMusic(id, volume, pitch);
 	}
 	
+	public function saveBackgroundMusic():Void
+	{
+		trace("ScrpitHost saveBackgroundMusic");
+		engine.impl.saveBackgroundMusic();
+	}
+	
+	public function restoreBackgroundMusic():Void
+	{
+		trace("ScrpitHost restoreBackgroundMusic");
+		engine.impl.restoreBackgroundMusic();
+	}
+	
 	public function showText(characterId:String, message:String, ?options:ShowTextOptions):Void
 	{
 		if (options == null)

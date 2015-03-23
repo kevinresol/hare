@@ -217,12 +217,12 @@ class Implementation implements IImplementation
 	
 	public function saveBackgroundMusic():Void
 	{
-		
+		FlxG.sound.pause();
 	}
 	
 	public function restoreBackgroundMusic():Void
 	{
-		
+		FlxG.sound.resume();
 	}
 	
 	public function fadeOutBackgroundMusic(ms:Int):Void

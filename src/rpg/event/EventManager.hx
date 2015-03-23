@@ -34,6 +34,8 @@ class EventManager
 			host_eraseEvent: eraseEvent,
 			
 			host_playBackgroundMusic: scriptHost.playBackgroundMusic,
+			host_saveBackgroundMusic: scriptHost.saveBackgroundMusic,
+			host_restoreBackgroundMusic: scriptHost.restoreBackgroundMusic,
 			
 			host_fadeOutScreen: scriptHost.fadeOutScreen,
 			host_fadeInScreen: scriptHost.fadeInScreen,

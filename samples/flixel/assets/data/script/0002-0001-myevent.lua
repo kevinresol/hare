@@ -46,9 +46,11 @@ teleportPlayer(3, 12, 20, {facing="up"})
 
 showText("", "Welcome to the new map!\n(pos: center, bg: transparent)", {position="center", background="transparent"})
 
-showText("", "After this message, \nthe script will wait for 1 second")
+showText("", "After this message, \nthe script will wait for 1 second\nMusic will pause for 1 second")
 
+saveBackgroundMusic()
 sleep(1000)
+restoreBackgroundMusic()
 
 showText("", "The waiting has ended\nYou can move now")
 
