@@ -19,6 +19,8 @@ class Events
 	private static var events = [
 		"key.justPressed",
 		"key.justReleased",
+		
+		"map.switched",
 	];
 	
 	/**

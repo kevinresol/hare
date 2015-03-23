@@ -10,7 +10,7 @@ import rpg.map.GameMap.TileLayer;
  */
 class MapManager
 {
-	public var currentMap:GameMap;
+	public var currentMap(default, set):GameMap;
 	
 	private var engine:Engine;
 	private var maps:Map<Int, GameMap>;
@@ -118,5 +118,14 @@ class MapManager
 		}
 		
 		return result;
+	}
+	
+	private function set_currentMap(v:GameMap):GameMap
+	{
+		if (currentMap == v) return v;
+		currentMap = v;
+		Events.dispatch("map.switched", v);
+		return v;
+		
 	}
 }

@@ -15,6 +15,7 @@ class EventManager
 	private var lua:Lua;
 	private var registeredIds:Array<Int>;
 	private var pendingResumes:Array<{id:Int, data:Dynamic}>;
+	private var erasedEvents:Array<Int>;
 	
 	public function new(engine:Engine) 
 	{
@@ -29,8 +30,10 @@ class EventManager
 		lua.setVars( {
 			game: {
 				variables: {},
-				eventVariables:{}
+				eventVariables: {}
 			},
+			
+			host_eraseEvent: eraseEvent,
 			
 			host_playBackgroundMusic: scriptHost.playBackgroundMusic,
 			
@@ -51,6 +54,8 @@ class EventManager
 		#if debug
 		trace("bridge script result: " + result);
 		#end
+		
+		Events.on("map.switched", function(_) erasedEvents = []);
 	}
 	
 	public function update(elapsed:Float):Void
@@ -62,7 +67,8 @@ class EventManager
 				switch (event.trigger) 
 				{
 					case EAutorun:
-						trigger(event.id);
+						if(erasedEvents.indexOf(event.id) == -1) // not in erased list
+							trigger(event.id);
 						break;
 						
 					default:
@@ -80,11 +86,18 @@ class EventManager
 	{
 		currentEvent = id;
 		engine.interactionManager.disableMovement();
+		
+		// prepare current-event functions
 		var init = 'game.eventVariables[$id] = game.eventVariables[$id] or {}';
 		var getEventVar = 'local getEventVar = function(name) return game.eventVariables[$id][name] end';
 		var setEventVar = 'local setEventVar = function(name, value) game.eventVariables[$id][name] = value end';
+		var eraseEvent = 'local eraseEvent = function() host_eraseEvent($id) end';
+		
+		// get event script
 		var body = engine.impl.assetManager.getScript(engine.currentMap.id, id);
-		var script = 'co$id = coroutine.create(function() $init $getEventVar $setEventVar $body end)';
+		
+		// execute script
+		var script = 'co$id = coroutine.create(function() $init $getEventVar $setEventVar $eraseEvent $body end)';
 		execute(script);
 		resume(id);
 	}
@@ -119,19 +132,9 @@ class EventManager
 		}
 	}
 	
-	public function register(id:Int):Void
+	public function eraseEvent(id:Int):Void
 	{
-		/*registeredIds.push(id);
-		var body = engine.impl.assetManager.getScript(id);
-		var script = 'co$id = coroutine.wrap(function() $body end) return true';
-		execute(script);*/
-	}
-	
-	public function unregister(id:Int):Void
-	{
-		/*registeredIds.remove(id);
-		var script = 'co$id = nil return true';
-		execute(script);*/
+		erasedEvents.push(id);
 	}
 	
 	/**
