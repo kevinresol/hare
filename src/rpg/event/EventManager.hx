@@ -27,6 +27,8 @@ class EventManager
 		lua = new Lua();
 		lua.loadLibs(["base", "coroutine"]);
 		lua.setVars( {
+			host_playBackgroundMusic: scriptHost.playBackgroundMusic,
+			
 			host_fadeOutScreen: scriptHost.fadeOutScreen,
 			host_fadeInScreen: scriptHost.fadeInScreen,
 			

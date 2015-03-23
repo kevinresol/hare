@@ -48,7 +48,6 @@ class Engine
 		gameState = SGame;
 		impl.hideMainMenu();
 		mapManager.currentMap = mapManager.getMap(1); // always start game at map 1
-		impl.playBackgroundMusic(1, 1, 1); //TODO: to be removed
 	}
 	
 	public function loadGame(id:Int):Void

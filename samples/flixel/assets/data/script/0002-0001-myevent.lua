@@ -1,3 +1,5 @@
+playBackgroundMusic(1, 1, 1)
+
 local callbackForSelection2 = function ()
 	showChoices("You selected 2, now please choose again", 
 	{
