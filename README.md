@@ -42,7 +42,7 @@ override public function create():Void
 	super.create();
 	
 	impl = new impl.flixel.Implementation(this);
-	new rpg.Engine(impl, "entry_point_map_id");
+	new rpg.Engine(impl);
 }
 
 override public function update(elapsed:Float):Void 
