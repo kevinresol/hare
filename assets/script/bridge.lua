@@ -1,6 +1,5 @@
 playBackgroundMusic = function(id, volume, pitch)
 	host_playBackgroundMusic(id, volume, pitch)
-	coroutine.yield()
 end
 
 showText = function(characterId, message, options)
@@ -34,19 +33,16 @@ teleportPlayer = function(mapId, x, y, options)
 	options.fading = options.fading or "normal"
 	if options.fading == "normal" then fadeOutScreen(200) end
 	host_teleportPlayer(mapId, x, y, options)
-	coroutine.yield()
 	if options.fading == "normal" then fadeInScreen(200) end
 end
 
 fadeOutScreen = function(ms)
 	host_fadeOutScreen(ms)
-	coroutine.yield()
 	sleep(ms)
 end
 
 fadeInScreen = function(ms)
 	host_fadeInScreen(ms)
-	coroutine.yield()
 	sleep(ms)
 end
 
@@ -57,7 +53,6 @@ end
 
 log = function(message)
 	host_log(message)
-	coroutine.yield()
 end
 
 return true

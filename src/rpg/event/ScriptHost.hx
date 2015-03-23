@@ -22,7 +22,6 @@ class ScriptHost
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
 	{
 		engine.impl.playBackgroundMusic(id, volume, pitch);
-		engine.eventManager.resume();
 	}
 	
 	public function showText(characterId:String, message:String, ?options:ShowTextOptions):Void
@@ -56,13 +55,11 @@ class ScriptHost
 	public function fadeOutScreen(ms:Int):Void
 	{
 		engine.impl.fadeOutScreen(ms);
-		engine.eventManager.resume();
 	}
 	
 	public function fadeInScreen(ms:Int):Void
 	{
 		engine.impl.fadeInScreen(ms);
-		engine.eventManager.resume();
 	}
 	
 	public function teleportPlayer(mapId:Int, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
@@ -78,7 +75,6 @@ class ScriptHost
 		engine.mapManager.currentMap = map;
 		engine.interactionManager.player.map = map;
 		engine.interactionManager.player.position.set(x, y);
-		engine.eventManager.resume();
 	}
 	
 	public function sleep(ms:Int):Void
@@ -89,7 +85,6 @@ class ScriptHost
 	public function log(message:String):Void
 	{
 		engine.impl.log(message);
-		engine.eventManager.resume();
 	}
 }
 
