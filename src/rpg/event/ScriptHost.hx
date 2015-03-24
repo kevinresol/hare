@@ -45,6 +45,11 @@ class ScriptHost
 		engine.impl.fadeOutBackgroundMusic(ms);
 	}
 	
+	public function fadeInBackgroundMusic(ms:Int):Void
+	{
+		engine.impl.fadeInBackgroundMusic(ms);
+	}
+	
 	public function showText(characterId:String, message:String, ?options:ShowTextOptions):Void
 	{
 		if (options == null)

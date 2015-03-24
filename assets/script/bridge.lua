@@ -26,6 +26,10 @@ fadeOutBackgroundMusic = function(ms)
 	host_fadeOutBackgroundMusic(ms)
 end
 
+fadeInBackgroundMusic = function(ms)
+	host_fadeInBackgroundMusic(ms)
+end
+
 showText = function(characterId, message, options)
 	host_showText(characterId, message, options)
 	coroutine.yield()

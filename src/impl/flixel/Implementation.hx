@@ -228,14 +228,12 @@ class Implementation implements IImplementation
 	
 	public function fadeOutBackgroundMusic(ms:Int):Void
 	{
-		//trace(FlxG.sound.volume);
-		//var current_vol = FlxG.sound.volume;
-		//for ( i in 0...10)
-		//{
-			//Sys.sleep(.1);
-		//}
-
-		
+		FlxTween.num(1, 0, ms/1000, null, function(v) FlxG.sound.volume = v);
+	}
+	
+	public function fadeInBackgroundMusic(ms:Int):Void
+	{
+		FlxTween.num(0, 1, ms/1000, null, function(v) FlxG.sound.volume = v);
 	}
 	
 	

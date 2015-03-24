@@ -35,6 +35,7 @@ interface IImplementation
 	function saveBackgroundMusic():Void;
 	function restoreBackgroundMusic():Void;
 	function fadeOutBackgroundMusic(ms:Int):Void;
+	function fadeInBackgroundMusic(ms:Int):Void;
 	
 	function fadeOutScreen(ms:Int):Void;
 	function fadeInScreen(ms:Int):Void;

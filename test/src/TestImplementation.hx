@@ -110,6 +110,11 @@ class TestImplementation implements IImplementation
 		
 	}
 	
+	public  function fadeInBackgroundMusic(ms:Int):Void 
+	{
+	
+	}
+	
 	public function fadeOutScreen(ms:Int):Void 
 	{
 		
