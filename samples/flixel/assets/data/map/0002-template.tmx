@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="3">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="8">
  <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
   <image source="../../images/Office_A5_Ground.png" width="256" height="64"/>
  </tileset>
@@ -35,7 +35,26 @@
   </data>
  </layer>
  <objectgroup name="Below">
-  <object id="1" type="event" gid="2" x="864" y="512"/>
+  <object id="1" type="event" gid="2" x="608" y="640">
+   <properties>
+    <property name="trigger" value="action"/>
+   </properties>
+  </object>
+  <object id="5" type="event" gid="78" x="864" y="480">
+   <properties>
+    <property name="trigger" value="playertouch"/>
+   </properties>
+  </object>
+  <object id="6" type="event" gid="78" x="864" y="512">
+   <properties>
+    <property name="trigger" value="playertouch"/>
+   </properties>
+  </object>
+  <object id="7" type="event" gid="78" x="864" y="544">
+   <properties>
+    <property name="trigger" value="playertouch"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Character">
   <properties>
@@ -50,7 +69,7 @@
  </layer>
  <layer name="Passage" width="30" height="25" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJztld0KgCAMhX27TJLKi97/UcpIWKJ5/EGN+mAg0Tjb2UrGvs2aGSmovJJPlhfqKpIvgTN9P0bXzEaQZ8MRMxic5KG6Pm9Hhu8SrTem3+mKjdQS8tN3zu03ld51NbbPNXR9/SL7zB15tfbZ9iiURynpM0rpvXpCArro/8o1YxSXz+h8BbsTqtfQ8vst4VmKrqHV/atB777Q/H76YAeukTeT
+   eJztld0KgCAMhfd2mRSVF73/o5SRsETx+IMa9cFApHHm2VKib7NlRgoqr+SL9YW6iuXPwJp/H6NreiPZ3nDGAoZgeaiuz9uR8Fni9cacd7pjZ7WE/PStc8+bSu+6GtvnGrq+8yLzLBx5tebZ9iiUxynpM0rpucrVRe8rV49RXD6j/ZX0JFSvoeX/W8IzDb9TY2j1/mrQty/Uv58+OAAn0TeT
   </data>
  </layer>
 </map>
