@@ -206,6 +206,7 @@ class Implementation implements IImplementation
 	public function playSound(id:Int, volume:Float, pitch:Float):Void
 	{
 		//TODO: implement sound pitch support here
+		trace("playSound");
 		FlxG.sound.play(assetManager.getSound(id), volume);
 	}
 	
@@ -217,17 +218,22 @@ class Implementation implements IImplementation
 	
 	public function saveBackgroundMusic():Void
 	{
-		
+		FlxG.sound.pause();
 	}
 	
 	public function restoreBackgroundMusic():Void
 	{
-		
+		FlxG.sound.resume();
 	}
 	
 	public function fadeOutBackgroundMusic(ms:Int):Void
 	{
-		
+		FlxTween.num(1, 0, ms/1000, null, function(v) FlxG.sound.volume = v);
+	}
+	
+	public function fadeInBackgroundMusic(ms:Int):Void
+	{
+		FlxTween.num(0, 1, ms/1000, null, function(v) FlxG.sound.volume = v);
 	}
 	
 	

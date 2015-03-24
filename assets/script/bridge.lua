@@ -6,9 +6,28 @@ setGameVar = function(name, value)
 	game.variables[name] = value
 end
 
+playSound = function(id, volume, pitch)
+	host_playSound(id, volume, pitch)
+end
 
 playBackgroundMusic = function(id, volume, pitch)
 	host_playBackgroundMusic(id, volume, pitch)
+end
+
+saveBackgroundMusic = function()
+	host_saveBackgroundMusic()
+end
+
+restoreBackgroundMusic = function()
+	host_restoreBackgroundMusic()
+end
+
+fadeOutBackgroundMusic = function(ms)
+	host_fadeOutBackgroundMusic(ms)
+end
+
+fadeInBackgroundMusic = function(ms)
+	host_fadeInBackgroundMusic(ms)
 end
 
 showText = function(characterId, message, options)

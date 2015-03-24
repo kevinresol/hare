@@ -20,9 +20,34 @@ class ScriptHost
 		resumeWithData = function(data) engine.eventManager.resume(-1, data);
 	}
 	
+	public function playSound(id:Int, volume:Float, pitch:Float):Void
+	{
+		engine.impl.playSound(id, volume, pitch);
+	}
+	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
 	{
 		engine.impl.playBackgroundMusic(id, volume, pitch);
+	}
+	
+	public function saveBackgroundMusic():Void
+	{
+		engine.impl.saveBackgroundMusic();
+	}
+	
+	public function restoreBackgroundMusic():Void
+	{
+		engine.impl.restoreBackgroundMusic();
+	}
+	
+	public function fadeOutBackgroundMusic(ms:Int):Void
+	{
+		engine.impl.fadeOutBackgroundMusic(ms);
+	}
+	
+	public function fadeInBackgroundMusic(ms:Int):Void
+	{
+		engine.impl.fadeInBackgroundMusic(ms);
 	}
 	
 	public function showText(characterId:String, message:String, ?options:ShowTextOptions):Void
