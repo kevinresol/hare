@@ -13,6 +13,7 @@ class InteractionManager
 {
 	public var player:Player;
 	public var movementKeyListener(default, null):Int;
+	public var movementEnabled:Bool = true;
 	
 	private var engine:Engine;
 	
@@ -46,9 +47,12 @@ class InteractionManager
 									
 								for (event in engine.mapManager.currentMap.events)
 								{
-									if (event.trigger == EAction && event.x == player.position.x + dx && event.y == player.position.y + dy)
+									switch (event.trigger) 
 									{
-										engine.eventManager.trigger(event.id);
+										case EAction:
+											if (event.x == player.position.x + dx && event.y == player.position.y + dy)
+												engine.eventManager.trigger(event.id);
+										default:
 									}
 								}
 							case KEsc:
@@ -67,11 +71,13 @@ class InteractionManager
 	
 	public function enableMovement():Void
 	{
+		movementEnabled = true;
 		Events.enable(movementKeyListener);
 	}
 	
 	public function disableMovement():Void
 	{
+		movementEnabled = false;
 		Events.disable(movementKeyListener);
 	}
 	
@@ -93,6 +99,23 @@ class InteractionManager
 	public function endMove(x:Int, y:Int):Bool
 	{
 		player.position.set(x, y);
+		
+		for (event in engine.currentMap.events)
+		{
+			switch (event.trigger)
+			{
+				/*case EPlayerTouch:
+					if (event.x == player.position.x && event.y == player.position.y)
+						engine.eventManager.trigger(event.id);*/
+					
+				case EEventTouch:
+					if (isNeighbour(event.x, event.y, player.position.x, player.position.y))
+						engine.eventManager.trigger(event.id);
+						
+				default:
+			}
+		}
+		
 		player.moving = false;
 		
 		if (engine.inputManager.right)
@@ -118,7 +141,7 @@ class InteractionManager
 	{
 		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
 		
-		if (player.moving) return false;
+		if (player.moving || !movementEnabled) return false;
 		
 		var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.DOWN else if (dy == -1) Direction.UP else 0;
 		player.facing = dir;
@@ -161,6 +184,19 @@ class InteractionManager
 		else if (dy == -1) dir = Direction.DOWN;
 		
 		return (passage & dir == 0);
+	}
+	
+	private function isNeighbour(x1:Int, y1:Int, x2:Int, y2:Int):Bool
+	{
+		if (y1 == y2)
+		{
+			return x1 == x2 + 1 || x1 == x2 - 1;
+		}
+		if (x1 == x2)
+		{
+			return y1 == y2 + 1 || y1 == y2 - 1;
+		}
+		return false;
 	}
 }
 
