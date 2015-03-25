@@ -32,6 +32,7 @@ interface IImplementation
 	function playSound(id:Int, volume:Float, pitch:Float):Void;
 	
 	function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void;
+	function playSystemSound(id:Int, volume:Float):Void;
 	function saveBackgroundMusic():Void;
 	function restoreBackgroundMusic():Void;
 	function fadeOutBackgroundMusic(ms:Int):Void;

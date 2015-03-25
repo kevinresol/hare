@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import impl.flixel.Implementation;
 import openfl.system.System;
 import rpg.Events;
 import rpg.geom.Rectangle;
@@ -26,7 +27,7 @@ class MainMenu extends FlxSpriteGroup
 	private var startGameCallback:Void->Void;
 	private var loadGameCallback:Void->Void;
 
-	public function new() 
+	public function new(impl:Implementation) 
 	{
 		super();
 		
@@ -55,9 +56,11 @@ class MainMenu extends FlxSpriteGroup
 			switch (key) 
 			{
 				case KUp:
+					impl.playSystemSound(1, 1);
 					selected -= 1;
 					
 				case KDown:
+					impl.playSystemSound(1, 1);
 					selected += 1;
 					
 				case KEnter:

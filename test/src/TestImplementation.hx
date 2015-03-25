@@ -95,6 +95,11 @@ class TestImplementation implements IImplementation
 		
 	}
 	
+	public function playSystemSound(id:Int, volume:Float):Void
+	{
+	
+	}
+	
 	public function saveBackgroundMusic():Void 
 	{
 		

@@ -13,4 +13,5 @@ interface IAssetManager
 	function getScript(mapId:Int, eventId:Int):String;
 	function getMusic(musicId:Int):String;
 	function getSound(soundId:Int):String;
+	function getSystemSound(soundId:Int):String;
 }

@@ -50,7 +50,7 @@ class Implementation implements IImplementation
 		state.add(gameLayer = new FlxGroup());
 		state.add(hudLayer = new FlxGroup());
 		
-		mainMenu = new MainMenu();
+		mainMenu = new MainMenu(this);
 		gameMenu = new GameMenu();
 		saveLoadScreen = new SaveLoadScreen();
 		
@@ -206,7 +206,6 @@ class Implementation implements IImplementation
 	public function playSound(id:Int, volume:Float, pitch:Float):Void
 	{
 		//TODO: implement sound pitch support here
-		trace("playSound");
 		FlxG.sound.play(assetManager.getSound(id), volume);
 	}
 	
@@ -214,6 +213,11 @@ class Implementation implements IImplementation
 	{
 		//TODO: implement sound pitch support here
 		FlxG.sound.playMusic(assetManager.getMusic(id), volume);
+	}
+	
+	public function playSystemSound(id:Int, volume:Float):Void
+	{
+		FlxG.sound.play(assetManager.getSystemSound(id), volume);
 	}
 	
 	public function saveBackgroundMusic():Void

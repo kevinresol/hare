@@ -15,6 +15,7 @@ class AssetManager implements IAssetManager
 	private var scripts:Map<Int, Map<Int, String>>;
 	private var musics:Map<Int, String>;
 	private var sounds:Map<Int, String>;
+	private var systemSounds:Map<Int, String>;
 
 	public function new() 
 	{
@@ -22,6 +23,7 @@ class AssetManager implements IAssetManager
 		scripts = new Map();
 		musics = new Map();
 		sounds = new Map();
+		systemSounds = new Map();
 		
 		for (f in FileSystem.readDirectory("assets/data/map"))
 		{
@@ -44,10 +46,16 @@ class AssetManager implements IAssetManager
 			musics[id] = f;
 		}
 		
-		for (f in FileSystem.readDirectory("assets/sounds"))
+		for (f in FileSystem.readDirectory("assets/sounds/gameplay"))
 		{
 			var id =  Std.parseInt(f.split("-")[0]);
 			sounds[id] = f;
+		}
+		
+		for (f in FileSystem.readDirectory("assets/sounds/system"))
+		{
+			var id =  Std.parseInt(f.split("-")[0]);
+			systemSounds[id] = f;
 		}
 		
 	}
@@ -73,7 +81,13 @@ class AssetManager implements IAssetManager
 	public function getSound(soundId:Int):String
 	{
 		var filename = sounds[soundId];
-		return Assets.getPath('assets/sounds/$filename');
+		return Assets.getPath('assets/sounds/gameplay/$filename');
+	}
+	
+	public function getSystemSound(soundId:Int):String
+	{
+		var filename = systemSounds[soundId];
+		return Assets.getPath('assets/sounds/system/$filename');
 	}
 	
 	public function getSaveData(id:Int):String 
