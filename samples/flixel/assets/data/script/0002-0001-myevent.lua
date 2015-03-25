@@ -49,9 +49,11 @@ showText("", "Welcome to the new map!\n(pos: center, bg: transparent)", {positio
 
 showText("", "After this message, \nthe script will wait for 1 second\nMusic will pause for 1 second")
 
+fadeOutBackgroundMusic(200, {wait=true})
 saveBackgroundMusic()
 sleep(1000)
 restoreBackgroundMusic()
+fadeInBackgroundMusic(200, {wait=true})
 
 showText("", "The waiting has ended\nYou can move now")
 

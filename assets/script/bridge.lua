@@ -22,12 +22,14 @@ restoreBackgroundMusic = function()
 	host_restoreBackgroundMusic()
 end
 
-fadeOutBackgroundMusic = function(ms)
+fadeOutBackgroundMusic = function(ms, options)
 	host_fadeOutBackgroundMusic(ms)
+	if options and options.wait then sleep(ms) end
 end
 
-fadeInBackgroundMusic = function(ms)
+fadeInBackgroundMusic = function(ms, options)
 	host_fadeInBackgroundMusic(ms)
+	if options and options.wait then sleep(ms) end
 end
 
 showText = function(characterId, message, options)
