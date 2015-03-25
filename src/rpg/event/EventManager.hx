@@ -13,13 +13,11 @@ class EventManager
 	
 	private var engine:Engine;
 	private var lua:Lua;
-	private var pendingResumes:Array<{id:Int, data:Dynamic}>;
 	private var erasedEvents:Array<Int>;
 	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
-		pendingResumes = [];
 		
 		scriptHost = new ScriptHost(engine);
 		
