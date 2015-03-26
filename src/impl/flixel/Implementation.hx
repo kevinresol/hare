@@ -338,14 +338,6 @@ class Implementation implements IImplementation
 			layers[3].add(tilemap);
 		}
 		
-		for (event in map.events)
-		{
-			var sprite = new FlxSprite(event.x * map.tileWidth, event.y * map.tileHeight);
-			sprite.loadGraphic(event.imageSource, true, 32, 32);
-			sprite.animation.frameIndex = event.tileId - 1;
-			layers[1].add(sprite);
-		}
-		
 		for (object in map.objects)
 		{
 			var sprite = new FlxSprite(object.x * map.tileWidth, object.y * map.tileHeight);

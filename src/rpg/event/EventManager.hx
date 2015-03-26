@@ -66,14 +66,19 @@ class EventManager
 	{
 		if (currentEvent == -1 && engine.gameState == SGame) // no other events running
 		{
-			for (event in engine.mapManager.currentMap.events)
+			for (object in engine.mapManager.currentMap.objects)
 			{
-				switch (event.trigger) 
+				switch (object.type) 
 				{
-					case EAutorun:
-						trigger(event.id);
-						break;
-						
+					case OEvent(trigger):
+						switch (trigger) 
+						{
+							case EAutorun:
+								this.trigger(object.id);
+								break;
+								
+							default:
+						}
 					default:
 						
 				}

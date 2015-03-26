@@ -45,15 +45,22 @@ class InteractionManager
 								var dx = if (player.facing == Direction.LEFT) -1 else if (player.facing == Direction.RIGHT) 1 else 0;
 								var dy = if (player.facing == Direction.UP) -1 else if (player.facing == Direction.DOWN) 1 else 0;
 									
-								for (event in engine.mapManager.currentMap.events)
+								for (object in engine.mapManager.currentMap.objects)
 								{
-									switch (event.trigger) 
+									switch(object.type)
 									{
-										case EAction | EBump:
-											if (event.x == player.position.x + dx && event.y == player.position.y + dy)
-												engine.eventManager.trigger(event.id);
+										case OEvent(trigger):
+											switch (trigger) 
+											{
+												case EAction | EBump:
+													if (object.x == player.position.x + dx && object.y == player.position.y + dy)
+														engine.eventManager.trigger(object.id);
+												default:
+											}
+											
 										default:
 									}
+									
 								}
 							case KEsc:
 								engine.gameState = SSaveScreen;
@@ -95,18 +102,23 @@ class InteractionManager
 	{
 		player.position.set(x, y);
 		
-		for (event in engine.currentMap.events)
+		for (object in engine.currentMap.objects)
 		{
-			switch (event.trigger)
+			switch (object.type) 
 			{
-				case EOverlap:
-					if (event.x == player.position.x && event.y == player.position.y)
-						engine.eventManager.trigger(event.id);
-					
-				case ENearby:
-					if (isNeighbour(event.x, event.y, player.position.x, player.position.y))
-						engine.eventManager.trigger(event.id);
-						
+				case OEvent(trigger):
+					switch (trigger)
+					{
+						case EOverlap:
+							if (object.x == player.position.x && object.y == player.position.y)
+								engine.eventManager.trigger(object.id);
+							
+						case ENearby:
+							if (isNeighbour(object.x, object.y, player.position.x, player.position.y))
+								engine.eventManager.trigger(object.id);
+								
+						default:
+					}
 				default:
 			}
 		}
@@ -141,11 +153,15 @@ class InteractionManager
 		var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.DOWN else if (dy == -1) Direction.UP else 0;
 		player.facing = dir;
 		
-		for (event in engine.mapManager.currentMap.events)
+		for (object in engine.mapManager.currentMap.objects)
 		{
-			if (event.trigger == EBump && event.x == player.position.x + dx && event.y == player.position.y + dy)
+			switch (object.type) 
 			{
-				engine.eventManager.trigger(event.id);
+				case OEvent(trigger):
+					if (trigger == EBump && object.x == player.position.x + dx && object.y == player.position.y + dy)
+						engine.eventManager.trigger(object.id);
+					
+				default:
 			}
 		}
 		

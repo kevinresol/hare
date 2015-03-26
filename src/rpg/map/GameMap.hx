@@ -19,7 +19,6 @@ class GameMap
 	public var above:TileLayer;
 	public var below:TileLayer;
 	
-	public var events:Array<Event>;
 	public var objects:Array<Object>;
 	
 	public var player:Dynamic;
@@ -33,18 +32,17 @@ class GameMap
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
 		
-		events = [];
 		objects = [];
 	}
 	
 	public function addEvent(id, imageSource, tileId, x, y, trigger):Void
 	{
-		events.push(new Event(id, imageSource, tileId, x, y, trigger));
+		objects.push(new Object(id, imageSource, tileId, x, y, OEvent(trigger)));
 	}
 	
 	public function addObject(id, imageSource, tileId, x, y):Void
 	{
-		objects.push(new Object(id, imageSource, tileId, x, y));
+		objects.push(new Object(id, imageSource, tileId, x, y, OObject));
 	}
 	
 }
@@ -67,36 +65,32 @@ class Object
 	public var id:Int;
 	public var x:Int;
 	public var y:Int;
+	public var type:ObjectType;
 	
-	public function new(id, imageSource, tileId, x, y)
+	public function new(id, imageSource, tileId, x, y, type)
 	{
 		this.id = id;
 		this.imageSource = imageSource;
 		this.tileId = tileId;
 		this.x = x;
 		this.y = y;
+		this.type = type;
 	}
 	
 	public function toString():String
 	{
-		return 'Object $id: ($x, $y)';
+		return switch (type) 
+		{
+			case OObject: 'Object $id: ($x, $y)';
+			case OEvent(trigger):'Event $id: ($x, $y, $trigger)';
+		}
 	}
 }
 
-class Event extends Object
+enum ObjectType
 {
-	public var trigger:EventTrigger;
-	
-	public function new(id, imageSource, tileId, x, y, trigger)
-	{
-		super(id, imageSource, tileId, x, y);
-		this.trigger = trigger;
-	}
-	
-	override public function toString():String
-	{
-		return 'Event $id: ($x, $y, $trigger)';
-	}
+	OObject;
+	OEvent(trigger:EventTrigger);
 }
 
 enum EventTrigger
