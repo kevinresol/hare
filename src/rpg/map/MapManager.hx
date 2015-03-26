@@ -42,6 +42,10 @@ class MapManager
 				var x = Std.int(o.x / tiledMap.tileWidth);
 				var y = Std.int(o.y / tiledMap.tileHeight) - 1;
 				
+				var layer = 2.0;
+				if (o.custom.contains("layer"))
+					layer = Std.parseFloat(o.custom.layer);
+				
 				switch (o.type)
 				{
 					case "event":
@@ -56,10 +60,10 @@ class MapManager
 							default: EAction;
 						}
 						
-						map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), x, y, trigger);
+						map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), x, y, layer, trigger);
 						
 					case "object":
-						map.addObject(o.id, imageSource, tileset.fromGid(o.gid), x, y);
+						map.addObject(o.id, imageSource, tileset.fromGid(o.gid), x, y, layer);
 						
 					case "player":
 						map.addPlayer(x, y);

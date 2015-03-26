@@ -41,14 +41,14 @@ class GameMap
 		player = new IntPoint(x, y);
 	}
 	
-	public function addEvent(id, imageSource, tileId, x, y, trigger):Void
+	public function addEvent(id, imageSource, tileId, x, y, layer, trigger):Void
 	{
-		objects.push(new Object(id, imageSource, tileId, x, y, OEvent(trigger)));
+		objects.push(new Object(id, imageSource, tileId, x, y, layer, OEvent(trigger)));
 	}
 	
-	public function addObject(id, imageSource, tileId, x, y):Void
+	public function addObject(id, imageSource, tileId, x, y, layer):Void
 	{
-		objects.push(new Object(id, imageSource, tileId, x, y, OObject));
+		objects.push(new Object(id, imageSource, tileId, x, y, layer, OObject));
 	}
 	
 }
@@ -74,15 +74,17 @@ class Object
 	public var id:Int;
 	public var x:Int;
 	public var y:Int;
+	public var layer:Float;
 	public var type:ObjectType;
 	
-	public function new(id, imageSource, tileId, x, y, type)
+	public function new(id, imageSource, tileId, x, y, layer, type)
 	{
 		this.id = id;
 		this.imageSource = imageSource;
 		this.tileId = tileId;
 		this.x = x;
 		this.y = y;
+		this.layer = layer;
 		this.type = type;
 	}
 	
