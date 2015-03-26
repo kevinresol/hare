@@ -25,7 +25,7 @@ class MapManager
 	{
 		if (maps[id] == null)
 		{
-			var mapData = engine.impl.assetManager.getMapData(id);
+			var mapData = engine.assetManager.getMapData(id);
 			var tiledMap = new TiledMap(Xml.parse(mapData));
 			
 			var map = new GameMap(id, tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);

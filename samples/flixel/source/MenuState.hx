@@ -19,8 +19,7 @@ class MenuState extends FlxState
 		super.create();
 		
 		impl = new Implementation(this);
-		var engine = new Engine(impl);
-		FlxG.watch.add(engine, "gameState");
+		var engine = new Engine(impl, impl.assetManager);
 	}
 	
 	override public function update(elapsed:Float):Void 

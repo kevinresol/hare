@@ -27,7 +27,7 @@ import rpg.map.GameMap;
 class Implementation implements IImplementation
 {
 	public var engine:Engine;
-	public var assetManager:IAssetManager;
+	public var assetManager:AssetManager;
 	
 	private var playerTween:FlxTween;
 	

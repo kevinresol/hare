@@ -1,5 +1,6 @@
 package rpg;
 import haxe.Json;
+import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.event.EventManager;
 import rpg.input.InputManager;
@@ -19,6 +20,8 @@ class Engine
 	public var currentMap(get, never):GameMap;
 	
 	private var impl:IImplementation;
+	private var assetManager:IAssetManager;
+	
 	private var mapManager:MapManager;
 	private var eventManager:EventManager;
 	private var inputManager:InputManager;
@@ -31,9 +34,11 @@ class Engine
 	private var delayedCalls:Array<DelayedCall>;
 	private var called:Array<DelayedCall>;
 	
-	public function new(impl:IImplementation) 
+	public function new(impl:IImplementation, assetManager:IAssetManager) 
 	{
 		this.impl = impl;
+		this.assetManager = assetManager;
+		
 		impl.engine = this;
 		delayedCalls = [];
 		called = [];
@@ -54,7 +59,7 @@ class Engine
 	public function startGame():Void
 	{
 		// init items
-		var config = impl.assetManager.getConfig(); 
+		var config = assetManager.getConfig(); 
 		itemManager.init(Json.parse(config).items);
 		
 		gameState = SGame;

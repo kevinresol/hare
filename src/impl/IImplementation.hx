@@ -13,7 +13,6 @@ import rpg.map.GameMap;
 interface IImplementation 
 {
 	var engine:Engine;
-	var assetManager:IAssetManager;
 	
 	/* ===== System Functions ===== */
 	function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void;

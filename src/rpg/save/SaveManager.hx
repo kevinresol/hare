@@ -28,12 +28,12 @@ class SaveManager
 		data.playerFacing = engine.interactionManager.player.facing;
 		data.playerPosition = engine.interactionManager.player.position;
 		data.items = engine.itemManager.itemData;
-		engine.impl.assetManager.setSaveData(id, Serializer.run(data));
+		engine.assetManager.setSaveData(id, Serializer.run(data));
 	}
 	
 	public function load(id:Int):Void
 	{
-		var s = engine.impl.assetManager.getSaveData(id);
+		var s = engine.assetManager.getSaveData(id);
 		var data:SaveData = Unserializer.run(s);
 		engine.eventManager.setGameData(data.gameData);
 		engine.itemManager.init(data.items);
