@@ -81,6 +81,16 @@ class InteractionManager
 	{
 		movementEnabled = true;
 		Events.enable(movementKeyListener);
+		
+		// immediately attempt move if keys are down
+		if (engine.inputManager.right)
+			attemptMove(1, 0);
+		if (engine.inputManager.left)
+			attemptMove(-1, 0);
+		if (engine.inputManager.up)
+			attemptMove(0, -1);
+		if (engine.inputManager.down)
+			attemptMove(0, 1);
 	}
 	
 	public function disableMovement():Void
