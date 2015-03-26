@@ -1,1 +1,1 @@
-teleportPlayer(3, 3, 5, {facing="up"})
+movement.teleportPlayer(3, 3, 5, {facing="up"})

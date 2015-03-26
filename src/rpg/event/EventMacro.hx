@@ -2,6 +2,7 @@ package rpg.event;
 import haxe.io.Path;
 import haxe.macro.Context;
 import haxe.macro.Expr;
+import sys.FileSystem;
 import sys.io.File;
 
 /**
@@ -12,9 +13,18 @@ class EventMacro
 {
 	macro public static function getBridgeScript():Expr
 	{
-		var p = Context.resolvePath("../assets/script/bridge.lua");
+		var s = new StringBuf();
+		var p = Context.resolvePath("../assets/script/");
 		p = Path.normalize(p);
-		var s = File.getContent(p);
-		return macro $v{s};
+		
+		for (f in FileSystem.readDirectory(p))
+		{
+			s.add(" ");
+			s.add(File.getContent(p + "/" + f));
+		}
+		
+		s.add(" return true");
+		
+		return macro $v{s.toString()};
 	}
 }

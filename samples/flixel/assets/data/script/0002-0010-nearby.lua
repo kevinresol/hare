@@ -1,1 +1,1 @@
-showText("","nearby")
+message.showText("","nearby")

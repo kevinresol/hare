@@ -5,6 +5,6 @@ log(test)
 
 setGameVar("globalVar", "hello, world!")
 
-showText("", "this is autorun event\nwhich will just teleport to next map")
+message.showText("", "this is autorun event\nwhich will just teleport to next map")
 
-teleportPlayer(2, 9, 11, {facing="down"})
+movement.teleportPlayer(2, 9, 11, {facing="down"})
