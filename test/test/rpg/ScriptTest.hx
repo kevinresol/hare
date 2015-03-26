@@ -78,5 +78,11 @@ class ScriptTest
 		
 		r = engine.eventManager.execute('item.change(1,1) return item.get(1)');
 		Assert.isTrue(r == 1);
+		
+		r = engine.eventManager.execute('return item.get(2)');
+		Assert.isTrue(r == 0);
+		
+		r = engine.eventManager.execute('item.change(2,2) return item.get(2)');
+		Assert.isTrue(r == 2);
 	}
 }
