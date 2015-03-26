@@ -1,4 +1,5 @@
 package ;
+import haxe.Constraints.Function;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
@@ -17,10 +18,13 @@ class TestImplementation implements IImplementation
 	
 	public var engine:Engine;
 	public var assetManager:IAssetManager;
+	
+	public var lastCalledCommand:Command;
 
 	public function new() 
 	{
 		assetManager = new TestAssetManager();
+		lastCalledCommand = new Command();
 	}
 	
 	public function changePlayerFacing(dir:Int):Void 
@@ -87,12 +91,12 @@ class TestImplementation implements IImplementation
 	
 	public function playSound(id:Int, volume:Float, pitch:Float):Void 
 	{
-		
+		lastCalledCommand.set(Macro.getFunctionName(), [id, volume, pitch]);
 	}
 	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void 
 	{
-		
+		lastCalledCommand.set(Macro.getFunctionName(), [id, volume, pitch]);
 	}
 	
 	public function playSystemSound(id:Int, volume:Float):Void
@@ -102,22 +106,22 @@ class TestImplementation implements IImplementation
 	
 	public function saveBackgroundMusic():Void 
 	{
-		
+		lastCalledCommand.set(Macro.getFunctionName(), []);
 	}
 	
 	public function restoreBackgroundMusic():Void 
 	{
-		
+		lastCalledCommand.set(Macro.getFunctionName(), []);
 	}
 	
 	public function fadeOutBackgroundMusic(ms:Int):Void 
 	{
-		
+		lastCalledCommand.set(Macro.getFunctionName(), [ms]);
 	}
 	
 	public  function fadeInBackgroundMusic(ms:Int):Void 
 	{
-	
+	lastCalledCommand.set(Macro.getFunctionName(), [ms]);
 	}
 	
 	public function fadeOutScreen(ms:Int):Void 
@@ -145,4 +149,34 @@ class TestImplementation implements IImplementation
 		
 	}
 	
+}
+
+class Command
+{
+	public var list:Array<{func:String, args:Array<Dynamic>}>;
+	
+	public function new()
+	{
+		list = [];
+	}
+	
+	public function set(func, args)
+	{
+		list.push({func:func, args:args});
+	}
+	
+	public function is(func:String, args:Array<Dynamic>)
+	{
+		var c = list.shift();
+		
+		if (c.func != func) return false;
+		if (c.args.length != args.length) return false;
+		
+		for (i in 0... c.args.length)
+		{
+			if (c.args[i] != args[i]) return false;
+		}
+		
+		return true;
+	}
 }

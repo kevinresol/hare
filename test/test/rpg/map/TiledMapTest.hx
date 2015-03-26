@@ -17,7 +17,7 @@ class TiledMapTest
 	@BeforeClass
 	public function beforeClass():Void
 	{
-		map = new TiledMap(Xml.parse(AssetMacro.getTestMapData()));
+		map = new TiledMap(Xml.parse(Macro.getTestMapData()));
 	}
 	
 	@AfterClass

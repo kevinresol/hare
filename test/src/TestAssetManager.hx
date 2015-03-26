@@ -17,7 +17,7 @@ class TestAssetManager implements IAssetManager
 	
 	public function getMapData(id:Int):String 
 	{
-		return AssetMacro.getTestMapData();
+		return Macro.getTestMapData();
 	}
 	
 	public function getScript(mapId:Int, eventId:Int):String 

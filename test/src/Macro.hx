@@ -8,7 +8,7 @@ import sys.io.File;
  * ...
  * @author Kevin
  */
-class AssetMacro
+class Macro
 {
 
 	macro public static function getTestMapData():Expr 
@@ -19,4 +19,8 @@ class AssetMacro
 		return macro $v{s};
 	}
 	
+	macro public static function getFunctionName():Expr
+	{
+		return macro $v{Context.getLocalMethod()};
+	}
 }

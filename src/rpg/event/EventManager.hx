@@ -31,8 +31,6 @@ class EventManager
 				eventVariables: {}
 			},
 			
-			host_eraseEvent: eraseEvent,
-			
 			host_playSound: scriptHost.playSound,
 			host_playBackgroundMusic: scriptHost.playBackgroundMusic,
 			host_saveBackgroundMusic: scriptHost.saveBackgroundMusic,
