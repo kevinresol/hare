@@ -14,12 +14,14 @@ class EventManager
 	private var engine:Engine;
 	private var lua:Lua;
 	private var erasedEvents:Array<Int>;
+	private var pendingTrigger:Array<Int>;
 	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
 		
 		scriptHost = new ScriptHost(engine);
+		pendingTrigger = [];
 		
 		lua = new Lua();
 		lua.loadLibs(["base", "coroutine"]);
@@ -69,8 +71,7 @@ class EventManager
 				switch (event.trigger) 
 				{
 					case EAutorun:
-						if(erasedEvents.indexOf(event.id) == -1) // not in erased list
-							trigger(event.id);
+						trigger(event.id);
 						break;
 						
 					default:
@@ -86,6 +87,17 @@ class EventManager
 	 */
 	public function trigger(id:Int):Void
 	{
+		// erased
+		if (erasedEvents.indexOf(id) != -1)
+			return;
+			
+		// an event already running...
+		if (currentEvent != -1)
+		{
+			pendingTrigger.push(id);
+			return;
+		}
+		
 		currentEvent = id;
 		engine.interactionManager.disableMovement();
 		
@@ -108,6 +120,9 @@ class EventManager
 	{
 		currentEvent = -1;
 		engine.interactionManager.enableMovement();
+		
+		if (pendingTrigger.length > 0)
+			trigger(pendingTrigger.shift());
 	}
 	
 	/**

@@ -20,6 +20,7 @@ class GameMap
 	public var below:TileLayer;
 	
 	public var events:Array<Event>;
+	public var objects:Array<Object>;
 	
 	public var player:Dynamic;
 	
@@ -33,11 +34,17 @@ class GameMap
 		this.tileHeight = tileHeight;
 		
 		events = [];
+		objects = [];
 	}
 	
 	public function addEvent(id, imageSource, tileId, x, y, trigger):Void
 	{
 		events.push(new Event(id, imageSource, tileId, x, y, trigger));
+	}
+	
+	public function addObject(id, imageSource, tileId, x, y):Void
+	{
+		objects.push(new Object(id, imageSource, tileId, x, y));
 	}
 	
 }
@@ -52,19 +59,7 @@ class TileLayer
 	}
 }
 
-class ObjectLayer
-{
-	public var imageSource:String;
-	public var tileId:Int;
-	
-	public function new(imageSource, tileId)
-	{
-		this.imageSource = imageSource;
-		this.tileId = tileId;
-	}
-}
-
-class Event
+class Object
 {
 	public var imageSource:String;
 	public var tileId:Int;
@@ -72,29 +67,44 @@ class Event
 	public var id:Int;
 	public var x:Int;
 	public var y:Int;
-	public var trigger:EventTrigger;
 	
-	public function new(id, imageSource, tileId, x, y, trigger)
+	public function new(id, imageSource, tileId, x, y)
 	{
 		this.id = id;
 		this.imageSource = imageSource;
 		this.tileId = tileId;
 		this.x = x;
 		this.y = y;
-		this.trigger = trigger;
 	}
 	
 	public function toString():String
 	{
-		return 'Event $id: ($x, $y)';
+		return 'Object $id: ($x, $y)';
+	}
+}
+
+class Event extends Object
+{
+	public var trigger:EventTrigger;
+	
+	public function new(id, imageSource, tileId, x, y, trigger)
+	{
+		super(id, imageSource, tileId, x, y);
+		this.trigger = trigger;
+	}
+	
+	override public function toString():String
+	{
+		return 'Event $id: ($x, $y, $trigger)';
 	}
 }
 
 enum EventTrigger
 {
 	EAction;
-	EPlayerTouch;
-	EEventTouch;
+	EBump;
+	EOverlap;
+	ENearby;
 	EAutorun;
 	EParallel;
 }

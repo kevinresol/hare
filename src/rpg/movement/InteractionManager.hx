@@ -49,7 +49,7 @@ class InteractionManager
 								{
 									switch (event.trigger) 
 									{
-										case EAction:
+										case EAction | EBump:
 											if (event.x == player.position.x + dx && event.y == player.position.y + dy)
 												engine.eventManager.trigger(event.id);
 										default:
@@ -62,11 +62,6 @@ class InteractionManager
 				default:
 			}
 		});
-		
-		/*Events.on("key.justReleased", function(key:InputKey)
-		{
-			
-		});*/
 	}
 	
 	public function enableMovement():Void
@@ -104,11 +99,11 @@ class InteractionManager
 		{
 			switch (event.trigger)
 			{
-				/*case EPlayerTouch:
+				case EOverlap:
 					if (event.x == player.position.x && event.y == player.position.y)
-						engine.eventManager.trigger(event.id);*/
+						engine.eventManager.trigger(event.id);
 					
-				case EEventTouch:
+				case ENearby:
 					if (isNeighbour(event.x, event.y, player.position.x, player.position.y))
 						engine.eventManager.trigger(event.id);
 						
@@ -148,7 +143,7 @@ class InteractionManager
 		
 		for (event in engine.mapManager.currentMap.events)
 		{
-			if (event.trigger == EPlayerTouch && event.x == player.position.x + dx && event.y == player.position.y + dy)
+			if (event.trigger == EBump && event.x == player.position.x + dx && event.y == player.position.y + dy)
 			{
 				engine.eventManager.trigger(event.id);
 			}

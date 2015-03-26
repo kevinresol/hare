@@ -34,24 +34,32 @@ class MapManager
 			map.below = createTileLayer(tiledMap.getLayer("Below"));
 			map.passage = createPassageMap(tiledMap.getLayer("Passage"));
 			
-			for (o in tiledMap.getObjectGroup("Below").objects)
+			for (o in tiledMap.getObjectGroup("Objects").objects)
 			{
+				var tileset = tiledMap.getGidOwner(o.gid);
+				var imageSource = tileset.imageSource;
+				imageSource = StringTools.replace(imageSource, "../..", "assets");
+				var x = Std.int(o.x / tiledMap.tileWidth);
+				var y = Std.int(o.y / tiledMap.tileHeight) - 1;
+				
 				if (o.type == "event")
 				{
 					var trigger:EventTrigger = switch (o.custom.trigger) 
 					{
 						case "action": EAction;
-						case "playertouch": EPlayerTouch;
-						case "eventtouch": EEventTouch;
+						case "bump": EBump;
+						case "overlap": EOverlap;
+						case "nearby": ENearby;
 						case "autorun": EAutorun;
 						case "parallel": EParallel;
 						default: EAction;
 					}
 					
-					var tileset = tiledMap.getGidOwner(o.gid);
-					var imageSource = tileset.imageSource;
-					imageSource = StringTools.replace(imageSource, "../..", "assets");
-					map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), Std.int(o.x / tiledMap.tileWidth), Std.int(o.y / tiledMap.tileHeight) -1, trigger );
+					map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), x, y, trigger);
+				}
+				else
+				{
+					map.addObject(o.id, imageSource, tileset.fromGid(o.gid), x, y);
 				}
 			}
 			maps[id] = map;
