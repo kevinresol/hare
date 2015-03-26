@@ -1,5 +1,6 @@
 package ;
 import impl.IAssetManager;
+import sys.io.File;
 
 /**
  * ...
@@ -55,7 +56,8 @@ class TestAssetManager implements IAssetManager
 	
 	public function getConfig():String 
 	{
-		return "";
+		var file = Macro.getAssetPath() + "/data/config.json";
+		return File.getContent(Macro.getAssetPath() + "/data/config.json");
 	}
 	
 }

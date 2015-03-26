@@ -21,6 +21,7 @@ class ScriptTest
 	{
 		impl = new TestImplementation();
 		engine = new Engine(impl);
+		engine.startGame();
 	}
 	
 	@Test
@@ -32,8 +33,6 @@ class ScriptTest
 		engine.eventManager.execute('message.showText("test","provided options", {background="dimmed", position="top"})');
 		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["test", "provided options", {background:"dimmed", position:"top"}]));
 	}
-	
-	
 	
 	@Test
 	public function testSound():Void
@@ -71,4 +70,13 @@ class ScriptTest
 		Assert.isTrue(impl.lastCalledCommand.is(impl.fadeOutScreen, [27]));
 	}
 	
+	@Test
+	public function testItem():Void
+	{
+		var r = engine.eventManager.execute('return item.get(1)');
+		Assert.isTrue(r == 0);
+		
+		r = engine.eventManager.execute('item.change(1,1) return item.get(1)');
+		Assert.isTrue(r == 1);
+	}
 }

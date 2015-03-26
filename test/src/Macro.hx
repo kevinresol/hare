@@ -10,7 +10,12 @@ import sys.io.File;
  */
 class Macro
 {
-
+	macro public static function getAssetPath():Expr
+	{
+		var p = Context.resolvePath("assets/");
+		return macro $v{Path.normalize(p)};
+	}
+	
 	macro public static function getTestMapData():Expr 
 	{
 		var p = Context.resolvePath("../assets/map/0001-template.tmx");
