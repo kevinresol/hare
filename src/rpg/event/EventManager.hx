@@ -152,6 +152,7 @@ class EventManager
 	public function eraseEvent(id:Int):Void
 	{
 		erasedEvents.push(id);
+		Events.dispatch("event.erased", id);
 	}
 	
 	public function getGameData():GameData

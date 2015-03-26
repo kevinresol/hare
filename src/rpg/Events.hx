@@ -22,6 +22,8 @@ class Events
 		"key.justReleased",
 		
 		"map.switched",
+		
+		"event.erased",
 	];
 	
 	/**

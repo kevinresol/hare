@@ -16,6 +16,7 @@ import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
+import rpg.Events;
 import rpg.geom.Direction;
 import rpg.map.GameMap;
 
@@ -34,6 +35,7 @@ class Implementation implements IImplementation
 	private var gameLayer:FlxGroup;
 	private var hudLayer:FlxGroup;
 	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
+	private var objects:Map<Int, Object>;
 	
 	private var mainMenu:MainMenu;
 	private var gameMenu:GameMenu;
@@ -59,6 +61,13 @@ class Implementation implements IImplementation
 		dialogPanel.visible = false;
 		
 		layers = [for (i in 0...5) cast gameLayer.add(new FlxGroup())];
+		objects = new Map();
+		
+		Events.on("event.erased", function(id:Int)
+		{
+			var o = objects[id];
+			o.layer.remove(o.sprite, true);
+		});
 	}
 	
 	public function update(elapsed:Float):Void
@@ -343,7 +352,8 @@ class Implementation implements IImplementation
 			var sprite = new FlxSprite(object.x * map.tileWidth, object.y * map.tileHeight);
 			sprite.loadGraphic(object.imageSource, true, 32, 32);
 			sprite.animation.frameIndex = object.tileId - 1;
-			layers[1].add(sprite);
+			layers[1].add(sprite); //TODO figure out the layer to add to
+			objects[object.id] = new Object(sprite, layers[1]);
 		}
 		
 		layers[2].add(player);
@@ -354,5 +364,17 @@ class Implementation implements IImplementation
 		#if debug
 		if (callback == null) throw "callback cannot be null";
 		#end
+	}
+}
+
+private class Object
+{
+	public var layer:FlxGroup;
+	public var sprite:FlxSprite;
+	
+	public function new(sprite, layer)
+	{
+		this.sprite = sprite;
+		this.layer = layer;
 	}
 }

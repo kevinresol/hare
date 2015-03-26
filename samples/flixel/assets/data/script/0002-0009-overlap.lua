@@ -1,1 +1,2 @@
 showText("","overlap")
+eraseEvent()
