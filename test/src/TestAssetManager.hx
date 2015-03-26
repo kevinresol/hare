@@ -51,4 +51,11 @@ class TestAssetManager implements IAssetManager
 		
 	}
 	
+	/* INTERFACE impl.IAssetManager */
+	
+	public function getConfig():String 
+	{
+		return "";
+	}
+	
 }
