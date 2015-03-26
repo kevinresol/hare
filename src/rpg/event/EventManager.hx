@@ -74,7 +74,7 @@ class EventManager
 						switch (trigger) 
 						{
 							case EAutorun:
-								this.trigger(object.id);
+								startEvent(object.id);
 								break;
 								
 							default:
@@ -90,7 +90,7 @@ class EventManager
 	 * Trigger a event (i.e. start running a piece of Lua script)
 	 * @param	id
 	 */
-	public function trigger(id:Int):Void
+	public function startEvent(id:Int):Void
 	{
 		// erased
 		if (erasedEvents.indexOf(id) != -1)
@@ -127,7 +127,7 @@ class EventManager
 		engine.interactionManager.enableMovement();
 		
 		if (pendingTrigger.length > 0)
-			trigger(pendingTrigger.shift());
+			startEvent(pendingTrigger.shift());
 	}
 	
 	/**

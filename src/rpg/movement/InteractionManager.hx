@@ -34,13 +34,17 @@ class InteractionManager
 						switch (key) 
 						{
 							case KLeft:
-								attemptMove(-1, 0);
+								attemptMove( -1, 0);
+								
 							case KRight:
 								attemptMove(1, 0);
+								
 							case KUp:
 								attemptMove(0, -1);
+								
 							case KDown:
 								attemptMove(0, 1);
+								
 							case KEnter:
 								var dx = if (player.facing == Direction.LEFT) -1 else if (player.facing == Direction.RIGHT) 1 else 0;
 								var dy = if (player.facing == Direction.UP) -1 else if (player.facing == Direction.DOWN) 1 else 0;
@@ -54,7 +58,7 @@ class InteractionManager
 											{
 												case EAction | EBump:
 													if (object.x == player.position.x + dx && object.y == player.position.y + dy)
-														engine.eventManager.trigger(object.id);
+														engine.eventManager.startEvent(object.id);
 												default:
 											}
 											
@@ -62,10 +66,12 @@ class InteractionManager
 									}
 									
 								}
+								
 							case KEsc:
 								engine.gameState = SSaveScreen;
 						}
 					}
+					
 				default:
 			}
 		});
@@ -101,6 +107,7 @@ class InteractionManager
 	public function endMove(x:Int, y:Int):Bool
 	{
 		player.position.set(x, y);
+		player.moving = false;
 		
 		for (object in engine.currentMap.objects)
 		{
@@ -111,19 +118,18 @@ class InteractionManager
 					{
 						case EOverlap:
 							if (object.x == player.position.x && object.y == player.position.y)
-								engine.eventManager.trigger(object.id);
+								engine.eventManager.startEvent(object.id);
 							
 						case ENearby:
 							if (isNeighbour(object.x, object.y, player.position.x, player.position.y))
-								engine.eventManager.trigger(object.id);
+								engine.eventManager.startEvent(object.id);
 								
 						default:
 					}
+					
 				default:
 			}
 		}
-		
-		player.moving = false;
 		
 		if (engine.inputManager.right)
 			return attemptMove(1, 0);
@@ -159,7 +165,7 @@ class InteractionManager
 			{
 				case OEvent(trigger):
 					if (trigger == EBump && object.x == player.position.x + dx && object.y == player.position.y + dy)
-						engine.eventManager.trigger(object.id);
+						engine.eventManager.startEvent(object.id);
 					
 				default:
 			}
