@@ -45,6 +45,7 @@ class TestImplementation implements IImplementation
 	
 	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void 
 	{
+		lastCalledCommand.set(Macro.getCurrentFunction(), [characterId, message, options]);
 		callback();
 	}
 	
@@ -127,12 +128,12 @@ class TestImplementation implements IImplementation
 	
 	public function fadeOutScreen(ms:Int):Void 
 	{
-		
+		lastCalledCommand.set(Macro.getCurrentFunction(), [ms]);
 	}
 	
 	public function fadeInScreen(ms:Int):Void 
 	{
-		
+		lastCalledCommand.set(Macro.getCurrentFunction(), [ms]);
 	}
 	
 	public function tintScreen(color:Int, ms:Int):Void 
