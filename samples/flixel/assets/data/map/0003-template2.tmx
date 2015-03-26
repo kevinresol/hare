@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="25" tilewidth="32" tileheight="32" nextobjectid="3">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="32" tileheight="32" nextobjectid="5">
  <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
   <image source="../../images/Office_A5_Ground.png" width="256" height="64"/>
  </tileset>
@@ -18,28 +18,34 @@
  <tileset firstgid="87" name="Office-B" tilewidth="32" tileheight="32">
   <image source="../../images/Office-B.png" width="512" height="512"/>
  </tileset>
- <layer name="Walls and Floor" width="20" height="25">
+ <layer name="Walls and Floor" width="15" height="10">
   <properties>
    <property name="type" value="floor"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYKA+kAZiYwJYngTz9IFYiABWJ9E8UQKYVPN4CeBR80bNG0jz7BmIz4PEmCfIQHweJMY8EQbi8yAx5pESptQ2TxKItYHYmkrmkevOUfNQASxeiMUSBMwbjAAAGNsWdg==
+   eJxjYGBgkAZiYxKwPAMC6AOxEAlYHU2vKAkYXS8vCXio65UEYm0SsATDwAIARMEKYw==
   </data>
  </layer>
- <layer name="Below" width="20" height="25">
+ <layer name="Below" width="15" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwVAHAAfQAAE=
+   eJxjYBgFo4D6AAACWAAB
   </data>
  </layer>
- <layer name="Above" width="20" height="25" opacity="0.5">
+ <layer name="Above" width="15" height="10" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwVAHAAfQAAE=
+   eJxjYBgFo4D6AAACWAAB
   </data>
  </layer>
- <objectgroup name="Objects"/>
- <layer name="Passage" width="20" height="25" opacity="0.5">
+ <objectgroup name="Objects">
+  <object id="3" type="event" gid="18" x="64" y="192">
+   <properties>
+    <property name="trigger" value="overlap"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Passage" width="15" height="10" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJxjYBiZIJAAJgUEEaEmYNS8UfNGzcMJPBmIz4PEmIcN4HIztc0DAX8g9qCieSBAqjtHzcME/iTgoQgA64kS1A==
+   eJxjYBhYEEgCRgZBJNoTMMT1goA/CXigAQApUQlp
   </data>
  </layer>
 </map>

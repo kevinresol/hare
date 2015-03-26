@@ -1,1 +1,1 @@
-teleportPlayer(3, 12, 20, {facing="up"})
+teleportPlayer(3, 3, 5, {facing="up"})

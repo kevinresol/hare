@@ -47,17 +47,17 @@
   </object>
   <object id="5" type="event" gid="78" x="864" y="480">
    <properties>
-    <property name="trigger" value="playertouch"/>
+    <property name="trigger" value="overlap"/>
    </properties>
   </object>
   <object id="6" type="event" gid="78" x="864" y="512">
    <properties>
-    <property name="trigger" value="playertouch"/>
+    <property name="trigger" value="overlap"/>
    </properties>
   </object>
   <object id="7" type="event" gid="78" x="864" y="544">
    <properties>
-    <property name="trigger" value="playertouch"/>
+    <property name="trigger" value="overlap"/>
    </properties>
   </object>
   <object id="8" type="event" gid="2" x="640" y="384">

@@ -267,13 +267,25 @@ class Implementation implements IImplementation
 			player.animation.add("up", [10], 0);
 			player.animation.play("down");
 			
-			FlxG.camera.follow(player, LOCKON);
-			FlxG.camera.setScrollBoundsRect(0, 0, map.gridWidth * map.tileWidth, map.gridHeight * map.tileHeight);
+			
 		}
 		
 		if (map != engine.currentMap)
+		{
 			switchMap(map);
-		
+			
+			var mapWidth = map.gridWidth * map.tileWidth;
+			var mapHeight = map.gridHeight * map.tileHeight;
+			var x = FlxG.width > mapWidth ? (mapWidth - FlxG.width) / 2 : 0;
+			var y = FlxG.height > mapHeight ? (mapHeight - FlxG.height) / 2 : 0;
+			var w = Math.max(FlxG.width, mapWidth);
+			var h = Math.max(FlxG.height, mapHeight);
+			
+			FlxG.camera.follow(player, LOCKON);
+			FlxG.camera.setScrollBoundsRect(x, y, w, h);
+			
+		}
+			
 		layers[2].add(player);
 		player.x = x * map.tileWidth;
 		player.y = y * map.tileHeight - 16;
