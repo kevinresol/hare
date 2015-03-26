@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="12">
+ <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
+  <image source="../../images/Office_A5_Ground.png" width="256" height="64"/>
+ </tileset>
+ <tileset firstgid="17" name="wall" tilewidth="32" tileheight="32">
+  <image source="../../images/wall.png" width="96" height="64"/>
+ </tileset>
+ <tileset firstgid="23" name="expandedAutotile" tilewidth="32" tileheight="32">
+  <image source="../../images/expandedAutotile.png" width="256" height="192"/>
+  <terraintypes>
+   <terrain name="Void" tile="-1"/>
+  </terraintypes>
+ </tileset>
+ <tileset firstgid="71" name="passage" tilewidth="32" tileheight="32">
+  <image source="../../images/passage.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="87" name="Office-B" tilewidth="32" tileheight="32">
+  <image source="../../images/Office-B.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="343" name="Office-C" tilewidth="32" tileheight="32">
+  <image source="../../images/Office-C.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Walls and Floor" width="30" height="25">
+  <properties>
+   <property name="type" value="floor"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYEAAaSA2phDLM5AO9IFYiEKsTqa9ohRicu3lpRATay9ynNrS0V7kOBWms72wuBGjs72U2jVq78ix154BfzlKK3sFGfCXo7SyV4QBfzlKK3sJ4VF7qYMtgVgbD6aVvcTmX0kkt1jT0V5kQM96Hxkg+51cLEGGvaOAdgAAqpAl0A==
+  </data>
+ </layer>
+ <layer name="Below" width="30" height="25">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg8IJ6RgSEBiBOBOAmImxkxxTqB6s4D6ctQfAWI4xgpszcfqL8AiAuBuIgRt9h9IP0Yip8AcR6F9hIL3gPt+QzFX4C4jk720gLMhdLijLjZIGBFZT9WAXE1ENcQyaYW6ALibiDuIZJNDvgPCismBoaHSGGGHrbWjAhxZDa6elIAP9BOASD+OITTIyngPjScFZlQxX3R/G/DiJ1NLgDlf1A4GyLZex2IbwDxTSC+hYcNAmlIZpUBzXoKxM+AWAZoniwTgiYGPAfiF0D8Eohf4WGXguxC0/sVaOc3ILYB2mXLhKDRgTxQTAGIGYl0E7HAB2ieLxOCRgf6QDEDIBbEIocrTqkRv9gAsfF7nQI7QOWGAlp6JjZ+n1NgLz80nA2pHL+jYBSMFAAAe9lcFA==
+  </data>
+ </layer>
+ <layer name="Above" width="30" height="25" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFIxFEUcCmBGQBcTYQ5xDJjqOSvSDAwUg8mxx73ZkYGDyA2JOJsFpcYdtLhr3UAHMHyF5yACnhTGtwHIhPAPFJID6Fh00L8AuIfxJgp1Jg/mAK54ECxMbvcQrswBbOVxkJx68SUP0fLObJAMVlmTDpUTDw4DwwXi+QiS8yEjZ/FIwMAACD4TlI
+  </data>
+ </layer>
+ <objectgroup name="Objects">
+  <object id="1" type="event" gid="2" x="608" y="640">
+   <properties>
+    <property name="trigger" value="action"/>
+   </properties>
+  </object>
+  <object id="5" type="event" gid="78" x="864" y="480">
+   <properties>
+    <property name="trigger" value="playertouch"/>
+   </properties>
+  </object>
+  <object id="6" type="event" gid="78" x="864" y="512">
+   <properties>
+    <property name="trigger" value="playertouch"/>
+   </properties>
+  </object>
+  <object id="7" type="event" gid="78" x="864" y="544">
+   <properties>
+    <property name="trigger" value="playertouch"/>
+   </properties>
+  </object>
+  <object id="8" type="event" gid="2" x="640" y="384">
+   <properties>
+    <property name="trigger" value="bump"/>
+   </properties>
+  </object>
+  <object id="9" type="event" gid="2" x="608" y="320">
+   <properties>
+    <property name="trigger" value="overlap"/>
+   </properties>
+  </object>
+  <object id="10" type="event" gid="2" x="608" y="288">
+   <properties>
+    <property name="trigger" value="nearby"/>
+   </properties>
+  </object>
+  <object id="11" gid="2" x="512" y="352"/>
+ </objectgroup>
+ <layer name="Passage" width="30" height="25" opacity="0.5">
+  <data encoding="base64" compression="zlib">
+   eJztld0KgCAMhfd2mRSVF73/o5SRsETx+IMa9cFApHHm2VKib7NlRgoqr+SL9YW6iuXPwJp/H6NreiPZ3nDGAoZgeaiuz9uR8Fni9cacd7pjZ7WE/PStc8+bSu+6GtvnGrq+8yLzLBx5tebZ9iiUxynpM0rpucrVRe8rV49RXD6j/ZX0JFSvoeX/W8IzDb9TY2j1/mrQty/Uv58+OAAn0TeT
+  </data>
+ </layer>
+</map>

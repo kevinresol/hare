@@ -13,7 +13,7 @@ class AssetMacro
 
 	macro public static function getTestMapData():Expr 
 	{
-		var p = Context.resolvePath("../assets/map/template.tmx");
+		var p = Context.resolvePath("../assets/map/0001-template.tmx");
 		p = Path.normalize(p);
 		var s = File.getContent(p);
 		return macro $v{s};
