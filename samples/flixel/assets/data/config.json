@@ -1,4 +1,7 @@
 {
+	"actors":[
+		{"name":"Pandora", "image":{"source":"harrison2.png", "index":0}}
+	],
 	"items":[
 		{"id":1, "name":"Folders"},
 		{"id":2, "name":"Key"}

@@ -1,11 +1,10 @@
 package rpg.save;
 import haxe.Serializer;
 import haxe.Unserializer;
+import rpg.config.Config.ItemData;
 import rpg.Engine;
 import rpg.geom.Direction;
 import rpg.geom.IntPoint;
-import rpg.item.ItemManager.ItemData;
-import rpg.movement.InteractionManager.Player;
 
 /**
  * ...

@@ -1,4 +1,5 @@
 package impl ;
+import rpg.config.Config;
 
 /**
  * @author Kevin
@@ -6,7 +7,7 @@ package impl ;
 
 interface IAssetManager 
 {
-	function getConfig():String;
+	function getConfig():Config;
 	
 	function getSaveData(id:Int):String;
 	function setSaveData(id:Int, data:String):Void;

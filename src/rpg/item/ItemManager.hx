@@ -1,4 +1,5 @@
 package rpg.item;
+import rpg.config.Config.ItemData;
 import rpg.Engine;
 
 using Lambda;
@@ -55,9 +56,3 @@ class ItemManager
 	
 }
 
-typedef ItemData =
-{
-	id:Int,
-	name:String,
-	?quantity:Int,
-}

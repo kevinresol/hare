@@ -1,5 +1,7 @@
 package ;
+import haxe.Json;
 import impl.IAssetManager;
+import rpg.config.Config;
 import sys.io.File;
 
 /**
@@ -54,10 +56,11 @@ class TestAssetManager implements IAssetManager
 	
 	/* INTERFACE impl.IAssetManager */
 	
-	public function getConfig():String 
+	public function getConfig():Config 
 	{
 		var file = Macro.getAssetPath() + "/data/config.json";
-		return File.getContent(Macro.getAssetPath() + "/data/config.json");
+		var s = File.getContent(Macro.getAssetPath() + "/data/config.json");
+		return Json.parse(s);
 	}
 	
 }

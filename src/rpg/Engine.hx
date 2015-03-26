@@ -60,7 +60,7 @@ class Engine
 	{
 		// init items
 		var config = assetManager.getConfig(); 
-		itemManager.init(Json.parse(config).items);
+		itemManager.init(config.items);
 		
 		gameState = SGame;
 		
