@@ -75,7 +75,7 @@ class MainMenu extends FlxSpriteGroup
 							Events.disable(listener);
 							
 						case 2: // Quit Game
-							System.exit();
+							System.exit(0);
 							
 						default:
 					}
