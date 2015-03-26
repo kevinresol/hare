@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="37" height="23" tilewidth="32" tileheight="32" nextobjectid="3">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="30" tilewidth="32" tileheight="32" nextobjectid="4">
  <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
   <image source="../../images/Office_A5_Ground.png" width="256" height="64"/>
  </tileset>
@@ -18,34 +18,35 @@
  <tileset firstgid="87" name="Office-B" tilewidth="32" tileheight="32">
   <image source="../../images/Office-B.png" width="512" height="512"/>
  </tileset>
- <layer name="Walls and Floor" width="37" height="23">
+ <layer name="Walls and Floor" width="30" height="30">
   <properties>
    <property name="type" value="floor"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBicQBqIjQcYy6O5SR+IhQYYq2Nxk+gAY2xu4h1gPOqmUTeNumnUTYPVTfYMqHXMYHCTIANqHTMY3CTCgFrHDAY3wfBgdpMkEGsDsfUgchMMDFR4WULDBIQlBomb0MNm1E2kuwmW1umN0dMQAF06NaE=
+   eJztwQEBAAAAgiD/r25IQAEAAPBoDhAAAQ==
   </data>
  </layer>
- <layer name="Below" width="37" height="23">
+ <layer name="Below" width="30" height="30">
   <data encoding="base64" compression="zlib">
-   eJztxgEJACAMAMEthV2MpiZQK9jVJZCBMEH+4OFFAOAvSc+fVcIUq1rN+RG6Nazp/Ajr4gEAeGUDDGcP3Q==
+   eJztwQEBAAAAgiD/r25IQAEAAPBoDhAAAQ==
   </data>
  </layer>
- <layer name="Above" width="37" height="23" opacity="0.5">
+ <layer name="Above" width="30" height="30" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALSQRQFbFqBLCDOBuIcItlxdHATCHAwEs+ml5tIAb0D7YBRMApGwSgYBaNgkAIA3oAINA==
+   eJztwQEBAAAAgiD/r25IQAEAAPBoDhAAAQ==
   </data>
  </layer>
  <objectgroup name="Objects">
-  <object id="1" type="event" gid="2" x="96" y="192">
+  <object id="1" type="event" gid="2" x="32" y="64">
    <properties>
     <property name="trigger" value="autorun"/>
    </properties>
   </object>
+  <object id="3" type="player" gid="2" x="64" y="96"/>
  </objectgroup>
- <layer name="Passage" width="37" height="23" opacity="0.5">
+ <layer name="Passage" width="30" height="30" opacity="0.5">
   <data encoding="base64" compression="zlib">
-   eJztlNsKgDAIQPd3XSCs9f//Ug9JIqsZ5KXYAUHZBmfMmVLj6yzOwcnvX/ExM6vRabIWIVw5efInp0zOroKc7td06vaAo4ZK3hs5DUn+v0cjp9K7SHItJ02akwzsUySCE0J7MQr0DXGeeBOlr3AOQ2HNy+luhjWnk9qsB4fgbHV9Lfk=
+   eJztwQEBAAAAgiD/r25IQAEAAPBoDhAAAQ==
   </data>
  </layer>
 </map>

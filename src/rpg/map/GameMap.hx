@@ -1,4 +1,5 @@
 package rpg.map;
+import rpg.geom.IntPoint;
 
 /**
  * ...
@@ -21,7 +22,7 @@ class GameMap
 	
 	public var objects:Array<Object>;
 	
-	public var player:Dynamic;
+	public var player:IntPoint;
 	
 
 	public function new(id, gridWidth, gridHeight, tileWidth, tileHeight) 
@@ -33,6 +34,11 @@ class GameMap
 		this.tileHeight = tileHeight;
 		
 		objects = [];
+	}
+	
+	public function addPlayer(x, y):Void
+	{
+		player = new IntPoint(x, y);
 	}
 	
 	public function addEvent(id, imageSource, tileId, x, y, trigger):Void
@@ -56,6 +62,9 @@ class TileLayer
 		data = new Map();
 	}
 }
+
+
+
 
 class Object
 {

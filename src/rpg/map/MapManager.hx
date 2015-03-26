@@ -42,24 +42,29 @@ class MapManager
 				var x = Std.int(o.x / tiledMap.tileWidth);
 				var y = Std.int(o.y / tiledMap.tileHeight) - 1;
 				
-				if (o.type == "event")
+				switch (o.type)
 				{
-					var trigger:EventTrigger = switch (o.custom.trigger) 
-					{
-						case "action": EAction;
-						case "bump": EBump;
-						case "overlap": EOverlap;
-						case "nearby": ENearby;
-						case "autorun": EAutorun;
-						case "parallel": EParallel;
-						default: EAction;
-					}
+					case "event":
+						var trigger:EventTrigger = switch (o.custom.trigger) 
+						{
+							case "action": EAction;
+							case "bump": EBump;
+							case "overlap": EOverlap;
+							case "nearby": ENearby;
+							case "autorun": EAutorun;
+							case "parallel": EParallel;
+							default: EAction;
+						}
+						
+						map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), x, y, trigger);
+						
+					case "object":
+						map.addObject(o.id, imageSource, tileset.fromGid(o.gid), x, y);
+						
+					case "player":
+						map.addPlayer(x, y);
 					
-					map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), x, y, trigger);
-				}
-				else
-				{
-					map.addObject(o.id, imageSource, tileset.fromGid(o.gid), x, y);
+					default:
 				}
 			}
 			maps[id] = map;
