@@ -25,6 +25,13 @@ class ScriptTest
 	}
 	
 	@Test
+	public function testGameVar():Void
+	{
+		Assert.isTrue(engine.eventManager.execute('return getGameVar("testGlobalVar")') == null);
+		Assert.isTrue(engine.eventManager.execute('setGameVar("testGlobalVar", 12.3) return getGameVar("testGlobalVar")') == 12.3);
+	}
+	
+	@Test
 	public function testMessage():Void
 	{
 		engine.eventManager.execute('message.showText("test1", "default options")');
