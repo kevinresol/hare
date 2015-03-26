@@ -47,6 +47,9 @@ class EventManager
 			host_showChoices: scriptHost.showChoices,
 			host_teleportPlayer: scriptHost.teleportPlayer,
 			
+			host_changeItem: scriptHost.changeItem,
+			host_getItem: scriptHost.getItem,
+			
 			host_sleep: scriptHost.sleep,
 			host_log: scriptHost.log,
 			host_showSaveScreen: scriptHost.showSaveScreen,

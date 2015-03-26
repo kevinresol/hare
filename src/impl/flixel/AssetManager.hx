@@ -60,6 +60,11 @@ class AssetManager implements IAssetManager
 		
 	}
 	
+	public function getConfig():String
+	{
+		return Assets.getText("assets/data/config.json");
+	}
+	
 	public function getMapData(id:Int):String 
 	{
 		var filename = maps[id];

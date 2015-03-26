@@ -4,6 +4,7 @@ import haxe.Unserializer;
 import rpg.Engine;
 import rpg.geom.Direction;
 import rpg.geom.IntPoint;
+import rpg.item.ItemManager.ItemData;
 import rpg.movement.InteractionManager.Player;
 
 /**
@@ -26,6 +27,7 @@ class SaveManager
 		data.mapId = engine.mapManager.currentMap.id;
 		data.playerFacing = engine.interactionManager.player.facing;
 		data.playerPosition = engine.interactionManager.player.position;
+		data.items = engine.itemManager.itemData;
 		engine.impl.assetManager.setSaveData(id, Serializer.run(data));
 	}
 	
@@ -34,6 +36,7 @@ class SaveManager
 		var s = engine.impl.assetManager.getSaveData(id);
 		var data:SaveData = Unserializer.run(s);
 		engine.eventManager.setGameData(data.gameData);
+		engine.itemManager.init(data.items);
 		engine.eventManager.scriptHost.teleportPlayer(data.mapId, data.playerPosition.x, data.playerPosition.y, {facing:Direction.toString(data.playerFacing)});
 	}
 }
@@ -44,6 +47,7 @@ class SaveData
 	public var playerPosition:IntPoint;
 	public var playerFacing:Int;
 	public var gameData:GameData;
+	public var items:Array<ItemData>;
 	
 	public function new()
 	{

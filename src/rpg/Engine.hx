@@ -1,7 +1,9 @@
 package rpg;
+import haxe.Json;
 import impl.IImplementation;
 import rpg.event.EventManager;
 import rpg.input.InputManager;
+import rpg.item.ItemManager;
 import rpg.map.GameMap;
 import rpg.map.MapManager;
 import rpg.movement.InteractionManager;
@@ -22,6 +24,7 @@ class Engine
 	private var inputManager:InputManager;
 	private var interactionManager:InteractionManager;
 	private var saveManager:SaveManager;
+	private var itemManager:ItemManager;
 	
 	private var gameState(default, set):GameState;
 	
@@ -40,6 +43,7 @@ class Engine
 		inputManager = new InputManager(this);
 		interactionManager = new InteractionManager(this);
 		saveManager = new SaveManager(this);
+		itemManager = new ItemManager(this);
 		
 		gameState = SMainMenu;
 	}
@@ -49,6 +53,10 @@ class Engine
 	 */
 	public function startGame():Void
 	{
+		// init items
+		var config = impl.assetManager.getConfig(); 
+		itemManager.init(Json.parse(config).items);
+		
 		gameState = SGame;
 		
 		// always start game at map 1

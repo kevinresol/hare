@@ -76,6 +76,14 @@ fadeInScreen = function(ms)
 	sleep(ms)
 end
 
+changeItem = function(id, quantity)
+	host_changeItem(id, quantity)
+end
+
+getItem = function(id)
+	return host_getItem(id)
+end
+
 sleep = function(ms)
 	host_sleep(ms)
 	coroutine.yield()

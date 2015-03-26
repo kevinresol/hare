@@ -6,6 +6,8 @@ package impl ;
 
 interface IAssetManager 
 {
+	function getConfig():String;
+	
 	function getSaveData(id:Int):String;
 	function setSaveData(id:Int, data:String):Void;
 	

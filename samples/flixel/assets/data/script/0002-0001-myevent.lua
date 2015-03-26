@@ -47,6 +47,12 @@ teleportPlayer(3, 5, 5, {facing="up"})
 
 showText("", "Welcome to the new map!\n(pos: center, bg: transparent)", {position="center", background="transparent"})
 
+showText("", "Current item:" .. getItem(1))
+
+changeItem(1, 1)
+
+showText("", "Current item:" .. getItem(1))
+
 showText("", "After this message, \nthe script will wait for 1 second\nMusic will pause for 1 second")
 
 fadeOutBackgroundMusic(200, {wait=true})
@@ -56,8 +62,6 @@ restoreBackgroundMusic()
 fadeInBackgroundMusic(200, {wait=true})
 
 showText("", "The waiting has ended\nYou can move now")
-
-showSaveScreen()
 
 log("end event")
 

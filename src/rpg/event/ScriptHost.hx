@@ -106,6 +106,16 @@ class ScriptHost
 			engine.interactionManager.player.facing = Direction.fromString(options.facing);
 	}
 	
+	public function changeItem(id:Int, quantity:Int):Void
+	{
+		engine.itemManager.changeItem(id, quantity);
+	}
+	
+	public function getItem(id:Int):Int
+	{
+		return engine.itemManager.getItem(id);
+	}
+	
 	public function sleep(ms:Int):Void
 	{
 		engine.delayedCall(resume, ms);
