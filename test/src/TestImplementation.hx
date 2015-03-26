@@ -51,6 +51,7 @@ class TestImplementation implements IImplementation
 	
 	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void 
 	{
+		lastCalledCommand.set(Macro.getCurrentFunction(), [prompt, choices, options]);
 		callback(1);
 	}
 	

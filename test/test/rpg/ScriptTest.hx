@@ -27,11 +27,19 @@ class ScriptTest
 	@Test
 	public function testMessage():Void
 	{
-		engine.eventManager.execute('message.showText("test", "default options")');
-		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["test", "default options", {background:"normal", position:"bottom"}]));
+		engine.eventManager.execute('message.showText("test1", "default options")');
+		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["test1", "default options", {background:"normal", position:"bottom"}]));
 		
-		engine.eventManager.execute('message.showText("test","provided options", {background="dimmed", position="top"})');
-		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["test", "provided options", {background:"dimmed", position:"top"}]));
+		engine.eventManager.execute('message.showText("test2","provided options", {background="dimmed", position="top"})');
+		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["test2", "provided options", {background:"dimmed", position:"top"}]));
+		
+		engine.eventManager.execute('message.showChoices("select",{{text="c1", callback=function() end},{text="c2", callback=function() end}})');
+		Assert.isTrue(impl.lastCalledCommand.is(impl.showChoices, ["select", [{text:"c1", disabled:false, hidden:false}, {text:"c2", disabled:false, hidden:false}], {background:"normal", position:"bottom"}]));
+		
+		engine.eventManager.execute('message.showChoices("select",{{text="c1", disableCondition=function() return true end, callback=function() end},{text="c2", hideCondition=function() return true end, callback=function() end}}, {background="dimmed", position="center"})');
+		Assert.isTrue(impl.lastCalledCommand.is(impl.showChoices, ["select", [{text:"c1", disabled:true, hidden:false}, {text:"c2", disabled:false, hidden:true}], {background:"dimmed", position:"center"}]));
+		
+		
 	}
 	
 	@Test
