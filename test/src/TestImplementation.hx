@@ -1,4 +1,5 @@
 package ;
+import haxe.CallStack;
 import haxe.Constraints.Function;
 import impl.IAssetManager;
 import impl.IImplementation;
@@ -91,12 +92,12 @@ class TestImplementation implements IImplementation
 	
 	public function playSound(id:Int, volume:Float, pitch:Float):Void 
 	{
-		lastCalledCommand.set(Macro.getFunctionName(), [id, volume, pitch]);
+		lastCalledCommand.set(Macro.getCurrentFunction(), [id, volume, pitch]);
 	}
 	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void 
 	{
-		lastCalledCommand.set(Macro.getFunctionName(), [id, volume, pitch]);
+		lastCalledCommand.set(Macro.getCurrentFunction(), [id, volume, pitch]);
 	}
 	
 	public function playSystemSound(id:Int, volume:Float):Void
@@ -106,22 +107,22 @@ class TestImplementation implements IImplementation
 	
 	public function saveBackgroundMusic():Void 
 	{
-		lastCalledCommand.set(Macro.getFunctionName(), []);
+		lastCalledCommand.set(Macro.getCurrentFunction(), []);
 	}
 	
 	public function restoreBackgroundMusic():Void 
 	{
-		lastCalledCommand.set(Macro.getFunctionName(), []);
+		lastCalledCommand.set(Macro.getCurrentFunction(), []);
 	}
 	
 	public function fadeOutBackgroundMusic(ms:Int):Void 
 	{
-		lastCalledCommand.set(Macro.getFunctionName(), [ms]);
+		lastCalledCommand.set(Macro.getCurrentFunction(), [ms]);
 	}
 	
 	public  function fadeInBackgroundMusic(ms:Int):Void 
 	{
-	lastCalledCommand.set(Macro.getFunctionName(), [ms]);
+		lastCalledCommand.set(Macro.getCurrentFunction(), [ms]);
 	}
 	
 	public function fadeOutScreen(ms:Int):Void 
@@ -153,30 +154,112 @@ class TestImplementation implements IImplementation
 
 class Command
 {
-	public var list:Array<{func:String, args:Array<Dynamic>}>;
+	public var list:Array<{func:Dynamic, args:Array<Dynamic>}>;
 	
 	public function new()
 	{
 		list = [];
 	}
 	
-	public function set(func, args)
+	public function set(func:Dynamic, args:Array<Dynamic>)
 	{
 		list.push({func:func, args:args});
 	}
 	
-	public function is(func:String, args:Array<Dynamic>)
+	public function is(func:Dynamic, args:Array<Dynamic>)
 	{
 		var c = list.shift();
 		
-		if (c.func != func) return false;
-		if (c.args.length != args.length) return false;
 		
-		for (i in 0... c.args.length)
+		if (!compare(c.func, func)) 
 		{
-			if (c.args[i] != args[i]) return false;
+			trace("not same func");
+			return false;
+		}
+		
+		if (!compare(c.args, args)) 
+		{
+			trace("not same args");
+			return false;
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Compare two values recursively
+	 * @param	a
+	 * @param	b
+	 * @return
+	 */
+	private function compare(a:Dynamic, b:Dynamic):Bool
+	{
+		if (Std.is(a, Array))
+		{
+			if (!Std.is(b, Array)) 
+			{
+				trace('b is not array');
+				return false;
+			}
+			if (a.length != b.length) 
+			{
+				trace('array length different');
+				return false;
+			}
+			for (i in 0...a.length)
+			{
+				if (!compare(a[i], b[i])) 
+				{
+					trace('array value different at index:$i');
+					return false;
+				}
+			}
+			return true;
+		}
+		else if (Reflect.isFunction(a))
+		{
+			if (!Reflect.isFunction(b)) 
+			{
+				trace('b is not function');
+				return false;
+			}
+			if (!Reflect.compareMethods(a, b))
+			{
+				trace('a b are not the same function');
+				return false;
+			}
+			return true;
+		}
+		else if (Reflect.isObject(a))
+		{
+			if (!Reflect.isObject(b)) 
+			{
+				trace('b is not object');
+				return false;
+			}
+			for (field in Reflect.fields(a))
+			{
+				if (!Reflect.hasField(b, field)) 
+				{
+					trace('b does not have field:$field');
+					return false;
+				}
+				if (!compare(Reflect.field(a, field), Reflect.field(b, field))) 
+				{
+					trace('field:$field value different');
+					return false;
+				}
+			}
+			return true;
+		}
+		else 
+		{
+			if (a != b)
+			{
+				trace('a:$a b:$b are different values');
+				return false;
+			}
+			return true;
+		}
 	}
 }

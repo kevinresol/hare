@@ -19,8 +19,8 @@ class Macro
 		return macro $v{s};
 	}
 	
-	macro public static function getFunctionName():Expr
+	macro public static function getCurrentFunction():Expr
 	{
-		return macro $v{Context.getLocalMethod()};
+		return macro $i{Context.getLocalMethod()};
 	}
 }
