@@ -1,7 +1,4 @@
 package ;
-import haxe.CallStack;
-import haxe.Constraints.Function;
-import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
 import rpg.event.ScriptHost.ShowChoicesChoice;
@@ -18,7 +15,7 @@ class TestImplementation implements IImplementation
 {
 	
 	public var engine:Engine;
-	public var assetManager:IAssetManager;
+	public var assetManager:TestAssetManager;
 	
 	public var lastCalledCommand:Command;
 

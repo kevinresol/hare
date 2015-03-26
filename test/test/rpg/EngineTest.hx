@@ -17,7 +17,7 @@ class EngineTest
 	public function beforeClass():Void
 	{
 		var impl = new TestImplementation();
-		engine = new Engine(impl);
+		engine = new Engine(impl, impl.assetManager);
 	}
 	
 	@AfterClass

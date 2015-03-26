@@ -20,7 +20,7 @@ class ScriptTest
 	public function beforeClass():Void
 	{
 		impl = new TestImplementation();
-		engine = new Engine(impl);
+		engine = new Engine(impl, impl.assetManager);
 		engine.startGame();
 	}
 	
