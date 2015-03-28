@@ -290,8 +290,12 @@ class Implementation implements IImplementation
 		player.x = x * map.tileWidth;
 		player.y = y * map.tileHeight - 16;
 		
-		if (options.facing != "unchanged")
-			player.animation.play(options.facing);
+		switch (options.facing) 
+		{
+			case Direction.DOWN | Direction.UP | Direction.LEFT | Direction.RIGHT:
+				player.animation.play(Direction.toString(options.facing));
+			default:
+		}
 	}
 	
 	public function fadeOutScreen(ms:Int):Void 

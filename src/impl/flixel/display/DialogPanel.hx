@@ -181,20 +181,20 @@ class DialogPanel extends FlxSpriteGroup
 	{
 		y = switch (options.position) 
 		{
-			case "top": 0;
-			case "center": (480 - 150) / 2;
-			default: 480 - 150;
+			case PTop: 0;
+			case PCenter: (480 - 150) / 2;
+			case PBottom: 480 - 150;
 		}
 		
 		switch (options.background) 
 		{
-			case "transparent":
+			case BTransparent:
 				background.alpha = 0;
 				border.visible = false;
-			case "dimmed":
+			case BDimmed:
 				background.alpha = 0.5;
 				border.visible = false;
-			default:
+			case BNormal:
 				background.alpha = 0.9;
 				border.visible = true;
 		}

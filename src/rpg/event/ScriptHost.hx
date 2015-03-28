@@ -56,10 +56,10 @@ class ScriptHost
 			options = {};
 		
 		if (options.background == null)
-			options.background = "normal";
+			options.background = BNormal;
 			
 		if (options.position == null)
-			options.position = "bottom";
+			options.position = PBottom;
 		
 		engine.impl.showText(resume, characterId, message, options);
 	}
@@ -70,10 +70,10 @@ class ScriptHost
 			options = {};
 		
 		if (options.background == null)
-			options.background = "normal";
+			options.background = BNormal;
 			
 		if (options.position == null)
-			options.position = "bottom";
+			options.position = PBottom;
 		
 		engine.impl.showChoices(resumeWithData, prompt, choices, options);
 	}
@@ -94,7 +94,7 @@ class ScriptHost
 			options = {};
 			
 		if (options.facing == null)
-			options.facing = "unchanged";
+			options.facing = Direction.NONE;
 		
 		var map = engine.mapManager.getMap(mapId);
 		engine.impl.teleportPlayer(map, x, y, options);
@@ -102,8 +102,12 @@ class ScriptHost
 		engine.interactionManager.player.map = map;
 		engine.interactionManager.player.position.set(x, y);
 		
-		if(options.facing != "unchanged")
-			engine.interactionManager.player.facing = Direction.fromString(options.facing);
+		switch (options.facing) 
+		{
+			case Direction.DOWN | Direction.UP | Direction.LEFT | Direction.RIGHT:
+				engine.interactionManager.player.facing = options.facing;
+			default:
+		}
 	}
 	
 	public function changeItem(id:Int, quantity:Int):Void
@@ -141,8 +145,8 @@ typedef ShowChoicesChoice =
 
 typedef ShowTextOptions =
 {
-	?position:String,
-	?background:String,
+	?position:ShowTextPosition,
+	?background:ShowTextBackground,
 }
 
 typedef ShowChoicesOptions =
@@ -152,5 +156,21 @@ typedef ShowChoicesOptions =
 
 typedef TeleportPlayerOptions =
 {
-	?facing:String,
+	?facing:Int,
+}
+
+@:enum
+abstract ShowTextBackground(String)
+{
+	var BDimmed = "dimmed";
+	var BTransparent = "transparent";
+	var BNormal = "normal";
+}
+
+@:enum
+abstract ShowTextPosition(String)
+{
+	var PTop = "top";
+	var PCenter = "center";
+	var PBottom = "bottom";
 }
