@@ -149,6 +149,18 @@ class TestImplementation implements IImplementation
 		
 	}
 	
+	/* INTERFACE impl.IImplementation */
+	
+	public function showGameMenu(cancelCallback:Void->Void):Void 
+	{
+		
+	}
+	
+	public function hideGameMenu():Void 
+	{
+		
+	}
+	
 }
 
 class Command
