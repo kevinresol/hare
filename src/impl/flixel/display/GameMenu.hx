@@ -40,7 +40,7 @@ class GameMenu extends FlxSpriteGroup
 		
 		add(background);
 		add(selector);
-		add(title = new FlxText(0, 0, 100, ""));
+		add(title = new FlxText(0, 0, 100, "Game Menu"));
 		
 		scrollFactor.set();
 		
@@ -67,20 +67,8 @@ class GameMenu extends FlxSpriteGroup
 		Events.disable(listener);
 	}
 	
-	public function showSaveScreen(callback:Int->Void, cancelCallback:Void->Void):Void
+	public function show(callback:Int->Void, cancelCallback:Void->Void):Void
 	{
-		title.text = "Save Game";
-		
-		this.callback = callback;
-		this.cancelCallback = cancelCallback;
-		selected = 0;
-		Events.enable(listener);
-	}
-	
-	public function showLoadScreen(callback:Int->Void, cancelCallback:Void->Void):Void
-	{
-		title.text = "Load Game";
-		
 		this.callback = callback;
 		this.cancelCallback = cancelCallback;
 		selected = 0;

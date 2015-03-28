@@ -68,7 +68,7 @@ class InteractionManager
 								}
 								
 							case KEsc:
-								engine.gameState = SSaveScreen;
+								engine.gameState = SGameMenu;
 						}
 					}
 					

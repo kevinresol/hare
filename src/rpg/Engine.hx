@@ -146,6 +146,9 @@ class Engine
 					
 				case SSaveScreen:
 					impl.hideSaveScreen();
+				
+				case SGameMenu:
+					impl.hideGameMenu();
 					
 				default:
 			}
@@ -161,6 +164,9 @@ class Engine
 				
 			case SSaveScreen:
 				impl.showSaveScreen(saveGame, function() gameState = currentState);
+				
+			case SGameMenu:
+				impl.showGameMenu(function() gameState = currentState);
 				
 			default:
 				
@@ -193,3 +199,4 @@ enum GameState
 	SLoadScreen;
 	SSaveScreen;
 }
+

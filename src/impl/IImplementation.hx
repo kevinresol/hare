@@ -17,6 +17,8 @@ interface IImplementation
 	/* ===== System Functions ===== */
 	function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void;
 	function hideMainMenu():Void;
+	function showGameMenu(cancelCallback:Void->Void):Void;
+	function hideGameMenu():Void;
 	function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void;
 	function hideSaveScreen():Void;
 	function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void;

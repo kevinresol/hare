@@ -115,6 +115,17 @@ class Implementation implements IImplementation
 		hudLayer.remove(mainMenu, true);
 	}
 	
+	public function showGameMenu(cancelCallback:Void->Void):Void
+	{
+		hudLayer.add(gameMenu);
+		gameMenu.show(null, cancelCallback);
+	}
+	
+	public function hideGameMenu():Void
+	{
+		hudLayer.remove(gameMenu, true);
+	}
+	
 	
 	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void
 	{
@@ -137,17 +148,6 @@ class Implementation implements IImplementation
 	{
 		hudLayer.remove(saveLoadScreen, true);
 	}
-	
-	public function showGameMenu():Void
-	{
-		
-	}
-	
-	public function hideGameMenu():Void
-	{
-		
-	}
-	
 	
 	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void
 	{
