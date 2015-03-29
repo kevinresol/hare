@@ -7,4 +7,4 @@ setGameVar("globalVar", "hello, world!")
 
 message.showText("", "this is autorun event\nwhich will just teleport to next map")
 
-movement.teleportPlayer(2, 9, 11, {facing="down"})
+movement.teleportPlayer(2, 15, 11, {facing="down"})

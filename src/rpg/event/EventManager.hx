@@ -43,6 +43,7 @@ class EventManager
 			
 			host_showText: scriptHost.showText,
 			host_showChoices: scriptHost.showChoices,
+			host_inputNumber: scriptHost.inputNumber,
 			host_teleportPlayer: scriptHost.teleportPlayer,
 			
 			host_changeItem: scriptHost.changeItem,

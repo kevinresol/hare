@@ -78,6 +78,11 @@ class ScriptHost
 		engine.impl.showChoices(resumeWithData, prompt, choices, options);
 	}
 	
+	public function inputNumber(prompt:String, numDigit:Int):Void
+	{
+		engine.impl.inputNumber(resumeWithData, prompt, numDigit);
+	}
+	
 	public function fadeOutScreen(ms:Int):Void
 	{
 		engine.impl.fadeOutScreen(ms);

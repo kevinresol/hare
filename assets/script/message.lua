@@ -14,3 +14,8 @@ message.showChoices = function(prompt, choices, options)
 	host_showChoices(prompt, choices, options)
 	return coroutine.yield()
 end
+
+message.inputNumber = function(prompt, numDigit)
+	host_inputNumber(prompt, numDigit)
+	return coroutine.yield()
+end

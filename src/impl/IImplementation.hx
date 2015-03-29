@@ -72,5 +72,5 @@ interface IImplementation
 	 * @param	options
 	 */
 	function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void;
-	
+	function inputNumber(callback:Int->Void, prompt:String, numDigit:Int):Void;
 }

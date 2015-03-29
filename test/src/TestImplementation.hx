@@ -161,6 +161,13 @@ class TestImplementation implements IImplementation
 		
 	}
 	
+	/* INTERFACE impl.IImplementation */
+	
+	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int):Void 
+	{
+		
+	}
+	
 }
 
 class Command
