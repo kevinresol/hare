@@ -67,12 +67,12 @@ class MainMenu extends FlxSpriteGroup
 					switch (selected) 
 					{
 						case 0: // New Game
-							startGameCallback();
 							Events.disable(listener);
+							startGameCallback();
 							
 						case 1: // Load Game
-							loadGameCallback();
 							Events.disable(listener);
+							loadGameCallback();
 							
 						case 2: // Quit Game
 							System.exit(0);
