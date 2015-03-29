@@ -3,41 +3,37 @@ music.play(1, 1, 1)
 log(getGameVar("globalVar"))
 
 local callbackForSelection2 = function ()
-	message.showChoices("You selected 2, now please choose again", 
+	local selected = message.showChoices("You selected 2, now please choose again", 
 	{
 	  {
 		text = "Choice 1", 
-		diableCondition = function() return false end, 
-		hideCondition = function() return true end,
-		callback = function() message.showText("", "You selected 1") end
+		disabled = false, 
+		hidden = true
 	  },
 	  {
-		text = "Choice 2", 
-		callback = function() message.showText("", "You selected 2") end
+		text = "Choice 2"
 	  }
 	}) 
+	message.showText("", "You selected " .. selected)
 end
 
-message.showChoices("Please choose one", 
+local selected2 = message.showChoices("Please choose one", 
 {
 	{
-		text = "Choice 1", 
-		diableCondition = function() return false end, 
-		hideCondition = function() return true end,
-		callback = function() message.showText("", "You selected 1") end
+		text = "Choice 1"
 	},
 	{
-		text = "Choice 2", 
-		callback = callbackForSelection2
+		text = "Choice 2"
 	},
 	{
-		text = "Choice 3", 
-		diableCondition = function() return false end, 
-		hideCondition = function() return true end,
-		callback = function() message.showText("", "You selected 3") end
-	},
+		text = "Choice 3"
+	}
 })
 
+if selected2 == 1 then message.showText("", "You selected 1")
+elseif selected2 == 2 then callbackForSelection2()
+elseif selected2 == 3 then message.showText("", "You selected 3")
+end
 
 
 message.showText("", "Going to teleport you to another map\n(pos: top, bg: dimmed)", {position="top", background="dimmed"})

@@ -6,22 +6,11 @@ message.showText = function(characterId, message, options)
 end
 
 message.showChoices = function(prompt, choices, options)
-	local host_choices = {}
-	local defaultCondition = function() return false end
-	
 	for i, choice in ipairs(choices) do
-		local disableCondition = choice.disableCondition or defaultCondition
-		local hideCondition = choice.hideCondition or defaultCondition
-		
-		host_choices[i] = 
-		{
-			text = choice.text,
-			disabled = disableCondition(),
-			hidden = hideCondition()
-		}
+		if choice.hidden == nil then choice.hidden = false end
+		if choice.disabled == nil then choice.disabled = false end
 	end
 	
-	host_showChoices(prompt, host_choices, options)
-	local selected = coroutine.yield()
-	choices[selected].callback()
+	host_showChoices(prompt, choices, options)
+	return coroutine.yield()
 end
