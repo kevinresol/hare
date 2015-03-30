@@ -154,6 +154,8 @@ class DialogPanel extends FlxSpriteGroup
 						// dismiss this text panel
 						visible = false;
 						Events.disable(inputNumberListener);
+						inputNumberPanel.hide(); // disable its event listener
+						inputNumberCallback(inputNumberPanel.number);
 					}
 					
 				default:
@@ -208,9 +210,12 @@ class DialogPanel extends FlxSpriteGroup
 		selector.visible = false;
 		inputNumberPanel.visible = false;
 		handleOptions(options);
+		
+		inputNumberCallback = callback;
+		
 		message = prompt;
 		text.text = "";
-		tween = FlxTween.num(0, message.length, message.length / 15, { onComplete: function(t) inputNumberPanel.show(callback, numDigit) }, function(v) text.text = message.substr(0, Std.int(v)));
+		tween = FlxTween.num(0, message.length, message.length / 15, { onComplete: function(t) inputNumberPanel.show(numDigit) }, function(v) text.text = message.substr(0, Std.int(v)));
 		
 		Events.enable(inputNumberListener);
 	}

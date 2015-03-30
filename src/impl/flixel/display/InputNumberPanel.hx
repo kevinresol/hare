@@ -14,7 +14,7 @@ using Lambda;
  */
 class InputNumberPanel extends FlxSpriteGroup
 {
-	private var callback:Int->Void;
+	public var number(get, never):Int;
 	private var listener:Int;
 	
 	private var texts:Array<FlxText>;
@@ -54,17 +54,6 @@ class InputNumberPanel extends FlxSpriteGroup
 					var n = Std.parseInt(texts[selected].text);
 					texts[selected].text = Std.string(n == 0 ? 9 : --n);
 					
-				case KEnter:
-					var result = 0;
-					for (i in 0...numDigit)
-					{
-						var n = Std.parseInt(texts[i].text);
-						result += Std.int(Math.pow(10, numDigit - i - 1) * n);
-					}
-					visible = false;
-					Events.disable(listener);
-					callback(result);
-					
 				default:
 					
 			}
@@ -72,12 +61,11 @@ class InputNumberPanel extends FlxSpriteGroup
 		Events.disable(listener);
 	}
 	
-	public function show(callback, numDigit)
+	public function show(numDigit)
 	{
 		visible = true;
 		
 		this.numDigit = numDigit;
-		this.callback = callback;
 		selected = 0;
 		
 		while (texts.length < numDigit)
@@ -97,6 +85,12 @@ class InputNumberPanel extends FlxSpriteGroup
 		Events.enable(listener);
 	}
 	
+	public function hide():Void
+	{
+		Events.disable(listener);
+		visible = false;
+	}
+	
 	private function set_selected(v:Int):Int
 	{
 		if (v < 0) v = numDigit - 1;
@@ -105,5 +99,16 @@ class InputNumberPanel extends FlxSpriteGroup
 		selector.x = x - 2 + 20 * v;
 		
 		return selected = v;
+	}
+	
+	private function get_number():Int
+	{
+		var result = 0;
+		for (i in 0...numDigit)
+		{
+			var n = Std.parseInt(texts[i].text);
+			result += Std.int(Math.pow(10, numDigit - i - 1) * n);
+		}
+		return result;
 	}
 }
