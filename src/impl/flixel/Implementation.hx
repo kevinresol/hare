@@ -7,12 +7,11 @@ import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import impl.flixel.display.DialogPanel;
 import impl.flixel.display.GameMenu;
-import impl.flixel.display.InputNumberPanel;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
-import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.Engine;
+import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
@@ -42,7 +41,6 @@ class Implementation implements IImplementation
 	private var gameMenu:GameMenu;
 	private var saveLoadScreen:SaveLoadScreen;
 	private var dialogPanel:DialogPanel;
-	private var inputNumberPanel:InputNumberPanel;
 	private var player:FlxSprite;
 	
 
@@ -59,14 +57,7 @@ class Implementation implements IImplementation
 		saveLoadScreen = new SaveLoadScreen();
 		
 		dialogPanel = new DialogPanel();
-		inputNumberPanel = new InputNumberPanel();
-		inputNumberPanel.setPosition(250, 300);
-		
-		hudLayer.add(inputNumberPanel);
 		hudLayer.add(dialogPanel);
-		
-		inputNumberPanel.visible = false;
-		dialogPanel.visible = false;
 		
 		layers = [for (i in 0...5) cast gameLayer.add(new FlxGroup())];
 		objects = new Map();
@@ -213,11 +204,10 @@ class Implementation implements IImplementation
 		dialogPanel.showChoices(callback, prompt, choices, options);
 	}
 	
-	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int):Void
+	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int, options:InputNumberOptions):Void
 	{
 		checkCallback(callback);
-		// TODO prompt
-		inputNumberPanel.show(callback, prompt, numDigit);
+		dialogPanel.inputNumber(callback, prompt, numDigit, options);
 	}
 	
 	public function log(message:String):Void 

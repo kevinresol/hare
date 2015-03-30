@@ -78,9 +78,18 @@ class ScriptHost
 		engine.impl.showChoices(resumeWithData, prompt, choices, options);
 	}
 	
-	public function inputNumber(prompt:String, numDigit:Int):Void
+	public function inputNumber(prompt:String, numDigit:Int, ?options:InputNumberOptions):Void
 	{
-		engine.impl.inputNumber(resumeWithData, prompt, numDigit);
+		if (options == null)
+			options = {};
+		
+		if (options.background == null)
+			options.background = BNormal;
+			
+		if (options.position == null)
+			options.position = PBottom;
+		
+		engine.impl.inputNumber(resumeWithData, prompt, numDigit, options);
 	}
 	
 	public function fadeOutScreen(ms:Int):Void
@@ -155,6 +164,11 @@ typedef ShowTextOptions =
 }
 
 typedef ShowChoicesOptions =
+{>ShowTextOptions,
+	
+}
+
+typedef InputNumberOptions =
 {>ShowTextOptions,
 	
 }

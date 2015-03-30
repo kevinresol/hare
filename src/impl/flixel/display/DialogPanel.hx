@@ -3,6 +3,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
@@ -35,12 +36,15 @@ class DialogPanel extends FlxSpriteGroup
 	private var tween:FlxTween;
 	private var text:FlxText;
 	private var message:String;
+	private var inputNumberPanel:InputNumberPanel;
 	
 	private var showTextListener:Int;
 	private var showChoicesListener:Int;
+	private var inputNumberListener:Int;
 	
 	private var showTextCallback:Void->Void;
 	private var showChoicesCallback:Int->Void;
+	private var inputNumberCallback:Int->Void;
 	
 	private var numChoices:Int;
 	private var selected(default, set):Int;
@@ -65,11 +69,16 @@ class DialogPanel extends FlxSpriteGroup
 		
 		text = new FlxText(100, 15, 1000, "", 20);
 		
+		inputNumberPanel = new InputNumberPanel();
+		inputNumberPanel.y = -30;
+		
 		add(background);
 		add(border);
 		add(text);
 		add(selector);
+		add(inputNumberPanel);
 		
+		visible = false;
 		scrollFactor.set();
 		y = 480 - 150;
 		
@@ -128,12 +137,38 @@ class DialogPanel extends FlxSpriteGroup
 		});
 		// disable the listener for now, it will be enabled when showChoices
 		Events.disable(showChoicesListener);
+		
+		
+		inputNumberListener = Events.on("key.justPressed", function(key:InputKey)
+		{
+			switch (key) 
+			{
+				case KEnter:
+					if (!completed)
+					{
+						// immediately show all text
+						showAll();
+					}
+					else
+					{
+						// dismiss this text panel
+						visible = false;
+						Events.disable(inputNumberListener);
+					}
+					
+				default:
+					
+			}
+		});
+		// disable the listener for now, it will be enabled when showChoices
+		Events.disable(inputNumberListener);
 	}
 	
 	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
 	{
 		visible = true;
 		selector.visible = false;
+		inputNumberPanel.visible = false;
 		handleOptions(options);
 		
 		showChoicesCallback = callback;
@@ -155,6 +190,7 @@ class DialogPanel extends FlxSpriteGroup
 	{
 		visible = true;
 		selector.visible = false;
+		inputNumberPanel.visible = false;
 		handleOptions(options);
 		
 		showTextCallback = callback;
@@ -164,6 +200,19 @@ class DialogPanel extends FlxSpriteGroup
 		tween = FlxTween.num(0, message.length, message.length / 15, null, function(v) text.text = message.substr(0, Std.int(v)));
 		
 		Events.enable(showTextListener);
+	}
+	
+	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int, options:InputNumberOptions):Void
+	{
+		visible = true;
+		selector.visible = false;
+		inputNumberPanel.visible = false;
+		handleOptions(options);
+		message = prompt;
+		text.text = "";
+		tween = FlxTween.num(0, message.length, message.length / 15, { onComplete: function(t) inputNumberPanel.show(callback, numDigit) }, function(v) text.text = message.substr(0, Std.int(v)));
+		
+		Events.enable(inputNumberListener);
 	}
 	
 	private function showAll():Void

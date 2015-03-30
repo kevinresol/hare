@@ -1,6 +1,7 @@
 package ;
 import impl.IImplementation;
 import rpg.Engine;
+import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
@@ -51,8 +52,6 @@ class TestImplementation implements IImplementation
 		lastCalledCommand.set(Macro.getCurrentFunction(), [prompt, choices, options]);
 		callback(1);
 	}
-	
-	/* INTERFACE impl.IImplementation */
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void 
 	{
@@ -149,8 +148,6 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	/* INTERFACE impl.IImplementation */
-	
 	public function showGameMenu(cancelCallback:Void->Void):Void 
 	{
 		
@@ -161,9 +158,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	/* INTERFACE impl.IImplementation */
-	
-	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int):Void 
+	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int, options:InputNumberOptions):Void 
 	{
 		
 	}

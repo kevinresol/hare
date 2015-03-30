@@ -1,5 +1,6 @@
 package impl.flixel.display;
 
+import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import rpg.Events;
@@ -71,7 +72,7 @@ class InputNumberPanel extends FlxSpriteGroup
 		Events.disable(listener);
 	}
 	
-	public function show(callback, prompt, numDigit)
+	public function show(callback, numDigit)
 	{
 		visible = true;
 		
@@ -92,6 +93,7 @@ class InputNumberPanel extends FlxSpriteGroup
 			texts[i].text = "0";
 		}
 		
+		x = (FlxG.width - numDigit * 20) / 2;
 		Events.enable(listener);
 	}
 	

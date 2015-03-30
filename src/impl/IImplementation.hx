@@ -1,5 +1,6 @@
 package impl ;
 import rpg.Engine;
+import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
@@ -72,5 +73,5 @@ interface IImplementation
 	 * @param	options
 	 */
 	function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void;
-	function inputNumber(callback:Int->Void, prompt:String, numDigit:Int):Void;
+	function inputNumber(callback:Int->Void, prompt:String, numDigit:Int, options:InputNumberOptions):Void;
 }
