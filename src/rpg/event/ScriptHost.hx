@@ -1,5 +1,4 @@
 package rpg.event;
-import haxe.Timer;
 import rpg.Engine;
 import rpg.geom.Direction;
 
@@ -124,6 +123,45 @@ class ScriptHost
 		}
 	}
 	
+	public function setMoveRoute(object:String, route:Array<String>):Void
+	{
+		//object = OPlayer;
+		
+		var r = route.map(function(s) return switch (s)
+		{
+			case "left": {dx:-1, dy:0};
+			case "right": {dx:1, dy:0};
+			case "up": {dx:0, dy:-1};
+			case "down": {dx:0, dy:1};
+			default: throw 'unknown direction $s';
+		});
+		
+		var player = engine.interactionManager.player;
+		
+		var move = null;
+		move = function()
+		{
+			if (r.length > 0)
+			{
+				var next = r.shift();
+				engine.impl.movePlayer(function()
+				{
+					player.position.x += next.dx;
+					player.position.y += next.dy;
+					return move();
+				}, next.dx, next.dy);
+				return true;
+			}
+			else
+			{
+				resume();
+				return false;
+			}
+		}
+		
+		move();
+	}
+	
 	public function changeItem(id:Int, quantity:Int):Void
 	{
 		engine.itemManager.changeItem(id, quantity);
@@ -148,6 +186,12 @@ class ScriptHost
 	{
 		engine.gameState = SSaveScreen;
 	}
+}
+
+enum SetMoveRouteObject 
+{
+	OPlayer;
+	OEvent(id:Int);
 }
 
 typedef ShowChoicesChoice =

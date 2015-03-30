@@ -7,3 +7,8 @@ movement.teleportPlayer = function(mapId, x, y, options)
 	host_teleportPlayer(mapId, x, y, options)
 	if options.fading == "normal" then screen.fadeIn(200) end
 end
+
+movement.setMoveRoute = function(object, route)
+	host_setMoveRoute(object, route);
+	coroutine.yield()
+end

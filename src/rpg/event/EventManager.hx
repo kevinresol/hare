@@ -45,6 +45,7 @@ class EventManager
 			host_showChoices: scriptHost.showChoices,
 			host_inputNumber: scriptHost.inputNumber,
 			host_teleportPlayer: scriptHost.teleportPlayer,
+			host_setMoveRoute: scriptHost.setMoveRoute,
 			
 			host_changeItem: scriptHost.changeItem,
 			host_getItem: scriptHost.getItem,
