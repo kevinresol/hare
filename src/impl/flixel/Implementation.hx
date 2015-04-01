@@ -333,11 +333,9 @@ class Implementation implements IImplementation
 		layers[2].remove(player, true);
 		
 		for (layer in layers)
-		{
 			layer.destroy();
-			
-		}
-			
+		
+		gameLayer.clear();
 		layers = [for (i in 0...4) cast gameLayer.add(new FlxGroup())];
 			
 		// draw floor layer
