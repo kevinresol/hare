@@ -1,14 +1,9 @@
 package impl.flixel ;
+import flixel.util.FlxSave;
 import haxe.Json;
-import impl.IAssetManager;
 import openfl.Assets;
 import rpg.config.Config;
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#else
 
-#end
 /**
  * ...
  * @author Kevin
@@ -31,41 +26,43 @@ class AssetManager implements IAssetManager
 		sounds = new Map();
 		systemSounds = new Map();
 		
-		trace(Assets.list);
-		#if sys
-		for (f in FileSystem.readDirectory("assets/data/map"))
+		for (asset in Assets.list())
 		{
-			var id = Std.parseInt(f.split("-")[0]);
-			maps[id] = f;
-			scripts[id] = new Map();
+			if (asset.indexOf("assets/data/map/") >= 0)
+			{
+				var f = StringTools.replace(asset, "assets/data/map/", "");
+				var id = Std.parseInt(f.split("-")[0]);
+				maps[id] = f;
+			}
+			else if (asset.indexOf("assets/data/script/") >= 0)
+			{
+				var f = StringTools.replace(asset, "assets/data/script/", "");
+				var s = f.split("-");
+				var mapId = Std.parseInt(s[0]);
+				var eventId = Std.parseInt(s[1]);
+				if (!scripts.exists(mapId))
+					scripts[mapId] = new Map();
+				scripts[mapId][eventId] = f;
+			}
+			else if (asset.indexOf("assets/music/") >= 0)
+			{
+				var f = StringTools.replace(asset, "assets/music/", "");
+				var id =  Std.parseInt(f.split("-")[0]);
+				musics[id] = f;
+			}
+			else if (asset.indexOf("assets/sounds/gameplay/") >= 0)
+			{
+				var f = StringTools.replace(asset, "assets/sounds/gameplay/", "");
+				var id =  Std.parseInt(f.split("-")[0]);
+				sounds[id] = f;
+			}
+			else if (asset.indexOf("assets/sounds/system/") >= 0)
+			{
+				var f = StringTools.replace(asset, "assets/ounds/system/", "");
+				var id =  Std.parseInt(f.split("-")[0]);
+				systemSounds[id] = f;
+			}
 		}
-		
-		for (f in FileSystem.readDirectory("assets/data/script"))
-		{
-			var s = f.split("-");
-			var mapId = Std.parseInt(s[0]);
-			var eventId = Std.parseInt(s[1]);
-			scripts[mapId][eventId] = f;
-		}
-		
-		for (f in FileSystem.readDirectory("assets/music"))
-		{
-			var id =  Std.parseInt(f.split("-")[0]);
-			musics[id] = f;
-		}
-		
-		for (f in FileSystem.readDirectory("assets/sounds/gameplay"))
-		{
-			var id =  Std.parseInt(f.split("-")[0]);
-			sounds[id] = f;
-		}
-		
-		for (f in FileSystem.readDirectory("assets/sounds/system"))
-		{
-			var id =  Std.parseInt(f.split("-")[0]);
-			systemSounds[id] = f;
-		}
-		#end
 	}
 	
 	public function getConfig():Config
@@ -108,13 +105,19 @@ class AssetManager implements IAssetManager
 	
 	public function getSaveData(id:Int):String 
 	{
-		var filename = "data" + StringTools.lpad(Std.string(id), "0", 4) + ".savedata";
-		#if sys return File.getContent('assets/data/save/$filename'); #else return ""; #end
+		var save = new FlxSave();
+		save.bind("save-" + StringTools.lpad(Std.string(id), "0", 4));
+		var s:String = save.data.serialized == null ? "" : save.data.serialized;
+		save.close();
+		return s;
 	}
 	
 	public function setSaveData(id:Int, data:String):Void 
 	{
-		var filename = "data" + StringTools.lpad(Std.string(id), "0", 4) + ".savedata";
-		#if sys File.saveContent('assets/data/save/$filename', data);#end
+		var save = new FlxSave();
+		save.bind("save-" + StringTools.lpad(Std.string(id), "0", 4));
+		save.data.serialized = data;
+		save.flush();
+		save.close();
 	}
 }
