@@ -27,7 +27,8 @@
 	
 	<!--------------------------------PATHS SETTINGS-------------------------------->
 	
-	<set name="BUILD_DIR" value="export" />
+	<set name="BUILD_DIR" value="export/debug/" if="debug" />
+	<set name="BUILD_DIR" value="export/release/" if="release" />
 	<classpath name="source" />
 	<assets path="assets" />
 	
