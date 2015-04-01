@@ -7,6 +7,20 @@
 -cp test
 -neko build/neko_test.n
 
+--next
+
+## Flash 9+
+-main TestMain
+-lib munit
+-lib rpg-engine
+-swf-lib lib/crossbridge-lua.swc
+-cp src
+
+-cp test
+-swf-version 15.0
+-swf-header 800:600:30:FFFFFF 
+-swf build/as3_test.swf
+
 
 --next
 
