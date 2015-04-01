@@ -2,7 +2,6 @@
 -main TestMain
 -lib munit
 -lib rpg-engine
-##-lib hamcrest
 -cp src
 
 -cp test
@@ -10,11 +9,25 @@
 
 --next
 
+## Flash 9+
+-main TestMain
+-lib munit
+-lib rpg-engine
+-swf-lib Z:\HaxeToolkit\haxe\lib\lua\git\lib/crossbridge-lua.swc
+-cp src
+
+-cp test
+-swf-version 15.0
+-swf-header 800:600:30:FFFFFF 
+-swf build/as3_test.swf
+
+
+--next
+
 ## CPP
 -main TestMain
 -lib munit
 -lib rpg-engine
-##-lib hamcrest
 -cp src
 
 -cp test

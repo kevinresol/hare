@@ -1,5 +1,6 @@
 package rpg;
 import haxe.Json;
+import haxe.Timer;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.event.EventManager;
@@ -94,7 +95,7 @@ class Engine
 	{
 		eventManager.update(elapsed);
 		
-		var now = Sys.time();
+		var now = #if sys Sys.time() #else Timer.stamp() #end;
 		for (c in delayedCalls)
 		{
 			if (now >= c.callAt)
@@ -120,7 +121,7 @@ class Engine
 	
 	private inline function delayedCall(callback:Void->Void, ms:Int):Void
 	{
-		delayedCalls.push(new DelayedCall(callback, Sys.time() + ms / 1000));
+		delayedCalls.push(new DelayedCall(callback, #if sys Sys.time() #else Timer.stamp() #end + ms / 1000));
 	}
 	
 	private inline function get_currentMap():GameMap

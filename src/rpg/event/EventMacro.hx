@@ -2,9 +2,10 @@ package rpg.event;
 import haxe.io.Path;
 import haxe.macro.Context;
 import haxe.macro.Expr;
+#if sys
 import sys.FileSystem;
 import sys.io.File;
-
+#end
 /**
  * ...
  * @author Kevin

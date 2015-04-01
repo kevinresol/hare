@@ -1,4 +1,5 @@
 package rpg.event;
+import lua.Lua;
 import rpg.Engine;
 import rpg.save.SaveManager.GameData;
 

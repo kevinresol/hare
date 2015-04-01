@@ -3,9 +3,12 @@ import haxe.Json;
 import impl.IAssetManager;
 import openfl.Assets;
 import rpg.config.Config;
+#if sys
 import sys.FileSystem;
 import sys.io.File;
+#else
 
+#end
 /**
  * ...
  * @author Kevin
@@ -28,6 +31,8 @@ class AssetManager implements IAssetManager
 		sounds = new Map();
 		systemSounds = new Map();
 		
+		trace(Assets.list);
+		#if sys
 		for (f in FileSystem.readDirectory("assets/data/map"))
 		{
 			var id = Std.parseInt(f.split("-")[0]);
@@ -60,7 +65,7 @@ class AssetManager implements IAssetManager
 			var id =  Std.parseInt(f.split("-")[0]);
 			systemSounds[id] = f;
 		}
-		
+		#end
 	}
 	
 	public function getConfig():Config
@@ -104,12 +109,12 @@ class AssetManager implements IAssetManager
 	public function getSaveData(id:Int):String 
 	{
 		var filename = "data" + StringTools.lpad(Std.string(id), "0", 4) + ".savedata";
-		return File.getContent('assets/data/save/$filename');
+		#if sys return File.getContent('assets/data/save/$filename'); #else return ""; #end
 	}
 	
 	public function setSaveData(id:Int, data:String):Void 
 	{
 		var filename = "data" + StringTools.lpad(Std.string(id), "0", 4) + ".savedata";
-		File.saveContent('assets/data/save/$filename', data);
+		#if sys File.saveContent('assets/data/save/$filename', data);#end
 	}
 }
