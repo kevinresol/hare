@@ -13,7 +13,7 @@
 -main TestMain
 -lib munit
 -lib rpg-engine
--swf-lib Z:\HaxeToolkit\haxe\lib\lua\git\lib/crossbridge-lua.swc
+-swf-lib lib/crossbridge-lua.swc
 -cp src
 
 -cp test
