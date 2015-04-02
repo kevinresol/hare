@@ -9,6 +9,7 @@ movement.teleportPlayer = function(mapId, x, y, options)
 end
 
 movement.setMoveRoute = function(object, route, force)
+	if force == nil then force = false end
 	host_setMoveRoute(object, route, force);
 	coroutine.yield()
 end
