@@ -188,6 +188,7 @@ class ScriptHost
 			}
 			else
 			{
+				// no more commands to run, resume the lua script
 				resume();
 				return false;
 			}
