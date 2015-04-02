@@ -12,7 +12,7 @@ import rpg.input.InputManager.InputKey;
  * ...
  * @author Kevin
  */
-class GameMenu extends FlxSpriteGroup
+class SaveLoadScreen extends FlxSpriteGroup
 {
 	private var listener:Int;
 	
@@ -29,18 +29,18 @@ class GameMenu extends FlxSpriteGroup
 		super();
 		
 		var background = new FlxSprite();
-		background.loadGraphic("assets/images/system.png", true, 64, 64);
+		background.loadGraphic("assets/images/system/system.png", true, 64, 64);
 		background.origin.set();
 		background.alpha = 0.95;
 		background.setGraphicSize(FlxG.width, FlxG.height);
 		
-		selector = new Slice9Sprite("assets/images/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
+		selector = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
 		selector.setPosition(5, 10);
 		selector.setGraphicSize(168, 21);
 		
 		add(background);
 		add(selector);
-		add(title = new FlxText(0, 0, 100, "Game Menu"));
+		add(title = new FlxText(0, 0, 100, ""));
 		
 		scrollFactor.set();
 		
@@ -55,6 +55,7 @@ class GameMenu extends FlxSpriteGroup
 					selected ++;
 					
 				case KEnter:
+					callback(selected + 1);
 					Events.disable(listener);
 					
 				case KEsc:
@@ -67,8 +68,20 @@ class GameMenu extends FlxSpriteGroup
 		Events.disable(listener);
 	}
 	
-	public function show(callback:Int->Void, cancelCallback:Void->Void):Void
+	public function showSaveScreen(callback:Int->Void, cancelCallback:Void->Void):Void
 	{
+		title.text = "Save Game";
+		
+		this.callback = callback;
+		this.cancelCallback = cancelCallback;
+		selected = 0;
+		Events.enable(listener);
+	}
+	
+	public function showLoadScreen(callback:Int->Void, cancelCallback:Void->Void):Void
+	{
+		title.text = "Load Game";
+		
 		this.callback = callback;
 		this.cancelCallback = cancelCallback;
 		selected = 0;

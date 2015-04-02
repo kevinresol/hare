@@ -58,7 +58,7 @@ class AssetManager implements IAssetManager
 			}
 			else if (asset.indexOf("assets/sounds/system/") >= 0)
 			{
-				var f = StringTools.replace(asset, "assets/ounds/system/", "");
+				var f = StringTools.replace(asset, "assets/sounds/system/", "");
 				var id =  Std.parseInt(f.split("-")[0]);
 				systemSounds[id] = f;
 			}

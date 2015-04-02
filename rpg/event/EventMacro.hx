@@ -15,7 +15,7 @@ class EventMacro
 	macro public static function getBridgeScript():Expr
 	{
 		var s = new StringBuf();
-		var p = Context.resolvePath("../assets/script/");
+		var p = Context.resolvePath("assets/engine/script/");
 		p = Path.normalize(p);
 		
 		for (f in FileSystem.readDirectory(p))

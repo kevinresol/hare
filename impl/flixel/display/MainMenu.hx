@@ -31,10 +31,10 @@ class MainMenu extends FlxSpriteGroup
 	{
 		super();
 		
-		border = new Slice9Sprite("assets/images/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
+		border = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
 		border.setGraphicSize(180, 80);
 		
-		selector = new Slice9Sprite("assets/images/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
+		selector = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
 		selector.setPosition(5, 10);
 		selector.setGraphicSize(168, 21);
 		

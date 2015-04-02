@@ -1,6 +1,5 @@
 {
-  "name": "rpg-engine",  
-  "classPath": "src",
+  "name": "rpg-engine", 
   "url" : "http://www.kevinresol.com",  
   "license": "MIT",  
   "tags": ["game", "cross"],

@@ -53,16 +53,16 @@ class DialogPanel extends FlxSpriteGroup
 	{
 		super();
 		
-		border = new Slice9Sprite("assets/images/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
+		border = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
 		border.setGraphicSize(640, 150);
 		
-		selector = new Slice9Sprite("assets/images/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
+		selector = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
 		selector.setPosition(95, 40);
 		selector.setGraphicSize(500, 25);
 		selector.visible = false;
 		
 		background = new FlxSprite();
-		background.loadGraphic("assets/images/system.png", true, 64, 64);
+		background.loadGraphic("assets/images/system/system.png", true, 64, 64);
 		background.origin.set();
 		background.alpha = 0.9;
 		background.setGraphicSize(640, 150);
