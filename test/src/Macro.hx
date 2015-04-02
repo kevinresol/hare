@@ -11,24 +11,17 @@ import sys.io.File;
  */
 class Macro
 {
-	macro public static function getAssetPath():Expr
-	{
-		var p = Context.resolvePath("assets/");
-		return macro $v{Path.normalize(p)};
-	}
-	
 	macro public static function getTestMapData():Expr 
 	{
-		var p = Context.resolvePath("../assets/map/0001-template.tmx");
-		p = Path.normalize(p);
-		var s = File.getContent(p);
+		var file = Context.resolvePath("assets/data/map/0001-template.tmx");
+		var s = File.getContent(file);
 		return macro $v{s};
 	}
 	
 	macro public static function getTestConfig():Expr
 	{
-		var file = getAssetPath() + "/data/config.json";
-		var s = File.getContent(Macro.getAssetPath() + "/data/config.json");
+		var file = Context.resolvePath("assets/data/config.json");
+		var s = File.getContent(file);
 		return macro $v{s};
 	}
 	
