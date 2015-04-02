@@ -42,6 +42,7 @@ class SaveLoadScreen extends FlxSpriteGroup
 		add(selector);
 		add(title = new FlxText(0, 0, 100, ""));
 		
+		visible = false;
 		scrollFactor.set();
 		
 		listener = Events.on("key.justPressed", function(key:InputKey)
@@ -71,6 +72,7 @@ class SaveLoadScreen extends FlxSpriteGroup
 	public function showSaveScreen(callback:Int->Void, cancelCallback:Void->Void):Void
 	{
 		title.text = "Save Game";
+		visible = true;
 		
 		this.callback = callback;
 		this.cancelCallback = cancelCallback;
@@ -81,6 +83,7 @@ class SaveLoadScreen extends FlxSpriteGroup
 	public function showLoadScreen(callback:Int->Void, cancelCallback:Void->Void):Void
 	{
 		title.text = "Load Game";
+		visible = true;
 		
 		this.callback = callback;
 		this.cancelCallback = cancelCallback;

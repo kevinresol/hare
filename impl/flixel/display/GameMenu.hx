@@ -42,6 +42,7 @@ class GameMenu extends FlxSpriteGroup
 		add(selector);
 		add(title = new FlxText(0, 0, 100, "Game Menu"));
 		
+		visible = false;
 		scrollFactor.set();
 		
 		listener = Events.on("key.justPressed", function(key:InputKey)
@@ -69,6 +70,7 @@ class GameMenu extends FlxSpriteGroup
 	
 	public function show(callback:Int->Void, cancelCallback:Void->Void):Void
 	{
+		visible = true;
 		this.callback = callback;
 		this.cancelCallback = cancelCallback;
 		selected = 0;

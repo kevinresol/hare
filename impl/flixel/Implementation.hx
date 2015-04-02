@@ -1,8 +1,11 @@
 package impl.flixel ;
+import flixel.FlxBasic;
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import impl.flixel.display.DialogPanel;
@@ -43,21 +46,31 @@ class Implementation implements IImplementation
 	private var dialogPanel:DialogPanel;
 	private var player:FlxSprite;
 	
+	private var gameCamera:FlxCamera;
+	private var hudCamera:FlxCamera;
 
 	public function new(state:FlxState) 
 	{
 		assetManager = new AssetManager();
 		
 		this.state = state;
+		state.bgColor = 0;
 		state.add(gameLayer = new FlxGroup());
 		state.add(hudLayer = new FlxGroup());
 		
 		mainMenu = new MainMenu(this);
 		gameMenu = new GameMenu();
 		saveLoadScreen = new SaveLoadScreen();
-		
 		dialogPanel = new DialogPanel();
 		hudLayer.add(dialogPanel);
+		hudLayer.add(mainMenu);
+		hudLayer.add(gameMenu);
+		hudLayer.add(saveLoadScreen);
+		
+		gameCamera = FlxG.camera;
+		FlxG.cameras.add(hudCamera = new FlxCamera());
+		FlxCamera.defaultCameras = [gameCamera];
+		setCamera(hudLayer, hudCamera);
 		
 		layers = [for (i in 0...5) cast gameLayer.add(new FlxGroup())];
 		objects = new Map();
@@ -105,47 +118,42 @@ class Implementation implements IImplementation
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
 	{	
-		hudLayer.add(mainMenu);
 		mainMenu.show(startGameCallback, loadGameCallback);
 	}
 	
 	public function hideMainMenu():Void
 	{
-		hudLayer.remove(mainMenu, true);
+		mainMenu.visible = false;
 	}
 	
 	public function showGameMenu(cancelCallback:Void->Void):Void
 	{
-		hudLayer.add(gameMenu);
 		gameMenu.show(null, cancelCallback);
 	}
 	
 	public function hideGameMenu():Void
 	{
-		hudLayer.remove(gameMenu, true);
+		gameMenu.visible = false;
 	}
-	
 	
 	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void
 	{
-		hudLayer.add(saveLoadScreen);
 		saveLoadScreen.showSaveScreen(saveGameCallback, cancelCallback);
 	}
 	
 	public function hideSaveScreen():Void
 	{
-		hudLayer.remove(saveLoadScreen, true);
+		saveLoadScreen.visible = false;
 	}
 	
 	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void
 	{
-		hudLayer.add(saveLoadScreen);
 		saveLoadScreen.showLoadScreen(loadGameCallback, cancelCallback);
 	}
 	
 	public function hideLoadScreen():Void
 	{
-		hudLayer.remove(saveLoadScreen, true);
+		saveLoadScreen.visible = false;
 	}
 	
 	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void
@@ -301,12 +309,12 @@ class Implementation implements IImplementation
 	
 	public function fadeOutScreen(ms:Int):Void 
 	{
-		FlxG.camera.fade(0, ms / 1000, false, null, true);
+		gameCamera.fade(0, ms / 1000, false, null, true);
 	}
 	
 	public function fadeInScreen(ms:Int):Void 
 	{
-		FlxG.camera.fade(0, ms / 1000, true, null, true);
+		gameCamera.fade(0, ms / 1000, true, null, true);
 	}
 	
 	public function tintScreen(color:Int, ms:Int):Void 
@@ -332,7 +340,15 @@ class Implementation implements IImplementation
 			layer.destroy();
 		
 		gameLayer.clear();
-		layers = [for (i in 0...4) cast gameLayer.add(new FlxGroup())];
+		
+		layers = [];
+		for (i in 0...4)
+		{
+			var layer = new FlxGroup();
+			layer.camera = gameCamera;
+			gameLayer.add(layer);
+			layers.push(layer);
+		}
 			
 		// draw floor layer
 		for (imageSource in map.floor.data.keys())
@@ -379,6 +395,21 @@ class Implementation implements IImplementation
 		#if debug
 		if (callback == null) throw "callback cannot be null";
 		#end
+	}
+	
+	private function setCamera(object:FlxBasic, camera:FlxCamera):Void
+	{
+		if (Std.is(object, FlxGroup))
+		{
+			var g:FlxGroup = cast object;
+			for (m in g.members) setCamera(m, camera);
+		}
+		else if (Std.is(object, FlxSpriteGroup))
+		{
+			var g:FlxSpriteGroup = cast object;
+			for (m in g.members) setCamera(m, camera);
+		}
+		object.camera = camera;
 	}
 }
 

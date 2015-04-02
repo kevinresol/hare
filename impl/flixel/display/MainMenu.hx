@@ -48,6 +48,7 @@ class MainMenu extends FlxSpriteGroup
 		add(selector);
 		add(text);
 		
+		visible = false;
 		x = (FlxG.width - width) / 2;
 		y = FlxG.height * 0.75;
 		
@@ -64,6 +65,8 @@ class MainMenu extends FlxSpriteGroup
 					selected += 1;
 					
 				case KEnter:
+					visible = false;
+					
 					switch (selected) 
 					{
 						case 0: // New Game
@@ -89,6 +92,7 @@ class MainMenu extends FlxSpriteGroup
 	
 	public function show(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
 	{
+		visible = true;
 		this.startGameCallback = startGameCallback;
 		this.loadGameCallback = loadGameCallback;
 		Events.enable(listener);
