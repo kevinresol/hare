@@ -36,7 +36,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void 
+	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int, speed:Float):Void 
 	{
 		callback();
 	}

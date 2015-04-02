@@ -11,6 +11,7 @@ import rpg.map.GameMap;
  */
 class InteractionManager
 {
+	public static inline var MOVEMENT_SPEED:Float = 5; // tiles per second
 	public var player:Player;
 	public var movementKeyListener(default, null):Int;
 	public var movementEnabled:Bool = true;
@@ -107,7 +108,7 @@ class InteractionManager
 	public function startMove(dx:Int, dy:Int):Void
 	{
 		player.moving = true;
-		engine.impl.movePlayer(endMove.bind(player.position.x + dx, player.position.y + dy), dx, dy);
+		engine.impl.movePlayer(endMove.bind(player.position.x + dx, player.position.y + dy), dx, dy, MOVEMENT_SPEED);
 	}
 	
 	/**

@@ -156,11 +156,11 @@ class Implementation implements IImplementation
 		saveLoadScreen.visible = false;
 	}
 	
-	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void
+	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int, speed:Float):Void
 	{
 		checkCallback(callback);
 		
-		var speed = 200;
+		var speed = engine.currentMap.tileWidth * speed;
 		
 		if (dx == 1) player.animation.play("walking-right");
 		else if (dx == -1) player.animation.play("walking-left");

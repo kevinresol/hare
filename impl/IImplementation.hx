@@ -54,8 +54,9 @@ interface IImplementation
 	 * @param	callback 	should be called by the implementation when the move is finished, will return true if the player continue moving (useful for determining the animation)
 	 * @param	dx
 	 * @param	dy
+	 * @param	speed 		in tiles/sec
 	 */
-	function movePlayer(callback:Void->Bool, dx:Int, dy:Int):Void;
+	function movePlayer(callback:Void->Bool, dx:Int, dy:Int, speed:Float):Void;
 	
 	/**
 	 * Show a piece of text

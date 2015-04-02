@@ -1,6 +1,7 @@
 package rpg.event;
 import rpg.Engine;
 import rpg.geom.Direction;
+import rpg.movement.InteractionManager;
 
 /**
  * ...
@@ -165,7 +166,7 @@ class ScriptHost
 								player.position.x += dx;
 								player.position.y += dy;
 								return runNextCommand();
-							}, dx, dy);
+							}, dx, dy, InteractionManager.MOVEMENT_SPEED);
 							return true;
 						}
 						else
