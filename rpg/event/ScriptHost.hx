@@ -123,43 +123,79 @@ class ScriptHost
 		}
 	}
 	
-	public function setMoveRoute(object:String, route:Array<String>):Void
+	public function setMoveRoute(object:String, commands:Array<String>, force:Bool):Void
 	{
 		//object = OPlayer;
-		
-		var r = route.map(function(s) return switch (s)
-		{
-			case "left": {dx:-1, dy:0};
-			case "right": {dx:1, dy:0};
-			case "up": {dx:0, dy:-1};
-			case "down": {dx:0, dy:1};
-			default: throw 'unknown direction $s';
-		});
-		
 		var player = engine.interactionManager.player;
 		
-		var move = null;
-		move = function()
+		var runNextCommand = null;
+		runNextCommand = function()
 		{
-			if (r.length > 0)
+			if (commands.length > 0)
 			{
-				var next = r.shift();
-				engine.impl.movePlayer(function()
+				var commandText = commands.shift();
+				var command = switch (commandText)
 				{
-					player.position.x += next.dx;
-					player.position.y += next.dy;
-					return move();
-				}, next.dx, next.dy);
-				return true;
+					case "moveleft": CMove(-1, 0);
+					case "moveright": CMove(1, 0);
+					case "moveup": CMove(0, -1);
+					case "movedown": CMove(0, 1);
+					case "faceleft": CFace(Direction.LEFT);
+					case "faceright": CFace(Direction.RIGHT);
+					case "faceup": CFace(Direction.UP);
+					case "facedown": CFace(Direction.DOWN);
+					case "turnleft": CFace(Direction.turnLeft(player.facing));
+					case "turnright": CFace(Direction.turnRight(player.facing));
+					case "turnaround": CFace(Direction.turnAround(player.facing));
+					case t if (t.indexOf("sleep") >= 0): CSleep(Std.parseInt(StringTools.replace(t, "sleep", "")));
+						
+					default: throw 'unknown command for setMoveRoute: $commandText';
+				}
+				
+				switch(command)
+				{
+					case CMove(dx, dy):
+						var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.DOWN else if (dy == -1) Direction.UP else 0;
+						player.facing = dir;
+						
+						if (force || engine.interactionManager.checkPassage(dx, dy))
+						{
+							engine.impl.movePlayer(function()
+							{
+								player.position.x += dx;
+								player.position.y += dy;
+								return runNextCommand();
+							}, dx, dy);
+							return true;
+						}
+						else
+						{
+							engine.impl.changePlayerFacing(dir);
+							runNextCommand();
+						}
+						
+					case CFace(dir):
+						player.facing = dir;
+						engine.impl.changePlayerFacing(dir);
+						runNextCommand();
+					
+					case CSleep(ms):
+						engine.delayedCall(runNextCommand, ms);
+						
+				}
+				return false;
+				
 			}
 			else
 			{
 				resume();
 				return false;
 			}
+			
+			return false;
 		}
 		
-		move();
+		runNextCommand();
 	}
 	
 	public function changeItem(id:Int, quantity:Int):Void
@@ -236,4 +272,11 @@ abstract ShowTextPosition(String)
 	var PTop = "top";
 	var PCenter = "center";
 	var PBottom = "bottom";
+}
+
+enum SetMoveRouteCommand
+{
+	CMove(dx:Int, dy:Int);
+	CFace(direction:Int);
+	CSleep(ms:Int);
 }

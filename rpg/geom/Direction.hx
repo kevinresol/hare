@@ -41,4 +41,40 @@ class Direction
 			default: NONE;
 		}
 	}
+	
+	public static function turnLeft(dir:Int):Int
+	{
+		return switch (dir) 
+		{
+			case LEFT: DOWN;
+			case RIGHT: UP;
+			case UP: LEFT;
+			case DOWN: RIGHT;
+			default: NONE;
+		}
+	}
+	
+	public static function turnRight(dir:Int):Int
+	{
+		return switch (dir) 
+		{
+			case LEFT: UP;
+			case RIGHT: DOWN;
+			case UP: RIGHT;
+			case DOWN: LEFT;
+			default: NONE;
+		}
+	}
+	
+	public static function turnAround(dir:Int):Int
+	{
+		return switch (dir) 
+		{
+			case LEFT: RIGHT;
+			case RIGHT: LEFT;
+			case UP: DOWN;
+			case DOWN: UP;
+			default: NONE;
+		}
+	}
 }

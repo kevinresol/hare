@@ -194,7 +194,7 @@ class InteractionManager
 		return false;
 	}
 	
-	private function checkPassage(dx:Int, dy:Int):Bool
+	public function checkPassage(dx:Int, dy:Int):Bool
 	{
 		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
 		
