@@ -42,7 +42,7 @@
     <property name="trigger" value="autorun"/>
    </properties>
   </object>
-  <object id="3" type="player" gid="2" x="64" y="96"/>
+  <object id="3" name="Pandora" type="player" gid="2" x="64" y="96"/>
  </objectgroup>
  <layer name="Passage" width="5" height="5" opacity="0.5">
   <data encoding="base64" compression="zlib">
