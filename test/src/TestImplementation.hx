@@ -163,6 +163,11 @@ class TestImplementation implements IImplementation
 		
 	}
 	
+	public function createPlayer(name:String, image:String):Void
+	{
+		
+	}
+	
 }
 
 class Command

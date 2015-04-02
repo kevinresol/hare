@@ -254,27 +254,23 @@ class Implementation implements IImplementation
 		FlxG.sound.music.fadeIn(ms/1000,0);
 	}
 	
+	public function createPlayer(name:String, image:String):Void
+	{
+		player = new FlxSprite();
+		player.loadGraphic('assets/images/actor/$image', true, 32, 48);
+		player.animation.add("walking-left", [3, 4, 5, 4], 8);
+		player.animation.add("walking-right", [6, 7, 8, 7], 8);
+		player.animation.add("walking-down", [0, 1, 2, 1], 8);
+		player.animation.add("walking-up", [9, 10, 11, 10], 8);
+		player.animation.add("left", [4], 0);
+		player.animation.add("right", [7], 0);
+		player.animation.add("down", [1], 0);
+		player.animation.add("up", [10], 0);
+		player.animation.play("down");
+	}
 	
 	public function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void
 	{
-		// create player
-		if (player == null)
-		{
-			player = new FlxSprite();
-			player.loadGraphic("assets/images/harrison2.png", true, 32, 48);
-			player.animation.add("walking-left", [3, 4, 5, 4], 8);
-			player.animation.add("walking-right", [6, 7, 8, 7], 8);
-			player.animation.add("walking-down", [0, 1, 2, 1], 8);
-			player.animation.add("walking-up", [9, 10, 11, 10], 8);
-			player.animation.add("left", [4], 0);
-			player.animation.add("right", [7], 0);
-			player.animation.add("down", [1], 0);
-			player.animation.add("up", [10], 0);
-			player.animation.play("down");
-			
-			
-		}
-		
 		if (map != engine.currentMap)
 		{
 			switchMap(map);

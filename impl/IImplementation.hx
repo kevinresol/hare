@@ -28,6 +28,7 @@ interface IImplementation
 	/* ====== Sync Functions ====== */
 	function log(message:String):Void;
 	
+	function createPlayer(name:String, image:String):Void;
 	function changePlayerFacing(dir:Int):Void;
 	function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
 	

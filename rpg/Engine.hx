@@ -69,10 +69,13 @@ class Engine
 		var map = mapManager.getMap(1); 
 		
 		// teleport player to place
-		if(map.player != null)
+		if (map.player != null)
+		{
+			impl.createPlayer(map.player.name, map.player.imageSource);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y);
+		}
 		else
-			throw "Player must be placed in Map 1";
+			throw "Player (an object with type=player) must be placed in Map 1";
 	}
 	
 	/**

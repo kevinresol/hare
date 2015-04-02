@@ -22,7 +22,7 @@ class GameMap
 	
 	public var objects:Array<Object>;
 	
-	public var player:IntPoint;
+	public var player:Player;
 	
 
 	public function new(id, gridWidth, gridHeight, tileWidth, tileHeight) 
@@ -36,9 +36,9 @@ class GameMap
 		objects = [];
 	}
 	
-	public function addPlayer(x, y):Void
+	public function addPlayer(name, imageSource, x, y):Void
 	{
-		player = new IntPoint(x, y);
+		player = new Player(name, imageSource, x, y);
 	}
 	
 	public function addEvent(id, imageSource, tileId, x, y, layer, trigger):Void
@@ -64,7 +64,21 @@ class TileLayer
 }
 
 
-
+class Player
+{
+	public var imageSource:String;
+	public var name:String;
+	public var x:Int;
+	public var y:Int;
+	
+	public function new(name, imageSource, x, y)
+	{
+		this.name = name;
+		this.imageSource = imageSource;
+		this.x = x;
+		this.y = y;
+	}
+}
 
 class Object
 {

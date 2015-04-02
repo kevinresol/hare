@@ -4,6 +4,7 @@ import rpg.geom.Direction;
 import rpg.map.GameMap.EventTrigger;
 import rpg.map.GameMap.TileLayer;
 
+using Lambda;
 /**
  * ...
  * @author Kevin
@@ -66,7 +67,10 @@ class MapManager
 						map.addObject(o.id, imageSource, tileset.fromGid(o.gid), x, y, layer);
 						
 					case "player":
-						map.addPlayer(x, y);
+						var config = engine.assetManager.getConfig();
+						var imageSource = config.actors.find(function(data) return data.name == o.name).image.source;
+						// TODO: image.index;
+						map.addPlayer(o.name, imageSource, x, y);
 					
 					default:
 				}
