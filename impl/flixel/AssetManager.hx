@@ -68,7 +68,12 @@ class AssetManager implements IAssetManager
 	public function getConfig():Config
 	{
 		if (config == null)
-			config = Json.parse(Assets.getText("assets/data/config.json"));
+		{
+			if(Assets.exists("assets/data/config.json"))
+				config = Json.parse(Assets.getText("assets/data/config.json"));
+			else
+				config = { actors:[], items:[] };
+		}
 			
 		return config;
 	}

@@ -6,7 +6,7 @@ package rpg.config;
 
 typedef Config =
 {
-	actor:Array<ActorData>,
+	actors:Array<ActorData>,
 	items:Array<ItemData>,
 }
 
