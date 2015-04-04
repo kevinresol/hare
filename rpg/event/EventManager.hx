@@ -1,6 +1,7 @@
 package rpg.event;
 import lua.Lua;
 import rpg.Engine;
+import rpg.geom.Direction;
 import rpg.save.SaveManager.GameData;
 
 /**
@@ -57,7 +58,7 @@ class EventManager
 			host_showSaveScreen: scriptHost.showSaveScreen,
 			
 			// for retrieving game info in Lua...
-			getPlayerPosition: function() { var p = engine.interactionManager.player; return { x:p.position.x, y:p.position.y, facing:p.facing }},
+			getPlayerPosition: function() { var p = engine.interactionManager.player; return { x:p.position.x, y:p.position.y, facing:Direction.toString(p.facing) }},
 			
 		});
 		
