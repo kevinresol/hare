@@ -13,7 +13,7 @@ using Lambda;
  */
 class InteractionManager
 {
-	public static inline var MOVEMENT_SPEED:Float = 5; // tiles per second
+	public static inline var MOVEMENT_SPEED:Float = 10; // tiles per second
 	public var player:MovableObject;
 	public var movementKeyListener(default, null):Int;
 	public var movementEnabled:Bool = true;

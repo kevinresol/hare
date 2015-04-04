@@ -86,7 +86,7 @@ class TestImplementation implements IImplementation
 	
 	public function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void 
 	{
-		
+		lastCalledCommand.set(teleportPlayer, [map, x, y, options]);
 	}
 	
 	public function playSound(id:Int, volume:Float, pitch:Float):Void 
@@ -183,6 +183,11 @@ class Command
 	public function set(func:Dynamic, args:Array<Dynamic>)
 	{
 		list.push({func:func, args:args});
+	}
+	
+	public function clear():Void
+	{
+		while (list.length > 0) list.pop();
 	}
 	
 	public function is(func:Dynamic, args:Array<Dynamic>)

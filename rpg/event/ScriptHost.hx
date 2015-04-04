@@ -105,12 +105,6 @@ class ScriptHost
 	
 	public function teleportPlayer(mapId:Int, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
-		if (options == null)
-			options = {};
-			
-		if (options.facing == null)
-			options.facing = Direction.NONE;
-		
 		var map = engine.mapManager.getMap(mapId);
 		engine.impl.teleportPlayer(map, x, y, options);
 		engine.mapManager.currentMap = map;
@@ -119,9 +113,8 @@ class ScriptHost
 		
 		switch (options.facing) 
 		{
-			case Direction.DOWN | Direction.UP | Direction.LEFT | Direction.RIGHT:
-				engine.interactionManager.player.facing = options.facing;
-			default:
+			case FRetain: // do nothing
+			default: engine.interactionManager.player.facing = Direction.fromString(options.facing);
 		}
 	}
 	
@@ -232,7 +225,7 @@ class ScriptHost
 	
 	public function sleep(ms:Int):Void
 	{
-		engine.delayedCall(resume, ms);
+		engine.delayedCall(resume , ms);
 	}
 	
 	public function log(message:String):Void
@@ -277,7 +270,16 @@ typedef InputNumberOptions =
 
 typedef TeleportPlayerOptions =
 {
-	?facing:Int,
+	?facing:TeleportPlayerFacing,
+}
+@:enum
+abstract TeleportPlayerFacing(String) from String to String
+{
+	var FUp = "up";
+	var FDown = "down";
+	var FRight = "right";
+	var FLeft = "left";
+	var FRetain = "retain";
 }
 
 @:enum

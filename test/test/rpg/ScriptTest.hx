@@ -1,5 +1,7 @@
 package rpg;
+import massive.munit.util.Timer;
 import massive.munit.Assert;
+import massive.munit.async.AsyncFactory;
 
 /**
  * ...
@@ -22,6 +24,12 @@ class ScriptTest
 		impl = new TestImplementation();
 		engine = new Engine(impl, impl.assetManager);
 		engine.startGame();
+	}
+	
+	@Before
+	public function before():Void
+	{
+		impl.lastCalledCommand.clear();
 	}
 	
 	@Test
@@ -98,5 +106,44 @@ class ScriptTest
 		
 		r = engine.eventManager.execute('item.change(2,2) return item.get(2)');
 		Assert.isTrue(r == 2);
+	}
+	
+	@Test
+	public function testTeleportPlayer():Void
+	{
+		runScript('movement.teleportPlayer(1, 3, 5, {facing="right", fading="none"})');
+		Assert.isTrue(impl.lastCalledCommand.is(impl.teleportPlayer, [engine.mapManager.getMap(1), 3, 5, {facing:"right", fading:"none"}]));
+		
+		runScript('movement.teleportPlayer(1, 3, 5, {fading="none"})');
+		Assert.isTrue(impl.lastCalledCommand.is(impl.teleportPlayer, [engine.mapManager.getMap(1), 3, 5, {facing:"retain", fading:"none"}]));
+	}
+	
+	@AsyncTest
+	public function testTeleportPlayerAsync(factory:AsyncFactory):Void
+	{
+		runScript('movement.teleportPlayer(1, 3, 5)');
+		Assert.isTrue(impl.lastCalledCommand.is(impl.fadeOutScreen, [200]));
+		
+		var handler1 = factory.createHandler(this, function()
+		{
+			engine.update(0);
+			Assert.isTrue(impl.lastCalledCommand.is(impl.teleportPlayer, [engine.mapManager.getMap(1), 3, 5, { facing:"retain", fading:"normal" } ]));
+		}, 300);
+		Timer.delay(handler1, 250);
+		
+		var handler2 = factory.createHandler(this, function()
+		{
+			engine.update(0);
+			Assert.isTrue(impl.lastCalledCommand.is(impl.fadeInScreen, [200]));
+		}, 300);
+		Timer.delay(handler2, 500);
+	}
+	
+	private function runScript(script:String):Void
+	{
+		engine.eventManager.currentEvent = 1;
+		engine.eventManager.execute('co1 = coroutine.create(function() $script end)');
+		engine.eventManager.execute('coroutine.resume(co1)');
+		
 	}
 }

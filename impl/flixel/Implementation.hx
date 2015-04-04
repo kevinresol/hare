@@ -307,9 +307,8 @@ class Implementation implements IImplementation
 		
 		switch (options.facing) 
 		{
-			case Direction.DOWN | Direction.UP | Direction.LEFT | Direction.RIGHT:
-				player.animation.play(Direction.toString(options.facing));
-			default:
+			case FRetain: // do nothing
+			default: player.animation.play(options.facing);
 		}
 	}
 	

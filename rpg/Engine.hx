@@ -72,7 +72,7 @@ class Engine
 		if (map.player != null)
 		{
 			impl.createPlayer(map.player.name, map.player.imageSource);
-			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y);
+			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
 		}
 		else
 			throw "Player (an object with type=player) must be placed in Map 1";
