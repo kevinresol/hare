@@ -51,8 +51,9 @@ interface IImplementation
 	/* ====== Async Functions ====== */
 	
 	/**
-	 * Move the player
+	 * Move an object
 	 * @param	callback 	should be called by the implementation when the move is finished, will return true if the player continue moving (useful for determining the animation)
+	 * @param	type		
 	 * @param	dx
 	 * @param	dy
 	 * @param	speed 		in tiles/sec
