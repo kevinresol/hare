@@ -32,6 +32,7 @@ class EventManager
 				eventVariables: {}
 			},
 			
+			// for events...
 			host_playSound: scriptHost.playSound,
 			host_playBackgroundMusic: scriptHost.playBackgroundMusic,
 			host_saveBackgroundMusic: scriptHost.saveBackgroundMusic,
@@ -54,6 +55,10 @@ class EventManager
 			host_sleep: scriptHost.sleep,
 			host_log: scriptHost.log,
 			host_showSaveScreen: scriptHost.showSaveScreen,
+			
+			// for retrieving game info in Lua...
+			getPlayerPosition: function() { var p = engine.interactionManager.player; return { x:p.position.x, y:p.position.y, facing:p.facing }},
+			
 		});
 		
 		var bridgeScript = EventMacro.getBridgeScript();
