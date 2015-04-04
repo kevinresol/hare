@@ -174,9 +174,12 @@ class Engine
 				{
 					switch (action) 
 					{
+						case AShowMainMenu:
+							gameState = SMainMenu;
 						case AShowSaveMenu:
 							gameState = SSaveScreen;
-						default:
+						case AShowLoadMenu:
+							gameState = SLoadScreen;
 					}
 				}, function() gameState = currentState);
 				
@@ -214,6 +217,7 @@ enum GameState
 
 enum GameMenuAction
 {
+	AShowMainMenu;
 	AShowSaveMenu;
 	AShowLoadMenu;
 }

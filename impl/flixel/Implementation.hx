@@ -118,11 +118,13 @@ class Implementation implements IImplementation
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
 	{	
 		mainMenu.show(startGameCallback, loadGameCallback);
+		gameCamera.visible = false;
 	}
 	
 	public function hideMainMenu():Void
 	{
 		mainMenu.visible = false;
+		gameCamera.visible = true;
 	}
 	
 	public function showGameMenu(callback:GameMenuAction->Void, cancelCallback:Void->Void):Void
@@ -137,7 +139,7 @@ class Implementation implements IImplementation
 	
 	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void
 	{
-		saveLoadScreen.showSaveScreen(saveGameCallback, cancelCallback);
+		saveLoadScreen.showSaveScreen(assetManager.getNumberOfSaves(), saveGameCallback, cancelCallback);
 	}
 	
 	public function hideSaveScreen():Void
@@ -147,7 +149,7 @@ class Implementation implements IImplementation
 	
 	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void
 	{
-		saveLoadScreen.showLoadScreen(loadGameCallback, cancelCallback);
+		saveLoadScreen.showLoadScreen(assetManager.getNumberOfSaves(), loadGameCallback, cancelCallback);
 	}
 	
 	public function hideLoadScreen():Void

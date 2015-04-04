@@ -19,6 +19,7 @@ class GameMenu extends FlxSpriteGroup
 	
 	private var selector:Slice9Sprite;
 	private var title:FlxText;
+	private var text:FlxText;
 	
 	private var selected(default, set):Int;
 	
@@ -39,9 +40,12 @@ class GameMenu extends FlxSpriteGroup
 		selector.setPosition(5, 10);
 		selector.setGraphicSize(168, 21);
 		
+		text = new FlxText(15, 30, 0, "Main Menu\nSave Game", 15);
+		
 		add(background);
 		add(selector);
-		add(title = new FlxText(0, 0, 100, "Game Menu"));
+		add(title = new FlxText(0, 0, 0, "Game Menu", 20));
+		add(text);
 		
 		visible = false;
 		scrollFactor.set();
@@ -57,7 +61,12 @@ class GameMenu extends FlxSpriteGroup
 					selected ++;
 					
 				case KEnter:
-					callback(AShowSaveMenu);
+					switch (selected) 
+					{
+						case 0: callback(AShowMainMenu);
+						case 1: callback(AShowSaveMenu);
+						default:
+					}
 					Events.disable(listener);
 					
 				case KEsc:
@@ -81,10 +90,10 @@ class GameMenu extends FlxSpriteGroup
 	
 	private function set_selected(v:Int):Int
 	{
-		if (v < 0) v = 2;
-		else if (v >= 3) v = 0;
+		if (v < 0) v = 1;
+		else if (v >= 2) v = 0;
 		
-		selector.y = y + 10 + 19 * v;
+		selector.y = y + 30 + 19 * v;
 		
 		return selected = v;
 	}
