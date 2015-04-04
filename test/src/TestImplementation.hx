@@ -7,6 +7,7 @@ import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.map.GameMap;
+import rpg.movement.InteractionManager.MovableObjectType;
 
 /**
  * ...
@@ -26,7 +27,7 @@ class TestImplementation implements IImplementation
 		lastCalledCommand = new Command();
 	}
 	
-	public function changePlayerFacing(dir:Int):Void 
+	public function changeObjectFacing(type:MovableObjectType, dir:Int):Void
 	{
 		
 	}
@@ -36,7 +37,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int, speed:Float):Void 
+	public function moveObject(callback:Void->Bool, type:MovableObjectType, dx:Int, dy:Int, speed:Float):Void
 	{
 		callback();
 	}
