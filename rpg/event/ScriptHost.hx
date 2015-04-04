@@ -136,6 +136,11 @@ class ScriptHost
 				type = MPlayer;
 				target = engine.interactionManager.player;
 				
+			case "thisevent":
+				var id = engine.eventManager.currentEvent;
+				type = MEvent(id);
+				target = engine.interactionManager.objects.find(function(o) return Type.enumEq(type, o.type));
+				
 			case o if (o.indexOf("event") >= 0): 
 				var id = Std.parseInt(o.split("event")[1]);
 				type = MEvent(id);
