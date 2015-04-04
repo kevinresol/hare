@@ -4,7 +4,9 @@ import rpg.geom.Direction;
 import rpg.geom.IntPoint;
 import rpg.input.InputManager.InputKey;
 import rpg.map.GameMap;
+import rpg.movement.InteractionManager.MovableObjectType;
 
+using Lambda;
 /**
  * ...
  * @author Kevin
@@ -12,9 +14,10 @@ import rpg.map.GameMap;
 class InteractionManager
 {
 	public static inline var MOVEMENT_SPEED:Float = 5; // tiles per second
-	public var player:Player;
+	public var player:MovableObject;
 	public var movementKeyListener(default, null):Int;
 	public var movementEnabled:Bool = true;
+	public var objects:Array<MovableObject>; //TODO: rename Player class
 	
 	private var engine:Engine;
 	
@@ -23,7 +26,7 @@ class InteractionManager
 	{
 		this.engine = engine;
 		
-		player = new Player();
+		player = new MovableObject(MPlayer);
 		
 		movementKeyListener = Events.on("key.justPressed", function(key:InputKey)
 		{
@@ -50,16 +53,17 @@ class InteractionManager
 								var dx = if (player.facing == Direction.LEFT) -1 else if (player.facing == Direction.RIGHT) 1 else 0;
 								var dy = if (player.facing == Direction.UP) -1 else if (player.facing == Direction.DOWN) 1 else 0;
 									
-								for (object in engine.mapManager.currentMap.objects)
+								for (object in objects)
 								{
 									switch(object.type)
 									{
-										case OEvent(trigger):
+										case MEvent(id):
+											var trigger = engine.mapManager.currentMap.getEventTrigger(id);
 											switch (trigger) 
 											{
 												case EAction | EBump:
-													if (object.x == player.position.x + dx && object.y == player.position.y + dy)
-														engine.eventManager.startEvent(object.id);
+													if (object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
+														engine.eventManager.startEvent(id);
 												default:
 											}
 											
@@ -74,6 +78,22 @@ class InteractionManager
 					}
 					
 				default:
+			}
+		});
+		
+		Events.on("map.switched", function(map:GameMap)
+		{
+			objects = [];
+			for (mo in map.objects)
+			{
+				switch (mo.type) 
+				{
+					case OEvent(id, _):
+						var o = new MovableObject(MEvent(mo.id));
+						o.position.set(mo.x, mo.y);
+						objects.push(o);
+					default:
+				}
 			}
 		});
 	}
@@ -108,7 +128,7 @@ class InteractionManager
 	public function startMove(dx:Int, dy:Int):Void
 	{
 		player.moving = true;
-		engine.impl.movePlayer(endMove.bind(player.position.x + dx, player.position.y + dy), dx, dy, MOVEMENT_SPEED);
+		engine.impl.moveObject(endMove.bind(player.position.x + dx, player.position.y + dy), MPlayer, dx, dy, MOVEMENT_SPEED);
 	}
 	
 	/**
@@ -120,20 +140,22 @@ class InteractionManager
 		player.position.set(x, y);
 		player.moving = false;
 		
-		for (object in engine.currentMap.objects)
+		for (object in objects)
 		{
 			switch (object.type) 
 			{
-				case OEvent(trigger):
+				case MEvent(id):
+					var trigger = engine.mapManager.currentMap.getEventTrigger(id);
+					trace(object.position, player.position, trigger);
 					switch (trigger)
 					{
 						case EOverlap:
-							if (object.x == player.position.x && object.y == player.position.y)
-								engine.eventManager.startEvent(object.id);
+							if (object.position.x == player.position.x && object.position.y == player.position.y)
+								engine.eventManager.startEvent(id);
 							
 						case ENearby:
-							if (isNeighbour(object.x, object.y, player.position.x, player.position.y))
-								engine.eventManager.startEvent(object.id);
+							if (isNeighbour(object.position.x, object.position.y, player.position.x, player.position.y))
+								engine.eventManager.startEvent(id);
 								
 						default:
 					}
@@ -170,38 +192,41 @@ class InteractionManager
 		var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.DOWN else if (dy == -1) Direction.UP else 0;
 		player.facing = dir;
 		
-		for (object in engine.mapManager.currentMap.objects)
+		for (object in objects)
 		{
 			switch (object.type) 
 			{
-				case OEvent(trigger):
-					if (trigger == EBump && object.x == player.position.x + dx && object.y == player.position.y + dy)
-						engine.eventManager.startEvent(object.id);
+				case MEvent(id):
+					var trigger = engine.mapManager.currentMap.getEventTrigger(id);
+					if (trigger == EBump && object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
+						engine.eventManager.startEvent(id);
 					
 				default:
 			}
 		}
 		
-		if (checkPassage(dx, dy))
+		if (checkPassage(MPlayer, dx, dy))
 		{
 			startMove(dx, dy);
 			return true;
 		}
 		else // can't move because the attempted direction is impassable, just change the facing
 		{
-			engine.impl.changePlayerFacing(dir);
+			engine.impl.changeObjectFacing(MPlayer, dir);
 		}
 		
 		return false;
 	}
 	
-	public function checkPassage(dx:Int, dy:Int):Bool
+	public function checkPassage(type:MovableObjectType, dx:Int, dy:Int):Bool
 	{
 		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
 		
+		var object = getMovableObject(type);
+		
 		var map = engine.mapManager.currentMap;
-		var x = player.position.x + dx;
-		var y = player.position.y + dy;
+		var x = object.position.x + dx;
+		var y = object.position.y + dy;
 		var index = y * map.gridWidth + x;
 		var passage = map.passage[index];
 		var dir = 0;
@@ -226,17 +251,34 @@ class InteractionManager
 		}
 		return false;
 	}
+	
+	private inline function getMovableObject(type:MovableObjectType):MovableObject
+	{
+		return switch (type) 
+		{
+			case MPlayer: player;
+			case MEvent(id): objects.find(function(o) return Type.enumEq(type, o.type));
+		}
+	}
 }
 
-class Player
+class MovableObject
 {
+	public var type:MovableObjectType;
 	public var map:GameMap;
 	public var position:IntPoint;
 	public var facing:Int;
 	public var moving:Bool = false;
 	
-	public function new()
+	public function new(type)
 	{
+		this.type = type;
 		position = new IntPoint();
 	}
+}
+
+enum MovableObjectType
+{
+	MPlayer;
+	MEvent(id:Int);
 }

@@ -3,6 +3,7 @@ import rpg.Engine;
 import rpg.geom.Direction;
 import rpg.movement.InteractionManager;
 
+using Lambda;
 /**
  * ...
  * @author Kevin
@@ -126,8 +127,22 @@ class ScriptHost
 	
 	public function setMoveRoute(object:String, commands:Array<String>, force:Bool):Void
 	{
-		//object = OPlayer;
-		var player = engine.interactionManager.player;
+		var type;
+		var target;
+		
+		switch (object) 
+		{
+			case "player": 
+				type = MPlayer;
+				target = engine.interactionManager.player;
+				
+			case o if (o.indexOf("event") >= 0): 
+				var id = Std.parseInt(o.split("event")[1]);
+				type = MEvent(id);
+				target = engine.interactionManager.objects.find(function(o) return Type.enumEq(type, o.type));
+			
+			default: throw 'unknown object for setMoveRoute: $object';
+		}
 		
 		var runNextCommand = null;
 		runNextCommand = function()
@@ -145,9 +160,9 @@ class ScriptHost
 					case "faceright": CFace(Direction.RIGHT);
 					case "faceup": CFace(Direction.UP);
 					case "facedown": CFace(Direction.DOWN);
-					case "turnleft": CFace(Direction.turnLeft(player.facing));
-					case "turnright": CFace(Direction.turnRight(player.facing));
-					case "turnaround": CFace(Direction.turnAround(player.facing));
+					case "turnleft": CFace(Direction.turnLeft(target.facing));
+					case "turnright": CFace(Direction.turnRight(target.facing));
+					case "turnaround": CFace(Direction.turnAround(target.facing));
 					case t if (t.indexOf("sleep") >= 0): CSleep(Std.parseInt(StringTools.replace(t, "sleep", "")));
 						
 					default: throw 'unknown command for setMoveRoute: $commandText';
@@ -157,27 +172,27 @@ class ScriptHost
 				{
 					case CMove(dx, dy):
 						var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.DOWN else if (dy == -1) Direction.UP else 0;
-						player.facing = dir;
+						target.facing = dir;
 						
-						if (force || engine.interactionManager.checkPassage(dx, dy))
+						if (force || engine.interactionManager.checkPassage(type, dx, dy))
 						{
-							engine.impl.movePlayer(function()
+							engine.impl.moveObject(function()
 							{
-								player.position.x += dx;
-								player.position.y += dy;
+								target.position.x += dx;
+								target.position.y += dy;
 								return runNextCommand();
-							}, dx, dy, InteractionManager.MOVEMENT_SPEED);
+							}, type, dx, dy, InteractionManager.MOVEMENT_SPEED);
 							return true;
 						}
 						else
 						{
-							engine.impl.changePlayerFacing(dir);
+							engine.impl.changeObjectFacing(type, dir);
 							runNextCommand();
 						}
 						
 					case CFace(dir):
-						player.facing = dir;
-						engine.impl.changePlayerFacing(dir);
+						target.facing = dir;
+						engine.impl.changeObjectFacing(type, dir);
 						runNextCommand();
 					
 					case CSleep(ms):

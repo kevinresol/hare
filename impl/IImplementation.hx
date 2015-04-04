@@ -6,6 +6,7 @@ import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.map.GameMap;
+import rpg.movement.InteractionManager.MovableObjectType;
 
 /**
  * @author Kevin
@@ -29,7 +30,7 @@ interface IImplementation
 	function log(message:String):Void;
 	
 	function createPlayer(name:String, image:String):Void;
-	function changePlayerFacing(dir:Int):Void;
+	function changeObjectFacing(type:MovableObjectType, dir:Int):Void;
 	function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
 	
 	function playSound(id:Int, volume:Float, pitch:Float):Void;
@@ -56,7 +57,7 @@ interface IImplementation
 	 * @param	dy
 	 * @param	speed 		in tiles/sec
 	 */
-	function movePlayer(callback:Void->Bool, dx:Int, dy:Int, speed:Float):Void;
+	function moveObject(callback:Void->Bool, type:MovableObjectType, dx:Int, dy:Int, speed:Float):Void;
 	
 	/**
 	 * Show a piece of text

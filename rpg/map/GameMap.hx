@@ -43,12 +43,27 @@ class GameMap
 	
 	public function addEvent(id, imageSource, tileId, x, y, layer, trigger):Void
 	{
-		objects.push(new Object(id, imageSource, tileId, x, y, layer, OEvent(trigger)));
+		objects.push(new Object(id, imageSource, tileId, x, y, layer, OEvent(id, trigger)));
 	}
 	
 	public function addObject(id, imageSource, tileId, x, y, layer):Void
 	{
-		objects.push(new Object(id, imageSource, tileId, x, y, layer, OObject));
+		objects.push(new Object(id, imageSource, tileId, x, y, layer, OObject(id)));
+	}
+	
+	public function getEventTrigger(id):EventTrigger
+	{
+		for (o in objects)
+		{
+			switch (o.type) 
+			{
+				case OEvent(eid, trigger):
+					if(eid == id)
+						return trigger;
+				default:
+			}
+		}
+		return null;
 	}
 	
 }
@@ -106,16 +121,18 @@ class Object
 	{
 		return switch (type) 
 		{
-			case OObject: 'Object $id: ($x, $y)';
-			case OEvent(trigger):'Event $id: ($x, $y, $trigger)';
+			case OObject(id): 'Object $id: ($x, $y)';
+			case OEvent(id, trigger):'Event $id: ($x, $y, $trigger)';
+			default: "";
 		}
 	}
 }
 
 enum ObjectType
 {
-	OObject;
-	OEvent(trigger:EventTrigger);
+	OPlayer;
+	OObject(id:Int);
+	OEvent(id:Int, trigger:EventTrigger);
 }
 
 enum EventTrigger

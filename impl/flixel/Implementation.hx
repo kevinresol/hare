@@ -22,6 +22,7 @@ import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.Events;
 import rpg.geom.Direction;
 import rpg.map.GameMap;
+import rpg.movement.InteractionManager.MovableObjectType;
 
 /**
  * A HaxeFlixel implementation for rpg-engine
@@ -31,8 +32,6 @@ class Implementation implements IImplementation
 {
 	public var engine:Engine;
 	public var assetManager:AssetManager;
-	
-	private var playerTween:FlxTween;
 	
 	private var state:FlxState;
 	private var gameLayer:FlxGroup;
@@ -156,47 +155,54 @@ class Implementation implements IImplementation
 		saveLoadScreen.visible = false;
 	}
 	
-	public function movePlayer(callback:Void->Bool, dx:Int, dy:Int, speed:Float):Void
+	public function moveObject(callback:Void->Bool, type:MovableObjectType, dx:Int, dy:Int, speed:Float):Void
 	{
 		checkCallback(callback);
 		
+		var sprite = switch (type) 
+		{
+			case MPlayer: player;
+			case MEvent(id): objects[id].sprite;
+		}
+		
 		var speed = engine.currentMap.tileWidth * speed;
 		
-		if (dx == 1) player.animation.play("walking-right");
-		else if (dx == -1) player.animation.play("walking-left");
-		else if (dy == 1) player.animation.play("walking-down");
-		else if (dy == -1) player.animation.play("walking-up");
-		
-		//if (playerTween != null && playerTween.active)
-		//	playerTween.cancel();
-		
-		playerTween = FlxTween.linearMotion(
-			player, 
-			player.x, 
-			player.y, 
-			player.x + dx * engine.currentMap.tileWidth, 
-			player.y + dy * engine.currentMap.tileHeight, 
+		if (dx == 1) sprite.animation.play("walking-right");
+		else if (dx == -1) sprite.animation.play("walking-left");
+		else if (dy == 1) sprite.animation.play("walking-down");
+		else if (dy == -1) sprite.animation.play("walking-up");
+				
+		FlxTween.linearMotion(
+			sprite, 
+			sprite.x, 
+			sprite.y, 
+			sprite.x + dx * engine.currentMap.tileWidth, 
+			sprite.y + dy * engine.currentMap.tileHeight, 
 			speed, 
 			false,
 			{onComplete:function(t)
 			{
 				var map = engine.currentMap;
 				// make sure it is at the exact position
-				player.x = Math.round(player.x / map.tileWidth) * map.tileWidth;
-				player.y = Math.round(player.y / map.tileHeight) * map.tileHeight -16;
+				sprite.x = Math.round(sprite.x / map.tileWidth) * map.tileWidth;
+				sprite.y = Math.round(sprite.y / map.tileHeight) * map.tileHeight - (type == MPlayer ? 16 : 0);
 				if (!callback())
 				{
-					player.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
-					playerTween = null;
+					sprite.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
 				}
 			}} 
 		);
 		
 	}
 	
-	public function changePlayerFacing(dir:Int):Void
+	public function changeObjectFacing(type:MovableObjectType, dir:Int):Void
 	{
-		player.animation.play(Direction.toString(dir));
+		var sprite = switch (type) 
+		{
+			case MPlayer: player;
+			case MEvent(id): objects[id].sprite;
+		}
+		sprite.animation.play(Direction.toString(dir));
 	}
 	
 	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void
