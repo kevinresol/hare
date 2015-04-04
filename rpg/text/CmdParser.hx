@@ -26,6 +26,16 @@ class CmdParser
             return 0;
 	}
 	
+	public function getTextColorByHex():Int
+	{
+		var r = ~/\\c\[([a-fA-F0-9]+)\]/;
+		if (r.match(rawText))
+		{
+			return Std.parseInt("0x"+r.matched(1));
+		}
+            return 0;
+	}
+	
 	public function getTextSpeed():Int
 	{
 		var r = ~/\\S\[([0-9]+)\]/;
@@ -34,6 +44,16 @@ class CmdParser
 			return Std.parseInt(r.matched(1));
 		}
             return 0;
+	}
+	
+	public function getText():String
+	{
+		var r = ~/\\[cCS]\[([a-fA-F0-9]+)\](.+)/;
+		if (r.match(rawText))
+		{
+			return r.matched(2);
+		}
+			return "";
 	}
 	
 }
