@@ -146,7 +146,6 @@ class InteractionManager
 			{
 				case MEvent(id):
 					var trigger = engine.mapManager.currentMap.getEventTrigger(id);
-					trace(object.position, player.position, trigger);
 					switch (trigger)
 					{
 						case EOverlap:
