@@ -8,8 +8,8 @@ package rpg.text;
 class CmdParser
 {
 	private var rawText:String;
-
-    private static var colorCodes = new ReadOnlyArray([0xFF0000, 0x00FF00, 0x0000FF]);
+	
+    private static var colorCodes = new ReadOnlyArray([0xFF0000, 0x00FF00, 0x0000FF]); //System Color Codes
 	
 	public function new(rawText:String) 
 	{
@@ -18,7 +18,7 @@ class CmdParser
     
     private function splitTokens():Array<String>
     {
-        var r = ~/(((\\[CcS]\[[a-fA-F0-9]+\])*)(([\w\s!@?](\\n)*)+))/;
+        var r = ~/(((\\[CcS]\[[a-fA-F0-9]+\])*)(([\w\s\.!@?](\\n)*)+))/;
         var temp = rawText;
         var arrayTokens = new Array<String> ();
         while(r.match(temp))
@@ -63,7 +63,7 @@ class CmdParser
             return 0;
 	}
 	
-	public function getText(mText):String
+	private function getText(mText):String
 	{
 		var r = ~/(\\[cCS]\[([a-fA-F0-9]+)\])*(.+)/;
 		if (r.match(mText))
