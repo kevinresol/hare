@@ -6,6 +6,7 @@ import rpg.Engine;
 import rpg.geom.Direction;
 import rpg.geom.IntPoint;
 
+using Lambda;
 /**
  * ...
  * @author Kevin
@@ -24,6 +25,7 @@ class SaveManager
 		var data = new SaveData();
 		data.gameData = engine.eventManager.getGameData();
 		data.mapId = engine.mapManager.currentMap.id;
+		data.playerName = engine.mapManager.getMap(1).player.name;
 		data.playerFacing = engine.interactionManager.player.facing;
 		data.playerPosition = engine.interactionManager.player.position;
 		data.items = engine.itemManager.itemData;
@@ -36,6 +38,7 @@ class SaveManager
 		var data:SaveData = Unserializer.run(s);
 		engine.eventManager.setGameData(data.gameData);
 		engine.itemManager.init(data.items);
+		engine.impl.createPlayer(data.playerName, engine.assetManager.getConfig().actors.find(function(o) return o.name == data.playerName).image.source);
 		engine.eventManager.scriptHost.teleportPlayer(data.mapId, data.playerPosition.x, data.playerPosition.y, {facing:Direction.toString(data.playerFacing)});
 	}
 }
@@ -43,6 +46,7 @@ class SaveManager
 class SaveData
 {
 	public var mapId:Int;
+	public var playerName:String;
 	public var playerPosition:IntPoint;
 	public var playerFacing:Int;
 	public var gameData:GameData;

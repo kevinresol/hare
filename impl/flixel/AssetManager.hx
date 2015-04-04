@@ -2,6 +2,7 @@ package impl.flixel ;
 import flixel.util.FlxSave;
 import haxe.Json;
 import openfl.Assets;
+import openfl.net.SharedObject;
 import rpg.config.Config;
 
 /**
@@ -111,8 +112,8 @@ class AssetManager implements IAssetManager
 	public function getSaveData(id:Int):String 
 	{
 		var save = new FlxSave();
-		save.bind("save-" + StringTools.lpad(Std.string(id), "0", 4));
-		var s:String = save.data.serialized == null ? "" : save.data.serialized;
+		save.bind("save");
+		var s:String = (save.data.saves == null || save.data.saves[id] == null) ? "" : save.data.saves[id];
 		save.close();
 		return s;
 	}
@@ -120,9 +121,22 @@ class AssetManager implements IAssetManager
 	public function setSaveData(id:Int, data:String):Void 
 	{
 		var save = new FlxSave();
-		save.bind("save-" + StringTools.lpad(Std.string(id), "0", 4));
-		save.data.serialized = data;
+		save.bind("save");
+		if (save.data.saves == null)
+			save.data.saves = [];
+		save.data.saves[id] = data;
 		save.flush();
 		save.close();
+	}
+	
+	
+	public function getNumberOfSaves():Int
+	{
+		var save = new FlxSave();
+		save.bind("save");
+		if (save.data.saves == null)
+			return 0;
+		else
+			return save.data.saves.length;
 	}
 }

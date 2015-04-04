@@ -61,4 +61,8 @@ class TestAssetManager implements IAssetManager
 		return Json.parse(s);
 	}
 	
+	public function getNumberOfSaves():Int
+	{
+		return 0;
+	}
 }

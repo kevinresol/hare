@@ -170,7 +170,15 @@ class Engine
 				impl.showSaveScreen(saveGame, function() gameState = currentState);
 				
 			case SGameMenu:
-				impl.showGameMenu(function() gameState = currentState);
+				impl.showGameMenu(function(action)
+				{
+					switch (action) 
+					{
+						case AShowSaveMenu:
+							gameState = SSaveScreen;
+						default:
+					}
+				}, function() gameState = currentState);
 				
 			default:
 				
@@ -202,5 +210,11 @@ enum GameState
 	SGameMenu;
 	SLoadScreen;
 	SSaveScreen;
+}
+
+enum GameMenuAction
+{
+	AShowSaveMenu;
+	AShowLoadMenu;
 }
 

@@ -149,7 +149,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function showGameMenu(cancelCallback:Void->Void):Void 
+	public function showGameMenu(callback:GameMenuAction->Void, cancelCallback:Void->Void):Void 
 	{
 		
 	}

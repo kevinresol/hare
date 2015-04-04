@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
+import rpg.Engine.GameMenuAction;
 import rpg.Events;
 import rpg.geom.Rectangle;
 import rpg.input.InputManager.InputKey;
@@ -21,7 +22,7 @@ class GameMenu extends FlxSpriteGroup
 	
 	private var selected(default, set):Int;
 	
-	private var callback:Int->Void;
+	private var callback:GameMenuAction->Void;
 	private var cancelCallback:Void->Void;
 	
 	public function new() 
@@ -56,6 +57,7 @@ class GameMenu extends FlxSpriteGroup
 					selected ++;
 					
 				case KEnter:
+					callback(AShowSaveMenu);
 					Events.disable(listener);
 					
 				case KEsc:
@@ -68,7 +70,7 @@ class GameMenu extends FlxSpriteGroup
 		Events.disable(listener);
 	}
 	
-	public function show(callback:Int->Void, cancelCallback:Void->Void):Void
+	public function show(callback:GameMenuAction->Void, cancelCallback:Void->Void):Void
 	{
 		visible = true;
 		this.callback = callback;

@@ -125,9 +125,9 @@ class Implementation implements IImplementation
 		mainMenu.visible = false;
 	}
 	
-	public function showGameMenu(cancelCallback:Void->Void):Void
+	public function showGameMenu(callback:GameMenuAction->Void, cancelCallback:Void->Void):Void
 	{
-		gameMenu.show(null, cancelCallback);
+		gameMenu.show(callback, cancelCallback);
 	}
 	
 	public function hideGameMenu():Void
@@ -300,7 +300,7 @@ class Implementation implements IImplementation
 			FlxG.camera.setScrollBoundsRect(x, y, w, h);
 			
 		}
-			
+		
 		layers[2].add(player);
 		player.x = x * map.tileWidth;
 		player.y = y * map.tileHeight - 16;
