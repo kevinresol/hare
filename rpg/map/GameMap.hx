@@ -20,7 +20,7 @@ class GameMap
 	public var above:TileLayer;
 	public var below:TileLayer;
 	
-	public var objects:Array<Object>;
+	public var objects:Array<GameMapObject>;
 	
 	public var player:Player;
 	
@@ -43,12 +43,12 @@ class GameMap
 	
 	public function addEvent(id, imageSource, tileId, x, y, layer, trigger):Void
 	{
-		objects.push(new Object(id, imageSource, tileId, x, y, layer, OEvent(id, trigger)));
+		objects.push(new GameMapObject(id, imageSource, tileId, x, y, layer, OEvent(id, trigger)));
 	}
 	
 	public function addObject(id, imageSource, tileId, x, y, layer):Void
 	{
-		objects.push(new Object(id, imageSource, tileId, x, y, layer, OObject(id)));
+		objects.push(new GameMapObject(id, imageSource, tileId, x, y, layer, OObject(id)));
 	}
 	
 	public function getEventTrigger(id):EventTrigger
@@ -95,7 +95,7 @@ class Player
 	}
 }
 
-class Object
+class GameMapObject
 {
 	public var imageSource:String;
 	public var tileId:Int;
@@ -104,7 +104,7 @@ class Object
 	public var x:Int;
 	public var y:Int;
 	public var layer:Float;
-	public var type:ObjectType;
+	public var type:GameMapObjectType;
 	
 	public function new(id, imageSource, tileId, x, y, layer, type)
 	{
@@ -128,7 +128,7 @@ class Object
 	}
 }
 
-enum ObjectType
+enum GameMapObjectType
 {
 	OPlayer;
 	OObject(id:Int);
