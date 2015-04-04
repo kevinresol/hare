@@ -192,13 +192,13 @@ class ScriptHost
 						else
 						{
 							engine.impl.changeObjectFacing(type, dir);
-							runNextCommand();
+							engine.delayedCall(runNextCommand, 1);
 						}
 						
 					case CFace(dir):
 						target.facing = dir;
 						engine.impl.changeObjectFacing(type, dir);
-						runNextCommand();
+						engine.delayedCall(runNextCommand, 1);
 					
 					case CSleep(ms):
 						engine.delayedCall(runNextCommand, ms);

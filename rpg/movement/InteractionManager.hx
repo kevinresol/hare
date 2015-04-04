@@ -235,7 +235,28 @@ class InteractionManager
 		else if (dy == 1) dir = Direction.UP; 
 		else if (dy == -1) dir = Direction.DOWN;
 		
-		return (passage & dir == 0);
+		var mapPassage = (passage & dir == 0);
+		
+		if (!mapPassage) return false;
+		
+		for (object in objects)
+		{
+			if (object.position.x == x && object.position.y == y)
+			{
+				switch (object.type) 
+				{
+					case MEvent(id):
+						var trigger = engine.mapManager.currentMap.getEventTrigger(id);
+						switch (trigger) 
+						{
+							case EAction: return false;
+							default: 
+						}
+					default:
+				}
+			}
+		}
+		return true;
 	}
 	
 	private function isNeighbour(x1:Int, y1:Int, x2:Int, y2:Int):Bool
