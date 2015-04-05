@@ -8,7 +8,7 @@ class Events
 {
 	private static var listeners:Map<Int, Listener> = new Map();
 	private static var counter:Int = 0;
-	private static var dispatching:Bool = false;
+	private static var dispatching:Int = 0;
 	
 	private static var pendingEnable:Array<Int> = [];
 	private static var skipList:Array<Listener> = [];
@@ -69,7 +69,7 @@ class Events
 	 */
 	public static function enable(id:Int):Void
 	{
-		if (dispatching)
+		if (dispatching > 0)
 			pendingEnable.push(id);
 		else
 			listeners[id].enabled = true;
@@ -81,7 +81,8 @@ class Events
 	 */
 	public static function skip(id:Int):Void
 	{
-		skipList.push(listeners[id]);
+		if (dispatching > 0)
+			skipList.push(listeners[id]);
 	}
 	
 	/**
@@ -95,13 +96,13 @@ class Events
 			if (!valid(name)) throw 'Event "$name" does not exist';
 		#end
 		
-		dispatching = true;
+		dispatching++;
 		for (listener in listeners)
 		{
 			if (listener != null && listener.enabled && listener.name == name && skipList.indexOf(listener) == -1)
 				listener.listener(data);
 		}
-		dispatching = false;
+		dispatching--;
 		
 		while (pendingEnable.length > 0)
 			listeners[pendingEnable.pop()].enabled = true;
