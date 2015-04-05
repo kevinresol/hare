@@ -1,5 +1,4 @@
 package rpg;
-import haxe.Json;
 import haxe.Timer;
 import impl.IAssetManager;
 import impl.IImplementation;
