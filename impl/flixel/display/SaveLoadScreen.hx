@@ -26,6 +26,9 @@ class SaveLoadScreen extends FlxSpriteGroup
 	private var callback:Int->Void;
 	private var cancelCallback:Void->Void;
 	
+	private var mode:SaveLoadScreenMode;
+	private var page(default, set):Int;
+	
 	public function new() 
 	{
 		super();
@@ -83,12 +86,14 @@ class SaveLoadScreen extends FlxSpriteGroup
 	public function showSaveScreen(numSaves:Int, callback:Int->Void, cancelCallback:Void->Void):Void
 	{
 		title.text = "Save Game";
-		show(numSaves, callback, cancelCallback);
+		mode = MSave;
+		show(numSaves + 1, callback, cancelCallback);
 	}
 	
 	public function showLoadScreen(numSaves:Int, callback:Int->Void, cancelCallback:Void->Void):Void
 	{
 		title.text = "Load Game";
+		mode = MLoad;
 		show(numSaves, callback, cancelCallback);
 	}
 	
@@ -101,22 +106,32 @@ class SaveLoadScreen extends FlxSpriteGroup
 		this.cancelCallback = cancelCallback;
 		selected = 0;
 		Events.enable(listener);
-		
-		for (i in 0...3)
-		{
-			sections[i].set(i + 1);
-			sections[i].visible = (i < numSaves);
-		}
 	}
 	
 	private function set_selected(v:Int):Int
 	{
-		if (v < 0) v = Std.int(Math.min(2, numSaves - 1));
-		else if (v >= Math.min(3, numSaves)) v = 0;
+		if (v < 0) v = numSaves - 1;
+		else if (v >= numSaves) v = 0;
 		
-		selector.y = y + 42 + 150 * v;
+		page = Std.int(v / 3);
+		
+		selector.y = y + 42 + 150 * (v % 3);
 		
 		return selected = v;
+	}
+	
+	private function set_page(v:Int):Int
+	{
+		if (page == v) return v;
+		var index = v * 3;
+		
+		for (i in 0...3)
+		{
+			sections[i].set(index + i + 1);
+			sections[i].visible = (index + i < numSaves);
+		}
+		
+		return page = v;
 	}
 }
 
@@ -142,4 +157,10 @@ private class Section extends FlxSpriteGroup
 	{
 		text.text = 'Save: $id';
 	}
+}
+
+enum SaveLoadScreenMode
+{
+	MSave;
+	MLoad;
 }
