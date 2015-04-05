@@ -83,6 +83,8 @@ class InteractionManager
 		
 		Events.on("map.switched", function(map:GameMap)
 		{
+			if (map == null) return;
+			
 			objects = [];
 			for (mo in map.objects)
 			{

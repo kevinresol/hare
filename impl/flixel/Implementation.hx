@@ -71,7 +71,7 @@ class Implementation implements IImplementation
 		FlxCamera.defaultCameras = [gameCamera];
 		setCamera(hudLayer, hudCamera);
 		
-		layers = [for (i in 0...5) cast gameLayer.add(new FlxGroup())];
+		layers = [];
 		objects = new Map();
 		
 		Events.on("event.erased", function(id:Int)
@@ -117,7 +117,15 @@ class Implementation implements IImplementation
 	}
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
-	{	
+	{
+		if(layers[2] != null)
+			layers[2].remove(player, true);
+		
+		while(layers.length > 0)
+			layers.pop().destroy();
+		
+		gameLayer.clear();
+		
 		mainMenu.show(startGameCallback, loadGameCallback);
 		gameCamera.visible = false;
 	}
@@ -301,10 +309,8 @@ class Implementation implements IImplementation
 			
 			FlxG.camera.follow(player, LOCKON);
 			FlxG.camera.setScrollBoundsRect(x, y, w, h);
-			
 		}
 		
-		layers[2].add(player);
 		player.x = x * map.tileWidth;
 		player.y = y * map.tileHeight - 16;
 		
@@ -342,18 +348,17 @@ class Implementation implements IImplementation
 	
 	private function switchMap(map:GameMap):Void
 	{
-		layers[2].remove(player, true);
+		if(layers[2] != null)
+			layers[2].remove(player, true);
 		
-		for (layer in layers)
-			layer.destroy();
+		while(layers.length > 0)
+			layers.pop().destroy();
 		
 		gameLayer.clear();
 		
-		layers = [];
 		for (i in 0...4)
 		{
 			var layer = new FlxGroup();
-			layer.camera = gameCamera;
 			gameLayer.add(layer);
 			layers.push(layer);
 		}

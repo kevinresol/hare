@@ -69,7 +69,7 @@ class EventManager
 		trace("bridge script result: " + result);
 		#end
 		
-		Events.on("map.switched", function(_) erasedEvents = []);
+		Events.on("map.switched", function(map) if(map != null) erasedEvents = []);
 	}
 	
 	public function update(elapsed:Float):Void

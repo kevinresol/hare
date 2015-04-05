@@ -161,6 +161,7 @@ class Engine
 		switch (v) 
 		{
 			case SMainMenu:
+				mapManager.currentMap = null;
 				impl.showMainMenu(startGame, function() gameState = SLoadScreen);
 				
 			case SLoadScreen:
