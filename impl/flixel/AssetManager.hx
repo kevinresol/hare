@@ -2,7 +2,6 @@ package impl.flixel ;
 import flixel.util.FlxSave;
 import haxe.Json;
 import openfl.Assets;
-import openfl.net.SharedObject;
 import rpg.config.Config;
 
 /**
