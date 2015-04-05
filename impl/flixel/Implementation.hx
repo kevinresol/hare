@@ -88,18 +88,6 @@ class Implementation implements IImplementation
 		var justPressed = FlxG.keys.justPressed;
 		var justReleased = FlxG.keys.justReleased;
 		
-		if (justPressed.LEFT)
-			engine.press(KLeft);
-		if (justPressed.RIGHT)
-			engine.press(KRight);
-		if (justPressed.UP)
-			engine.press(KUp);
-		if (justPressed.DOWN)
-			engine.press(KDown);
-		if (justPressed.ENTER || justPressed.SPACE)
-			engine.press(KEnter);
-		if (justPressed.ESCAPE)
-			engine.press(KEsc);
 		
 		if (justReleased.LEFT)
 			engine.release(KLeft);
@@ -113,6 +101,19 @@ class Implementation implements IImplementation
 			engine.release(KEnter);
 		if (justReleased.ESCAPE)
 			engine.release(KEsc);
+			
+		if (justPressed.LEFT)
+			engine.press(KLeft);
+		if (justPressed.RIGHT)
+			engine.press(KRight);
+		if (justPressed.UP)
+			engine.press(KUp);
+		if (justPressed.DOWN)
+			engine.press(KDown);
+		if (justPressed.ENTER || justPressed.SPACE)
+			engine.press(KEnter);
+		if (justPressed.ESCAPE)
+			engine.press(KEsc);
 	}
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
