@@ -1,4 +1,4 @@
-music.play(1, 1, 1)
+music.play(1, 1, 0.7)
 
 log(getGameVar("globalVar"))
 
