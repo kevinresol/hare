@@ -1,7 +1,9 @@
 package rpg;
+import haxe.Json;
 import haxe.Timer;
 import impl.IAssetManager;
 import impl.IImplementation;
+import rpg.config.Config;
 import rpg.event.EventManager;
 import rpg.input.InputManager;
 import rpg.item.ItemManager;
@@ -18,6 +20,7 @@ import rpg.save.SaveManager;
 class Engine
 {
 	public var currentMap(get, never):GameMap;
+	public var config(default, null):Config;
 	
 	private var impl:IImplementation;
 	private var assetManager:IAssetManager;
@@ -39,6 +42,9 @@ class Engine
 		this.impl = impl;
 		this.assetManager = assetManager;
 		
+		var data = try Json.parse(assetManager.getConfig()) catch (e:Dynamic) { actors:[], items:[] };
+		config = new Config(data);
+		
 		impl.engine = this;
 		delayedCalls = [];
 		called = [];
@@ -59,7 +65,6 @@ class Engine
 	public function startGame():Void
 	{
 		// init items
-		var config = assetManager.getConfig(); 
 		itemManager.init(config.items);
 		
 		gameState = SGame;

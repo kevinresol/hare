@@ -2,6 +2,7 @@ package rpg.map;
 import rpg.Engine;
 import rpg.geom.Direction;
 import rpg.map.GameMap.EventTrigger;
+import rpg.map.GameMap.GameMapObjectDisplayType;
 import rpg.map.GameMap.TileLayer;
 
 using Lambda;
@@ -46,6 +47,9 @@ class MapManager
 				var layer = 2.0;
 				if (o.custom.contains("layer"))
 					layer = Std.parseFloat(o.custom.layer);
+					
+				// note: "[object]" is the default value if the name is not specified in Tiled
+				var displayType:GameMapObjectDisplayType =  o.name == "[object]" ? DTile(imageSource, tileset.fromGid(o.gid)) : DActor(engine.config.getImageSourceOfActor(o.name), 1);
 				
 				switch (o.type)
 				{
@@ -61,18 +65,15 @@ class MapManager
 							default: EAction;
 						}
 						
-						map.addEvent(o.id, imageSource, tileset.fromGid(o.gid), x, y, layer, trigger);
-						
-					case "object":
-						map.addObject(o.id, imageSource, tileset.fromGid(o.gid), x, y, layer);
-						
+						map.addEvent(o.id, x, y, layer, trigger, displayType);
+					
 					case "player":
-						var config = engine.assetManager.getConfig();
-						var imageSource = config.actors.find(function(data) return data.name == o.name).image.source;
+						var imageSource = engine.config.getImageSourceOfActor(o.name);
 						// TODO: image.index;
 						map.addPlayer(o.name, imageSource, x, y);
 					
 					default:
+						map.addObject(o.id, x, y, layer, displayType);
 				}
 			}
 			maps[id] = map;

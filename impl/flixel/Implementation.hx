@@ -453,13 +453,37 @@ class Implementation implements IImplementation
 			layers[3].add(tilemap);
 		}
 		
-		for (object in map.objects)
+		var sortedObjects = map.objects.concat([]);
+		sortedObjects.sort(function(o1, o2) return Std.int(o1.layer - o2.layer));
+		
+		for (object in sortedObjects)
 		{
 			var sprite = new FlxSprite(object.x * map.tileWidth, object.y * map.tileHeight);
-			sprite.loadGraphic(object.imageSource, true, 32, 32);
-			sprite.animation.frameIndex = object.tileId - 1;
-			layers[1].add(sprite); //TODO figure out the layer to add to
-			objects[object.id] = new Object(sprite, layers[1]);
+			switch (object.displayType) 
+			{
+				case DTile(imageSource, tileId):
+					sprite.loadGraphic(imageSource, true, 32, 32);
+					sprite.animation.frameIndex = tileId - 1;
+					
+				case DActor(imageSource, index):
+					sprite.loadGraphic('assets/images/actor/$imageSource', true, 32, 48);
+					sprite.animation.add("walking-left", [3, 4, 5, 4], 8);
+					sprite.animation.add("walking-right", [6, 7, 8, 7], 8);
+					sprite.animation.add("walking-down", [0, 1, 2, 1], 8);
+					sprite.animation.add("walking-up", [9, 10, 11, 10], 8);
+					sprite.animation.add("left", [4], 0);
+					sprite.animation.add("right", [7], 0);
+					sprite.animation.add("down", [1], 0);
+					sprite.animation.add("up", [10], 0);
+					sprite.animation.play("down");
+					sprite.y -= 16;
+			}
+			
+			var index = Std.int(object.layer - 0.5);
+			if (index < 0) index = 0;
+			if (index >= 3) index = 3;
+			layers[index].add(sprite); //TODO figure out the layer to add to
+			objects[object.id] = new Object(sprite, layers[index]);
 		}
 		
 		layers[2].add(player);

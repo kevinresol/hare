@@ -38,7 +38,7 @@ class SaveManager
 		var data:SaveData = Unserializer.run(s);
 		engine.eventManager.setGameData(data.gameData);
 		engine.itemManager.init(data.items);
-		engine.impl.createPlayer(data.playerName, engine.assetManager.getConfig().actors.find(function(o) return o.name == data.playerName).image.source);
+		engine.impl.createPlayer(data.playerName, engine.config.getImageSourceOfActor(data.playerName));
 		engine.eventManager.scriptHost.teleportPlayer(data.mapId, data.playerPosition.x, data.playerPosition.y, {facing:Direction.toString(data.playerFacing)});
 	}
 }

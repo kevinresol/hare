@@ -7,7 +7,7 @@ import rpg.config.Config;
 
 interface IAssetManager 
 {
-	function getConfig():Config;
+	function getConfig():String;
 	
 	function getSaveData(id:Int):String;
 	function setSaveData(id:Int, data:String):Void;

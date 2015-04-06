@@ -1,8 +1,6 @@
 package impl.flixel ;
 import flixel.util.FlxSave;
-import haxe.Json;
 import openfl.Assets;
-import rpg.config.Config;
 
 /**
  * ...
@@ -15,8 +13,6 @@ class AssetManager implements IAssetManager
 	private var musics:Map<Int, String>;
 	private var sounds:Map<Int, String>;
 	private var systemSounds:Map<Int, String>;
-	
-	private var config:Config;
 
 	public function new() 
 	{
@@ -65,17 +61,9 @@ class AssetManager implements IAssetManager
 		}
 	}
 	
-	public function getConfig():Config
+	public function getConfig():String
 	{
-		if (config == null)
-		{
-			if(Assets.exists("assets/data/config.json"))
-				config = Json.parse(Assets.getText("assets/data/config.json"));
-			else
-				config = { actors:[], items:[] };
-		}
-			
-		return config;
+		return Assets.getText("assets/data/config.json");
 	}
 	
 	public function getMapData(id:Int):String 

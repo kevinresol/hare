@@ -41,14 +41,14 @@ class GameMap
 		player = new Player(name, imageSource, x, y);
 	}
 	
-	public function addEvent(id, imageSource, tileId, x, y, layer, trigger):Void
+	public function addEvent(id, x, y, layer, trigger, displayType):Void
 	{
-		objects.push(new GameMapObject(id, imageSource, tileId, x, y, layer, OEvent(id, trigger)));
+		objects.push(new GameMapObject(id, x, y, layer, OEvent(id, trigger), displayType));
 	}
 	
-	public function addObject(id, imageSource, tileId, x, y, layer):Void
+	public function addObject(id, x, y, layer, displayType):Void
 	{
-		objects.push(new GameMapObject(id, imageSource, tileId, x, y, layer, OObject(id)));
+		objects.push(new GameMapObject(id, x, y, layer, OObject(id), displayType));
 	}
 	
 	public function getEventTrigger(id):EventTrigger
@@ -97,24 +97,21 @@ class Player
 
 class GameMapObject
 {
-	public var imageSource:String;
-	public var tileId:Int;
-	
 	public var id:Int;
 	public var x:Int;
 	public var y:Int;
 	public var layer:Float;
 	public var type:GameMapObjectType;
+	public var displayType:GameMapObjectDisplayType;
 	
-	public function new(id, imageSource, tileId, x, y, layer, type)
+	public function new(id, x, y, layer, type, displayType)
 	{
 		this.id = id;
-		this.imageSource = imageSource;
-		this.tileId = tileId;
 		this.x = x;
 		this.y = y;
 		this.layer = layer;
 		this.type = type;
+		this.displayType = displayType;
 	}
 	
 	public function toString():String
@@ -133,6 +130,12 @@ enum GameMapObjectType
 	OPlayer;
 	OObject(id:Int);
 	OEvent(id:Int, trigger:EventTrigger);
+}
+
+enum GameMapObjectDisplayType
+{
+	DTile(imageSource:String, tileId:Int);
+	DActor(imageSource:String, index:Int);
 }
 
 enum EventTrigger

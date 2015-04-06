@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="12">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="13">
  <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
   <image source="../../images/Office_A5_Ground.png" width="256" height="64"/>
  </tileset>
@@ -76,6 +76,11 @@
    </properties>
   </object>
   <object id="11" gid="2" x="512" y="352"/>
+  <object id="12" name="Pandora" type="event" gid="2" x="416" y="192">
+   <properties>
+    <property name="layer" value="0.5"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Passage" width="30" height="25" opacity="0.5">
   <data encoding="base64" compression="zlib">
