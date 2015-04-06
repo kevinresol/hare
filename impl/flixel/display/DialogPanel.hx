@@ -55,6 +55,7 @@ class DialogPanel extends FlxSpriteGroup
 		
 		border = new Border(0, 0, 640, 150);
 		
+		
 		selector = new Selector(95, 40, 500, 25);
 		
 		downArrow = new FlxSprite();
@@ -67,7 +68,6 @@ class DialogPanel extends FlxSpriteGroup
 		background.loadGraphic("assets/images/system/system.png", true, 64, 64);
 		background.origin.set();
 		background.alpha = 0.9;
-		background.setGraphicSize(FlxG.width, 150);
 		
 		text = new Text(100, 15, 1000, "", 20);
 		
@@ -83,7 +83,8 @@ class DialogPanel extends FlxSpriteGroup
 		
 		visible = false;
 		scrollFactor.set();
-		y = 480 - 150;
+		x = (FlxG.width - 640) / 2;
+		y = FlxG.height - 150;
 		
 		
 		showTextListener = Events.on("key.justPressed", function(key:InputKey)
@@ -250,9 +251,13 @@ class DialogPanel extends FlxSpriteGroup
 				border.visible = false;
 			case BDimmed:
 				background.alpha = 0.5;
+				background.setPosition(x, y);
+				background.setGraphicSize(640, 150);
 				border.visible = false;
 			case BNormal:
 				background.alpha = 0.9;
+				background.setPosition(x + 5, y + 5);
+				background.setGraphicSize(630, 140);
 				border.visible = true;
 		}
 	}

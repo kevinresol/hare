@@ -9,6 +9,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
+import flixel.ui.FlxVirtualPad;
 import impl.flixel.display.DialogPanel;
 import impl.flixel.display.GameMenu;
 import impl.flixel.display.MainMenu;
@@ -48,6 +49,10 @@ class Implementation implements IImplementation
 	
 	private var gameCamera:FlxCamera;
 	private var hudCamera:FlxCamera;
+	
+	#if mobile
+	private var virtualPad:FlxVirtualPad;
+	#end
 
 	public function new(state:FlxState) 
 	{
@@ -58,14 +63,40 @@ class Implementation implements IImplementation
 		state.add(gameLayer = new FlxGroup());
 		state.add(hudLayer = new FlxGroup());
 		
+		#if mobile
+		virtualPad = new FlxVirtualPad(FULL, A_B);
+		
+		virtualPad.scale.set(2, 2);
+		virtualPad.buttonUp.updateHitbox();
+		virtualPad.buttonLeft.updateHitbox();
+		virtualPad.buttonRight.updateHitbox();
+		virtualPad.buttonDown.updateHitbox();
+		virtualPad.buttonA.updateHitbox();
+		virtualPad.buttonB.updateHitbox();
+		
+		var size = virtualPad.buttonUp.width;
+		virtualPad.buttonUp.setPosition(size * 0.9, FlxG.height - size * 3 * 0.9);
+		virtualPad.buttonLeft.setPosition(0, FlxG.height - size * 2 * 0.9);
+		virtualPad.buttonRight.setPosition(size * 2 * 0.9, FlxG.height - size * 2 * 0.9);
+		virtualPad.buttonDown.setPosition(size * 0.9, FlxG.height - size * 0.9);
+		virtualPad.buttonA.setPosition(FlxG.width - size, FlxG.height - size);
+		virtualPad.buttonB.setPosition(0, 0);
+		
+		virtualPad.alpha = 0.3;
+		hudLayer.add(virtualPad);
+		#end
+		
 		mainMenu = new MainMenu(this);
 		gameMenu = new GameMenu();
 		saveLoadScreen = new SaveLoadScreen();
 		dialogPanel = new DialogPanel();
+		
 		hudLayer.add(dialogPanel);
 		hudLayer.add(mainMenu);
 		hudLayer.add(gameMenu);
 		hudLayer.add(saveLoadScreen);
+		
+		
 		
 		gameCamera = FlxG.camera;
 		FlxG.cameras.add(hudCamera = new FlxCamera());
@@ -88,7 +119,6 @@ class Implementation implements IImplementation
 		
 		var justPressed = FlxG.keys.justPressed;
 		var justReleased = FlxG.keys.justReleased;
-		
 		
 		if (justReleased.LEFT)
 			engine.release(KLeft);
@@ -115,6 +145,35 @@ class Implementation implements IImplementation
 			engine.press(KEnter);
 		if (justPressed.ESCAPE)
 			engine.press(KEsc);
+			
+		
+		#if mobile
+		if (virtualPad.buttonLeft.justReleased)
+			engine.release(KLeft);
+		if (virtualPad.buttonRight.justReleased)
+			engine.release(KRight);
+		if (virtualPad.buttonUp.justReleased)
+			engine.release(KUp);
+		if (virtualPad.buttonDown.justReleased)
+			engine.release(KDown);
+		if (virtualPad.buttonA.justReleased)
+			engine.release(KEnter);
+		if (virtualPad.buttonB.justReleased)
+			engine.release(KEsc);
+			
+		if (virtualPad.buttonLeft.justPressed)
+			engine.press(KLeft);
+		if (virtualPad.buttonRight.justPressed)
+			engine.press(KRight);
+		if (virtualPad.buttonUp.justPressed)
+			engine.press(KUp);
+		if (virtualPad.buttonDown.justPressed)
+			engine.press(KDown);
+		if (virtualPad.buttonA.justPressed)
+			engine.press(KEnter);
+		if (virtualPad.buttonB.justPressed)
+			engine.press(KEsc);
+		#end
 	}
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
