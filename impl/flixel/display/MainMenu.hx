@@ -93,6 +93,7 @@ class MainMenu extends FlxSpriteGroup
 		visible = true;
 		this.startGameCallback = startGameCallback;
 		this.loadGameCallback = loadGameCallback;
+		selected = 0;
 		Events.enable(listener);
 	}
 	
