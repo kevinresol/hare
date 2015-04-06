@@ -139,7 +139,7 @@ private class Section extends FlxSpriteGroup
 	{
 		super(x,y);
 		
-		border = new Border(0, 0, 640, 150);
+		border = new Border(0, 0, FlxG.width, 150);
 		text = new Text(20, 10, 0, "", 16);
 		
 		add(border);
