@@ -118,7 +118,6 @@ class SaveLoadScreen extends FlxSpriteGroup
 	
 	private function set_page(v:Int):Int
 	{
-		if (page == v) return v;
 		var index = v * 3;
 		
 		for (i in 0...3)
