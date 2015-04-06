@@ -50,7 +50,7 @@ class SaveLoadScreen extends FlxSpriteGroup
 		}
 		
 		add(selector);
-		add(title = new Text(0, 0, 0, "", 20));
+		add(title = new Text(0, 0, 0, "", 24));
 		
 		visible = false;
 		scrollFactor.set();
@@ -141,7 +141,7 @@ private class Section extends FlxSpriteGroup
 		super(x,y);
 		
 		border = new Border(0, 0, 640, 150);
-		text = new Text(20, 10, 0, "", 18);
+		text = new Text(20, 10, 0, "", 16);
 		
 		add(border);
 		add(text);
