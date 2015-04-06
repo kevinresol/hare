@@ -39,9 +39,7 @@ class SaveLoadScreen extends FlxSpriteGroup
 		background.alpha = 0.95;
 		background.setGraphicSize(FlxG.width, FlxG.height);
 		
-		selector = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
-		selector.setPosition(15, 10);
-		selector.setGraphicSize(100, 21);
+		selector = new Selector(15, 10, 100, 21);
 		
 		add(background);
 		
@@ -144,9 +142,7 @@ private class Section extends FlxSpriteGroup
 	{
 		super(x,y);
 		
-		border = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
-		border.setGraphicSize(640, 150);
-		
+		border = new Border(0, 0, 640, 150);
 		text = new FlxText(20, 10, 0, "", 18);
 		
 		add(border);

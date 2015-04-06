@@ -15,7 +15,7 @@ class Slice9Sprite extends FlxSpriteGroup
 {
 	private var sprites:Array<FlxSprite>;
 	
-	public function new(graphic:FlxGraphicAsset, bound:Rectangle, slice9:Rectangle) 
+	public function new(graphic:FlxGraphicAsset, bound:Rectangle, slice9:Rectangle, ?skip:Array<Int>) 
 	{
 		super();
 		sprites = [];
@@ -59,7 +59,8 @@ class Slice9Sprite extends FlxSpriteGroup
 			s.y = rect.y - by;
 			s.origin.set();
 			sprites.push(s);
-			add(s);
+			if (skip == null || skip.indexOf(i) == -1)
+				add(s);
 		}
 	}
 	

@@ -31,12 +31,8 @@ class MainMenu extends FlxSpriteGroup
 	{
 		super();
 		
-		border = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
-		border.setGraphicSize(180, 80);
-		
-		selector = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
-		selector.setPosition(5, 10);
-		selector.setGraphicSize(168, 21);
+		border = new Border(0, 0, 180, 80);
+		selector = new Selector(5, 10, 168, 21);
 		
 		text = new FlxText(0, 11, 170, "New Game\nLoad Game\nQuit Game", 15);
 		text.alignment = CENTER;

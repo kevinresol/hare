@@ -36,9 +36,7 @@ class GameMenu extends FlxSpriteGroup
 		background.alpha = 0.95;
 		background.setGraphicSize(FlxG.width, FlxG.height);
 		
-		selector = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
-		selector.setPosition(5, 10);
-		selector.setGraphicSize(168, 21);
+		selector = new Selector(5, 10, 168, 21);
 		
 		text = new FlxText(15, 30, 0, "Main Menu\nSave Game", 15);
 		

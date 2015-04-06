@@ -1,4 +1,5 @@
 package impl.flixel.display;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.text.FlxText;
@@ -33,6 +34,7 @@ class DialogPanel extends FlxSpriteGroup
 	 */
 	private var selector:Slice9Sprite;
 	private var background:FlxSprite;
+	private var downArrow:FlxSprite;
 	private var tween:FlxTween;
 	private var text:FlxText;
 	private var message:String;
@@ -53,19 +55,21 @@ class DialogPanel extends FlxSpriteGroup
 	{
 		super();
 		
-		border = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 0, 64, 64), new Rectangle(64+16, 16, 32, 32));
-		border.setGraphicSize(640, 150);
+		border = new Border(0, 0, 640, 150);
 		
-		selector = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
-		selector.setPosition(95, 40);
-		selector.setGraphicSize(500, 25);
-		selector.visible = false;
+		selector = new Selector(95, 40, 500, 25);
+		
+		downArrow = new FlxSprite();
+		downArrow.loadGraphic("assets/images/system/system.png", true, 16, 16);
+		downArrow.animation.add("move", [38, 39, 46, 47], 5);
+		downArrow.animation.play("move");
+		downArrow.setPosition((FlxG.width - downArrow.width) / 2, 120);
 		
 		background = new FlxSprite();
 		background.loadGraphic("assets/images/system/system.png", true, 64, 64);
 		background.origin.set();
 		background.alpha = 0.9;
-		background.setGraphicSize(640, 150);
+		background.setGraphicSize(FlxG.width, 150);
 		
 		text = new FlxText(100, 15, 1000, "", 20);
 		
@@ -76,6 +80,7 @@ class DialogPanel extends FlxSpriteGroup
 		add(border);
 		add(text);
 		add(selector);
+		add(downArrow);
 		add(inputNumberPanel);
 		
 		visible = false;

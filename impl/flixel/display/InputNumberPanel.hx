@@ -28,9 +28,8 @@ class InputNumberPanel extends FlxSpriteGroup
 		
 		texts = [];
 		
-		selector = new Slice9Sprite("assets/images/system/system.png", new Rectangle(64, 64, 32, 32), new Rectangle(64 + 8, 64 + 8, 16, 16));
-		selector.setPosition(0, 0);
-		selector.setGraphicSize(20, 26);
+		
+		selector = new Selector(0, 0, 20, 26);
 		
 		add(selector);
 		
