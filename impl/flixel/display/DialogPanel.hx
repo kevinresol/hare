@@ -62,7 +62,7 @@ class DialogPanel extends FlxSpriteGroup
 		downArrow.loadGraphic("assets/images/system/system.png", true, 16, 16);
 		downArrow.animation.add("move", [38, 39, 46, 47], 5);
 		downArrow.animation.play("move");
-		downArrow.setPosition((FlxG.width - downArrow.width) / 2, 120);
+		downArrow.setPosition((640 - downArrow.width) / 2, 120);
 		
 		background = new FlxSprite();
 		background.loadGraphic("assets/images/system/system.png", true, 64, 64);
