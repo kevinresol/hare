@@ -55,10 +55,10 @@ class TestAssetManager implements IAssetManager
 	
 	/* INTERFACE impl.IAssetManager */
 	
-	public function getConfig():Config 
+	public function getConfig():String 
 	{
 		var s = Macro.getTestConfig();
-		return Json.parse(s);
+		return s;
 	}
 	
 	public function getNumberOfSaves():Int
