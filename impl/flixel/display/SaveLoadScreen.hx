@@ -34,7 +34,7 @@ class SaveLoadScreen extends FlxSpriteGroup
 		var background = new FlxSprite();
 		background.loadGraphic("assets/images/system/system.png", true, 64, 64);
 		background.origin.set();
-		background.alpha = 0.95;
+		background.alpha = 0.8;
 		background.setGraphicSize(FlxG.width, FlxG.height);
 		
 		selector = new Selector(15, 10, 100, 21);
