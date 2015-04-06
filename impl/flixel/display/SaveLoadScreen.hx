@@ -3,9 +3,7 @@ package impl.flixel.display;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
-import flixel.text.FlxText;
 import rpg.Events;
-import rpg.geom.Rectangle;
 import rpg.input.InputManager.InputKey;
 
 /**
@@ -17,7 +15,7 @@ class SaveLoadScreen extends FlxSpriteGroup
 	private var listener:Int;
 	
 	private var selector:Slice9Sprite;
-	private var title:FlxText;
+	private var title:Text;
 	private var sections:Array<Section>;
 	
 	private var numSaves:Int;
@@ -52,7 +50,7 @@ class SaveLoadScreen extends FlxSpriteGroup
 		}
 		
 		add(selector);
-		add(title = new FlxText(0, 0, 0, "", 20));
+		add(title = new Text(0, 0, 0, "", 20));
 		
 		visible = false;
 		scrollFactor.set();
@@ -136,14 +134,14 @@ class SaveLoadScreen extends FlxSpriteGroup
 private class Section extends FlxSpriteGroup
 {
 	private var border:Slice9Sprite;
-	private var text:FlxText;
+	private var text:Text;
 	
 	public function new(x, y)
 	{
 		super(x,y);
 		
 		border = new Border(0, 0, 640, 150);
-		text = new FlxText(20, 10, 0, "", 18);
+		text = new Text(20, 10, 0, "", 18);
 		
 		add(border);
 		add(text);

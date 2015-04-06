@@ -3,10 +3,8 @@ package impl.flixel.display;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
-import flixel.text.FlxText;
 import rpg.Engine.GameMenuAction;
 import rpg.Events;
-import rpg.geom.Rectangle;
 import rpg.input.InputManager.InputKey;
 
 /**
@@ -18,8 +16,8 @@ class GameMenu extends FlxSpriteGroup
 	private var listener:Int;
 	
 	private var selector:Slice9Sprite;
-	private var title:FlxText;
-	private var text:FlxText;
+	private var title:Text;
+	private var text:Text;
 	
 	private var selected(default, set):Int;
 	
@@ -38,11 +36,11 @@ class GameMenu extends FlxSpriteGroup
 		
 		selector = new Selector(5, 10, 168, 21);
 		
-		text = new FlxText(15, 30, 0, "Main Menu\nSave Game", 15);
+		text = new Text(15, 30, 0, "Main Menu\nSave Game", 15);
 		
 		add(background);
 		add(selector);
-		add(title = new FlxText(0, 0, 0, "Game Menu", 20));
+		add(title = new Text(0, 0, 0, "Game Menu", 20));
 		add(text);
 		
 		visible = false;

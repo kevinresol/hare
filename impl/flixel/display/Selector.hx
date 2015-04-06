@@ -1,6 +1,5 @@
 package impl.flixel.display;
 
-import flixel.system.FlxAssets.FlxGraphicAsset;
 import rpg.geom.Rectangle;
 
 /**

@@ -2,14 +2,12 @@ package impl.flixel.display;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
-import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.Events;
-import rpg.geom.Rectangle;
 import rpg.input.InputManager.InputKey;
 
 /**
@@ -36,7 +34,7 @@ class DialogPanel extends FlxSpriteGroup
 	private var background:FlxSprite;
 	private var downArrow:FlxSprite;
 	private var tween:FlxTween;
-	private var text:FlxText;
+	private var text:Text;
 	private var message:String;
 	private var inputNumberPanel:InputNumberPanel;
 	
@@ -71,7 +69,7 @@ class DialogPanel extends FlxSpriteGroup
 		background.alpha = 0.9;
 		background.setGraphicSize(FlxG.width, 150);
 		
-		text = new FlxText(100, 15, 1000, "", 20);
+		text = new Text(100, 15, 1000, "", 20);
 		
 		inputNumberPanel = new InputNumberPanel();
 		inputNumberPanel.y = -30;

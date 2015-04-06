@@ -2,9 +2,7 @@ package impl.flixel.display;
 
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
-import flixel.text.FlxText;
 import rpg.Events;
-import rpg.geom.Rectangle;
 import rpg.input.InputManager.InputKey;
 
 using Lambda;
@@ -17,7 +15,7 @@ class InputNumberPanel extends FlxSpriteGroup
 	public var number(get, never):Int;
 	private var listener:Int;
 	
-	private var texts:Array<FlxText>;
+	private var texts:Array<Text>;
 	private var selector:Slice9Sprite;
 	private var selected(default, set):Int;
 	private var numDigit:Int;
@@ -69,7 +67,7 @@ class InputNumberPanel extends FlxSpriteGroup
 		
 		while (texts.length < numDigit)
 		{
-			var t = new FlxText(texts.length * 20, 0, 0, "0", 20);
+			var t = new Text(texts.length * 20, 0, 0, "0", 20);
 			texts.push(t);
 			add(t);
 		}

@@ -2,12 +2,10 @@ package impl.flixel.display;
 
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
-import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import impl.flixel.Implementation;
 import openfl.system.System;
 import rpg.Events;
-import rpg.geom.Rectangle;
 import rpg.input.InputManager.InputKey;
 
 /**
@@ -18,7 +16,6 @@ class MainMenu extends FlxSpriteGroup
 {
 	private var border:Slice9Sprite;
 	private var selector:Slice9Sprite;
-	private var text:FlxText;
 	
 	private var selectorTween:FlxTween;
 	
@@ -32,17 +29,22 @@ class MainMenu extends FlxSpriteGroup
 		super();
 		
 		border = new Border(0, 0, 180, 80);
-		selector = new Selector(5, 10, 168, 21);
+		selector = new Selector(10, 10, 159, 20);
 		
-		text = new FlxText(0, 11, 170, "New Game\nLoad Game\nQuit Game", 15);
-		text.alignment = CENTER;
+		var items = ["New Game", "Load Game", "Quit Game"];
+		for (i in 0...items.length)
+		{
+			var item = items[i];
+			var text = new Text(0, 9 + 19 * i, 170, item, 16);
+			text.alignment = CENTER;
+			add(text);
+		}
 		selected = 0;
 		
 		selectorTween = FlxTween.num(1, 0.5, 0.5, { type:FlxTween.PINGPONG }, function(v) selector.alpha = v);
 		
 		add(border);
 		add(selector);
-		add(text);
 		
 		visible = false;
 		x = (FlxG.width - width) / 2;
@@ -99,7 +101,7 @@ class MainMenu extends FlxSpriteGroup
 		if (v < 0) v = 2;
 		else if (v >= 3) v = 0;
 		
-		selector.y = y + 10 + 19 * v;
+		selector.y = y + 11 + 19 * v;
 		
 		return selected = v;
 	}
