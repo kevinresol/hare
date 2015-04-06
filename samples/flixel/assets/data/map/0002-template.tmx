@@ -75,10 +75,9 @@
     <property name="trigger" value="nearby"/>
    </properties>
   </object>
-  <object id="11" gid="2" x="512" y="352"/>
   <object id="12" name="Pandora" type="event" gid="2" x="416" y="192">
    <properties>
-    <property name="layer" value="0.5"/>
+    <property name="layer" value="2"/>
    </properties>
   </object>
  </objectgroup>

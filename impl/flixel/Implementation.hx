@@ -453,8 +453,10 @@ class Implementation implements IImplementation
 			layers[3].add(tilemap);
 		}
 		
+		layers[2].add(player);
+		
 		var sortedObjects = map.objects.concat([]);
-		sortedObjects.sort(function(o1, o2) return Std.int(o1.layer - o2.layer));
+		sortedObjects.sort(function(o1, o2) return if(o1.layer == o2.layer) 0 else if(o1.layer > o2.layer) 1 else -1);
 		
 		for (object in sortedObjects)
 		{
@@ -478,15 +480,14 @@ class Implementation implements IImplementation
 					sprite.animation.play("down");
 					sprite.y -= 16;
 			}
-			
-			var index = Std.int(object.layer - 0.5);
+			var index = Std.int(object.layer);
 			if (index < 0) index = 0;
 			if (index >= 3) index = 3;
+			trace(object.displayType, index);
 			layers[index].add(sprite); //TODO figure out the layer to add to
 			objects[object.id] = new Object(sprite, layers[index]);
 		}
 		
-		layers[2].add(player);
 	}
 	
 	private inline function checkCallback(callback:Dynamic):Void
