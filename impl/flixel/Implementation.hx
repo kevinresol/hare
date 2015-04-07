@@ -6,18 +6,14 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
-import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxVirtualPad;
-import flixel.util.FlxSave;
-import flixel.util.FlxSave;
 import impl.flixel.display.DialogPanel;
 import impl.flixel.display.GameMenu;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
 import impl.IImplementation;
-import openfl.filesystem.File;
 import rpg.Engine;
 import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
@@ -29,7 +25,6 @@ import rpg.geom.Direction;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
 import rpg.save.SaveManager.SaveDisplayData;
-import sys.FileSystem;
 
 /**
  * A HaxeFlixel implementation for rpg-engine
