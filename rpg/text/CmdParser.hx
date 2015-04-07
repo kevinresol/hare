@@ -18,7 +18,7 @@ class CmdParser
     
     private function splitTokens():Array<String>
     {
-        var r = ~/(((\\[CcS]\[[a-fA-F0-9]+\])*)(([\w\s\.!@?](\\n)*)+))/;
+        var r = ~/(((\/[CcS]\[[a-fA-F0-9]+\])*)(([\w\s!@?](\\n)*)+))/;
         var temp = rawText;
         var arrayTokens = new Array<String> ();
         while(r.match(temp))
@@ -35,7 +35,7 @@ class CmdParser
 	private function getTextColor(mText:String):Int
 	{
 		
-		var r = ~/\\C\[([0-9]+)\]/;
+		var r = ~/\/C\[([0-9]+)\]/;
 		if (r.match(mText))
 		{
             return colorCodes[Std.parseInt(r.matched(1))-1];
@@ -45,7 +45,7 @@ class CmdParser
 	
 	private function getTextColorByHex(mText:String):Int
 	{
-		var r = ~/\\c\[([a-fA-F0-9]+)\]/;
+		var r = ~/\/c\[([a-fA-F0-9]+)\]/;
 		if (r.match(mText))
 		{
 			return Std.parseInt("0x"+r.matched(1));
@@ -55,7 +55,7 @@ class CmdParser
 	
 	private function getTextSpeed(mText:String):Int
 	{
-		var r = ~/\\S\[([0-9]+)\]/;
+		var r = ~/\/S\[([0-9]+)\]/;
 		if (r.match(mText))
 		{
 			return Std.parseInt(r.matched(1));
@@ -65,7 +65,7 @@ class CmdParser
 	
 	private function getText(mText):String
 	{
-		var r = ~/(\\[cCS]\[([a-fA-F0-9]+)\])*(.+)/;
+		var r = ~/(\/[cCS]\[([a-fA-F0-9]+)\])*(.+)/;
 		if (r.match(mText))
 		{
 			return r.matched(3);
@@ -116,6 +116,6 @@ abstract ReadOnlyArray<T>(Array<T>)
 {
     public inline function new(arr) this = arr;
     @:arrayAccess public inline function get(index) return this[index];
-}   
+}
 
 
