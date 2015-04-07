@@ -12,6 +12,8 @@ import rpg.input.InputManager.InputKey;
  */
 class SaveLoadScreen extends FlxSpriteGroup
 {
+	public static inline var NUM_SAVES_PER_PAGE:Int = 4;
+	
 	private var listener:Int;
 	
 	private var selector:Slice9Sprite;
@@ -42,9 +44,10 @@ class SaveLoadScreen extends FlxSpriteGroup
 		add(background);
 		
 		sections = [];
-		for (i in 0...3)
+		for (i in 0...NUM_SAVES_PER_PAGE)
 		{
-			var s = new Section(0,150*i+30);
+			var h = Std.int(450 / NUM_SAVES_PER_PAGE);
+			var s = new Section(0, h * i + 30, FlxG.width, h);
 			sections.push(s);
 			add(s);
 		}
@@ -109,18 +112,18 @@ class SaveLoadScreen extends FlxSpriteGroup
 		if (v < 0) v = numSaves - 1;
 		else if (v >= numSaves) v = 0;
 		
-		page = Std.int(v / 3);
+		page = Std.int(v / NUM_SAVES_PER_PAGE);
 		
-		selector.y = y + 42 + 150 * (v % 3);
+		selector.y = y + 42 + Std.int(450 / NUM_SAVES_PER_PAGE) * (v % NUM_SAVES_PER_PAGE);
 		
 		return selected = v;
 	}
 	
 	private function set_page(v:Int):Int
 	{
-		var index = v * 3;
+		var index = v * NUM_SAVES_PER_PAGE;
 		
-		for (i in 0...3)
+		for (i in 0...NUM_SAVES_PER_PAGE)
 		{
 			sections[i].set(index + i + 1);
 			sections[i].visible = (index + i < numSaves);
@@ -135,11 +138,11 @@ private class Section extends FlxSpriteGroup
 	private var border:Slice9Sprite;
 	private var text:Text;
 	
-	public function new(x, y)
+	public function new(x, y, w, h)
 	{
 		super(x,y);
 		
-		border = new Border(0, 0, FlxG.width, 150);
+		border = new Border(0, 0, w, h);
 		text = new Text(20, 10, 0, "", 16);
 		
 		add(border);
