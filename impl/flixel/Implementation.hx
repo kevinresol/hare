@@ -114,6 +114,32 @@ class Implementation implements IImplementation
 		});
 	}
 	
+	public function init():Void
+	{
+		#if mobile
+		virtualPad.buttonLeft.onUp.callback = engine.release.bind(KLeft);
+		virtualPad.buttonRight.onUp.callback = engine.release.bind(KRight);
+		virtualPad.buttonUp.onUp.callback = engine.release.bind(KUp);
+		virtualPad.buttonDown.onUp.callback = engine.release.bind(KDown);
+		virtualPad.buttonA.onUp.callback = engine.release.bind(KEnter);
+		virtualPad.buttonB.onUp.callback = engine.release.bind(KEsc);
+		
+		virtualPad.buttonLeft.onOut.callback = engine.release.bind(KLeft);
+		virtualPad.buttonRight.onOut.callback = engine.release.bind(KRight);
+		virtualPad.buttonUp.onOut.callback = engine.release.bind(KUp);
+		virtualPad.buttonDown.onOut.callback = engine.release.bind(KDown);
+		virtualPad.buttonA.onOut.callback = engine.release.bind(KEnter);
+		virtualPad.buttonB.onOut.callback = engine.release.bind(KEsc);
+		
+		virtualPad.buttonLeft.onDown.callback = engine.press.bind(KLeft);
+		virtualPad.buttonRight.onDown.callback = engine.press.bind(KRight);
+		virtualPad.buttonUp.onDown.callback = engine.press.bind(KUp);
+		virtualPad.buttonDown.onDown.callback = engine.press.bind(KDown);
+		virtualPad.buttonA.onDown.callback = engine.press.bind(KEnter);
+		virtualPad.buttonB.onDown.callback = engine.press.bind(KEsc);
+		#end
+	}
+	
 	public function update(elapsed:Float):Void
 	{
 		engine.update(elapsed);
@@ -146,35 +172,6 @@ class Implementation implements IImplementation
 			engine.press(KEnter);
 		if (justPressed.ESCAPE)
 			engine.press(KEsc);
-			
-		
-		#if mobile
-		if (virtualPad.buttonLeft.justReleased)
-			engine.release(KLeft);
-		if (virtualPad.buttonRight.justReleased)
-			engine.release(KRight);
-		if (virtualPad.buttonUp.justReleased)
-			engine.release(KUp);
-		if (virtualPad.buttonDown.justReleased)
-			engine.release(KDown);
-		if (virtualPad.buttonA.justReleased)
-			engine.release(KEnter);
-		if (virtualPad.buttonB.justReleased)
-			engine.release(KEsc);
-			
-		if (virtualPad.buttonLeft.justPressed)
-			engine.press(KLeft);
-		if (virtualPad.buttonRight.justPressed)
-			engine.press(KRight);
-		if (virtualPad.buttonUp.justPressed)
-			engine.press(KUp);
-		if (virtualPad.buttonDown.justPressed)
-			engine.press(KDown);
-		if (virtualPad.buttonA.justPressed)
-			engine.press(KEnter);
-		if (virtualPad.buttonB.justPressed)
-			engine.press(KEsc);
-		#end
 	}
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
