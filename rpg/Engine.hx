@@ -78,6 +78,7 @@ class Engine
 		{
 			impl.createPlayer(map.player.name, map.player.imageSource);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
+			impl.fadeInScreen(200);
 		}
 		else
 			throw "Player (an object with type=player) must be placed in Map 1";
