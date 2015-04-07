@@ -64,6 +64,7 @@ class MainMenu extends FlxSpriteGroup
 					
 				case KEnter:
 					visible = false;
+					impl.playSystemSound(1, 1);
 					
 					switch (selected) 
 					{
