@@ -483,7 +483,6 @@ class Implementation implements IImplementation
 			var index = Std.int(object.layer);
 			if (index < 0) index = 0;
 			if (index >= 3) index = 3;
-			trace(object.displayType, index);
 			layers[index].add(sprite); //TODO figure out the layer to add to
 			objects[object.id] = new Object(sprite, layers[index]);
 		}
