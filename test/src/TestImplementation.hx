@@ -28,6 +28,11 @@ class TestImplementation implements IImplementation
 		lastCalledCommand = new Command();
 	}
 	
+	public function init():Void
+	{
+		
+	}
+	
 	public function changeObjectFacing(type:MovableObjectType, dir:Int):Void
 	{
 		
