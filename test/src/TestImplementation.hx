@@ -8,6 +8,7 @@ import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
+import rpg.save.SaveManager.SaveDisplayData;
 
 /**
  * ...
@@ -64,7 +65,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void 
+	public function showSaveScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
 		
 	}
@@ -74,7 +75,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void 
+	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
 		
 	}

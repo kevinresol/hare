@@ -7,6 +7,7 @@ import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
+import rpg.save.SaveManager.SaveDisplayData;
 
 /**
  * @author Kevin
@@ -21,10 +22,11 @@ interface IImplementation
 	function hideMainMenu():Void;
 	function showGameMenu(callback:GameMenuAction->Void, cancelCallback:Void->Void):Void;
 	function hideGameMenu():Void;
-	function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void;
+	function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void;
 	function hideSaveScreen():Void;
-	function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void;
+	function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void;
 	function hideLoadScreen():Void;
+	
 	
 	/* ====== Sync Functions ====== */
 	function log(message:String):Void;

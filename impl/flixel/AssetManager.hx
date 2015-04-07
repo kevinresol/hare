@@ -96,34 +96,22 @@ class AssetManager implements IAssetManager
 		return Assets.getPath('assets/sounds/system/$filename');
 	}
 	
-	public function getSaveData(id:Int):String 
+	public function getSaveData():String 
 	{
 		var save = new FlxSave();
 		save.bind("save");
-		var s:String = (save.data.saves == null || save.data.saves[id] == null) ? "" : save.data.saves[id];
+		var s = save.data.serialized;
+		if (s == null) s = "";
 		save.close();
 		return s;
 	}
 	
-	public function setSaveData(id:Int, data:String):Void 
+	public function setSaveData(data:String):Void 
 	{
 		var save = new FlxSave();
 		save.bind("save");
-		if (save.data.saves == null)
-			save.data.saves = [];
-		save.data.saves[id] = data;
+		save.data.serialized = data;
 		save.flush();
 		save.close();
-	}
-	
-	
-	public function getNumberOfSaves():Int
-	{
-		var save = new FlxSave();
-		save.bind("save");
-		if (save.data.saves == null)
-			return 0;
-		else
-			return save.data.saves.length;
 	}
 }

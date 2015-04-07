@@ -169,10 +169,10 @@ class Engine
 				impl.showMainMenu(startGame, function() gameState = SLoadScreen);
 				
 			case SLoadScreen:
-				impl.showLoadScreen(loadGame, function() gameState = currentState);
+				impl.showLoadScreen(loadGame, function() gameState = currentState, saveManager.displayData);
 				
 			case SSaveScreen:
-				impl.showSaveScreen(saveGame, function() gameState = currentState);
+				impl.showSaveScreen(saveGame, function() gameState = currentState, saveManager.displayData);
 				
 			case SGameMenu:
 				impl.showGameMenu(function(action)

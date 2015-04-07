@@ -10,11 +10,14 @@ import flixel.text.FlxText;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxVirtualPad;
+import flixel.util.FlxSave;
+import flixel.util.FlxSave;
 import impl.flixel.display.DialogPanel;
 import impl.flixel.display.GameMenu;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
 import impl.IImplementation;
+import openfl.filesystem.File;
 import rpg.Engine;
 import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
@@ -25,6 +28,8 @@ import rpg.Events;
 import rpg.geom.Direction;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
+import rpg.save.SaveManager.SaveDisplayData;
+import sys.FileSystem;
 
 /**
  * A HaxeFlixel implementation for rpg-engine
@@ -57,6 +62,7 @@ class Implementation implements IImplementation
 	public function new(state:FlxState) 
 	{
 		assetManager = new AssetManager();
+		
 		
 		this.state = state;
 		state.bgColor = 0;
@@ -206,9 +212,9 @@ class Implementation implements IImplementation
 		gameMenu.visible = false;
 	}
 	
-	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void
+	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
-		saveLoadScreen.showSaveScreen(assetManager.getNumberOfSaves(), saveGameCallback, cancelCallback);
+		saveLoadScreen.showSaveScreen(saveGameCallback, cancelCallback, data);
 	}
 	
 	public function hideSaveScreen():Void
@@ -216,9 +222,9 @@ class Implementation implements IImplementation
 		saveLoadScreen.visible = false;
 	}
 	
-	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void
+	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
-		saveLoadScreen.showLoadScreen(assetManager.getNumberOfSaves(), loadGameCallback, cancelCallback);
+		saveLoadScreen.showLoadScreen(loadGameCallback, cancelCallback, data);
 	}
 	
 	public function hideLoadScreen():Void
