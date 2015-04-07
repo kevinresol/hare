@@ -46,6 +46,7 @@ class Engine
 		config = new Config(data);
 		
 		impl.engine = this;
+		impl.init();
 		delayedCalls = [];
 		called = [];
 		

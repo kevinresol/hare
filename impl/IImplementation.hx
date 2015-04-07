@@ -17,6 +17,8 @@ interface IImplementation
 {
 	var engine:Engine;
 	
+	function init():Void;
+	
 	/* ===== System Functions ===== */
 	function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void;
 	function hideMainMenu():Void;
