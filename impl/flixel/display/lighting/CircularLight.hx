@@ -1,8 +1,7 @@
 package impl.flixel.display.lighting;
 
-import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.FlxSprite;
 import flixel.util.FlxSpriteUtil;
-import openfl.display.GradientType;
 import openfl.geom.Matrix;
 import openfl.geom.Rectangle;
 
@@ -10,7 +9,7 @@ import openfl.geom.Rectangle;
  * ...
  * @author Kevin
  */
-class CircularLight extends Light
+class CircularLight extends FlxSprite
 {
 	/**
 	 * Constructor

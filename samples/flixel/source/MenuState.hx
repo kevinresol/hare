@@ -1,6 +1,5 @@
 package;
 
-import flixel.FlxG;
 import flixel.FlxState;
 import impl.flixel.Implementation;
 import rpg.Engine;

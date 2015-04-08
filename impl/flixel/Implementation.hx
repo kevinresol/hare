@@ -103,7 +103,11 @@ class Implementation implements IImplementation
 		FlxCamera.defaultCameras = [gameCamera];
 		setCamera(hudLayer, hudCamera);
 		
-		FlxG.addPostProcess(new LightingSystem("assets/shaders/invert.frag"));
+		
+		
+		
+		var lighting = new LightingSystem("assets/shaders/invert.frag");
+		FlxG.addPostProcess(lighting);
 		FlxG.addChildBelowMouse(hudCamera.flashSprite, 1);
 		
 		layers = [];
