@@ -224,6 +224,15 @@ class Command
 	 */
 	private function compare(a:Dynamic, b:Dynamic):Bool
 	{
+		if (Std.is(a, String))
+		{
+			if (a != b)
+			{
+				trace('a:$a b:$b are different values');
+				return false;
+			}
+			return true;
+		}
 		if (Std.is(a, Array))
 		{
 			if (!Std.is(b, Array)) 
@@ -262,22 +271,43 @@ class Command
 		}
 		else if (Reflect.isObject(a))
 		{
-			if (!Reflect.isObject(b)) 
+			
+			if (Type.getClass(a) != null)
 			{
-				trace('b is not object');
-				return false;
-			}
-			for (field in Reflect.fields(a))
-			{
-				if (!Reflect.hasField(b, field)) 
+				if (Type.getClass(a) != Type.getClass(b))
 				{
-					trace('b does not have field:$field');
+					trace('a b are not same class');
 					return false;
 				}
-				if (!compare(Reflect.field(a, field), Reflect.field(b, field))) 
+				for (f in Type.getInstanceFields(Type.getClass(a)))
 				{
-					trace('field:$field value different');
+					if (!compare(Reflect.getProperty(a, f), Reflect.getProperty(b, f)))
+					{
+						trace('class fields $f not the same');
+						return false;
+					}
+				}
+			}
+			else
+			{
+				if (!Reflect.isObject(b)) 
+				{
+					trace('b is not object');
 					return false;
+				}
+				
+				for (field in Reflect.fields(a))
+				{
+					if (!Reflect.hasField(b, field)) 
+					{
+						trace('a is $a, but b is $b which does not have field:$field');
+						return false;
+					}
+					if (!compare(Reflect.field(a, field), Reflect.field(b, field))) 
+					{
+						trace('field:$field value different');
+						return false;
+					}
 				}
 			}
 			return true;
