@@ -41,22 +41,8 @@ class LightingSystem extends PostProcess
 		// setup framebuffer
 		lightFramebuffer = GL.createFramebuffer();
 		GL.bindFramebuffer(GL.FRAMEBUFFER, lightFramebuffer);
-		
-		// setup texture
-		lightTexture = GL.createTexture();
-		GL.bindTexture(GL.TEXTURE_2D, lightTexture);
-		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGB,  FlxG.stage.stageWidth, FlxG.stage.stageHeight,  0,  GL.RGB, GL.UNSIGNED_BYTE, null);
-		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
-		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
-		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER , GL.LINEAR);
-		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
-		GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, lightTexture, 0);
-		
-		// setup renderbuffer
-		lightRenderbuffer = GL.createRenderbuffer();
-		GL.bindRenderbuffer(GL.RENDERBUFFER, lightRenderbuffer);
-		GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, FlxG.stage.stageWidth, FlxG.stage.stageHeight);
-		GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, lightRenderbuffer);
+		createLightTexture(screenWidth, screenHeight);
+		createLightRenderbuffer(screenWidth, screenHeight);
 		
 		// cleanup
 		GL.bindTexture(GL.TEXTURE_2D, null);
@@ -115,6 +101,49 @@ class LightingSystem extends PostProcess
 		lights.push(new FlxObject(x, y));
 	}
 	
+	private function createLightTexture(width:Int, height:Int):Void
+	{
+		// setup texture
+		lightTexture = GL.createTexture();
+		GL.bindTexture(GL.TEXTURE_2D, lightTexture);
+		GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGB, width, height,  0,  GL.RGB, GL.UNSIGNED_BYTE, null);
+		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER , GL.LINEAR);
+		GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+		GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, lightTexture, 0);
+		
+	}
+	
+	private function createLightRenderbuffer(width:Int, height:Int):Void
+	{
+		// setup renderbuffer
+		lightRenderbuffer = GL.createRenderbuffer();
+		GL.bindRenderbuffer(GL.RENDERBUFFER, lightRenderbuffer);
+		GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, width, height);
+		GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, lightRenderbuffer);
+	}
+	
+	override public function rebuild() 
+	{
+		super.rebuild();
+		
+		GL.bindFramebuffer(GL.FRAMEBUFFER, lightFramebuffer);
+
+		if (lightTexture != null) GL.deleteTexture(lightTexture);
+		if (lightRenderbuffer != null) GL.deleteRenderbuffer(lightRenderbuffer);
+
+		createLightTexture(screenWidth, screenHeight);
+		createLightRenderbuffer(screenWidth, screenHeight);
+		
+		GL.bindFramebuffer(GL.FRAMEBUFFER, null);
+		
+		if (sprite != null)
+		{
+			sprite.scaleX = 
+			sprite.scaleY = Math.min(screenWidth / 640, screenHeight / 480);
+		}
+	}
 	
 	override public function render(rect:Rectangle) 
 	{
