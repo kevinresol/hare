@@ -289,7 +289,7 @@ class Implementation implements IImplementation
 		var sprite = switch (type) 
 		{
 			case MPlayer: player;
-			case MEvent(id): objects[id].sprite;
+			case MEvent(id): objects[id] == null ? return : objects[id].sprite;
 		}
 		sprite.animation.play(Direction.toString(dir));
 	}
