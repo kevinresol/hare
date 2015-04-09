@@ -64,7 +64,7 @@ class LightingSystem extends PostProcess
 		
 		lightTextureUniform = shader.uniform("uImage1");
 		
-		ambientColor = 0xFF4E5469;
+		ambientColor = 0xFF8D9BB1;
 		
 		addLight(0, 0);
 		addLight(0, 200);
