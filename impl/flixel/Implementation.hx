@@ -314,9 +314,14 @@ class Implementation implements IImplementation
 		dialogPanel.inputNumber(callback, prompt, numDigit, options);
 	}
 	
-	public function log(message:String):Void 
+	public function log(message:String, level:LogLevel):Void 
 	{
-		FlxG.log.add(message);
+		switch (level) 
+		{
+			case LInfo: FlxG.log.add(message);
+			case LWarn: FlxG.log.warn(message);
+			case LError: FlxG.log.error(message);
+		}
 		trace(message);
 	}
 	
@@ -542,7 +547,7 @@ class Implementation implements IImplementation
 	private inline function checkCallback(callback:Dynamic):Void
 	{
 		#if debug
-		if (callback == null) throw "callback cannot be null";
+		if (callback == null) engine.log("callback cannot be null", LError);
 		#end
 	}
 	

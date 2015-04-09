@@ -32,14 +32,14 @@ class ItemManager
 	public function changeItem(id:Int, quantity:Int):Void
 	{
 		var item = items[id];
-		if (item == null) throw "no such item of id:$id";
+		if (item == null) engine.log("no such item of id:$id", LError);
 		item.quantity += quantity;
 	}
 	
 	public function getItem(id:Int):Int
 	{
 		var item = items[id];
-		if (item == null) throw "no such item of id:$id";
+		if (item == null) engine.log("no such item of id:$id", LError);
 		return item.quantity;
 		
 	}

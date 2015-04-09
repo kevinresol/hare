@@ -43,7 +43,7 @@ class Engine
 		this.assetManager = assetManager;
 		
 		var data = try Json.parse(assetManager.getConfig()) catch (e:Dynamic) { actors:[], items:[] };
-		config = new Config(data);
+		config = new Config(data, this);
 		
 		impl.engine = this;
 		impl.init();
@@ -81,7 +81,7 @@ class Engine
 			impl.fadeInScreen(200);
 		}
 		else
-			throw "Player (an object with type=player) must be placed in Map 1";
+			log("Player (an object with type=player) must be placed in Map 1", LError);
 	}
 	
 	/**
@@ -126,6 +126,11 @@ class Engine
 	public inline function release(key:InputKey):Void
 	{
 		inputManager.release(key);
+	}
+	
+	public function log(message:String, level:LogLevel):Void
+	{
+		impl.log(message, level);
 	}
 	
 	private inline function delayedCall(callback:Void->Void, ms:Int):Void
@@ -229,3 +234,9 @@ enum GameMenuAction
 	AShowLoadMenu;
 }
 
+enum LogLevel
+{
+	LError;
+	LInfo;
+	LWarn;
+}

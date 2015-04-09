@@ -151,7 +151,10 @@ class ScriptHost
 				type = MEvent(id);
 				target = engine.interactionManager.objects.find(function(o) return Type.enumEq(type, o.type));
 			
-			default: throw 'unknown object for setMoveRoute: $object';
+			default: 
+				engine.log('unknown object for setMoveRoute: $object', LError);
+				type = null;
+				target = null;
 		}
 		
 		var runNextCommand = null;
@@ -175,7 +178,7 @@ class ScriptHost
 					case "turnaround": CFace(Direction.turnAround(target.facing));
 					case t if (t.indexOf("sleep") >= 0): CSleep(Std.parseInt(StringTools.replace(t, "sleep", "")));
 						
-					default: throw 'unknown command for setMoveRoute: $commandText';
+					default: engine.log('unknown command for setMoveRoute: $commandText', LError); null;
 				}
 				
 				switch(command)
@@ -242,7 +245,7 @@ class ScriptHost
 	
 	public function log(message:String):Void
 	{
-		engine.impl.log(message);
+		engine.impl.log(message, LInfo);
 	}
 	
 	public function showSaveScreen():Void

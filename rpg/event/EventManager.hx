@@ -197,7 +197,8 @@ class EventManager
 		if (Std.is(data, Int) || Std.is(data, Float))
 			return ', $data';
 			
-		throw "unsupported data";
+		engine.log("unsupported data", LError);
+		return '';
 	}
 }
 

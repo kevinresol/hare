@@ -1,8 +1,8 @@
 {
 	
 	"actors":[
-		{"name":"Pandora", "image":{"source":"Monster.png", "index":2}},
-		{"name":"Harrison", "image":{"source":"$harrison2.png", "index":0}}
+		{"name":"Harrison", "image":{"source":"Monster.png", "index":2}},
+		{"name":"Pandora", "image":{"source":"$harrison2.png"}}
 	],
 	"items":[
 		{"id":1, "name":"Folders"},

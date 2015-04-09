@@ -31,7 +31,7 @@ interface IImplementation
 	
 	
 	/* ====== Sync Functions ====== */
-	function log(message:String):Void;
+	function log(message:String, level:LogLevel):Void;
 	
 	function createPlayer(image:String, index:Int):Void;
 	function changeObjectFacing(type:MovableObjectType, dir:Int):Void;

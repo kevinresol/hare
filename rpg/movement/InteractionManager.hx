@@ -194,7 +194,7 @@ class InteractionManager
 	 */
 	public function attemptMove(dx:Int, dy:Int):Bool
 	{
-		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
+		if (dx != 0 && dy != 0) engine.log("Diagonal movement is not supported", LError);
 		
 		if (player.moving || !movementEnabled) return false;
 		
@@ -229,7 +229,7 @@ class InteractionManager
 	
 	public function checkPassage(type:MovableObjectType, dx:Int, dy:Int):Bool
 	{
-		if (dx != 0 && dy != 0) throw "Diagonal movement is not supported";
+		if (dx != 0 && dy != 0) engine.log("Diagonal movement is not supported", LError);
 		
 		var object = getMovableObject(type);
 		
