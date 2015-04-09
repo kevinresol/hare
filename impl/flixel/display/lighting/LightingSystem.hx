@@ -7,6 +7,7 @@ import flixel.FlxState;
 import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import openfl.display.OpenGLView;
 import openfl.geom.Rectangle;
 import openfl.gl.GL;
@@ -22,6 +23,8 @@ class LightingSystem extends PostProcess
 {
 	public var before:Before;
 	public var after:After;
+	
+	public var ambientColor(default, set):FlxColor;
 	
 	private var lightFramebuffer:GLFramebuffer;
 	private var lightTexture:GLTexture;
@@ -48,7 +51,6 @@ class LightingSystem extends PostProcess
 		GL.bindTexture(GL.TEXTURE_2D, null);
 		GL.bindRenderbuffer(GL.RENDERBUFFER, null);
 		GL.bindFramebuffer(GL.FRAMEBUFFER, null);
-
 		
 		before = new Before(lightFramebuffer);
 		after = new After(this);
@@ -64,13 +66,15 @@ class LightingSystem extends PostProcess
 		
 		lightTextureUniform = shader.uniform("uImage1");
 		
+		ambientColor = 0xFF4E5469;
 		
 		addLight(0, 0);
 		addLight(0, 200);
 		addLight(0, 400);
-		addLight(200, 0);
-		addLight(200, 200);
-		addLight(200, 400);
+		addLight(200, -100);
+		addLight(200, 100);
+		addLight(200, 300);
+		addLight(200, 500);
 		addLight(400, 0);
 		addLight(400, 200);
 		addLight(400, 400);
@@ -129,7 +133,6 @@ class LightingSystem extends PostProcess
 	
 	override public function render(rect:Rectangle) 
 	{
-		
 		// run the multiply shader
 		GL.bindFramebuffer(GL.FRAMEBUFFER, renderTo);
 		GL.viewport(0, 0, screenWidth, screenHeight);
@@ -186,11 +189,23 @@ class LightingSystem extends PostProcess
 		}
 	}
 	
+	private function set_ambientColor(v:FlxColor):FlxColor
+	{
+		before.clearR = v.redFloat;
+		before.clearG = v.greenFloat;
+		before.clearB = v.blueFloat;
+		before.clearA = v.alphaFloat;
+		return ambientColor = v;
+	}
 }
 
 class Before extends OpenGLView
 {
 	private var framebuffer:GLFramebuffer;
+	public var clearR:Float;
+	public var clearG:Float;
+	public var clearB:Float;
+	public var clearA:Float;
 	
 	public function new(framebuffer:GLFramebuffer) 
 	{
@@ -201,7 +216,7 @@ class Before extends OpenGLView
 	override public function render(rect:Rectangle)
 	{
         GL.bindFramebuffer(GL.FRAMEBUFFER, framebuffer);
-		GL.clearColor(0.5, 0.5, 0.9, 1);
+		GL.clearColor(clearR, clearG, clearB, clearA);
         GL.clear (GL.DEPTH_BUFFER_BIT | GL.COLOR_BUFFER_BIT);
 	}
 }
