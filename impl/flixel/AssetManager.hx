@@ -24,15 +24,15 @@ class AssetManager implements IAssetManager
 		
 		for (asset in Assets.list())
 		{
-			if (asset.indexOf("assets/data/map/") >= 0)
+			if (asset.indexOf("assets/map/") >= 0)
 			{
-				var f = StringTools.replace(asset, "assets/data/map/", "");
+				var f = asset.split("assets/map/")[1];
 				var id = Std.parseInt(f.split("-")[0]);
 				maps[id] = f;
 			}
-			else if (asset.indexOf("assets/data/script/") >= 0)
+			else if (asset.indexOf("assets/script/") >= 0)
 			{
-				var f = StringTools.replace(asset, "assets/data/script/", "");
+				var f = asset.split("assets/script/")[1];
 				var s = f.split("-");
 				var mapId = Std.parseInt(s[0]);
 				var eventId = Std.parseInt(s[1]);
@@ -42,19 +42,19 @@ class AssetManager implements IAssetManager
 			}
 			else if (asset.indexOf("assets/music/") >= 0)
 			{
-				var f = StringTools.replace(asset, "assets/music/", "");
+				var f = asset.split("assets/music/")[1];
 				var id =  Std.parseInt(f.split("-")[0]);
 				musics[id] = f;
 			}
 			else if (asset.indexOf("assets/sounds/gameplay/") >= 0)
 			{
-				var f = StringTools.replace(asset, "assets/sounds/gameplay/", "");
+				var f = asset.split("assets/sounds/gameplay/")[1];
 				var id =  Std.parseInt(f.split("-")[0]);
 				sounds[id] = f;
 			}
 			else if (asset.indexOf("assets/sounds/system/") >= 0)
 			{
-				var f = StringTools.replace(asset, "assets/sounds/system/", "");
+				var f = asset.split("assets/sounds/system/")[1];
 				var id =  Std.parseInt(f.split("-")[0]);
 				systemSounds[id] = f;
 			}
@@ -63,19 +63,19 @@ class AssetManager implements IAssetManager
 	
 	public function getConfig():String
 	{
-		return Assets.getText("assets/data/config.json");
+		return Assets.getText("assets/config.json");
 	}
 	
 	public function getMapData(id:Int):String 
 	{
 		var filename = maps[id];
-		return Assets.getText('assets/data/map/$filename');
+		return Assets.getText('assets/map/$filename');
 	}
 	
 	public function getScript(mapId:Int, eventId:Int):String 
 	{
 		var filename = scripts[mapId][eventId];
-		return Assets.getText('assets/data/script/$filename');
+		return Assets.getText('assets/script/$filename');
 	}
 	
 	public function getMusic(musicId:Int):String
