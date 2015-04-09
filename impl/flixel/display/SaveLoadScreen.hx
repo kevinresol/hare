@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import rpg.Events;
 import rpg.input.InputManager.InputKey;
+import rpg.save.SaveManager.SaveDisplayData;
 
 /**
  * ...
@@ -12,12 +13,15 @@ import rpg.input.InputManager.InputKey;
  */
 class SaveLoadScreen extends FlxSpriteGroup
 {
+	public static inline var NUM_SAVES_PER_PAGE:Int = 4;
+	
 	private var listener:Int;
 	
 	private var selector:Slice9Sprite;
 	private var title:Text;
 	private var sections:Array<Section>;
 	
+	private var data:Array<SaveDisplayData>;
 	private var numSaves:Int;
 	private var selected(default, set):Int;
 	
@@ -37,14 +41,15 @@ class SaveLoadScreen extends FlxSpriteGroup
 		background.alpha = 0.8;
 		background.setGraphicSize(FlxG.width, FlxG.height);
 		
-		selector = new Selector(15, 10, 100, 21);
+		selector = new Selector(15, 10, 270, 21);
 		
 		add(background);
 		
 		sections = [];
-		for (i in 0...3)
+		for (i in 0...NUM_SAVES_PER_PAGE)
 		{
-			var s = new Section(0,150*i+30);
+			var h = Std.int(450 / NUM_SAVES_PER_PAGE);
+			var s = new Section(0, h * i + 30, FlxG.width, h);
 			sections.push(s);
 			add(s);
 		}
@@ -79,25 +84,26 @@ class SaveLoadScreen extends FlxSpriteGroup
 		Events.disable(listener);
 	}
 	
-	public function showSaveScreen(numSaves:Int, callback:Int->Void, cancelCallback:Void->Void):Void
+	public function showSaveScreen(callback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
 		title.text = "Save Game";
 		mode = MSave;
-		show(numSaves + 1, callback, cancelCallback);
+		show(callback, cancelCallback, data);
 	}
 	
-	public function showLoadScreen(numSaves:Int, callback:Int->Void, cancelCallback:Void->Void):Void
+	public function showLoadScreen(callback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
 		title.text = "Load Game";
 		mode = MLoad;
-		show(numSaves, callback, cancelCallback);
+		show(callback, cancelCallback, data);
 	}
 	
-	public function show(numSaves:Int, callback:Int->Void, cancelCallback:Void->Void):Void
+	public function show(callback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
 		visible = true;
 		
-		this.numSaves = numSaves;
+		this.data = data;
+		this.numSaves = data.length + (mode == MSave ? 1 : 0);
 		this.callback = callback;
 		this.cancelCallback = cancelCallback;
 		selected = 0;
@@ -109,20 +115,20 @@ class SaveLoadScreen extends FlxSpriteGroup
 		if (v < 0) v = numSaves - 1;
 		else if (v >= numSaves) v = 0;
 		
-		page = Std.int(v / 3);
+		page = Std.int(v / NUM_SAVES_PER_PAGE);
 		
-		selector.y = y + 42 + 150 * (v % 3);
+		selector.y = y + 42 + Std.int(450 / NUM_SAVES_PER_PAGE) * (v % NUM_SAVES_PER_PAGE);
 		
 		return selected = v;
 	}
 	
 	private function set_page(v:Int):Int
 	{
-		var index = v * 3;
+		var index = v * NUM_SAVES_PER_PAGE;
 		
-		for (i in 0...3)
+		for (i in 0...NUM_SAVES_PER_PAGE)
 		{
-			sections[i].set(index + i + 1);
+			sections[i].set(index + i + 1, data[index + i]);
 			sections[i].visible = (index + i < numSaves);
 		}
 		
@@ -135,20 +141,21 @@ private class Section extends FlxSpriteGroup
 	private var border:Slice9Sprite;
 	private var text:Text;
 	
-	public function new(x, y)
+	public function new(x, y, w, h)
 	{
 		super(x,y);
 		
-		border = new Border(0, 0, FlxG.width, 150);
+		border = new Border(0, 0, w, h);
 		text = new Text(20, 10, 0, "", 16);
 		
 		add(border);
 		add(text);
 	}
 	
-	public function set(id:Int):Void
+	public function set(id:Int, data:SaveDisplayData):Void
 	{
-		text.text = 'Save: $id';
+		var date = (data == null ? "Empty" : data.date.toString());
+		text.text = 'Save: $id ($date)';
 	}
 }
 

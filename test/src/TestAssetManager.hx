@@ -43,26 +43,19 @@ class TestAssetManager implements IAssetManager
 	
 	/* INTERFACE impl.IAssetManager */
 	
-	public function getSaveData(id:Int):String 
+	public function getSaveData():String 
 	{
 		return "";
 	}
 	
-	public function setSaveData(id:Int, data:String):Void 
+	public function setSaveData(data:String):Void 
 	{
 		
 	}
-	
-	/* INTERFACE impl.IAssetManager */
 	
 	public function getConfig():String 
 	{
 		var s = Macro.getTestConfig();
 		return s;
-	}
-	
-	public function getNumberOfSaves():Int
-	{
-		return 0;
 	}
 }

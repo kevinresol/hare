@@ -46,6 +46,7 @@ class Engine
 		config = new Config(data);
 		
 		impl.engine = this;
+		impl.init();
 		delayedCalls = [];
 		called = [];
 		
@@ -77,6 +78,7 @@ class Engine
 		{
 			impl.createPlayer(map.player.name, map.player.imageSource);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
+			impl.fadeInScreen(200);
 		}
 		else
 			throw "Player (an object with type=player) must be placed in Map 1";
@@ -169,10 +171,10 @@ class Engine
 				impl.showMainMenu(startGame, function() gameState = SLoadScreen);
 				
 			case SLoadScreen:
-				impl.showLoadScreen(loadGame, function() gameState = currentState);
+				impl.showLoadScreen(loadGame, function() gameState = currentState, saveManager.displayData);
 				
 			case SSaveScreen:
-				impl.showSaveScreen(saveGame, function() gameState = currentState);
+				impl.showSaveScreen(saveGame, function() gameState = currentState, saveManager.displayData);
 				
 			case SGameMenu:
 				impl.showGameMenu(function(action)

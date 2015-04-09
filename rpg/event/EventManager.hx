@@ -56,6 +56,7 @@ class EventManager
 			host_sleep: scriptHost.sleep,
 			host_log: scriptHost.log,
 			host_showSaveScreen: scriptHost.showSaveScreen,
+			host_eraseEvent: eraseEvent,
 			
 			// for retrieving game info in Lua...
 			getPlayerPosition: function() { var p = engine.interactionManager.player; return { x:p.position.x, y:p.position.y, facing:Direction.toString(p.facing) }},

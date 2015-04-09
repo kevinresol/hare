@@ -41,14 +41,14 @@ class GameMap
 		player = new Player(name, imageSource, x, y);
 	}
 	
-	public function addEvent(id, x, y, layer, trigger, displayType):Void
+	public function addEvent(id, x, y, layer, trigger, displayType, visible):Void
 	{
-		objects.push(new GameMapObject(id, x, y, layer, OEvent(id, trigger), displayType));
+		objects.push(new GameMapObject(id, x, y, layer, OEvent(id, trigger), displayType, visible));
 	}
 	
-	public function addObject(id, x, y, layer, displayType):Void
+	public function addObject(id, x, y, layer, displayType, visible):Void
 	{
-		objects.push(new GameMapObject(id, x, y, layer, OObject(id), displayType));
+		objects.push(new GameMapObject(id, x, y, layer, OObject(id), displayType, visible));
 	}
 	
 	public function getEventTrigger(id):EventTrigger
@@ -97,6 +97,7 @@ class Player
 
 class GameMapObject
 {
+	public var visible:Bool;
 	public var id:Int;
 	public var x:Int;
 	public var y:Int;
@@ -104,7 +105,7 @@ class GameMapObject
 	public var type:GameMapObjectType;
 	public var displayType:GameMapObjectDisplayType;
 	
-	public function new(id, x, y, layer, type, displayType)
+	public function new(id, x, y, layer, type, displayType, visible)
 	{
 		this.id = id;
 		this.x = x;
@@ -112,6 +113,7 @@ class GameMapObject
 		this.layer = layer;
 		this.type = type;
 		this.displayType = displayType;
+		this.visible = visible;
 	}
 	
 	public function toString():String
@@ -127,7 +129,6 @@ class GameMapObject
 
 enum GameMapObjectType
 {
-	OPlayer;
 	OObject(id:Int);
 	OEvent(id:Int, trigger:EventTrigger);
 }
@@ -140,6 +141,7 @@ enum GameMapObjectDisplayType
 
 enum EventTrigger
 {
+	EOverlapAction;
 	EAction;
 	EBump;
 	EOverlap;

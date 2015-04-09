@@ -25,6 +25,7 @@ import rpg.Events;
 import rpg.geom.Direction;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
+import rpg.save.SaveManager.SaveDisplayData;
 
 /**
  * A HaxeFlixel implementation for rpg-engine
@@ -57,6 +58,7 @@ class Implementation implements IImplementation
 	public function new(state:FlxState) 
 	{
 		assetManager = new AssetManager();
+		
 		
 		this.state = state;
 		state.bgColor = 0;
@@ -116,8 +118,35 @@ class Implementation implements IImplementation
 		Events.on("event.erased", function(id:Int)
 		{
 			var o = objects[id];
-			o.layer.remove(o.sprite, true);
+			if(o != null)
+				o.layer.remove(o.sprite, true);
 		});
+	}
+	
+	public function init():Void
+	{
+		#if mobile
+		virtualPad.buttonLeft.onUp.callback = engine.release.bind(KLeft);
+		virtualPad.buttonRight.onUp.callback = engine.release.bind(KRight);
+		virtualPad.buttonUp.onUp.callback = engine.release.bind(KUp);
+		virtualPad.buttonDown.onUp.callback = engine.release.bind(KDown);
+		virtualPad.buttonA.onUp.callback = engine.release.bind(KEnter);
+		virtualPad.buttonB.onUp.callback = engine.release.bind(KEsc);
+		
+		virtualPad.buttonLeft.onOut.callback = engine.release.bind(KLeft);
+		virtualPad.buttonRight.onOut.callback = engine.release.bind(KRight);
+		virtualPad.buttonUp.onOut.callback = engine.release.bind(KUp);
+		virtualPad.buttonDown.onOut.callback = engine.release.bind(KDown);
+		virtualPad.buttonA.onOut.callback = engine.release.bind(KEnter);
+		virtualPad.buttonB.onOut.callback = engine.release.bind(KEsc);
+		
+		virtualPad.buttonLeft.onDown.callback = engine.press.bind(KLeft);
+		virtualPad.buttonRight.onDown.callback = engine.press.bind(KRight);
+		virtualPad.buttonUp.onDown.callback = engine.press.bind(KUp);
+		virtualPad.buttonDown.onDown.callback = engine.press.bind(KDown);
+		virtualPad.buttonA.onDown.callback = engine.press.bind(KEnter);
+		virtualPad.buttonB.onDown.callback = engine.press.bind(KEsc);
+		#end
 	}
 	
 	public function update(elapsed:Float):Void
@@ -152,35 +181,6 @@ class Implementation implements IImplementation
 			engine.press(KEnter);
 		if (justPressed.ESCAPE)
 			engine.press(KEsc);
-			
-		
-		#if mobile
-		if (virtualPad.buttonLeft.justReleased)
-			engine.release(KLeft);
-		if (virtualPad.buttonRight.justReleased)
-			engine.release(KRight);
-		if (virtualPad.buttonUp.justReleased)
-			engine.release(KUp);
-		if (virtualPad.buttonDown.justReleased)
-			engine.release(KDown);
-		if (virtualPad.buttonA.justReleased)
-			engine.release(KEnter);
-		if (virtualPad.buttonB.justReleased)
-			engine.release(KEsc);
-			
-		if (virtualPad.buttonLeft.justPressed)
-			engine.press(KLeft);
-		if (virtualPad.buttonRight.justPressed)
-			engine.press(KRight);
-		if (virtualPad.buttonUp.justPressed)
-			engine.press(KUp);
-		if (virtualPad.buttonDown.justPressed)
-			engine.press(KDown);
-		if (virtualPad.buttonA.justPressed)
-			engine.press(KEnter);
-		if (virtualPad.buttonB.justPressed)
-			engine.press(KEsc);
-		#end
 	}
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
@@ -213,9 +213,9 @@ class Implementation implements IImplementation
 		gameMenu.visible = false;
 	}
 	
-	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void):Void
+	public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
-		saveLoadScreen.showSaveScreen(assetManager.getNumberOfSaves(), saveGameCallback, cancelCallback);
+		saveLoadScreen.showSaveScreen(saveGameCallback, cancelCallback, data);
 	}
 	
 	public function hideSaveScreen():Void
@@ -223,9 +223,9 @@ class Implementation implements IImplementation
 		saveLoadScreen.visible = false;
 	}
 	
-	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void):Void
+	public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
-		saveLoadScreen.showLoadScreen(assetManager.getNumberOfSaves(), loadGameCallback, cancelCallback);
+		saveLoadScreen.showLoadScreen(loadGameCallback, cancelCallback, data);
 	}
 	
 	public function hideLoadScreen():Void
@@ -467,31 +467,34 @@ class Implementation implements IImplementation
 		
 		for (object in sortedObjects)
 		{
-			var sprite = new FlxSprite(object.x * map.tileWidth, object.y * map.tileHeight);
-			switch (object.displayType) 
+			if (object.visible)
 			{
-				case DTile(imageSource, tileId):
-					sprite.loadGraphic(imageSource, true, 32, 32);
-					sprite.animation.frameIndex = tileId - 1;
-					
-				case DActor(imageSource, index):
-					sprite.loadGraphic('assets/images/actor/$imageSource', true, 32, 48);
-					sprite.animation.add("walking-left", [3, 4, 5, 4], 8);
-					sprite.animation.add("walking-right", [6, 7, 8, 7], 8);
-					sprite.animation.add("walking-down", [0, 1, 2, 1], 8);
-					sprite.animation.add("walking-up", [9, 10, 11, 10], 8);
-					sprite.animation.add("left", [4], 0);
-					sprite.animation.add("right", [7], 0);
-					sprite.animation.add("down", [1], 0);
-					sprite.animation.add("up", [10], 0);
-					sprite.animation.play("down");
-					sprite.y -= 16;
+				var sprite = new FlxSprite(object.x * map.tileWidth, object.y * map.tileHeight);
+				switch (object.displayType) 
+				{
+					case DTile(imageSource, tileId):
+						sprite.loadGraphic(imageSource, true, 32, 32);
+						sprite.animation.frameIndex = tileId - 1;
+						
+					case DActor(imageSource, index):
+						sprite.loadGraphic('assets/images/actor/$imageSource', true, 32, 48);
+						sprite.animation.add("walking-left", [3, 4, 5, 4], 8);
+						sprite.animation.add("walking-right", [6, 7, 8, 7], 8);
+						sprite.animation.add("walking-down", [0, 1, 2, 1], 8);
+						sprite.animation.add("walking-up", [9, 10, 11, 10], 8);
+						sprite.animation.add("left", [4], 0);
+						sprite.animation.add("right", [7], 0);
+						sprite.animation.add("down", [1], 0);
+						sprite.animation.add("up", [10], 0);
+						sprite.animation.play("down");
+						sprite.y -= 16;
+				}
+				var index = Std.int(object.layer);
+				if (index < 0) index = 0;
+				if (index >= 3) index = 3;
+				layers[index].add(sprite); //TODO figure out the layer to add to
+				objects[object.id] = new Object(sprite, layers[index]);
 			}
-			var index = Std.int(object.layer);
-			if (index < 0) index = 0;
-			if (index >= 3) index = 3;
-			layers[index].add(sprite); //TODO figure out the layer to add to
-			objects[object.id] = new Object(sprite, layers[index]);
 		}
 		
 	}

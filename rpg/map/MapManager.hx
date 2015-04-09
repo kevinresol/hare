@@ -50,12 +50,14 @@ class MapManager
 					
 				// note: "[object]" is the default value if the name is not specified in Tiled
 				var displayType:GameMapObjectDisplayType =  o.name == "[object]" ? DTile(imageSource, tileset.fromGid(o.gid)) : DActor(engine.config.getImageSourceOfActor(o.name), 1);
+				var visible = (!o.custom.contains("visible") || o.custom.visible != "false");
 				
 				switch (o.type)
 				{
 					case "event":
 						var trigger:EventTrigger = switch (o.custom.trigger) 
 						{
+							case "overlapaction": EOverlapAction;
 							case "action": EAction;
 							case "bump": EBump;
 							case "overlap": EOverlap;
@@ -65,7 +67,7 @@ class MapManager
 							default: EAction;
 						}
 						
-						map.addEvent(o.id, x, y, layer, trigger, displayType);
+						map.addEvent(o.id, x, y, layer, trigger, displayType, visible);
 					
 					case "player":
 						var imageSource = engine.config.getImageSourceOfActor(o.name);
@@ -73,7 +75,7 @@ class MapManager
 						map.addPlayer(o.name, imageSource, x, y);
 					
 					default:
-						map.addObject(o.id, x, y, layer, displayType);
+						map.addObject(o.id, x, y, layer, displayType, visible);
 				}
 			}
 			maps[id] = map;
