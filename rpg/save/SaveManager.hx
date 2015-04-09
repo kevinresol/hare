@@ -54,7 +54,8 @@ class SaveManager
 			var data = saves[id];
 			engine.eventManager.setGameData(data.gameData);
 			engine.itemManager.init(data.items);
-			engine.impl.createPlayer(data.playerName, engine.config.getImageSourceOfActor(data.playerName));
+			var playerImage = engine.config.getActorImage(data.playerName);
+			engine.impl.createPlayer(playerImage.source, playerImage.index);
 			engine.eventManager.scriptHost.teleportPlayer(data.mapId, data.playerPosition.x, data.playerPosition.y, { facing:Direction.toString(data.playerFacing) } );
 		}
 	}

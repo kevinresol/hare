@@ -17,6 +17,7 @@ import impl.flixel.display.lighting.LightingSystem;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
 import impl.IImplementation;
+import openfl.Assets;
 import rpg.Engine;
 import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
@@ -359,18 +360,43 @@ class Implementation implements IImplementation
 		FlxG.sound.music.fadeIn(ms/1000,0);
 	}
 	
-	public function createPlayer(name:String, image:String):Void
+	public function createPlayer(image:String, index:Int):Void
 	{
 		player = new FlxSprite();
-		player.loadGraphic('assets/images/actor/$image', true, 32, 48);
-		player.animation.add("walking-left", [3, 4, 5, 4], 8);
-		player.animation.add("walking-right", [6, 7, 8, 7], 8);
-		player.animation.add("walking-down", [0, 1, 2, 1], 8);
-		player.animation.add("walking-up", [9, 10, 11, 10], 8);
-		player.animation.add("left", [4], 0);
-		player.animation.add("right", [7], 0);
-		player.animation.add("down", [1], 0);
-		player.animation.add("up", [10], 0);
+		
+		var isSingleSet = image.substr(0, 2).indexOf("$") >= 0;
+		
+		var bmd = Assets.getBitmapData('assets/images/actor/$image');
+		var cols = isSingleSet ? 3 : 12;
+		var rows  = isSingleSet ? 4 : 8;
+		var frameWidth = Std.int(bmd.width / cols);
+		var frameHeight = Std.int(bmd.height / rows);
+		
+		player.loadGraphic('assets/images/actor/$image', true, frameWidth, frameHeight);
+		
+		var toFrameIndex = function(localX, localY) return 
+		{
+			var globalX = isSingleSet ? localX : (index % 4) * 3 + localX;
+			var globalY = isSingleSet ? localY : (index >= 4 ? 1 : 0) * 4 + localY;
+			globalY * cols + globalX;
+		}
+		
+		var i = toFrameIndex(0, 0);
+		player.animation.add("walking-down", [i + 0, i + 1, i + 2, i + 1], 8);
+		player.animation.add("down", [i + 1], 0);
+		
+		i = toFrameIndex(0, 1);
+		player.animation.add("walking-left", [i + 0, i + 1, i + 2, i + 1], 8);
+		player.animation.add("left", [i + 1], 0);
+		
+		i = toFrameIndex(0, 2);
+		player.animation.add("walking-right", [i + 0, i + 1, i + 2, i + 1], 8);
+		player.animation.add("right", [i + 1], 0);
+		
+		i = toFrameIndex(0, 3);
+		player.animation.add("walking-up", [i + 0, i + 1, i + 2, i + 1], 8);
+		player.animation.add("up", [i + 1], 0);
+		
 		player.animation.play("down");
 	}
 	

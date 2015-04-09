@@ -15,10 +15,12 @@ class Config
 		this.data = data;
 	}
 	
-	public function getImageSourceOfActor(name:String):String
+	public function getActorImage(name:String):{source:String, index:Int}
 	{
 		var actor = data.actors.find(function(o) return o.name == name);
-		return actor == null ? "" : actor.image.source;
+		if (actor == null)
+			throw "Actor $name not defined in config.json";
+		return actor.image;
 	}
 	
 	private inline function get_items():Array<ItemData>

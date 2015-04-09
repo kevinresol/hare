@@ -33,7 +33,7 @@ interface IImplementation
 	/* ====== Sync Functions ====== */
 	function log(message:String):Void;
 	
-	function createPlayer(name:String, image:String):Void;
+	function createPlayer(image:String, index:Int):Void;
 	function changeObjectFacing(type:MovableObjectType, dir:Int):Void;
 	function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
 	

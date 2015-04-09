@@ -36,9 +36,9 @@ class GameMap
 		objects = [];
 	}
 	
-	public function addPlayer(name, imageSource, x, y):Void
+	public function addPlayer(name, image, x, y):Void
 	{
-		player = new Player(name, imageSource, x, y);
+		player = new Player(name, image, x, y);
 	}
 	
 	public function addEvent(id, x, y, layer, trigger, displayType, visible):Void
@@ -81,15 +81,15 @@ class TileLayer
 
 class Player
 {
-	public var imageSource:String;
+	public var image:{source:String, index:Int};
 	public var name:String;
 	public var x:Int;
 	public var y:Int;
 	
-	public function new(name, imageSource, x, y)
+	public function new(name, image, x, y)
 	{
 		this.name = name;
-		this.imageSource = imageSource;
+		this.image = image;
 		this.x = x;
 		this.y = y;
 	}

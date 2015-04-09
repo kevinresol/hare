@@ -170,7 +170,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function createPlayer(name:String, image:String):Void
+	public function createPlayer(image:String, index:Int):Void
 	{
 		
 	}

@@ -76,7 +76,7 @@ class Engine
 		// teleport player to place
 		if (map.player != null)
 		{
-			impl.createPlayer(map.player.name, map.player.imageSource);
+			impl.createPlayer(map.player.image.source, map.player.image.index);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
 			impl.fadeInScreen(200);
 		}
