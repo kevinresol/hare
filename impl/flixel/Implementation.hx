@@ -13,6 +13,7 @@ import flixel.ui.FlxVirtualPad;
 import flixel.util.FlxSort;
 import impl.flixel.display.DialogPanel;
 import impl.flixel.display.GameMenu;
+import impl.flixel.display.lighting.LightingSystem;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
 import impl.IImplementation;
@@ -105,6 +106,17 @@ class Implementation implements IImplementation
 		FlxG.cameras.add(hudCamera = new FlxCamera());
 		FlxCamera.defaultCameras = [gameCamera];
 		setCamera(hudLayer, hudCamera);
+		
+		
+		
+		var lighting = new LightingSystem(state);
+		FlxG.addPostProcess(lighting);
+		FlxG.addChildBelowMouse(hudCamera.flashSprite, 1);
+		
+		#if debug
+		FlxG.console.registerFunction("rl", function() { FlxG.removePostProcess(lighting); lighting.disable();} );
+		FlxG.console.registerFunction("al", function() { FlxG.addPostProcess(lighting); lighting.enable(); } );
+		#end
 		
 		layers = [];
 		objects = new Map();
@@ -375,8 +387,14 @@ class Implementation implements IImplementation
 			var w = Math.max(FlxG.width, mapWidth);
 			var h = Math.max(FlxG.height, mapHeight);
 			
-			FlxG.camera.follow(player, LOCKON);
-			FlxG.camera.setScrollBoundsRect(x, y, w, h);
+			for (camera in FlxG.cameras.list)
+			{
+				if (camera != hudCamera)
+				{
+					camera.follow(player, LOCKON);
+					camera.setScrollBoundsRect(x, y, w, h);
+				}
+			}
 		}
 		
 		player.x = x * map.tileWidth;
