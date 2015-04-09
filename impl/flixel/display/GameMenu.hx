@@ -23,6 +23,7 @@ class GameMenu extends FlxSpriteGroup
 	
 	private var callback:GameMenuAction->Void;
 	private var cancelCallback:Void->Void;
+	private var numChoices:Int;
 	
 	public function new() 
 	{
@@ -36,7 +37,8 @@ class GameMenu extends FlxSpriteGroup
 		
 		selector = new Selector(5, 10, 168, 21);
 		
-		text = new Text(15, 30, 0, "Main Menu\nSave Game", 15);
+		text = new Text(15, 30, 0, "Main Menu\nSave Game"#if debug + "\nConsole" #end , 15);
+		numChoices = 2 #if debug + 1 #end;
 		
 		add(background);
 		add(selector);
@@ -61,6 +63,9 @@ class GameMenu extends FlxSpriteGroup
 					{
 						case 0: callback(AShowMainMenu);
 						case 1: callback(AShowSaveMenu);
+						#if debug
+						case 2: FlxG.debugger.visible = !FlxG.debugger.visible; cancelCallback();
+						#end
 						default:
 					}
 					Events.disable(listener);
@@ -86,8 +91,8 @@ class GameMenu extends FlxSpriteGroup
 	
 	private function set_selected(v:Int):Int
 	{
-		if (v < 0) v = 1;
-		else if (v >= 2) v = 0;
+		if (v < 0) v = numChoices -1;
+		else if (v >= numChoices) v = 0;
 		
 		selector.y = y + 30 + 19 * v;
 		
