@@ -39,7 +39,7 @@ class LightingSystem extends PostProcess
 	
 	public function new(state:FlxState)
 	{
-		super("assets/shaders/invert.frag");
+		super("assets/shaders/lighting.frag");
 		
 		// setup framebuffer
 		lightFramebuffer = GL.createFramebuffer();
