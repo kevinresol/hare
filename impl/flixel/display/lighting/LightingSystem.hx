@@ -67,7 +67,7 @@ class LightingSystem extends PostProcess
 		ambientColor = 0xFF4E5469;
 		
 		addLight(0, 0);
-		/*addLight(0, 200);
+		addLight(0, 200);
 		addLight(0, 400);
 		addLight(200, -100);
 		addLight(200, 100);
@@ -75,7 +75,7 @@ class LightingSystem extends PostProcess
 		addLight(200, 500);
 		addLight(400, 0);
 		addLight(400, 200);
-		addLight(400, 400);*/
+		addLight(400, 400);
 	}
 	
 	public function enable():Void
