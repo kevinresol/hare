@@ -38,7 +38,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function log(message:String):Void 
+	public function log(message:String, level:rpg.Engine.LogLevel):Void 
 	{
 		
 	}
