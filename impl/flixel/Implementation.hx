@@ -275,7 +275,7 @@ class Implementation implements IImplementation
 				var map = engine.currentMap;
 				// make sure it is at the exact position
 				sprite.x = Math.round(sprite.x / map.tileWidth) * map.tileWidth;
-				sprite.y = Math.round(sprite.y / map.tileHeight) * map.tileHeight - (type == MPlayer ? 16 : 0);
+				sprite.y = Math.round(sprite.y / map.tileHeight) * map.tileHeight;
 				if (!callback())
 				{
 					sprite.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
@@ -364,40 +364,7 @@ class Implementation implements IImplementation
 	{
 		player = new FlxSprite();
 		
-		var isSingleSet = image.substr(0, 2).indexOf("$") >= 0;
-		
-		var bmd = Assets.getBitmapData('assets/images/actor/$image');
-		var cols = isSingleSet ? 3 : 12;
-		var rows  = isSingleSet ? 4 : 8;
-		var frameWidth = Std.int(bmd.width / cols);
-		var frameHeight = Std.int(bmd.height / rows);
-		
-		player.loadGraphic('assets/images/actor/$image', true, frameWidth, frameHeight);
-		
-		var toFrameIndex = function(localX, localY) return 
-		{
-			var globalX = isSingleSet ? localX : (index % 4) * 3 + localX;
-			var globalY = isSingleSet ? localY : (index >= 4 ? 1 : 0) * 4 + localY;
-			globalY * cols + globalX;
-		}
-		
-		var i = toFrameIndex(0, 0);
-		player.animation.add("walking-down", [i + 0, i + 1, i + 2, i + 1], 8);
-		player.animation.add("down", [i + 1], 0);
-		
-		i = toFrameIndex(0, 1);
-		player.animation.add("walking-left", [i + 0, i + 1, i + 2, i + 1], 8);
-		player.animation.add("left", [i + 1], 0);
-		
-		i = toFrameIndex(0, 2);
-		player.animation.add("walking-right", [i + 0, i + 1, i + 2, i + 1], 8);
-		player.animation.add("right", [i + 1], 0);
-		
-		i = toFrameIndex(0, 3);
-		player.animation.add("walking-up", [i + 0, i + 1, i + 2, i + 1], 8);
-		player.animation.add("up", [i + 1], 0);
-		
-		player.animation.play("down");
+		loadActorImage(player, image, index);
 	}
 	
 	public function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void
@@ -424,7 +391,7 @@ class Implementation implements IImplementation
 		}
 		
 		player.x = x * map.tileWidth;
-		player.y = y * map.tileHeight - 16;
+		player.y = y * map.tileHeight;
 		
 		switch (options.facing) 
 		{
@@ -520,17 +487,8 @@ class Implementation implements IImplementation
 						sprite.animation.frameIndex = tileId - 1;
 						
 					case DActor(imageSource, index):
-						sprite.loadGraphic('assets/images/actor/$imageSource', true, 32, 48);
-						sprite.animation.add("walking-left", [3, 4, 5, 4], 8);
-						sprite.animation.add("walking-right", [6, 7, 8, 7], 8);
-						sprite.animation.add("walking-down", [0, 1, 2, 1], 8);
-						sprite.animation.add("walking-up", [9, 10, 11, 10], 8);
-						sprite.animation.add("left", [4], 0);
-						sprite.animation.add("right", [7], 0);
-						sprite.animation.add("down", [1], 0);
-						sprite.animation.add("up", [10], 0);
-						sprite.animation.play("down");
-						sprite.y -= 16;
+						loadActorImage(sprite, imageSource, index);
+						
 				}
 				var index = Std.int(object.layer);
 				if (index < 0) index = 0;
@@ -540,6 +498,45 @@ class Implementation implements IImplementation
 			}
 		}
 		
+	}
+	
+	private function loadActorImage(sprite:FlxSprite, image:String, index:Int):Void
+	{
+		var isSingleSet = image.substr(0, 2).indexOf("$") >= 0;
+		
+		var bmd = Assets.getBitmapData('assets/images/actor/$image');
+		var cols = isSingleSet ? 3 : 12;
+		var rows  = isSingleSet ? 4 : 8;
+		var frameWidth = Std.int(bmd.width / cols);
+		var frameHeight = Std.int(bmd.height / rows);
+		
+		sprite.loadGraphic('assets/images/actor/$image', true, frameWidth, frameHeight);
+		sprite.offset.set(0, frameHeight - 32 + 4);
+		
+		var toFrameIndex = function(localX, localY) return 
+		{
+			var globalX = isSingleSet ? localX : (index % 4) * 3 + localX;
+			var globalY = isSingleSet ? localY : (index >= 4 ? 1 : 0) * 4 + localY;
+			globalY * cols + globalX;
+		}
+		
+		var i = toFrameIndex(0, 0);
+		sprite.animation.add("walking-down", [i + 0, i + 1, i + 2, i + 1], 8);
+		sprite.animation.add("down", [i + 1], 0);
+		
+		i = toFrameIndex(0, 1);
+		sprite.animation.add("walking-left", [i + 0, i + 1, i + 2, i + 1], 8);
+		sprite.animation.add("left", [i + 1], 0);
+		
+		i = toFrameIndex(0, 2);
+		sprite.animation.add("walking-right", [i + 0, i + 1, i + 2, i + 1], 8);
+		sprite.animation.add("right", [i + 1], 0);
+		
+		i = toFrameIndex(0, 3);
+		sprite.animation.add("walking-up", [i + 0, i + 1, i + 2, i + 1], 8);
+		sprite.animation.add("up", [i + 1], 0);
+		
+		sprite.animation.play("down");
 	}
 	
 	private inline function checkCallback(callback:Dynamic):Void
