@@ -1,5 +1,9 @@
 movement = {}
 
+movement.changeFacing = function(target, facing)
+	host_changeFacing(target, facing)
+end
+
 movement.teleportPlayer = function(mapId, x, y, options)
 	options = options or {}
 	options.facing = options.facing or "retain"

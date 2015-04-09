@@ -103,6 +103,18 @@ class ScriptHost
 		engine.impl.fadeInScreen(ms);
 	}
 	
+	public function changeFacing(target:String, facing:String):Void
+	{
+		var t = switch (target) 
+		{
+			case "player": MPlayer;
+			case "thisevent": MEvent(engine.eventManager.currentEvent);
+			default: MPlayer;
+		}
+		
+		engine.impl.changeObjectFacing(t, Direction.fromString(facing));
+	}
+	
 	public function teleportPlayer(mapId:Int, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
 		var map = engine.mapManager.getMap(mapId);

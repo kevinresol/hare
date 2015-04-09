@@ -63,7 +63,10 @@ class InteractionManager
 											{
 												case EAction | EBump:
 													if (object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
+													{
+														engine.impl.changeObjectFacing(MEvent(id), Direction.turnAround(player.facing));
 														engine.eventManager.startEvent(id);
+													}
 														
 												case EOverlapAction:
 													if (object.position.x == player.position.x && object.position.y == player.position.y)
