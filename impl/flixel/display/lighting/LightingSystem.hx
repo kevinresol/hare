@@ -3,6 +3,7 @@ import flixel.effects.postprocess.PostProcess;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
+import flixel.tweens.FlxTween;
 import openfl.display.OpenGLView;
 import openfl.display.Sprite;
 import openfl.display.Tilesheet;
@@ -71,34 +72,41 @@ class LightingSystem extends PostProcess
 		
 		FlxG.signals.postUpdate.add(function()
 		{
+			var offset = 0;
 			for (i in 0...lights.length)
 			{
 				var light = lights[i];
-				light.getScreenPosition(helperPoint);
 				
-				var offset = i * 3;
-				tiledata[offset + 0] = helperPoint.x;
-				tiledata[offset + 1] = helperPoint.y;
-				tiledata[offset + 2] = 0;
+				if(light.visible)
+				{
+					light.getScreenPosition(helperPoint);
+					
+					tiledata[offset + 0] = helperPoint.x;
+					tiledata[offset + 1] = helperPoint.y;
+					tiledata[offset + 2] = 0;
+					offset += 3;
+				}
 			}
 			sprite.graphics.clear();
-			tilesheet.drawTiles(sprite.graphics, tiledata, false, 0, lights.length * 3);
+			tilesheet.drawTiles(sprite.graphics, tiledata, false, 0, offset);
 		});
 		
-		//addLight(0, 0);
-		//addLight(0, 200);
-		//addLight(0, 400);
-		//addLight(200, 0);
+		addLight(0, 0);
+		addLight(0, 200);
+		addLight(0, 400);
+		addLight(200, 0);
 		addLight(200, 200);
-		//addLight(200, 400);
-		//addLight(400, 0);
-		//addLight(400, 200);
-		//addLight(400, 400);
+		addLight(200, 400);
+		addLight(400, 0);
+		addLight(400, 200);
+		addLight(400, 400);
 	}
 	
 	public function addLight(x:Float, y:Float):Void
 	{
-		lights.push(new FlxObject(x, y));
+		var light = new FlxObject(x, y);
+		lights.push(light);
+		FlxTween.num(0, 1, Math.random(), { type:FlxTween.PINGPONG }, function(v) light.visible = v > 0.2);
 	}
 	
 	private function createLightTexture(width:Int, height:Int):Void
