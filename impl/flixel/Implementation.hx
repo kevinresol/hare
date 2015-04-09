@@ -2,6 +2,7 @@ package impl.flixel ;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
@@ -9,6 +10,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.tile.FlxTilemap;
 import flixel.tweens.FlxTween;
 import flixel.ui.FlxVirtualPad;
+import flixel.util.FlxSort;
 import impl.flixel.display.DialogPanel;
 import impl.flixel.display.GameMenu;
 import impl.flixel.display.MainMenu;
@@ -38,7 +40,7 @@ class Implementation implements IImplementation
 	private var state:FlxState;
 	private var gameLayer:FlxGroup;
 	private var hudLayer:FlxGroup;
-	private var layers:Array<FlxGroup>; //0:floor, 1:below, 2:character, 3:above
+	private var layers:Array<FlxTypedGroup<FlxObject>>; //0:floor, 1:below, 2:character, 3:above
 	private var objects:Map<Int, Object>;
 	
 	private var mainMenu:MainMenu;
@@ -173,6 +175,11 @@ class Implementation implements IImplementation
 			engine.press(KEnter);
 		if (justPressed.ESCAPE)
 			engine.press(KEsc);
+			
+		if (layers[2] != null)
+		{
+			layers[2].sort(FlxSort.byY);
+		}
 	}
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
@@ -419,7 +426,7 @@ class Implementation implements IImplementation
 		
 		for (i in 0...4)
 		{
-			var layer = new FlxGroup();
+			var layer = new FlxTypedGroup();
 			gameLayer.add(layer);
 			layers.push(layer);
 		}
@@ -484,7 +491,7 @@ class Implementation implements IImplementation
 				var index = Std.int(object.layer);
 				if (index < 0) index = 0;
 				if (index >= 3) index = 3;
-				layers[index].add(sprite); //TODO figure out the layer to add to
+				layers[index].add(sprite);
 				objects[object.id] = new Object(sprite, layers[index]);
 			}
 		}
@@ -516,7 +523,7 @@ class Implementation implements IImplementation
 
 private class Object
 {
-	public var layer:FlxGroup;
+	public var layer:FlxTypedGroup<FlxObject>;
 	public var sprite:FlxSprite;
 	
 	public function new(sprite, layer)
