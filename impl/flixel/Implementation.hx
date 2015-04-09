@@ -107,10 +107,14 @@ class Implementation implements IImplementation
 		
 		
 		
-		
-		var lighting = new LightingSystem("assets/shaders/invert.frag", state);
+		var lighting = new LightingSystem(state);
 		FlxG.addPostProcess(lighting);
 		FlxG.addChildBelowMouse(hudCamera.flashSprite, 1);
+		
+		#if debug
+		FlxG.console.registerFunction("rl", function() { FlxG.removePostProcess(lighting); lighting.disable();} );
+		FlxG.console.registerFunction("al", function() { FlxG.addPostProcess(lighting); lighting.enable(); } );
+		#end
 		
 		layers = [];
 		objects = new Map();

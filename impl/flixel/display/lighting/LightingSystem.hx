@@ -37,9 +37,9 @@ class LightingSystem extends PostProcess
 	private var group:FlxGroup;
 	private var helperPoint:FlxPoint;
 	
-	public function new(fragmentShader:String, state:FlxState)
+	public function new(state:FlxState)
 	{
-		super(fragmentShader);
+		super("assets/shaders/invert.frag");
 		
 		// setup framebuffer
 		lightFramebuffer = GL.createFramebuffer();
@@ -60,16 +60,14 @@ class LightingSystem extends PostProcess
 		FlxG.cameras.add(camera);
 		state.add(group);
 		
-		FlxG.stage.addChildAt(before, 0);
-		FlxG.stage.addChildAt(camera.flashSprite, 1);
-		FlxG.stage.addChildAt(after, 2);
+		enable();
 		
 		lightTextureUniform = shader.uniform("uImage1");
 		
 		ambientColor = 0xFF4E5469;
 		
 		addLight(0, 0);
-		addLight(0, 200);
+		/*addLight(0, 200);
 		addLight(0, 400);
 		addLight(200, -100);
 		addLight(200, 100);
@@ -77,7 +75,21 @@ class LightingSystem extends PostProcess
 		addLight(200, 500);
 		addLight(400, 0);
 		addLight(400, 200);
-		addLight(400, 400);
+		addLight(400, 400);*/
+	}
+	
+	public function enable():Void
+	{
+		FlxG.stage.addChildAt(before, 0);
+		FlxG.stage.addChildAt(camera.flashSprite, 1);
+		FlxG.stage.addChildAt(after, 2);
+	}
+	
+	public function disable():Void
+	{
+		FlxG.stage.removeChild(before);
+		FlxG.stage.removeChild(camera.flashSprite);
+		FlxG.stage.removeChild(after);
 	}
 	
 	public function addLight(x:Float, y:Float):Void
@@ -85,7 +97,7 @@ class LightingSystem extends PostProcess
 		var light = new FlxSprite(x, y, "assets/images/light/light.png");
 		light.camera = camera;
 		group.add(light);
-		flicker(light);
+		//flicker(light);
 	}
 	
 	private function flicker(light:FlxSprite):Void
@@ -232,8 +244,9 @@ class After extends OpenGLView
 	}
 	
 	@:access(flixel.effects.postprocess.PostProcess)
+	@:access(flixel.FlxGame)
 	override public function render(rect:Rectangle)
 	{
-        GL.bindFramebuffer(GL.FRAMEBUFFER, postProcess.framebuffer);
+        GL.bindFramebuffer(GL.FRAMEBUFFER, FlxG.game.postProcesses[0].framebuffer);
 	}
 }
