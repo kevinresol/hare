@@ -108,7 +108,7 @@ class Implementation implements IImplementation
 		
 		
 		
-		var lighting = new LightingSystem("assets/shaders/invert.frag");
+		var lighting = new LightingSystem("assets/shaders/invert.frag", state);
 		FlxG.addPostProcess(lighting);
 		FlxG.addChildBelowMouse(hudCamera.flashSprite, 1);
 		
@@ -376,8 +376,14 @@ class Implementation implements IImplementation
 			var w = Math.max(FlxG.width, mapWidth);
 			var h = Math.max(FlxG.height, mapHeight);
 			
-			FlxG.camera.follow(player, LOCKON);
-			FlxG.camera.setScrollBoundsRect(x, y, w, h);
+			for (camera in FlxG.cameras.list)
+			{
+				if (camera != hudCamera)
+				{
+					camera.follow(player, LOCKON);
+					camera.setScrollBoundsRect(x, y, w, h);
+				}
+			}
 		}
 		
 		player.x = x * map.tileWidth;

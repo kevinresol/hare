@@ -1,12 +1,13 @@
 package impl.flixel.display.lighting;
 import flixel.effects.postprocess.PostProcess;
+import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.FlxObject;
+import flixel.FlxSprite;
+import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.math.FlxPoint;
 import flixel.tweens.FlxTween;
 import openfl.display.OpenGLView;
-import openfl.display.Sprite;
-import openfl.display.Tilesheet;
 import openfl.geom.Rectangle;
 import openfl.gl.GL;
 import openfl.gl.GLFramebuffer;
@@ -25,17 +26,15 @@ class LightingSystem extends PostProcess
 	private var lightFramebuffer:GLFramebuffer;
 	private var lightTexture:GLTexture;
 	private var lightRenderbuffer:GLRenderbuffer;
-	private var tilesheet:Tilesheet;
-	private var tiledata:Array<Float>;
-	public var sprite:Sprite;
 	
 	
 	private var lightTextureUniform:Int;
 	
-	private var lights:Array<FlxObject>;
+	private var camera:FlxCamera;
+	private var group:FlxGroup;
 	private var helperPoint:FlxPoint;
 	
-	public function new(fragmentShader:String)
+	public function new(fragmentShader:String, state:FlxState)
 	{
 		super(fragmentShader);
 		
@@ -50,46 +49,21 @@ class LightingSystem extends PostProcess
 		GL.bindRenderbuffer(GL.RENDERBUFFER, null);
 		GL.bindFramebuffer(GL.FRAMEBUFFER, null);
 
-		// create the helpersprite for rendering the light map
-		var r = 250;
-		var c = new CircularLight(r, [0xffffff, 0xffffff, 0xffffff], [1, 0.5, 0], [0, 180,255]);
-		tilesheet = new Tilesheet(c.pixels);
-		tilesheet.addTileRect(new Rectangle(0, 0, r * 2, r * 2));
-		tiledata = [];
 		
-		sprite = new Sprite();
 		before = new Before(lightFramebuffer);
 		after = new After(this);
 		
+		camera = new FlxCamera();
+		group = new FlxGroup();
+		FlxG.cameras.add(camera);
+		state.add(group);
+		
 		FlxG.stage.addChildAt(before, 0);
-		FlxG.stage.addChildAt(sprite, 1);
+		FlxG.stage.addChildAt(camera.flashSprite, 1);
 		FlxG.stage.addChildAt(after, 2);
 		
 		lightTextureUniform = shader.uniform("uImage1");
 		
-		lights = [];
-		helperPoint = FlxPoint.get();
-		
-		FlxG.signals.postUpdate.add(function()
-		{
-			var offset = 0;
-			for (i in 0...lights.length)
-			{
-				var light = lights[i];
-				
-				if(light.visible)
-				{
-					light.getScreenPosition(helperPoint);
-					
-					tiledata[offset + 0] = helperPoint.x;
-					tiledata[offset + 1] = helperPoint.y;
-					tiledata[offset + 2] = 0;
-					offset += 3;
-				}
-			}
-			sprite.graphics.clear();
-			tilesheet.drawTiles(sprite.graphics, tiledata, false, 0, offset);
-		});
 		
 		addLight(0, 0);
 		addLight(0, 200);
@@ -104,9 +78,15 @@ class LightingSystem extends PostProcess
 	
 	public function addLight(x:Float, y:Float):Void
 	{
-		var light = new FlxObject(x, y);
-		lights.push(light);
-		FlxTween.num(0, 1, Math.random(), { type:FlxTween.PINGPONG }, function(v) light.visible = v > 0.2);
+		var light = new FlxSprite(x, y, "assets/images/light/light.png");
+		light.camera = camera;
+		group.add(light);
+		flicker(light);
+	}
+	
+	private function flicker(light:FlxSprite):Void
+	{
+		FlxTween.num(0, 1, Math.random()/4, { onComplete:function(t) flicker(light) }, function(v) light.alpha = (v > 0.1 ? 1 : 0.2));
 	}
 	
 	private function createLightTexture(width:Int, height:Int):Void
@@ -145,12 +125,6 @@ class LightingSystem extends PostProcess
 		createLightRenderbuffer(screenWidth, screenHeight);
 		
 		GL.bindFramebuffer(GL.FRAMEBUFFER, null);
-		
-		if (sprite != null)
-		{
-			sprite.scaleX = 
-			sprite.scaleY = Math.min(screenWidth / 640, screenHeight / 480);
-		}
 	}
 	
 	override public function render(rect:Rectangle) 
