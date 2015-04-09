@@ -76,6 +76,6 @@ private class ConfigMacro
 {
 	macro public static function checkField(object:String, field:String):Expr
 	{
-	return macro if ($i { object } .$field == null) engine.log('field "$field" missing in $object: ' + $i { object }, LError);
+	return macro if (!Reflect.hasField($i{object}, $v{field})) engine.log('field "$field" missing in $object: ' + $i { object }, LError);
 	}
 }
