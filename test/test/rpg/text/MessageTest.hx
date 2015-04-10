@@ -54,7 +54,7 @@ class MessageTest
 		section = line.speed[1];
 		Assert.isTrue(Type.enumEq(section.attribute, SSpeed(2)));
 		Assert.isTrue(section.startIndex == 8);
-		Assert.isTrue(section.length == 11);
+		Assert.isTrue(section.length == 10);
 	}
 	
 	@Test
