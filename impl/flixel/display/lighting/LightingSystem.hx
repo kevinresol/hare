@@ -97,7 +97,7 @@ class LightingSystem extends PostProcess
 		var light = new FlxSprite(x, y, "assets/images/light/light.png");
 		light.camera = camera;
 		group.add(light);
-		//flicker(light);
+		flicker(light);
 	}
 	
 	private function flicker(light:FlxSprite):Void
