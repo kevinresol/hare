@@ -2,6 +2,7 @@ import massive.munit.TestSuite;
 
 import ExampleTest;
 import rpg.EngineTest;
+import rpg.image.ImageTest;
 import rpg.map.TiledMapTest;
 import rpg.ScriptTest;
 
@@ -19,6 +20,7 @@ class TestSuite extends massive.munit.TestSuite
 
 		add(ExampleTest);
 		add(rpg.EngineTest);
+		add(rpg.image.ImageTest);
 		add(rpg.map.TiledMapTest);
 		add(rpg.ScriptTest);
 	}

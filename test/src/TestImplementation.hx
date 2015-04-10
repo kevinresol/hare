@@ -6,6 +6,7 @@ import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
+import rpg.image.Image;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
 import rpg.save.SaveManager.SaveDisplayData;
@@ -170,7 +171,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function createPlayer(image:String, index:Int):Void
+	public function createPlayer(image:Image):Void
 	{
 		
 	}

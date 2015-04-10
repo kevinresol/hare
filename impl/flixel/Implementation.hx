@@ -17,6 +17,7 @@ import impl.flixel.display.lighting.LightingSystem;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
 import impl.IImplementation;
+import rpg.image.Image;
 import openfl.Assets;
 import rpg.Engine;
 import rpg.event.ScriptHost.InputNumberOptions;
@@ -365,11 +366,11 @@ class Implementation implements IImplementation
 		FlxG.sound.music.fadeIn(ms/1000,0);
 	}
 	
-	public function createPlayer(image:String, index:Int):Void
+	public function createPlayer(image:Image):Void
 	{
 		player = new FlxSprite();
 		
-		loadActorImage(player, image, index);
+		loadActorImage(player, image);
 	}
 	
 	public function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void
@@ -491,8 +492,8 @@ class Implementation implements IImplementation
 						sprite.loadGraphic(imageSource, true, 32, 32);
 						sprite.animation.frameIndex = tileId - 1;
 						
-					case DActor(imageSource, index):
-						loadActorImage(sprite, imageSource, index);
+					case DActor(image):
+						loadActorImage(sprite, image);
 						
 				}
 				var index = Std.int(object.layer);
@@ -505,39 +506,25 @@ class Implementation implements IImplementation
 		
 	}
 	
-	private function loadActorImage(sprite:FlxSprite, image:String, index:Int):Void
+	private function loadActorImage(sprite:FlxSprite, image:Image):Void
 	{
-		var isSingleSet = image.substr(0, 2).indexOf("$") >= 0;
 		
-		var bmd = Assets.getBitmapData('assets/images/actor/$image');
-		var cols = isSingleSet ? 3 : 12;
-		var rows  = isSingleSet ? 4 : 8;
-		var frameWidth = Std.int(bmd.width / cols);
-		var frameHeight = Std.int(bmd.height / rows);
+		sprite.loadGraphic(image.source, true, image.frameWidth, image.frameHeight);
+		sprite.offset.set(0, image.frameHeight - 32 + 4);
 		
-		sprite.loadGraphic('assets/images/actor/$image', true, frameWidth, frameHeight);
-		sprite.offset.set(0, frameHeight - 32 + 4);
-		
-		var toFrameIndex = function(localX, localY) return 
-		{
-			var globalX = isSingleSet ? localX : (index % 4) * 3 + localX;
-			var globalY = isSingleSet ? localY : (index >= 4 ? 1 : 0) * 4 + localY;
-			globalY * cols + globalX;
-		}
-		
-		var i = toFrameIndex(0, 0);
+		var i = image.getGlobalFrameIndex(0, 0);
 		sprite.animation.add("walking-down", [i + 0, i + 1, i + 2, i + 1], 8);
 		sprite.animation.add("down", [i + 1], 0);
 		
-		i = toFrameIndex(0, 1);
+		i = image.getGlobalFrameIndex(0, 1);
 		sprite.animation.add("walking-left", [i + 0, i + 1, i + 2, i + 1], 8);
 		sprite.animation.add("left", [i + 1], 0);
 		
-		i = toFrameIndex(0, 2);
+		i = image.getGlobalFrameIndex(0, 2);
 		sprite.animation.add("walking-right", [i + 0, i + 1, i + 2, i + 1], 8);
 		sprite.animation.add("right", [i + 1], 0);
 		
-		i = toFrameIndex(0, 3);
+		i = image.getGlobalFrameIndex(0, 3);
 		sprite.animation.add("walking-up", [i + 0, i + 1, i + 2, i + 1], 8);
 		sprite.animation.add("up", [i + 1], 0);
 		

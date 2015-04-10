@@ -5,6 +5,7 @@ import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.config.Config;
 import rpg.event.EventManager;
+import rpg.image.ImageManager;
 import rpg.input.InputManager;
 import rpg.item.ItemManager;
 import rpg.map.GameMap;
@@ -31,6 +32,7 @@ class Engine
 	private var interactionManager:InteractionManager;
 	private var saveManager:SaveManager;
 	private var itemManager:ItemManager;
+	private var imageManager:ImageManager;
 	
 	private var gameState(default, set):GameState;
 	
@@ -56,6 +58,7 @@ class Engine
 		interactionManager = new InteractionManager(this);
 		saveManager = new SaveManager(this);
 		itemManager = new ItemManager(this);
+		imageManager = new ImageManager(this);
 		
 		gameState = SMainMenu;
 	}
@@ -76,7 +79,8 @@ class Engine
 		// teleport player to place
 		if (map.player != null)
 		{
-			impl.createPlayer(map.player.image.source, map.player.image.index);
+			var image = imageManager.getImage(map.player.image.source, map.player.image.index);
+			impl.createPlayer(image);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
 			impl.fadeInScreen(200);
 		}

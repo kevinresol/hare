@@ -27,6 +27,8 @@ class Config
 			var image = actor.image;
 			ConfigMacro.checkField("image", "source");
 			
+			image.source = "assets/images/actor/" + image.source;
+			
 			if (actor.image.index == null)
 				actor.image.index = 0;
 		}

@@ -58,4 +58,9 @@ class TestAssetManager implements IAssetManager
 		var s = Macro.getTestConfig();
 		return s;
 	}
+	
+	public function getImageDimension(source:String):{width:Int, height:Int}
+	{
+		return {width:384, height:512};
+	}
 }

@@ -14,4 +14,6 @@ interface IAssetManager
 	
 	function getMapData(id:Int):String;
 	function getScript(mapId:Int, eventId:Int):String;
+	
+	function getImageDimension(source:String):{width:Int, height:Int};
 }

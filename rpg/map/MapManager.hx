@@ -49,8 +49,14 @@ class MapManager
 					layer = Std.parseFloat(o.custom.layer);
 					
 				// note: "[object]" is the default value if the name is not specified in Tiled
-				var displayType:GameMapObjectDisplayType =  if (o.name == "[object]") DTile(imageSource, tileset.fromGid(o.gid)) 
-				else { var i = engine.config.getActorImage(o.name);  DActor(i.source, i.index); }
+				var displayType:GameMapObjectDisplayType =  if (o.name == "[object]") 
+					DTile(imageSource, tileset.fromGid(o.gid)) 
+				else 
+				{ 
+					var i = engine.config.getActorImage(o.name);  
+					DActor(engine.imageManager.getImage(i.source, i.index)); 
+				}
+				
 				var visible = (!o.custom.contains("visible") || o.custom.visible != "false");
 				
 				switch (o.type)

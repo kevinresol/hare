@@ -1,5 +1,6 @@
 package rpg.map;
 import rpg.geom.IntPoint;
+import rpg.image.Image;
 
 /**
  * ...
@@ -136,7 +137,7 @@ enum GameMapObjectType
 enum GameMapObjectDisplayType
 {
 	DTile(imageSource:String, tileId:Int);
-	DActor(imageSource:String, index:Int);
+	DActor(image:Image);
 }
 
 enum EventTrigger

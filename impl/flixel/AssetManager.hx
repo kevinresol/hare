@@ -114,4 +114,10 @@ class AssetManager implements IAssetManager
 		save.flush();
 		save.close();
 	}
+	
+	public function getImageDimension(source:String):{width:Int, height:Int}
+	{
+		var b = Assets.getBitmapData(source);
+		return {width:b.width, height:b.height};
+	}
 }

@@ -1,4 +1,5 @@
 package impl ;
+import rpg.image.Image;
 import rpg.Engine;
 import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
@@ -33,7 +34,7 @@ interface IImplementation
 	/* ====== Sync Functions ====== */
 	function log(message:String, level:LogLevel):Void;
 	
-	function createPlayer(image:String, index:Int):Void;
+	function createPlayer(image:Image):Void;
 	function changeObjectFacing(type:MovableObjectType, dir:Int):Void;
 	function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void;
 	
