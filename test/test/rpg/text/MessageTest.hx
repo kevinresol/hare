@@ -73,14 +73,14 @@ class MessageTest
 		Assert.isTrue(section.length == 8);
 		
 		section = line.speed[1];
-		Assert.isTrue(Type.enumEq(section.attribute,SInstantDisplay));
+		Assert.isTrue(Type.enumEq(section.attribute, SInstantDisplay));
 		Assert.isTrue(section.startIndex == 8);
 		Assert.isTrue(section.length == 4);
 		
 		section = line.speed[2];
 		Assert.isTrue(Type.enumEq(section.attribute, SSpeed(5)));
 		Assert.isTrue(section.startIndex == 12);
-		Assert.isTrue(section.endIndex == 6);
+		Assert.isTrue(section.length == 6);
 	}
 	
 	@Test
