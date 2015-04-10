@@ -12,15 +12,15 @@ class Message
 	public function new(rawText:String):Void
 	{
 		lines = [];
-        var mCmdParser : CmdParser;
-        var rawLines = rawText.split("\n");
+		var mCmdParser : CmdParser;
+		var rawLines = rawText.split("\n");
 		for(line in rawLines)
-        {
-            mCmdParser = new CmdParser(line);
-        	lines.push(mCmdParser.parseMsg());
-        }
-    	trace(lines.length);
-		
+		{
+			mCmdParser = new CmdParser(line);
+			lines.push(mCmdParser.parseMsg());
+		}
+		trace(lines.length);
+
 		// TODO: parse rawText and fill the "lines" array
 		// (start a new line whenever there is a "\n")
 	}
