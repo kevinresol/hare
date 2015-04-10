@@ -1,5 +1,5 @@
 package rpg.text;
-
+import rpg.text.Message.Line;
 /**
  * ...
  * @author Christopher Chiu
