@@ -8,31 +8,99 @@ package rpg.text;
 class CmdParser
 {
 	private var rawText:String;
-	
     private static var colorCodes = new ReadOnlyArray([0xFF0000, 0x00FF00, 0x0000FF]); //System Color Codes
-	
-	public function new(rawText:String) 
+    
+    public function new(rawText:String) 
 	{
 		this.rawText = rawText;
 	}
     
-    private function splitTokens():Array<String>
+    public function parseMsg():Line
     {
-        var r = ~/(((\/[CcS]\[[a-fA-F0-9]+\])*)(([\w\s!@?](\\n)*)+))/;
+        var arrSpeed = new Array<Section<SpeedAttribute>>();
+        var arrfontColor = new Array<Section<Int>>();
+        
+        var curFromIndex = 0;
+        var curToIndex = -1;
+        //var offset = 0;
+        var curSpeed = 5;
+        var curColor = 0x000000;
+        var fullMsg = "";
+        //var result = new Line(rawText);
+       
+        
+        var arrTokens = splitTokens();
+        
+        for(a in arrTokens)
+        {
+            var speed:Section<SpeedAttribute>;
+            var fontColor:Section<Int>;
+			var cmdLength = a.command.length;
+        	var msgLength = a.message.length;
+            
+            curFromIndex = curToIndex + 1;
+        	curToIndex = curToIndex + msgLength;
+            fullMsg = fullMsg + a.message;
+            
+            if(getTextColor(a.command) != null){
+              	curColor = getTextColor(a.command);
+            	fontColor = new Section<Int>(curColor,curFromIndex,curToIndex);
+            	arrfontColor.push(fontColor);
+        	}
+        		
+        	
+        	if(getTextColorByHex(a.command) != null){
+                curColor = getTextColor(a.command);
+                fontColor = new Section<Int>(curColor,curFromIndex,curToIndex);
+            	arrfontColor.push(fontColor);
+            }
+            	
+        
+        	if(getTextSpeed(a.command) != null){
+                curSpeed = getTextSpeed(a.command);
+                speed = new Section<SpeedAttribute>(SSpeed(curSpeed),curFromIndex,curToIndex);
+            	arrSpeed.push(speed);
+            }
+            
+
+        	//switch(speed.attribute){
+            //    case SSpeed(speed): trace("Speed: " + speed);
+			//	default:
+            //}
+            //trace(speed.startIndex);
+            //trace(fontColor.attribute);
+        
+ 		    
+            //trace("curFromIndex: " + curFromIndex);
+        	//trace("curToIndex: " + curToIndex);
+            //trace("curColor: " + curColor);
+            //trace("curSpeed: " + curSpeed);
+        }
+    	//trace(arrSpeed.length);
+        //trace("fullMsg: " + fullMsg);
+    
+    	return new Line(fullMsg,arrSpeed,arrfontColor);
+        
+    }
+    
+    public function splitTokens() : Array<Token>
+    {
+        var r = ~/(((\/[CcS]\[[a-fA-F0-9]+\])*)(([\w\s\.,!@?](\\n)*)+))/;
         var temp = rawText;
-        var arrayTokens = new Array<String> ();
+        var arrayTokens = new Array<Token> ();
         while(r.match(temp))
         {
 			//trace("Command Part: " + r.matched(2));
             //trace("Message Part: " + r.matched(4));
             //trace("Full Token: " + r.matched(1));
-            arrayTokens.push(r.matched(1));
+            arrayTokens.push({command:r.matched(2),message:r.matched(4)});
             temp = temp.substr(r.matchedPos().len);
+            
         }
         return arrayTokens;
     }
-	
-	private function getTextColor(mText:String):Int
+    
+    private function getTextColor(mText:String):Int
 	{
 		
 		var r = ~/\/C\[([0-9]+)\]/;
@@ -40,7 +108,7 @@ class CmdParser
 		{
             return colorCodes[Std.parseInt(r.matched(1))-1];
 		}
-            return 0;
+            return null;
 	}
 	
 	private function getTextColorByHex(mText:String):Int
@@ -50,7 +118,7 @@ class CmdParser
 		{
 			return Std.parseInt("0x"+r.matched(1));
 		}
-            return 0;
+            return null;
 	}
 	
 	private function getTextSpeed(mText:String):Int
@@ -60,56 +128,15 @@ class CmdParser
 		{
 			return Std.parseInt(r.matched(1));
 		}
-            return 0;
+            return null;
 	}
-	
-	private function getText(mText):String
-	{
-		var r = ~/(\/[cCS]\[([a-fA-F0-9]+)\])*(.+)/;
-		if (r.match(mText))
-		{
-			return r.matched(3);
-		}
-			return "";
-	}
-	
-	public function parseMessage():Array<MessageData>
-	{
-        var arrayTokens = new Array<String> ();
-        var mMessageData = new Array<MessageData> ();
-        arrayTokens=splitTokens();
-
-        
-        for(i in 0...arrayTokens.length)
-        {
-            var mMessage = "";
-            var mColor = 0;
-            var mSpeed = 0;
-            //trace(arrayTokens[i]);
-            if (getTextColor(arrayTokens[i]) != 0) {
-        		mColor = getTextColor(arrayTokens[i]);
-            	//trace(mColor);
-        	}else{
-                mColor = getTextColorByHex(arrayTokens[i]);
-                //trace(mColor);
-            }
-            mSpeed = getTextSpeed(arrayTokens[i]);
-            //trace(mSpeed);
-            mMessage  = getText(arrayTokens[i]);
-        	//trace(mMessage);
-            mMessageData.push({textString:mMessage,color:mColor,speed:mSpeed});
-        }
-        
-        return mMessageData;
-	}
-	
+    
 }
 
-typedef MessageData =
+typedef Token =
 {
-	textString:String,
-	color:Int,
-	speed:Int,
+	command:String,
+	message:String,
 }
 
 abstract ReadOnlyArray<T>(Array<T>)
