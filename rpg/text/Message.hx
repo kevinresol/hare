@@ -9,7 +9,7 @@ class Message
 {
 	public var lines:Array<Line>;
 	
-	public var new(rawText:String):Void
+	public function new(rawText:String):Void
 	{
 		lines = [];
 		

@@ -4,6 +4,7 @@ import ExampleTest;
 import rpg.EngineTest;
 import rpg.map.TiledMapTest;
 import rpg.ScriptTest;
+import rpg.text.MessageTest;
 
 /**
  * Auto generated Test Suite for MassiveUnit.
@@ -21,5 +22,6 @@ class TestSuite extends massive.munit.TestSuite
 		add(rpg.EngineTest);
 		add(rpg.map.TiledMapTest);
 		add(rpg.ScriptTest);
+		add(rpg.text.MessageTest);
 	}
 }
