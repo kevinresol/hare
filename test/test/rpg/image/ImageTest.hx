@@ -96,7 +96,7 @@ class ImageTest
 	{
 		var pack = new PackedImage("4x2_spritesheet.png", 384, 512, true);
 		
-		for (i in 0...6)
+		for (i in 0...8)
 		{
 			var image = pack.images[i];
 			Assert.isTrue(image.frameWidth == 32);
