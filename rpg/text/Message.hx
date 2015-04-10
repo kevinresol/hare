@@ -55,7 +55,7 @@ class Section<T>
 	
 	private inline function get_length():Int
 	{
-		return endIndex - startIndex;
+		return endIndex - startIndex + 1;
 	}
 }
 
