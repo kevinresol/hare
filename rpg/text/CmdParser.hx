@@ -2,6 +2,7 @@ package rpg.text;
 import rpg.text.Message.Line;
 import rpg.text.Message.Sections;
 import rpg.text.Message.Section;
+import rpg.text.Message.SpeedAttribute;
 /**
  * ...
  * @author Christopher Chiu
