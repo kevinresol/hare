@@ -8,89 +8,85 @@ import rpg.text.Message.SpeedAttribute;
  * @author Christopher Chiu
  */
 
-class CmdParser
+class CommandParser
 {
 	private var rawText:String;
-    private static var colorCodes = new ReadOnlyArray([0xFF0000, 0x00FF00, 0x0000FF]); //System Color Codes
-    
+	private static var colorCodes = new ReadOnlyArray([0xFF0000, 0x00FF00, 0x0000FF]); //System Color Codes
+	
 	public function new(rawText:String) 
 	{
 		this.rawText = rawText;
 	}
-    
-	public function parseMsg():Line
+	
+	public function parseMessage():Line
 	{
-		var arrSpeed = new Array<Section<SpeedAttribute>>();
-		var arrfontColor = new Array<Section<Int>>();
-		
+		var arrSpeed = [];
+		var arrfontColor = [];
 		var curFromIndex = 0;
 		var curToIndex = -1;
 		var curSpeed = 5;
 		var curColor = 0x000000;
 		var fullMsg = "";
-	   
 		
 		var arrTokens = splitTokens();
 		
 		for(a in arrTokens)
 		{
-			var speed:Section<SpeedAttribute>;
-			var fontColor:Section<Int>;
-			var cmdLength = a.command.length;
-			var msgLength = a.message.length;
-			
 			curFromIndex = curToIndex + 1;
-			curToIndex = curToIndex + msgLength;
+			curToIndex = curToIndex + a.message.length;
 			fullMsg = fullMsg + a.message;
 			
-			if(getTextColor(a.command) != null){
+			if(getTextColor(a.command) != -1){
 				curColor = getTextColor(a.command);
-				fontColor = new Section<Int>(curColor,curFromIndex,curToIndex);
-				arrfontColor.push(fontColor);
+				arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
 			}
 				
 			
-			if(getTextColorByHex(a.command) != null){
+			if(getTextColorByHex(a.command) != -1){
 				curColor = getTextColor(a.command);
-				fontColor = new Section<Int>(curColor,curFromIndex,curToIndex);
-				arrfontColor.push(fontColor);
+				arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
 			}
 				
 		
-			if(getTextSpeed(a.command) != null){
+			if(getTextSpeed(a.command) != -1){
 				curSpeed = getTextSpeed(a.command);
-				speed = new Section<SpeedAttribute>(SSpeed(curSpeed),curFromIndex,curToIndex);
-				arrSpeed.push(speed);
+				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(curSpeed),curFromIndex,curToIndex));
 			}
 			
-
+			if(getTextInstantDisplay(a.command) == true){
+                arrSpeed.push(new Section<SpeedAttribute>(SInstantDisplay,curFromIndex,curToIndex));
+				//trace(curToIndex);
+				//trace("InstantDisplay is true!");
+            }
+			
 			//switch(speed.attribute){
 			//    case SSpeed(speed): trace("Speed: " + speed);
 			//	default:
 			//}
 		}
-
+		trace(fullMsg);
 		return new Line(fullMsg,arrSpeed,arrfontColor);
 		
 	}
-    
-	public function splitTokens() : Array<Token>
+	
+	public function splitTokens():Array<Token>
 	{
-		var r = ~/(((\/[CcS]\[[a-fA-F0-9]+\])*)(([\w\s\.,!@?](\\n)*)+))/;
+        //var r = ~/((\/[CcS]\[[a-fA-F0-9]+\])|(\/>))*(([^\/>]*)+)(\/<)*/;
+		var r = ~/(((\/[CcS]\[[a-fA-F0-9]+\]|(\/>))*)(([^\/>]+)+)(\/<)*)/;
 		var temp = rawText;
-		var arrayTokens = new Array<Token> ();
+		var arrayTokens = [];
 		while(r.match(temp))
 		{
 			//trace("Command Part: " + r.matched(2));
-			//trace("Message Part: " + r.matched(4));
+			//trace("Message Part: " + r.matched(5));
 			//trace("Full Token: " + r.matched(1));
-			arrayTokens.push({command:r.matched(2),message:r.matched(4)});
+			arrayTokens.push({command:r.matched(2),message:r.matched(5)});
 			temp = temp.substr(r.matchedPos().len);
-			
+        	//trace(r.matchedPos().len);
 		}
 		return arrayTokens;
 	}
-    
+	
 	private function getTextColor(mText:String):Int
 	{
 		
@@ -99,7 +95,7 @@ class CmdParser
 		{
 			return colorCodes[Std.parseInt(r.matched(1))-1];
 		}
-			return null;
+			return -1;
 	}
 	
 	private function getTextColorByHex(mText:String):Int
@@ -109,7 +105,7 @@ class CmdParser
 		{
 			return Std.parseInt("0x"+r.matched(1));
 		}
-			return null;
+			return -1;
 	}
 	
 	private function getTextSpeed(mText:String):Int
@@ -119,9 +115,18 @@ class CmdParser
 		{
 			return Std.parseInt(r.matched(1));
 		}
-			return null;
+			return -1;
 	}
-    
+	
+	private function getTextInstantDisplay(mText:String):Bool
+	{
+		var r = ~/\/>/;
+		if (r.match(mText))
+		{
+			return true;
+		}
+			return false;
+	}
 }
 
 typedef Token =
@@ -135,5 +140,3 @@ abstract ReadOnlyArray<T>(Array<T>)
     public inline function new(arr) this = arr;
     @:arrayAccess public inline function get(index) return this[index];
 }
-
-

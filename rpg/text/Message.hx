@@ -12,14 +12,12 @@ class Message
 	public function new(rawText:String):Void
 	{
 		lines = [];
-		var mCmdParser : CmdParser;
 		var rawLines = rawText.split("\n");
 		for(line in rawLines)
 		{
-			mCmdParser = new CmdParser(line);
-			lines.push(mCmdParser.parseMsg());
+			lines.push(new CommandParser(line).parseMessage());
 		}
-		trace(lines.length);
+		//trace(lines.length);
 
 		// TODO: parse rawText and fill the "lines" array
 		// (start a new line whenever there is a "\n")
@@ -42,8 +40,8 @@ class Line
 	public function new(text:String,speed:Sections<SpeedAttribute>,fontColor:Sections<Int>) 
 	{
 		this.text = text;
-        trace("Full Text: "+text);
-        trace("No. of speed: "+speed.length);
+        //trace("Full Text: "+text);
+        //trace("No. of speed: "+speed.length);
 	}
 }
 
