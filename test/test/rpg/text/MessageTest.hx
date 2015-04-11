@@ -64,8 +64,8 @@ class MessageTest
 		Assert.isTrue(message.lines.length == 1);
 		
 		var line = message.lines[0];
-		//Assert.isTrue(line.text == "This is some texts.");		
-		//Assert.isTrue(line.speed.length == 3);
+		Assert.isTrue(line.text == "This is some texts.");		
+		Assert.isTrue(line.speed.length == 3);
 		
 		var section = line.speed[0];
 		Assert.isTrue(Type.enumEq(section.attribute, SSpeed(5))); // default speed is 5
