@@ -13,14 +13,14 @@ class Macro
 {
 	macro public static function getTestMapData():Expr 
 	{
-		var file = Context.resolvePath("assets/data/map/0001-template.tmx");
+		var file = Context.resolvePath("assets/map/0001-template.tmx");
 		var s = File.getContent(file);
 		return macro $v{s};
 	}
 	
 	macro public static function getTestConfig():Expr
 	{
-		var file = Context.resolvePath("assets/data/config.json");
+		var file = Context.resolvePath("assets/config.hxon");
 		var s = File.getContent(file);
 		return macro $v{s};
 	}

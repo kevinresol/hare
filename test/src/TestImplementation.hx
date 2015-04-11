@@ -41,7 +41,7 @@ class TestImplementation implements IImplementation
 	
 	public function log(message:String, level:rpg.Engine.LogLevel):Void 
 	{
-		
+		trace(message);
 	}
 	
 	public function moveObject(callback:Void->Bool, type:MovableObjectType, dx:Int, dy:Int, speed:Float):Void
