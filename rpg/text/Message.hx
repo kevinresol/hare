@@ -40,8 +40,8 @@ class Line
 	public function new(text:String,speed:Sections<SpeedAttribute>,fontColor:Sections<Int>) 
 	{
 		this.text = text;
-        //trace("Full Text: "+text);
-        //trace("No. of speed: "+speed.length);
+		this.speed = speed;
+		this.fontColor = fontColor;
 	}
 }
 

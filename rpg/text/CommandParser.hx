@@ -50,7 +50,8 @@ class CommandParser
 		
 			if(getTextSpeed(a.command) != -1){
 				curSpeed = getTextSpeed(a.command);
-				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(curSpeed),curFromIndex,curToIndex));
+				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(curSpeed), curFromIndex, curToIndex));
+				//trace("speed");
 			}
 			
 			if(getTextInstantDisplay(a.command) == true){
@@ -64,7 +65,7 @@ class CommandParser
 			//	default:
 			//}
 		}
-		trace(fullMsg);
+		//trace(fullMsg);
 		return new Line(fullMsg,arrSpeed,arrfontColor);
 		
 	}
