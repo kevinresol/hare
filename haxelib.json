@@ -8,6 +8,7 @@
   "releasenote": "Work in Progress",
   "contributors": ["KevinResoL"],
   "dependencies": {
-	  "lua":""
+	  "lua":"",
+	  "hscript":""
   }
 }

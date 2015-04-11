@@ -3,5 +3,6 @@
 	
 	
 	<assets path="assets/impl" rename="assets" />
+	<haxedef name="hscriptPos"/>
 	
 </project>

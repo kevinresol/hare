@@ -1,6 +1,8 @@
 package rpg;
 import haxe.Json;
 import haxe.Timer;
+import hscript.Interp;
+import hscript.Parser;
 import impl.IAssetManager;
 import impl.IImplementation;
 import rpg.config.Config;
@@ -44,8 +46,7 @@ class Engine
 		this.impl = impl;
 		this.assetManager = assetManager;
 		
-		var data = try Json.parse(assetManager.getConfig()) catch (e:Dynamic) { actors:[], items:[] };
-		config = new Config(data, this);
+		loadConfig();
 		
 		impl.engine = this;
 		impl.init();
@@ -86,6 +87,26 @@ class Engine
 		}
 		else
 			log("Player (an object with type=player) must be placed in Map 1", LError);
+	}
+	
+	public function loadConfig():Void
+	{
+		var data = try
+		{
+			var configString = assetManager.getConfig();
+			var parser = new Parser();
+			var ast = parser.parseString(configString);
+			var interp = new Interp();
+			interp.execute(ast);
+		}
+		catch (e:Dynamic) 
+		{
+			log("Error in parsing config file:", LError);
+			log(Std.string(e), LError);
+			{ actors:[], items:[] };
+		}
+		
+		config = new Config(data, this);
 	}
 	
 	/**

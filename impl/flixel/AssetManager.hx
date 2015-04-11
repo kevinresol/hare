@@ -63,7 +63,7 @@ class AssetManager implements IAssetManager
 	
 	public function getConfig():String
 	{
-		return Assets.getText("assets/config.json");
+		return Assets.getText("assets/config.hxon");
 	}
 	
 	public function getMapData(id:Int):String 
