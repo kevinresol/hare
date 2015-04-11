@@ -17,10 +17,6 @@ class Message
 		{
 			lines.push(new CommandParser(line).parseMessage());
 		}
-		//trace(lines.length);
-
-		// TODO: parse rawText and fill the "lines" array
-		// (start a new line whenever there is a "\n")
 	}
 }
  

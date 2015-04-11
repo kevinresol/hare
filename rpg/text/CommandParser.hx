@@ -41,38 +41,36 @@ class CommandParser
 				arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
 			}
 				
-			
 			if(getTextColorByHex(a.command) != -1){
 				curColor = getTextColor(a.command);
 				arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
 			}
+			
+			//set default color value to 0, if color command not found.
+			if (getTextColor(a.command) == -1 && getTextColorByHex(a.command) == -1)
+			{
+				arrfontColor.push(new Section<Int>(0,curFromIndex,curToIndex));
+			}
 				
-		
 			if(getTextSpeed(a.command) != -1){
 				curSpeed = getTextSpeed(a.command);
 				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(curSpeed), curFromIndex, curToIndex));
-				//trace("speed");
 			}
 			
 			if(getTextInstantDisplay(a.command) == true){
                 arrSpeed.push(new Section<SpeedAttribute>(SInstantDisplay,curFromIndex,curToIndex));
-				//trace(curToIndex);
-				//trace("InstantDisplay is true!");
             }
 			
-			//switch(speed.attribute){
-			//    case SSpeed(speed): trace("Speed: " + speed);
-			//	default:
-			//}
+			//set default speed value to 5, if speed command not found.
+			if (getTextSpeed(a.command) == -1 && getTextInstantDisplay(a.command) == false) {
+				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(5),curFromIndex,curToIndex));
+			}
 		}
-		//trace(fullMsg);
 		return new Line(fullMsg,arrSpeed,arrfontColor);
-		
 	}
 	
 	public function splitTokens():Array<Token>
 	{
-        //var r = ~/((\/[CcS]\[[a-fA-F0-9]+\])|(\/>))*(([^\/>]*)+)(\/<)*/;
 		var r = ~/(((\/[CcS]\[[a-fA-F0-9]+\]|(\/>))*)(([^\/>]+)+)(\/<)*)/;
 		var temp = rawText;
 		var arrayTokens = [];
@@ -83,14 +81,12 @@ class CommandParser
 			//trace("Full Token: " + r.matched(1));
 			arrayTokens.push({command:r.matched(2),message:r.matched(5)});
 			temp = temp.substr(r.matchedPos().len);
-        	//trace(r.matchedPos().len);
 		}
 		return arrayTokens;
 	}
 	
 	private function getTextColor(mText:String):Int
 	{
-		
 		var r = ~/\/C\[([0-9]+)\]/;
 		if (r.match(mText))
 		{
