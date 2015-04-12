@@ -46,11 +46,9 @@ class Engine
 		this.impl = impl;
 		this.assetManager = assetManager;
 		
-		#if !RPG_ENGINE_EDITOR
-		loadConfig();
-		
 		impl.engine = this;
 		impl.init();
+		
 		delayedCalls = [];
 		called = [];
 		
@@ -62,6 +60,8 @@ class Engine
 		itemManager = new ItemManager(this);
 		imageManager = new ImageManager(this);
 		
+		#if !RPG_ENGINE_EDITOR
+		loadConfig();
 		gameState = SMainMenu;
 		#end
 	}
