@@ -29,6 +29,8 @@ class ImageManager
 			packedImages[source] = packedImage;
 		}
 		
+		if (index >= packedImages[source].images.length) 
+			engine.log('index $index does not exist for the image $source', LError);
 		return packedImages[source].images[index];
 	}
 	

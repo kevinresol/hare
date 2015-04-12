@@ -37,9 +37,10 @@ class PackedImage
 		this.height = height;
 		
 		// figure out how many individual images are packed
+		var filename = source.substr(source.lastIndexOf("/") + 1);
 		var reg = ~/^([0-9]+)[xX]([0-9]+)_/; 
         
-        if(reg.match(source)) // the image source starts with the dimension followed by underscore (e.g. "2x3_")
+        if(reg.match(filename)) // the image source starts with the dimension followed by underscore (e.g. "2x3_")
         {
             columns = Std.parseInt(reg.matched(1));
             rows = Std.parseInt(reg.matched(2));
