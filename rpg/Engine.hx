@@ -46,6 +46,7 @@ class Engine
 		this.impl = impl;
 		this.assetManager = assetManager;
 		
+		#if !RPG_ENGINE_EDITOR
 		loadConfig();
 		
 		impl.engine = this;
@@ -62,6 +63,7 @@ class Engine
 		imageManager = new ImageManager(this);
 		
 		gameState = SMainMenu;
+		#end
 	}
 	
 	/**
