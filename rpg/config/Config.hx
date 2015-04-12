@@ -11,6 +11,7 @@ using Lambda;
 class Config
 {
 	public var items(get, null):Array<ItemData>;
+	public var actors(get, null):Array<ActorData>;
 	private var data:ConfigData;
 	private var engine:Engine;
 	
@@ -51,6 +52,11 @@ class Config
 	private inline function get_items():Array<ItemData>
 	{
 		return data.items;
+	}
+	
+	private inline function get_actors():Array<ActorData>
+	{
+		return data.actors;
 	}
 }
 
