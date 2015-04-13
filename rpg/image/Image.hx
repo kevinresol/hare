@@ -1,34 +1,37 @@
 package rpg.image;
+import rpg.geom.Rectangle;
 
 /**
  * ...
  * @author Kevin
  */
+@:allow(rpg.image)
 class PackedImage
 {
-	public var source:String;
+	public var source(default, null):String;
+	public var numImages(get, never):Int;
 	
 	/**
 	 * columns * rows = number of sub-images in this packed image
 	 */
-	public var columns:Int;
+	public var columns(default, null):Int;
 	
 	/**
 	 * columns * rows = number of sub-images in this packed image
 	 */
-	public var rows:Int;
+	public var rows(default, null):Int;
 	
 	/**
 	 * Width in pixels of the packed image.
 	 */
-	public var width:Int;
+	public var width(default, null):Int;
 	
 	/**
 	 * Width in pixels of the packed image.
 	 */
-	public var height:Int;
+	public var height(default, null):Int;
 	
-	public var images:Array<Image>;
+	private var images:Array<Image>;
 
 	public function new(source:String, width:Int, height:Int, isSpritesheet:Bool) 
 	{
@@ -58,16 +61,32 @@ class PackedImage
 		}
 	}
 	
+	private inline function get_numImages():Int
+	{
+		return images.length;
+	}
+	
 	
 }
 
 class Image
 {
+	public var index(get, never):Int;
 	public var source(get, never):String;
 	public var columns:Int;
 	public var rows:Int;
 	public var frameWidth(get, never):Int;
 	public var frameHeight(get, never):Int;
+	
+	/**
+	 * area of this image in the parent packed image
+	 */
+	public var areaInPixels(get, never):Rectangle;
+	
+	/**
+	 * area of this image in the parent packed image
+	 */
+	public var areaInFrames(get, never):Rectangle;
 	
 	private var parent:PackedImage;
 	
@@ -86,10 +105,10 @@ class Image
 	
 	public function getGlobalFrameIndex(localX:Int, localY:Int):Int
 	{
-		var index = parent.images.indexOf(this);
+		var i = index;
 		
-		var globalX = (index % parent.columns) * columns + localX;
-		var globalY = Std.int(index / parent.columns) * rows + localY;
+		var globalX = (i % parent.columns) * columns + localX;
+		var globalY = Std.int(i / parent.columns) * rows + localY;
 		
 		return globalY * columns * parent.columns + globalX;
 	}
@@ -107,5 +126,25 @@ class Image
 	private inline function get_frameHeight():Int
 	{
 		return Std.int(parent.height / parent.rows / rows);
+	}
+	
+	private inline function get_areaInPixels():Rectangle
+	{
+		var rect = areaInFrames;
+		rect.x *= frameWidth;
+		rect.y *= frameHeight;
+		rect.width *= frameWidth;
+		rect.height *= frameHeight;
+		return rect;
+	}
+	private inline function get_areaInFrames():Rectangle
+	{
+		var i = index;
+		return new Rectangle((i % parent.columns) * columns, Std.int(i / parent.columns) * rows, columns, rows);
+	}
+	
+	private inline function get_index():Int
+	{
+		return parent.images.indexOf(this);
 	}
 }

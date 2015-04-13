@@ -20,7 +20,7 @@ class ImageManager
 		packedImages = new Map(); 
 	}
 	
-	public function getImage(source:String, index:Int):Image
+	public function getPackedImage(source:String):PackedImage
 	{
 		if (!packedImages.exists(source))
 		{
@@ -28,10 +28,16 @@ class ImageManager
 			var packedImage = new PackedImage(source, dimension.width, dimension.height, true); //TODO: check if it is spritesheet or not
 			packedImages[source] = packedImage;
 		}
+		return packedImages[source];
+	}
+	
+	public function getImage(source:String, index:Int):Image
+	{
+		var packedImage = getPackedImage(source);
 		
-		if (index >= packedImages[source].images.length) 
+		if (index >= packedImage.images.length) 
 			engine.log('index $index does not exist for the image $source', LError);
-		return packedImages[source].images[index];
+		return packedImage.images[index];
 	}
 	
 }
