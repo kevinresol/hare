@@ -46,24 +46,36 @@ class CommandParser
 				arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
 			}
 			
-			//set default color value to 0, if color command not found.
+			//set default color value to previous/default color code, if color command not found.
 			if (getTextColor(a.command) == -1 && getTextColorByHex(a.command) == -1)
 			{
-				arrfontColor.push(new Section<Int>(0,curFromIndex,curToIndex));
+				if (arrfontColor.length == 0) {
+					arrfontColor.push(new Section<Int>(0,curFromIndex,curToIndex));
+				}else {
+					arrfontColor[arrfontColor.length - 1].endIndex = curToIndex;
+				}
+				
 			}
 				
-			if(getTextSpeed(a.command) != -1){
+			if (getTextSpeed(a.command) != -1) {
 				curSpeed = getTextSpeed(a.command);
 				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(curSpeed), curFromIndex, curToIndex));
 			}
 			
-			if(getTextInstantDisplay(a.command) == true){
+			if (getTextInstantDisplay(a.command) == true) {
                 arrSpeed.push(new Section<SpeedAttribute>(SInstantDisplay,curFromIndex,curToIndex));
             }
 			
 			//set default speed value to 5, if speed command not found.
+			
 			if (getTextSpeed(a.command) == -1 && getTextInstantDisplay(a.command) == false) {
-				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(5),curFromIndex,curToIndex));
+				if (arrSpeed.length == 0) {
+					arrSpeed.push(new Section<SpeedAttribute>(SSpeed(5), curFromIndex, curToIndex));
+				}else if (arrSpeed[arrSpeed.length - 1].attribute != SInstantDisplay) {
+						arrSpeed[arrSpeed.length - 1].endIndex = curToIndex;
+				}else {
+					arrSpeed.push(new Section<SpeedAttribute>(SSpeed(5), curFromIndex, curToIndex));
+				}
 			}
 		}
 		return new Line(fullMsg,arrSpeed,arrfontColor);
@@ -90,7 +102,7 @@ class CommandParser
 		var r = ~/\/C\[([0-9]+)\]/;
 		if (r.match(mText))
 		{
-			return colorCodes[Std.parseInt(r.matched(1))-1];
+			return colorCodes[Std.parseInt(r.matched(1))];
 		}
 			return -1;
 	}

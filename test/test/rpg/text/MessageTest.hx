@@ -62,7 +62,7 @@ class MessageTest
 	@Test
 	public function testColorHex():Void
 	{
-		var message = new Message("/c[abcedf]This is /c[123456]some texts.");
+		var message = new Message("/c[abcdef]This is /c[123456]some texts.");
 		Assert.isTrue(message.lines.length == 1);
 		
 		var line = message.lines[0];
