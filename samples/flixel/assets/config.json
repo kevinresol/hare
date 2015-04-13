@@ -1,0 +1,11 @@
+{
+	"characters":[
+		{"name":"Harrison", "image":{"source":"$harrison2.png"}},		
+		{"name":"Pandora", "image":{"source":"4x2_Monster.png", "index":2}}
+	],
+	
+	"items":[
+		{"id":1, "name":"Folders"},
+		{"id":2, "name":"Key"}
+	]
+}

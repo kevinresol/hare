@@ -28,7 +28,6 @@ class Config
 			var image = character.image;
 			ConfigMacro.checkField("image", "source");
 			
-			image.source = "assets/images/character/" + image.source;
 			
 			if (character.image.index == null)
 				character.image.index = 0;
@@ -45,7 +44,7 @@ class Config
 	{
 		var character = data.characters.find(function(o) return o.name == name);
 		if (character == null)
-			engine.log("Character $name not defined in config.json", LError);
+			engine.log('Character $name not defined in config.json', LError);
 		return character.image;
 	}
 	

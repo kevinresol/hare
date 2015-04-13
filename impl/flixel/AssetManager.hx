@@ -1,7 +1,7 @@
 package impl.flixel ;
 import flixel.util.FlxSave;
 import openfl.Assets;
-
+using Lambda;
 /**
  * ...
  * @author Kevin
@@ -63,7 +63,8 @@ class AssetManager implements IAssetManager
 	
 	public function getConfig():String
 	{
-		return Assets.getText("assets/config.hxon");
+		var config = Assets.list().find(function(s) return s.indexOf("assets/config") != -1);
+		return Assets.getText(config);
 	}
 	
 	public function getMapData(id:Int):String 

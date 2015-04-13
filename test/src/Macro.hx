@@ -20,7 +20,7 @@ class Macro
 	
 	macro public static function getTestConfig():Expr
 	{
-		var file = Context.resolvePath("assets/config.hxon");
+		var file = Context.resolvePath("assets/config.json");
 		var s = File.getContent(file);
 		return macro $v{s};
 	}

@@ -148,3 +148,8 @@ class Image
 		return parent.images.indexOf(this);
 	}
 }
+
+enum ImageType
+{
+	ICharacter(filename:String);
+}

@@ -20,8 +20,13 @@ class ImageManager
 		packedImages = new Map(); 
 	}
 	
-	public function getPackedImage(source:String):PackedImage
+	public function getPackedImage(imageType:ImageType):PackedImage
 	{
+		var source = switch (imageType) 
+		{
+			case ICharacter(filename): 'assets/images/character/$filename';
+		}
+		
 		if (!packedImages.exists(source))
 		{
 			var dimension = engine.assetManager.getImageDimension(source);
@@ -31,13 +36,12 @@ class ImageManager
 		return packedImages[source];
 	}
 	
-	public function getImage(source:String, index:Int):Image
+	public function getImage(imageType:ImageType, index:Int):Image
 	{
-		var packedImage = getPackedImage(source);
+		var packedImage = getPackedImage(imageType);
 		
 		if (index >= packedImage.images.length) 
-			engine.log('index $index does not exist for the image $source', LError);
+			engine.log('index $index does not exist for the image ${packedImage.source}', LError);
 		return packedImage.images[index];
 	}
-	
 }

@@ -82,7 +82,7 @@ class Engine
 		// teleport player to place
 		if (map.player != null)
 		{
-			var image = imageManager.getImage(map.player.image.source, map.player.image.index);
+			var image = imageManager.getImage(ICharacter(map.player.image.source), map.player.image.index);
 			impl.createPlayer(image);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
 			impl.fadeInScreen(200);
@@ -95,11 +95,7 @@ class Engine
 	{
 		var data = try
 		{
-			var configString = assetManager.getConfig();
-			var parser = new Parser();
-			var ast = parser.parseString(configString);
-			var interp = new Interp();
-			interp.execute(ast);
+			Json.parse(assetManager.getConfig());
 		}
 		catch (e:Dynamic) 
 		{

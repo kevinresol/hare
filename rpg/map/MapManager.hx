@@ -54,7 +54,7 @@ class MapManager
 				else 
 				{ 
 					var i = engine.config.getCharacterImage(o.name);  
-					DCharacter(engine.imageManager.getImage(i.source, i.index)); 
+					DCharacter(engine.imageManager.getImage(ICharacter(i.source), i.index)); 
 				}
 				
 				var visible = (!o.custom.contains("visible") || o.custom.visible != "false");
