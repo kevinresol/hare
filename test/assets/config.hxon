@@ -1,5 +1,5 @@
 {
-	actors:[
+	characters:[
 		{name:"Test", image:{source:"nonexistent.png", index:2}},		
 		{name:"Pandora", image:{source:"$harrison2.png"}},
 	],

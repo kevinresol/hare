@@ -11,7 +11,7 @@ using Lambda;
 class Config
 {
 	public var items(get, null):Array<ItemData>;
-	public var actors(get, null):Array<ActorData>;
+	public var characters(get, null):Array<CharacterData>;
 	private var data:ConfigData;
 	private var engine:Engine;
 	
@@ -21,17 +21,17 @@ class Config
 		this.engine = engine;
 		
 		// data check
-		for (actor in data.actors)
+		for (character in data.characters)
 		{
-			ConfigMacro.checkField("actor", "name");
-			ConfigMacro.checkField("actor", "image");
-			var image = actor.image;
+			ConfigMacro.checkField("character", "name");
+			ConfigMacro.checkField("character", "image");
+			var image = character.image;
 			ConfigMacro.checkField("image", "source");
 			
-			image.source = "assets/images/actor/" + image.source;
+			image.source = "assets/images/character/" + image.source;
 			
-			if (actor.image.index == null)
-				actor.image.index = 0;
+			if (character.image.index == null)
+				character.image.index = 0;
 		}
 		
 		for (item in data.items)
@@ -41,12 +41,12 @@ class Config
 		}
 	}
 	
-	public function getActorImage(name:String):{source:String, index:Int}
+	public function getCharacterImage(name:String):{source:String, index:Int}
 	{
-		var actor = data.actors.find(function(o) return o.name == name);
-		if (actor == null)
-			engine.log("Actor $name not defined in config.json", LError);
-		return actor.image;
+		var character = data.characters.find(function(o) return o.name == name);
+		if (character == null)
+			engine.log("Character $name not defined in config.json", LError);
+		return character.image;
 	}
 	
 	private inline function get_items():Array<ItemData>
@@ -54,19 +54,19 @@ class Config
 		return data.items;
 	}
 	
-	private inline function get_actors():Array<ActorData>
+	private inline function get_characters():Array<CharacterData>
 	{
-		return data.actors;
+		return data.characters;
 	}
 }
 
 typedef ConfigData =
 {
-	actors:Array<ActorData>,
+	characters:Array<CharacterData>,
 	items:Array<ItemData>,
 }
 
-typedef ActorData = 
+typedef CharacterData = 
 {
 	name:String,
 	image:{source:String, ?index:Int},

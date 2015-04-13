@@ -1,7 +1,7 @@
 {
-	actors:[
-		{name:"Harrison", image:{source:"4x2_Monster.png", index:2}},		
-		{name:"Pandora", image:{source:"$harrison2.png"}},
+	characters:[
+		{name:"Harrison", image:{source:"$harrison2.png"}},		
+		{name:"Pandora", image:{source:"4x2_Monster.png", index:2}},
 	],
 	
 	items:[

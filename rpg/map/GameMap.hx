@@ -137,7 +137,7 @@ enum GameMapObjectType
 enum GameMapObjectDisplayType
 {
 	DTile(imageSource:String, tileId:Int);
-	DActor(image:Image);
+	DCharacter(image:Image);
 }
 
 enum EventTrigger

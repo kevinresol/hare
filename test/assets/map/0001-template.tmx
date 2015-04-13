@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="32" tileheight="32" nextobjectid="4">
  <tileset firstgid="1" name="Office_A5_Ground" tilewidth="32" tileheight="32">
-  <image source="../../images/Office_A5_Ground.png" width="256" height="64"/>
+  <image source="../images/Office_A5_Ground.png" width="256" height="64"/>
  </tileset>
  <tileset firstgid="17" name="wall" tilewidth="32" tileheight="32">
-  <image source="../../images/wall.png" width="96" height="64"/>
+  <image source="../images/wall.png" width="96" height="64"/>
  </tileset>
  <tileset firstgid="23" name="expandedAutotile" tilewidth="32" tileheight="32">
-  <image source="../../images/expandedAutotile.png" width="256" height="192"/>
+  <image source="../images/expandedAutotile.png" width="256" height="192"/>
   <terraintypes>
    <terrain name="Void" tile="-1"/>
   </terraintypes>
  </tileset>
  <tileset firstgid="71" name="passage" tilewidth="32" tileheight="32">
-  <image source="../../images/passage.png" width="128" height="128"/>
+  <image source="../images/passage.png" width="128" height="128"/>
  </tileset>
  <tileset firstgid="87" name="Office-B" tilewidth="32" tileheight="32">
-  <image source="../../images/Office-B.png" width="512" height="512"/>
+  <image source="../images/Office-B.png" width="512" height="512"/>
  </tileset>
  <layer name="Walls and Floor" width="5" height="5">
   <properties>

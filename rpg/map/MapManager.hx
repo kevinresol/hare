@@ -40,7 +40,7 @@ class MapManager
 			{
 				var tileset = tiledMap.getGidOwner(o.gid);
 				var imageSource = tileset.imageSource;
-				imageSource = StringTools.replace(imageSource, "../..", "assets");
+				imageSource = StringTools.replace(imageSource, "..", "assets");
 				var x = Std.int(o.x / tiledMap.tileWidth);
 				var y = Std.int(o.y / tiledMap.tileHeight) - 1;
 				
@@ -53,8 +53,8 @@ class MapManager
 					DTile(imageSource, tileset.fromGid(o.gid)) 
 				else 
 				{ 
-					var i = engine.config.getActorImage(o.name);  
-					DActor(engine.imageManager.getImage(i.source, i.index)); 
+					var i = engine.config.getCharacterImage(o.name);  
+					DCharacter(engine.imageManager.getImage(i.source, i.index)); 
 				}
 				
 				var visible = (!o.custom.contains("visible") || o.custom.visible != "false");
@@ -77,7 +77,7 @@ class MapManager
 						map.addEvent(o.id, x, y, layer, trigger, displayType, visible);
 					
 					case "player":
-						map.addPlayer(o.name, engine.config.getActorImage(o.name), x, y);
+						map.addPlayer(o.name, engine.config.getCharacterImage(o.name), x, y);
 					
 					default:
 						map.addObject(o.id, x, y, layer, displayType, visible);
@@ -136,7 +136,7 @@ class MapManager
 			{
 				var tileset = layer.map.getGidOwner(tile.tileID);
 				var imageSource = tileset.imageSource;
-				imageSource = StringTools.replace(imageSource, "../..", "assets"); // TODO remove hardcode path?
+				imageSource = StringTools.replace(imageSource, "..", "assets"); // TODO remove hardcode path?
 				
 				if (!result.data.exists(imageSource))
 					result.data.set(imageSource, [for(j in 0...layer.tiles.length) 0]);

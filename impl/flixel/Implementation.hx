@@ -370,7 +370,7 @@ class Implementation implements IImplementation
 	{
 		player = new FlxSprite();
 		
-		loadActorImage(player, image);
+		loadCharacterImage(player, image);
 	}
 	
 	public function teleportPlayer(map:GameMap, x:Int, y:Int, options:TeleportPlayerOptions):Void
@@ -492,8 +492,8 @@ class Implementation implements IImplementation
 						sprite.loadGraphic(imageSource, true, 32, 32);
 						sprite.animation.frameIndex = tileId - 1;
 						
-					case DActor(image):
-						loadActorImage(sprite, image);
+					case DCharacter(image):
+						loadCharacterImage(sprite, image);
 						
 				}
 				var index = Std.int(object.layer);
@@ -506,7 +506,7 @@ class Implementation implements IImplementation
 		
 	}
 	
-	private function loadActorImage(sprite:FlxSprite, image:Image):Void
+	private function loadCharacterImage(sprite:FlxSprite, image:Image):Void
 	{
 		
 		sprite.loadGraphic(image.source, true, image.frameWidth, image.frameHeight);

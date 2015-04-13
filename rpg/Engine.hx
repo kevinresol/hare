@@ -105,7 +105,7 @@ class Engine
 		{
 			log("Error in parsing config file:", LError);
 			log(Std.string(e), LError);
-			{ actors:[], items:[] };
+			{ characters:[], items:[] };
 		}
 		
 		config = new Config(data, this);
