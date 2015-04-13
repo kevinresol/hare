@@ -42,7 +42,7 @@ class CommandParser
 			}
 				
 			if(getTextColorByHex(a.command) != -1){
-				curColor = getTextColor(a.command);
+				curColor = getTextColorByHex(a.command);
 				arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
 			}
 			
