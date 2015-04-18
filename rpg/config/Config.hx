@@ -68,7 +68,13 @@ typedef ConfigData =
 typedef CharacterData = 
 {
 	name:String,
-	image:{source:String, ?index:Int},
+	?image:ImageData,
+}
+
+typedef ImageData = 
+{
+	source:String, 
+	?index:Int,
 }
 
 typedef ItemData =
