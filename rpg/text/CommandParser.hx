@@ -35,55 +35,48 @@ class CommandParser
 			curFromIndex = curToIndex + 1;
 			curToIndex = curToIndex + a.message.length;
 			fullMsg = fullMsg + a.message;
-			
-			if(getTextColor(a.command) != -1){
-				curColor = getTextColor(a.command);
-				arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
-			}
-				
-			if(getTextColorByHex(a.command) != -1){
-				curColor = getTextColorByHex(a.command);
-				arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
-			}
-			
-			//set default color value to previous/default color code, if color command not found.
-			if (getTextColor(a.command) == -1 && getTextColorByHex(a.command) == -1)
-			{
-				if (arrfontColor.length == 0) {
-					arrfontColor.push(new Section<Int>(0,curFromIndex,curToIndex));
-				}else {
-					arrfontColor[arrfontColor.length - 1].endIndex = curToIndex;
+			for ( c in a.command) {
+				switch (c.substr(0,2)) 
+				{
+					case "/S":
+						curSpeed = Std.parseInt(c.substring(3, c.length - 1));
+						arrSpeed.push(new Section<SpeedAttribute>(SSpeed(curSpeed), curFromIndex, curToIndex));
+					case "/c":
+						curColor = Std.parseInt("0x" + c.substring(3, c.length - 1));
+						arrfontColor.push(new Section<Int>(curColor,curFromIndex,curToIndex));
+					case "/C":
+						curColor = Std.parseInt(c.substring(3, c.length - 1));
+						arrfontColor.push(new Section<Int>(colorCodes[curColor],curFromIndex,curToIndex));
+					case "/>":
+						arrSpeed.push(new Section<SpeedAttribute>(SInstantDisplay,curFromIndex,curToIndex));
+					default:	
 				}
 				
+
 			}
-				
-			if (getTextSpeed(a.command) != -1) {
-				curSpeed = getTextSpeed(a.command);
+			
+			if (arrSpeed.length == 0) {
 				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(curSpeed), curFromIndex, curToIndex));
+			}else if (arrSpeed[arrSpeed.length - 1].attribute != SInstantDisplay) {
+				arrSpeed[arrSpeed.length - 1].endIndex = curToIndex;
+			}else {
+				arrSpeed.push(new Section<SpeedAttribute>(SSpeed(5), curToIndex + 1, a.message.length - 1 ));
 			}
 			
-			if (getTextInstantDisplay(a.command) == true) {
-                arrSpeed.push(new Section<SpeedAttribute>(SInstantDisplay,curFromIndex,curToIndex));
-            }
-			
-			//set default speed value to 5, if speed command not found.
-			
-			if (getTextSpeed(a.command) == -1 && getTextInstantDisplay(a.command) == false) {
-				if (arrSpeed.length == 0) {
-					arrSpeed.push(new Section<SpeedAttribute>(SSpeed(5), curFromIndex, curToIndex));
-				}else if (arrSpeed[arrSpeed.length - 1].attribute != SInstantDisplay) {
-						arrSpeed[arrSpeed.length - 1].endIndex = curToIndex;
-				}else {
-					arrSpeed.push(new Section<SpeedAttribute>(SSpeed(5), curFromIndex, curToIndex));
-				}
+			if (arrfontColor.length == 0) {
+				arrfontColor.push(new Section<Int>(0, curFromIndex, curToIndex));
+			}else {
+				arrfontColor[arrfontColor.length - 1].endIndex = curToIndex;
 			}
+			
 		}
 		return new Line(fullMsg,arrSpeed,arrfontColor);
 	}
 	
 	public function splitTokens():Array<Token>
 	{
-		var r = ~/(((\/[CcS]\[[a-fA-F0-9]+\]|(\/>))*)(([^\/>]+)+)(\/<)*)/;
+		var r = ~/(((\/[\w+]\[[a-fA-F0-9]+\]|(\/>))*)(([^\/>]+)+)(\/<)*)/;
+		var c = ~/\/ /;
 		var temp = rawText;
 		var arrayTokens = [];
 		while(r.match(temp))
@@ -91,9 +84,12 @@ class CommandParser
 			//trace("Command Part: " + r.matched(2));
 			//trace("Message Part: " + r.matched(5));
 			//trace("Full Token: " + r.matched(1));
-			arrayTokens.push({command:r.matched(2),message:r.matched(5)});
+			
+			//trace(c.split(r.matched(2)));
+			arrayTokens.push( { command:c.split(r.matched(2)), message:r.matched(5) } );
 			temp = temp.substr(r.matchedPos().len);
 		}
+		
 		return arrayTokens;
 	}
 	
@@ -140,7 +136,7 @@ class CommandParser
 
 typedef Token =
 {
-	command:String,
+	command:Array<String>,
 	message:String,
 }
 
