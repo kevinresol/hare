@@ -51,8 +51,6 @@ class CommandParser
 						arrSpeed.push(new Section<SpeedAttribute>(SInstantDisplay,curFromIndex,curToIndex));
 					default:	
 				}
-				
-
 			}
 			
 			if (arrSpeed.length == 0) {
@@ -91,46 +89,6 @@ class CommandParser
 		}
 		
 		return arrayTokens;
-	}
-	
-	private function getTextColor(mText:String):Int
-	{
-		var r = ~/\/C\[([0-9]+)\]/;
-		if (r.match(mText))
-		{
-			return colorCodes[Std.parseInt(r.matched(1))];
-		}
-			return -1;
-	}
-	
-	private function getTextColorByHex(mText:String):Int
-	{
-		var r = ~/\/c\[([a-fA-F0-9]+)\]/;
-		if (r.match(mText))
-		{
-			return Std.parseInt("0x"+r.matched(1));
-		}
-			return -1;
-	}
-	
-	private function getTextSpeed(mText:String):Int
-	{
-		var r = ~/\/S\[([0-9]+)\]/;
-		if (r.match(mText))
-		{
-			return Std.parseInt(r.matched(1));
-		}
-			return -1;
-	}
-	
-	private function getTextInstantDisplay(mText:String):Bool
-	{
-		var r = ~/\/>/;
-		if (r.match(mText))
-		{
-			return true;
-		}
-			return false;
 	}
 }
 
