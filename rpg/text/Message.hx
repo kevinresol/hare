@@ -158,12 +158,6 @@ class Line
 	{
 		return '\ntext:$text\nfontColor:$fontColor\nspeed:$speed\nbold:$bold\nitalic:$italic';
 	}
-	
-	@:allow(rpg.text.Message)
-	private function mergeSections():Void
-	{
-		
-	}
 }
 
 @:forward(length)
