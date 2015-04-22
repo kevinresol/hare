@@ -8,6 +8,7 @@ import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.Events;
+import rpg.image.Image;
 import rpg.input.InputManager.InputKey;
 
 /**
@@ -16,6 +17,8 @@ import rpg.input.InputManager.InputKey;
  */
 class DialogPanel extends FlxSpriteGroup
 {
+	private static inline var HEIGHT:Int = 116;
+	
 	/**
 	 * Text by default are shown letter by letter.
 	 * This Bool indicates if the text has been completely shown
@@ -37,6 +40,7 @@ class DialogPanel extends FlxSpriteGroup
 	private var text:Text;
 	private var message:String;
 	private var inputNumberPanel:InputNumberPanel;
+	private var faceSprite:FlxSprite;
 	
 	private var showTextListener:Int;
 	private var showChoicesListener:Int;
@@ -53,10 +57,10 @@ class DialogPanel extends FlxSpriteGroup
 	{
 		super();
 		
-		border = new Border(0, 0, 640, 150);
+		border = new Border(0, 0, 640, HEIGHT);
 		
 		
-		selector = new Selector(95, 40, 500, 25);
+		selector = new Selector(115, 40, 500, 25);
 		
 		downArrow = new FlxSprite();
 		downArrow.loadGraphic("assets/images/system/system.png", true, 16, 16);
@@ -69,7 +73,9 @@ class DialogPanel extends FlxSpriteGroup
 		background.origin.set();
 		background.alpha = 0.9;
 		
-		text = new Text(100, 15, 1000, "", 20);
+		text = new Text(120, 6, 1000, "", 20);
+		
+		faceSprite = new FlxSprite(10, 10);
 		
 		inputNumberPanel = new InputNumberPanel();
 		inputNumberPanel.y = -30;
@@ -77,6 +83,7 @@ class DialogPanel extends FlxSpriteGroup
 		add(background);
 		add(border);
 		add(text);
+		add(faceSprite);
 		add(selector);
 		add(downArrow);
 		add(inputNumberPanel);
@@ -84,7 +91,7 @@ class DialogPanel extends FlxSpriteGroup
 		visible = false;
 		scrollFactor.set();
 		x = (FlxG.width - 640) / 2;
-		y = FlxG.height - 150;
+		y = FlxG.height - HEIGHT;
 		
 		
 		showTextListener = Events.on("key.justPressed", function(key:InputKey)
@@ -192,7 +199,7 @@ class DialogPanel extends FlxSpriteGroup
 		Events.enable(showChoicesListener);
 	}
 	
-	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void
+	public function showText(callback:Void->Void, image:Image, message:String, options:ShowTextOptions):Void
 	{
 		visible = true;
 		selector.visible = false;
@@ -201,7 +208,15 @@ class DialogPanel extends FlxSpriteGroup
 		
 		showTextCallback = callback;
 		
-		this.message = message = (characterId == "" ? message : characterId + ": " + message);
+		if (image != null)
+		{
+			faceSprite.loadGraphic(image.source, true, image.frameWidth, image.frameHeight);
+			faceSprite.animation.frameIndex = image.index;
+		}
+		
+		faceSprite.visible = image != null;
+		
+		this.message = message;
 		text.text = "";
 		tween = FlxTween.num(0, message.length, message.length / 15, null, function(v) text.text = message.substr(0, Std.int(v)));
 		
@@ -240,8 +255,8 @@ class DialogPanel extends FlxSpriteGroup
 		y = switch (options.position) 
 		{
 			case PTop: 0;
-			case PCenter: (480 - 150) / 2;
-			case PBottom: 480 - 150;
+			case PCenter: (480 - HEIGHT) / 2;
+			case PBottom: 480 - HEIGHT;
 		}
 		
 		switch (options.background) 
@@ -252,7 +267,7 @@ class DialogPanel extends FlxSpriteGroup
 			case BDimmed:
 				background.alpha = 0.5;
 				background.setPosition(x, y);
-				background.setGraphicSize(640, 150);
+				background.setGraphicSize(640, HEIGHT);
 				border.visible = false;
 			case BNormal:
 				background.alpha = 0.9;
@@ -272,7 +287,7 @@ class DialogPanel extends FlxSpriteGroup
 		if (v < 0) v = numChoices - 1;
 		else if (v >= numChoices) v = 0;
 		
-		selector.y = y + 40 + 25 * v;
+		selector.y = y + 34 + 25 * v;
 		
 		return selected = v;
 	}

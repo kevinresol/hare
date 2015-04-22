@@ -51,7 +51,7 @@ class ScriptHost
 		engine.impl.fadeInBackgroundMusic(ms);
 	}
 	
-	public function showText(characterId:String, message:String, ?options:ShowTextOptions):Void
+	public function showText(imageStr:String, message:String, ?options:ShowTextOptions):Void
 	{
 		if (options == null)
 			options = {};
@@ -62,7 +62,14 @@ class ScriptHost
 		if (options.position == null)
 			options.position = PBottom;
 		
-		engine.impl.showText(resume, characterId, message, options);
+		var image = if (imageStr == "") null
+		else
+		{
+			var s = imageStr.split(",");
+			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
+			engine.imageManager.getImage(IFace(s.join(",")), index);
+		}
+		engine.impl.showText(resume, image, message, options);
 	}
 	
 	public function showChoices(prompt:String, choices:Array<ShowChoicesChoice>, ?options:ShowChoicesOptions)

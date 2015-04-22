@@ -68,11 +68,11 @@ interface IImplementation
 	/**
 	 * Show a piece of text
 	 * @param	callback	should be called by the implementation when the text is dismissed by player
-	 * @param	characterId
+	 * @param	image
 	 * @param	message
 	 * @param	options
 	 */
-	function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void;
+	function showText(callback:Void->Void, image:Image, message:String, options:ShowTextOptions):Void;
 	
 	/**
 	 * Prompt the user to select from a list of choices

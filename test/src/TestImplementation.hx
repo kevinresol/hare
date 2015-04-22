@@ -49,9 +49,9 @@ class TestImplementation implements IImplementation
 		callback();
 	}
 	
-	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void 
+	public function showText(callback:Void->Void, image:Image, message:String, options:ShowTextOptions):Void 
 	{
-		lastCalledCommand.set(Macro.getCurrentFunction(), [characterId, message, options]);
+		lastCalledCommand.set(Macro.getCurrentFunction(), [/*image, */message, options]);
 		callback();
 	}
 	

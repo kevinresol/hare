@@ -43,10 +43,10 @@ class ScriptTest
 	public function testMessage():Void
 	{
 		engine.eventManager.execute('message.showText("test1", "default options")');
-		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["test1", "default options", {background:"normal", position:"bottom"}]));
+		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["default options", {background:"normal", position:"bottom"}]));
 		
 		engine.eventManager.execute('message.showText("test2","provided options", {background="dimmed", position="top"})');
-		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["test2", "provided options", {background:"dimmed", position:"top"}]));
+		Assert.isTrue(impl.lastCalledCommand.is(impl.showText, ["provided options", {background:"dimmed", position:"top"}]));
 		
 		engine.eventManager.execute('message.showChoices("select",{{text="c1"},{text="c2"}})');
 		Assert.isTrue(impl.lastCalledCommand.is(impl.showChoices, ["select", [{text:"c1", disabled:false, hidden:false}, {text:"c2", disabled:false, hidden:false}], {background:"normal", position:"bottom"}]));

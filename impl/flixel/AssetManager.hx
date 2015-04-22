@@ -8,6 +8,8 @@ using Lambda;
  */
 class AssetManager implements IAssetManager
 {
+	public static var instance:AssetManager;
+	
 	private var maps:Map<Int, String>;
 	private var scripts:Map<Int, Map<Int, String>>;
 	private var musics:Map<Int, String>;
@@ -16,6 +18,8 @@ class AssetManager implements IAssetManager
 
 	public function new() 
 	{
+		instance = this;
+		
 		maps = new Map();
 		scripts = new Map();
 		musics = new Map();
@@ -118,7 +122,12 @@ class AssetManager implements IAssetManager
 	
 	public function getImageDimension(source:String):{width:Int, height:Int}
 	{
-		var b = Assets.getBitmapData(source);
-		return {width:b.width, height:b.height};
+		if (Assets.exists(source))
+		{
+			var b = Assets.getBitmapData(source);
+			return {width:b.width, height:b.height};
+		}
+		else
+			return null;
 	}
 }

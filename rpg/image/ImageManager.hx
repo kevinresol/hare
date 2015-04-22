@@ -22,16 +22,25 @@ class ImageManager
 	
 	public function getPackedImage(imageType:ImageType):PackedImage
 	{
+		var isSpriteSheet = false;
 		var source = switch (imageType) 
 		{
-			case ICharacter(filename): 'assets/images/character/$filename';
+			case ICharacter(filename): 
+				isSpriteSheet = true;
+				'assets/images/character/$filename';
+				
+			case IFace(filename): 
+				'assets/images/face/$filename';
 		}
 		
 		if (!packedImages.exists(source))
 		{
 			var dimension = engine.assetManager.getImageDimension(source);
-			var packedImage = new PackedImage(source, dimension.width, dimension.height, true); //TODO: check if it is spritesheet or not
-			packedImages[source] = packedImage;
+			if (dimension != null)
+			{
+				var packedImage = new PackedImage(source, dimension.width, dimension.height, isSpriteSheet);
+				packedImages[source] = packedImage;
+			}
 		}
 		return packedImages[source];
 	}
@@ -40,8 +49,12 @@ class ImageManager
 	{
 		var packedImage = getPackedImage(imageType);
 		
+		if (packedImage == null || packedImage.images == null)
+			return null;
+		
 		if (index >= packedImage.images.length) 
 			engine.log('index $index does not exist for the image ${packedImage.source}', LError);
+		
 		return packedImage.images[index];
 	}
 }

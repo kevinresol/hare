@@ -152,4 +152,5 @@ class Image
 enum ImageType
 {
 	ICharacter(filename:String);
+	IFace(filename:String);
 }

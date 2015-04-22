@@ -296,11 +296,10 @@ class Implementation implements IImplementation
 		sprite.animation.play(Direction.toString(dir));
 	}
 	
-	public function showText(callback:Void->Void, characterId:String, message:String, options:ShowTextOptions):Void
+	public function showText(callback:Void->Void, image:Image, message:String, options:ShowTextOptions):Void
 	{
 		checkCallback(callback);
-		dialogPanel.showText(callback, characterId, message, options);
-		
+		dialogPanel.showText(callback, image, message, options);
 	}
 	
 	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
