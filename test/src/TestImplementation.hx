@@ -55,7 +55,7 @@ class TestImplementation implements IImplementation
 		callback();
 	}
 	
-	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void 
+	public function showChoices(callback:Int->Void, image:Image, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void 
 	{
 		lastCalledCommand.set(Macro.getCurrentFunction(), [prompt, choices, options]);
 		callback(1);
@@ -166,7 +166,7 @@ class TestImplementation implements IImplementation
 		
 	}
 	
-	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int, options:InputNumberOptions):Void 
+	public function inputNumber(callback:Int->Void, image:Image, prompt:String, numDigit:Int, options:InputNumberOptions):Void 
 	{
 		
 	}
