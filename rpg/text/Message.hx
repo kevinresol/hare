@@ -51,12 +51,12 @@ class Message
 					
 					line.text += sectionText;
 					
-					line.speed.push(new Section(speed, startIndex, endIndex));
-					line.fontColor.push(new Section(fontColor, startIndex, endIndex));
+					line.speed.push(speed, startIndex, endIndex);
+					line.fontColor.push(fontColor, startIndex, endIndex);
 					//TODO: line.fontSize.push(new Section(fontColor, startIndex, endIndex));
 					//TODO: line.fontName.push(new Section(fontColor, startIndex, endIndex));
-					line.bold.push(new Section(bold, startIndex, endIndex));
-					line.italic.push(new Section(italic, startIndex, endIndex));
+					line.bold.push(bold, startIndex, endIndex);
+					line.italic.push(italic, startIndex, endIndex);
 					//TODO: line.borderColor.push(new Section(fontColor, startIndex, endIndex));
 					
 					startIndex += sectionLength;
@@ -170,18 +170,18 @@ class Line
 abstract Sections<T>(Array<Section<T>>) from Array<Section<T>>
 {
 	// override the push function, merge the to-be-pushed section with the prev section if the attribute are the same
-	public function push(section:Section<T>)
+	public function push(attr:T, startIndex:Int, endIndex:Int)
 	{
 		if (this.length > 0)
 		{
 			var prevSection = this[this.length - 1];
-			if (attributeEquals(prevSection.attribute, section.attribute))
+			if (attributeEquals(prevSection.attribute, attr))
 			{
-				prevSection.endIndex = section.endIndex;
+				prevSection.endIndex = endIndex;
 				return this.length;
 			}
 		}
-		return this.push(section);
+		return this.push(new Section(attr, startIndex, endIndex));
 	}
 	
 	@:arrayAccess
