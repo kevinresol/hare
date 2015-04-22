@@ -69,7 +69,7 @@ class Message
 				var parseParam = function():String // helper function for getting param for commands like "/C[1]"
 				{
 					pos = t.indexOf("]", nextPos);
-					return t.substr(nextPos + 3, pos - nextPos - 3);
+					return t.substring(t.indexOf("[", nextPos) + 1, pos);
 				}
 				
 				switch (t.charAt(nextPos + 1))
