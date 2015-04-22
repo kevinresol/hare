@@ -1,21 +1,21 @@
 message = {}
 
-message.showText = function(characterId, message, options)
-	host_showText(characterId, message, options)
+message.showText = function(image, message, options)
+	host_showText(image, message, options)
 	coroutine.yield()
 end
 
-message.showChoices = function(prompt, choices, options)
+message.showChoices = function(image, prompt, choices, options)
 	for i, choice in ipairs(choices) do
 		if choice.hidden == nil then choice.hidden = false end
 		if choice.disabled == nil then choice.disabled = false end
 	end
 	
-	host_showChoices(prompt, choices, options)
+	host_showChoices(image, prompt, choices, options)
 	return coroutine.yield()
 end
 
-message.inputNumber = function(prompt, numDigit, options)
-	host_inputNumber(prompt, numDigit, options)
+message.inputNumber = function(image, prompt, numDigit, options)
+	host_inputNumber(image, prompt, numDigit, options)
 	return coroutine.yield()
 end

@@ -72,7 +72,7 @@ class ScriptHost
 		engine.impl.showText(resume, image, message, options);
 	}
 	
-	public function showChoices(prompt:String, choices:Array<ShowChoicesChoice>, ?options:ShowChoicesOptions)
+	public function showChoices(imageStr:String, prompt:String, choices:Array<ShowChoicesChoice>, ?options:ShowChoicesOptions)
 	{
 		if (options == null)
 			options = {};
@@ -83,10 +83,17 @@ class ScriptHost
 		if (options.position == null)
 			options.position = PBottom;
 		
-		engine.impl.showChoices(resumeWithData, prompt, choices, options);
+		var image = if (imageStr == "") null
+		else
+		{
+			var s = imageStr.split(",");
+			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
+			engine.imageManager.getImage(IFace(s.join(",")), index);
+		}
+		engine.impl.showChoices(resumeWithData, image, prompt, choices, options);
 	}
 	
-	public function inputNumber(prompt:String, numDigit:Int, ?options:InputNumberOptions):Void
+	public function inputNumber(imageStr:String, prompt:String, numDigit:Int, ?options:InputNumberOptions):Void
 	{
 		if (options == null)
 			options = {};
@@ -97,7 +104,14 @@ class ScriptHost
 		if (options.position == null)
 			options.position = PBottom;
 		
-		engine.impl.inputNumber(resumeWithData, prompt, numDigit, options);
+		var image = if (imageStr == "") null
+		else
+		{
+			var s = imageStr.split(",");
+			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
+			engine.imageManager.getImage(IFace(s.join(",")), index);
+		}
+		engine.impl.inputNumber(resumeWithData, image, prompt, numDigit, options);
 	}
 	
 	public function fadeOutScreen(ms:Int):Void

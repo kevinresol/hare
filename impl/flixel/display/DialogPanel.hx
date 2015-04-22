@@ -177,7 +177,7 @@ class DialogPanel extends FlxSpriteGroup
 		Events.disable(inputNumberListener);
 	}
 	
-	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
+	public function showChoices(callback:Int->Void, image:Image, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
 	{
 		visible = true;
 		selector.visible = false;
@@ -187,6 +187,8 @@ class DialogPanel extends FlxSpriteGroup
 		showChoicesCallback = callback;
 		numChoices = choices.length;
 		selected = 0;
+		
+		handleFaceSprite(image);
 		
 		message = prompt;
 		for (c in choices)
@@ -208,13 +210,7 @@ class DialogPanel extends FlxSpriteGroup
 		
 		showTextCallback = callback;
 		
-		if (image != null)
-		{
-			faceSprite.loadGraphic(image.source, true, image.frameWidth, image.frameHeight);
-			faceSprite.animation.frameIndex = image.index;
-		}
-		
-		faceSprite.visible = image != null;
+		handleFaceSprite(image);
 		
 		this.message = message;
 		text.text = "";
@@ -223,7 +219,7 @@ class DialogPanel extends FlxSpriteGroup
 		Events.enable(showTextListener);
 	}
 	
-	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int, options:InputNumberOptions):Void
+	public function inputNumber(callback:Int->Void, image:Image, prompt:String, numDigit:Int, options:InputNumberOptions):Void
 	{
 		visible = true;
 		selector.visible = false;
@@ -231,6 +227,8 @@ class DialogPanel extends FlxSpriteGroup
 		handleOptions(options);
 		
 		inputNumberCallback = callback;
+		
+		handleFaceSprite(image);
 		
 		message = prompt;
 		text.text = "";
@@ -248,6 +246,17 @@ class DialogPanel extends FlxSpriteGroup
 			tween.cancel();
 		}
 		text.text = message;
+	}
+	
+	private function handleFaceSprite(image:Image):Void
+	{
+		if (image != null)
+		{
+			faceSprite.loadGraphic(image.source, true, image.frameWidth, image.frameHeight);
+			faceSprite.animation.frameIndex = image.index;
+		}
+		
+		faceSprite.visible = image != null;
 	}
 	
 	private function handleOptions(options:ShowTextOptions):Void

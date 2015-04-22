@@ -81,6 +81,6 @@ interface IImplementation
 	 * @param	choices
 	 * @param	options
 	 */
-	function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void;
-	function inputNumber(callback:Int->Void, prompt:String, numDigit:Int, options:InputNumberOptions):Void;
+	function showChoices(callback:Int->Void, image:Image, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void;
+	function inputNumber(callback:Int->Void, image:Image, prompt:String, numDigit:Int, options:InputNumberOptions):Void;
 }

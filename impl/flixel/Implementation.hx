@@ -302,16 +302,16 @@ class Implementation implements IImplementation
 		dialogPanel.showText(callback, image, message, options);
 	}
 	
-	public function showChoices(callback:Int->Void, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
+	public function showChoices(callback:Int->Void, image:Image, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
 	{
 		checkCallback(callback);
-		dialogPanel.showChoices(callback, prompt, choices, options);
+		dialogPanel.showChoices(callback, image, prompt, choices, options);
 	}
 	
-	public function inputNumber(callback:Int->Void, prompt:String, numDigit:Int, options:InputNumberOptions):Void
+	public function inputNumber(callback:Int->Void, image:Image, prompt:String, numDigit:Int, options:InputNumberOptions):Void
 	{
 		checkCallback(callback);
-		dialogPanel.inputNumber(callback, prompt, numDigit, options);
+		dialogPanel.inputNumber(callback, image, prompt, numDigit, options);
 	}
 	
 	public function log(message:String, level:LogLevel):Void 
