@@ -257,6 +257,7 @@ class DialogPanel extends FlxSpriteGroup
 		}
 		
 		faceSprite.visible = image != null;
+		text.x = image == null ? x : x + 120;
 	}
 	
 	private function handleOptions(options:ShowTextOptions):Void
