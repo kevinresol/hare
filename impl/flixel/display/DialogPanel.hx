@@ -34,7 +34,7 @@ class DialogPanel extends FlxSpriteGroup
 	 * The selector sprite for choices
 	 */
 	private var selector:Slice9Sprite;
-	private var background:FlxSprite;
+	private var background:Background;
 	private var downArrow:FlxSprite;
 	private var tween:FlxTween;
 	private var text:Text;
@@ -68,10 +68,7 @@ class DialogPanel extends FlxSpriteGroup
 		downArrow.animation.play("move");
 		downArrow.setPosition((640 - downArrow.width) / 2, 120);
 		
-		background = new FlxSprite();
-		background.loadGraphic("assets/images/system/system.png", true, 64, 64);
-		background.origin.set();
-		background.alpha = 0.9;
+		background = new Background();
 		
 		text = new Text(120, 6, 1000, "", 20);
 		
@@ -272,17 +269,19 @@ class DialogPanel extends FlxSpriteGroup
 		switch (options.background) 
 		{
 			case BTransparent:
-				background.alpha = 0;
+				background.alpha = 0.001; //TODO: Investigate why when setting alpha = 0 here will cause the bg not being displayed in other modes
 				border.visible = false;
 			case BDimmed:
 				background.alpha = 0.5;
+				background.hideStrips();
 				background.setPosition(x, y);
 				background.setGraphicSize(640, HEIGHT);
 				border.visible = false;
 			case BNormal:
-				background.alpha = 0.9;
+				background.alpha = 0.95;
+				background.showStrips();
 				background.setPosition(x + 5, y + 5);
-				background.setGraphicSize(630, 140);
+				background.setGraphicSize(630, HEIGHT - 10);
 				border.visible = true;
 		}
 	}
@@ -300,5 +299,65 @@ class DialogPanel extends FlxSpriteGroup
 		selector.y = y + 33 + 25 * v;
 		
 		return selected = v;
+	}
+}
+
+private class Background extends FlxSpriteGroup
+{
+	private var bgColor:FlxSprite;
+	private var strips:Array<FlxSprite>;
+	private var stripsVisible:Bool;
+	
+	public function new()
+	{
+		super();
+		
+		bgColor = new FlxSprite();
+		bgColor.loadGraphic("assets/images/system/system.png", true, 32, 32);
+		bgColor.animation.frameIndex = 4;
+		bgColor.origin.set();
+		add(bgColor);
+		
+		strips = [];
+	}
+	
+	public function showStrips():Void
+	{
+		stripsVisible = true;
+		for (s in strips) s.visible = true;
+	}
+	
+	public function hideStrips():Void
+	{
+		stripsVisible = false;
+		for (s in strips) s.visible = false;
+	}
+	
+	override public function setGraphicSize(width:Int = 0, height:Int = 0):Void 
+	{
+		bgColor.setGraphicSize(width, height);
+		
+		var numStrips = Std.int(height / 64) + 1;
+		var remainingHeight = height % 64;
+		
+		for (i in 0...(numStrips > strips.length ? numStrips : strips.length))
+		{
+			if (i < numStrips)
+			{
+				if (strips[i] == null)
+				{
+					var s = new FlxSprite(0, i * 64);
+					s.loadGraphic("assets/images/system/system.png", true, 64, 64); //TODO: now it overflows at the bottom, may need to define the frame explicitly using remainingHeight
+					s.animation.frameIndex = 2;
+					s.origin.set();
+					add(s);
+					strips[i] = s;
+				}
+				
+				var s = strips[i];
+				s.scale.x = width / s.frameWidth;
+			}
+			strips[i].visible = stripsVisible && i < numStrips;
+		}
 	}
 }
