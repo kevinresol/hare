@@ -17,6 +17,7 @@ import rpg.input.InputManager.InputKey;
  */
 class DialogPanel extends FlxSpriteGroup
 {
+	private static inline var WIDTH:Int = 550;
 	private static inline var HEIGHT:Int = 116;
 	
 	/**
@@ -57,20 +58,20 @@ class DialogPanel extends FlxSpriteGroup
 	{
 		super();
 		
-		border = new Border(0, 0, 640, HEIGHT);
+		border = new Border(0, 0, WIDTH, HEIGHT);
 		
 		
-		selector = new Selector(115, 40, 500, 25);
+		selector = new Selector(115, 40, WIDTH - 140, 25);
 		
 		downArrow = new FlxSprite();
 		downArrow.loadGraphic("assets/images/system/system.png", true, 16, 16);
 		downArrow.animation.add("move", [38, 39, 46, 47], 5);
 		downArrow.animation.play("move");
-		downArrow.setPosition((640 - downArrow.width) / 2, 120);
+		downArrow.setPosition((WIDTH - downArrow.width) / 2, 120);
 		
 		background = new Background();
 		
-		text = new Text(120, 6, 1000, "", 20);
+		text = new Text(0, 6, 1000, "", 20);
 		
 		faceSprite = new FlxSprite(10, 10);
 		
@@ -87,7 +88,7 @@ class DialogPanel extends FlxSpriteGroup
 		
 		visible = false;
 		scrollFactor.set();
-		x = (FlxG.width - 640) / 2;
+		x = (FlxG.width - WIDTH) / 2;
 		y = FlxG.height - HEIGHT;
 		
 		
@@ -275,14 +276,14 @@ class DialogPanel extends FlxSpriteGroup
 			case BDimmed:
 				background.bgColor.visible = true;
 				background.hideStrips();
-				background.setPosition(x, y);
-				background.setGraphicSize(640, HEIGHT);
+				background.setPosition(0, y);
+				background.setGraphicSize(FlxG.width, HEIGHT);
 				border.visible = false;
 			case BNormal:
 				background.bgColor.visible = true;
 				background.showStrips();
 				background.setPosition(x + 5, y + 5);
-				background.setGraphicSize(630, HEIGHT - 10);
+				background.setGraphicSize(WIDTH - 10, HEIGHT - 10);
 				border.visible = true;
 		}
 	}
