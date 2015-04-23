@@ -1,4 +1,5 @@
 package rpg.config;
+
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -19,6 +20,7 @@ class ConfigMacro
 		return genCheckFieldsExpr(data, fields);
 	}
 	
+	#if macro
 	private static function genCheckFieldsExpr(expr:Expr, fields:Array<ClassField>, ?fromFieldName:String = ""):Expr
 	{
 		var exprs = [];
@@ -127,4 +129,5 @@ class ConfigMacro
 				false;
 		}
 	}
+	#end
 }
