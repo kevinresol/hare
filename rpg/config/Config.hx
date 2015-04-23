@@ -19,7 +19,10 @@ class Config
 		this.data = data;
 		this.engine = engine;
 		
-		ConfigMacro.checkConfig(data, "rpg.config.Config.ConfigData");
+		// macro-generated checkings of the config file
+		var warningCallback = engine.log.bind(_, LInfo);
+		var errorCallback = engine.log.bind(_, LError);
+		ConfigMacro.checkConfig(data, "rpg.config.Config.ConfigData", warningCallback, errorCallback);
 	}
 	
 	public function getCharacterImage(name:String):{source:String, index:Int}

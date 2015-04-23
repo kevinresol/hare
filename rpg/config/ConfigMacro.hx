@@ -13,10 +13,17 @@ using haxe.macro.ExprTools;
  */
 class ConfigMacro
 {
-	macro public static function checkConfig(data:Expr, typePath:String):Expr
+	private static var warningCallback:Expr;
+	private static var errorCallback:Expr;
+	
+	macro public static function checkConfig(data:Expr, typePath:String, warningCallback:Expr, errorCallback:Expr):Expr
 	{
 		var configDataType = Context.getType(typePath);
 		var fields = getFields(configDataType);
+		
+		ConfigMacro.warningCallback = warningCallback;
+		ConfigMacro.errorCallback = errorCallback;
+		
 		return genCheckFieldsExpr(data, fields);
 	}
 	
@@ -54,7 +61,7 @@ class ConfigMacro
 			var verboseName = fromFieldName + name;
 			var optionalErrorMessage = "optional field: " + verboseName + " missing";
 			var errorMessage = "non-optional field: " + verboseName + " missing";
-			var missingCheck = optional ? macro trace($v{optionalErrorMessage}) : macro trace($v{errorMessage});
+			var missingCheck = optional ? macro $warningCallback($v{optionalErrorMessage}) : macro $errorCallback($v{errorMessage});
 			
 			if(isArray)
 				verboseName += "[n]";
@@ -66,7 +73,6 @@ class ConfigMacro
 				{
 					if (isArray)
 						macro for($i{name} in cast($expr.$name, Array<Dynamic>)) ${genCheckFieldsExpr(macro $i{name}, nestedFields, verboseName)};
-						
 					else
 						genCheckFieldsExpr(macro $expr.$name, nestedFields, verboseName);
 				}
@@ -74,21 +80,10 @@ class ConfigMacro
 					null;
 			
 			
-			if (optional)
-			{
-				if (isAnonObj)
-				{
-					exprs.push(macro if ($expr.$name == null) $missingCheck else $nestedFieldCheck);
-				}
-				else
-					exprs.push(macro if ($expr.$name == null) $missingCheck);
-			}
+			if (isAnonObj)
+				exprs.push(macro if ($expr.$name == null) $missingCheck else $nestedFieldCheck);
 			else
-			{
 				exprs.push(macro if ($expr.$name == null) $missingCheck);
-				if (isAnonObj)
-					exprs.push(nestedFieldCheck);
-			}
 		}
 		
 		return macro $b{exprs};
