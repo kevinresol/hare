@@ -269,16 +269,17 @@ class DialogPanel extends FlxSpriteGroup
 		switch (options.background) 
 		{
 			case BTransparent:
-				background.alpha = 0.001; //TODO: Investigate why when setting alpha = 0 here will cause the bg not being displayed in other modes
+				background.bgColor.visible = false;
+				background.hideStrips();
 				border.visible = false;
 			case BDimmed:
-				background.alpha = 0.5;
+				background.bgColor.visible = true;
 				background.hideStrips();
 				background.setPosition(x, y);
 				background.setGraphicSize(640, HEIGHT);
 				border.visible = false;
 			case BNormal:
-				background.alpha = 0.95;
+				background.bgColor.visible = true;
 				background.showStrips();
 				background.setPosition(x + 5, y + 5);
 				background.setGraphicSize(630, HEIGHT - 10);
@@ -304,7 +305,7 @@ class DialogPanel extends FlxSpriteGroup
 
 private class Background extends FlxSpriteGroup
 {
-	private var bgColor:FlxSprite;
+	public var bgColor:FlxSprite;
 	private var strips:Array<FlxSprite>;
 	private var stripsVisible:Bool;
 	
@@ -316,6 +317,7 @@ private class Background extends FlxSpriteGroup
 		bgColor.loadGraphic("assets/images/system/system.png", true, 32, 32);
 		bgColor.animation.frameIndex = 4;
 		bgColor.origin.set();
+		bgColor.alpha = 0.9;
 		add(bgColor);
 		
 		strips = [];
