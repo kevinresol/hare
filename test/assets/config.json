@@ -1,6 +1,6 @@
 {
 	"characters":[
-		{"name":"Test", "image":{"source":"$harrison2.png"}},		
+		{"name":"Test", "image":{"source":"$harrison2.png", "index":0}},		
 		{"name":"Pandora", "image":{"source":"4x2_Monster.png", "index":2}}
 	],
 	

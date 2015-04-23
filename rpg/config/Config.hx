@@ -1,7 +1,6 @@
 package rpg.config;
-#if macro
-import haxe.macro.Expr;
-#else
+
+import rpg.config.ConfigMacro;
 import rpg.Engine;
 using Lambda;
 /**
@@ -20,24 +19,7 @@ class Config
 		this.data = data;
 		this.engine = engine;
 		
-		// data check
-		for (character in data.characters)
-		{
-			ConfigMacro.checkField("character", "name");
-			ConfigMacro.checkField("character", "image");
-			var image = character.image;
-			ConfigMacro.checkField("image", "source");
-			
-			
-			if (character.image.index == null)
-				character.image.index = 0;
-		}
-		
-		for (item in data.items)
-		{
-			ConfigMacro.checkField("item", "id");
-			ConfigMacro.checkField("item", "name");
-		}
+		ConfigMacro.checkConfig(data, "rpg.config.Config.ConfigData");
 	}
 	
 	public function getCharacterImage(name:String):{source:String, index:Int}
@@ -82,15 +64,4 @@ typedef ItemData =
 	id:Int,
 	name:String,
 	?quantity:Int,
-}
-
-#end
-private class ConfigMacro
-{
-	macro public static function checkField(object:String, field:String):Expr
-	{
-		return macro 
-			if (!Reflect.hasField($i{object}, $v{field})) 
-				engine.log('field "$field" missing in $object: ' + $i{object}, LError);
-	}
 }
