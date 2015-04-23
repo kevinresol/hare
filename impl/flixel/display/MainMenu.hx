@@ -2,7 +2,6 @@ package impl.flixel.display;
 
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
-import flixel.tweens.FlxTween;
 import impl.flixel.Implementation;
 import openfl.system.System;
 import rpg.Events;
@@ -16,8 +15,6 @@ class MainMenu extends FlxSpriteGroup
 {
 	private var border:Slice9Sprite;
 	private var selector:Slice9Sprite;
-	
-	private var selectorTween:FlxTween;
 	
 	private var listener:Int;
 	private var selected(default, set):Int;
@@ -41,7 +38,6 @@ class MainMenu extends FlxSpriteGroup
 		}
 		selected = 0;
 		
-		selectorTween = FlxTween.num(1, 0.5, 0.5, { type:FlxTween.PINGPONG }, function(v) selector.alpha = v);
 		
 		add(border);
 		add(selector);
