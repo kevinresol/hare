@@ -193,7 +193,7 @@ class DialogPanel extends FlxSpriteGroup
 		message = prompt;
 		for (c in choices)
 		{
-			message += "\n" + c.text;
+			message += "\n  > " + c.text;
 		}
 		text.text = "";
 		tween = FlxTween.num(0, message.length, message.length / 15, {onComplete:function(t) selector.visible = true}, function(v) text.text = message.substr(0, Std.int(v)));
@@ -257,7 +257,7 @@ class DialogPanel extends FlxSpriteGroup
 		}
 		
 		faceSprite.visible = image != null;
-		text.x = image == null ? x : x + 120;
+		text.x = image == null ? x + 10 : x + 120;
 	}
 	
 	private function handleOptions(options:ShowTextOptions):Void
@@ -297,7 +297,7 @@ class DialogPanel extends FlxSpriteGroup
 		if (v < 0) v = numChoices - 1;
 		else if (v >= numChoices) v = 0;
 		
-		selector.y = y + 34 + 25 * v;
+		selector.y = y + 33 + 25 * v;
 		
 		return selected = v;
 	}
