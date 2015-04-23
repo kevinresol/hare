@@ -326,18 +326,16 @@ class Implementation implements IImplementation
 	}
 	
 	
-	@:access(flixel.system.FlxSound)
 	public function playSound(id:Int, volume:Float, pitch:Float):Void
 	{
 		var s = FlxG.sound.play(assetManager.getSound(id), volume);
-		s._channel.pitch = pitch;
+		s.pitch = pitch;
 	}
 	
-	@:access(flixel.system.FlxSound)
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
 	{
 		FlxG.sound.playMusic(assetManager.getMusic(id), volume);
-		FlxG.sound.music._channel.pitch = pitch;
+		FlxG.sound.music.pitch = pitch;
 	}
 	
 	public function playSystemSound(id:Int, volume:Float):Void
