@@ -4,10 +4,11 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 import haxe.macro.Type.ClassField;
-import haxe.macro.ComplexTypeTools;
-import haxe.macro.TypeTools;
 
+using Lambda;
+using haxe.macro.ComplexTypeTools;
 using haxe.macro.ExprTools;
+using haxe.macro.TypeTools;
 
 /**
  * ...
@@ -24,23 +25,13 @@ class ConfigMacro
 		var pos = Context.currentPos();
 		
 		// get the type of ConfigData
-		var complexType = null;
-		for (field in fields)
+		var complexType = switch (fields.find(function(f) return f.name == "data").kind) 
 		{
-			if (field.name == "data")
-			{
-				switch (field.kind) 
-				{
-					case FVar(t, e):
-						complexType = t;
-						break;
-					default:
-						
-				}
-			}
+			case FVar(t, e): t;
+			default: null;
 		}
 		
-		var type = ComplexTypeTools.toType(complexType);
+		var type = complexType.toType();
 		var dataFields = getFields(type);
 		
 		// for each field in ConfigData
@@ -52,7 +43,7 @@ class ConfigMacro
 			fields.push({
 				name:fieldName, 
 				access:[APublic], 
-				kind:FProp("get", "never", TypeTools.toComplexType(field.type), null),
+				kind:FProp("get", "never", field.type.toComplexType(), null),
 				pos:pos
 			});
 			
