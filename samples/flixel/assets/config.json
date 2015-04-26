@@ -1,4 +1,8 @@
 {
+	"mainMenu":{
+		"image":"IMG_0012.JPG"
+	},
+	
 	"characters":[
 		{"name":"Harrison", "image":{"source":"$harrison2.png"}},		
 		{"name":"Pandora", "image":{"source":"4x2_Monster.png", "index":2}}

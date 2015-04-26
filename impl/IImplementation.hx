@@ -1,11 +1,11 @@
 package impl ;
-import rpg.image.Image;
 import rpg.Engine;
 import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
 import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
+import rpg.image.Image;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
 import rpg.save.SaveManager.SaveDisplayData;
@@ -18,7 +18,7 @@ interface IImplementation
 {
 	var engine:Engine;
 	
-	function init():Void;
+	function init(mainMenuBackgroundImage:Image):Void;
 	
 	/* ===== System Functions ===== */
 	function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void;

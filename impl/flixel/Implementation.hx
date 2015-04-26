@@ -17,8 +17,6 @@ import impl.flixel.display.lighting.LightingSystem;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
 import impl.IImplementation;
-import rpg.image.Image;
-import openfl.Assets;
 import rpg.Engine;
 import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
@@ -27,6 +25,7 @@ import rpg.event.ScriptHost.ShowTextOptions;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.Events;
 import rpg.geom.Direction;
+import rpg.image.Image;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
 import rpg.save.SaveManager.SaveDisplayData;
@@ -131,8 +130,10 @@ class Implementation implements IImplementation
 		});
 	}
 	
-	public function init():Void
+	public function init(mainMenuBackgroundImage:Image):Void
 	{
+		mainMenu.setBackgroundImage(mainMenuBackgroundImage);
+		
 		#if mobile
 		virtualPad.buttonLeft.onUp.callback = engine.release.bind(KLeft);
 		virtualPad.buttonRight.onUp.callback = engine.release.bind(KRight);

@@ -29,7 +29,7 @@ class TestImplementation implements IImplementation
 		lastCalledCommand = new Command();
 	}
 	
-	public function init():Void
+	public function init(image:Image):Void
 	{
 		
 	}

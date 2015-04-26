@@ -151,6 +151,7 @@ class Image
 
 enum ImageType
 {
+	IMainMenu(filename:String);
 	ICharacter(filename:String);
 	IFace(filename:String);
 }

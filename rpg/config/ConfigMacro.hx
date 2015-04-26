@@ -4,6 +4,8 @@ import haxe.macro.Context;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 import haxe.macro.Type.ClassField;
+import haxe.macro.ComplexTypeTools;
+import haxe.macro.TypeTools;
 
 using haxe.macro.ExprTools;
 
@@ -15,6 +17,56 @@ class ConfigMacro
 {
 	private static var warningCallback:Expr;
 	private static var errorCallback:Expr;
+	
+	macro public static function build():Array<Field>
+	{
+		var fields = Context.getBuildFields();
+		var pos = Context.currentPos();
+		
+		// get the type of ConfigData
+		var complexType = null;
+		for (field in fields)
+		{
+			if (field.name == "data")
+			{
+				switch (field.kind) 
+				{
+					case FVar(t, e):
+						complexType = t;
+						break;
+					default:
+						
+				}
+			}
+		}
+		
+		var type = ComplexTypeTools.toType(complexType);
+		var dataFields = getFields(type);
+		
+		// for each field in ConfigData
+		for (field in dataFields)
+		{
+			var fieldName = field.name;
+			
+			// push a read-only field in Config
+			fields.push({
+				name:fieldName, 
+				access:[APublic], 
+				kind:FProp("get", "never", TypeTools.toComplexType(field.type), null),
+				pos:pos
+			});
+			
+			// push the corresponding getter in Config
+			fields.push({
+				name:'get_$fieldName', 
+				access:[APrivate, AInline], 
+				kind:FFun({args:[], ret:null, expr:macro return data.$fieldName}),
+				pos:pos
+			});
+		}
+		
+		return fields;
+	}
 	
 	macro public static function checkConfig(data:Expr, typePath:String, warningCallback:Expr, errorCallback:Expr):Expr
 	{

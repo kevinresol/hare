@@ -25,6 +25,9 @@ class ImageManager
 		var isSpriteSheet = false;
 		var source = switch (imageType) 
 		{
+			case IMainMenu(filename):
+				'assets/images/$filename';
+				
 			case ICharacter(filename): 
 				isSpriteSheet = true;
 				'assets/images/character/$filename';

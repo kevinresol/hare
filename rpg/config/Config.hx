@@ -7,10 +7,9 @@ using Lambda;
  * @author Kevin
  */
 
+@:build(rpg.config.ConfigMacro.build())
 class Config
 {
-	public var items(get, null):Array<ItemData>;
-	public var characters(get, null):Array<CharacterData>;
 	private var data:ConfigData;
 	private var engine:Engine;
 	
@@ -34,22 +33,19 @@ class Config
 			engine.log('Character $name not defined in config.json', LError);
 		return character.image;
 	}
-	
-	private inline function get_items():Array<ItemData>
-	{
-		return data.items;
-	}
-	
-	private inline function get_characters():Array<CharacterData>
-	{
-		return data.characters;
-	}
 }
 
 typedef ConfigData =
 {
+	?mainMenu:MainMenuData,
 	characters:Array<CharacterData>,
 	items:Array<ItemData>,
+}
+
+typedef MainMenuData = 
+{
+	?music:String,
+	?image:String,
 }
 
 typedef CharacterData = 

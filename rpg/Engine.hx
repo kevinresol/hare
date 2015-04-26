@@ -47,7 +47,6 @@ class Engine
 		this.assetManager = assetManager;
 		
 		impl.engine = this;
-		impl.init();
 		
 		delayedCalls = [];
 		called = [];
@@ -64,6 +63,14 @@ class Engine
 		loadConfig();
 		gameState = SMainMenu;
 		#end
+		
+		
+		var mainMenuBackgroundImage = 
+			if (config.mainMenu == null) 
+				null
+			else
+				imageManager.getImage(IMainMenu(config.mainMenu.image), 0);
+		impl.init(mainMenuBackgroundImage);
 	}
 	
 	/**

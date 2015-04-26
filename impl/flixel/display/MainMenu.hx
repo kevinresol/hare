@@ -1,10 +1,12 @@
 package impl.flixel.display;
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import impl.flixel.Implementation;
 import openfl.system.System;
 import rpg.Events;
+import rpg.image.Image;
 import rpg.input.InputManager.InputKey;
 
 /**
@@ -14,6 +16,7 @@ import rpg.input.InputManager.InputKey;
 class MainMenu extends FlxSpriteGroup
 {
 	private var border:Slice9Sprite;
+	private var background:FlxSprite;
 	private var selector:Slice9Sprite;
 	
 	private var listener:Int;
@@ -26,13 +29,21 @@ class MainMenu extends FlxSpriteGroup
 		super();
 		
 		border = new Border(0, 0, 180, 80);
+		border.x = (FlxG.width - border.width) / 2;
+		border.y = FlxG.height * 0.75;
+		
 		selector = new Selector(10, 10, 159, 20);
+		selector.x = border.x + 10;
+		
+		background = new FlxSprite();
+		background.makeGraphic(1, 1, 0);
+		add(background);
 		
 		var items = ["New Game", "Load Game", "Quit Game"];
 		for (i in 0...items.length)
 		{
 			var item = items[i];
-			var text = new Text(0, 9 + 19 * i, 170, item, 16);
+			var text = new Text(border.x, border.y + 9 + 19 * i, 170, item, 16);
 			text.alignment = CENTER;
 			add(text);
 		}
@@ -43,8 +54,6 @@ class MainMenu extends FlxSpriteGroup
 		add(selector);
 		
 		visible = false;
-		x = (FlxG.width - width) / 2;
-		y = FlxG.height * 0.75;
 		
 		listener = Events.on("key.justPressed", function(key:InputKey)
 		{
@@ -85,6 +94,12 @@ class MainMenu extends FlxSpriteGroup
 		Events.disable(listener);
 	}
 	
+	public function setBackgroundImage(image:Image):Void
+	{
+		if (image != null)
+			background.loadGraphic(image.source);
+	}
+	
 	public function show(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
 	{
 		visible = true;
@@ -99,7 +114,7 @@ class MainMenu extends FlxSpriteGroup
 		if (v < 0) v = 2;
 		else if (v >= 3) v = 0;
 		
-		selector.y = y + 11 + 19 * v;
+		selector.y = y + border.y + 11 + 19 * v;
 		
 		return selected = v;
 	}
