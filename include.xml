@@ -3,6 +3,7 @@
 	
 	
 	<assets path="assets/impl" rename="assets" />
+	<haxelib name="lua"/>
 	<haxedef name="hscriptPos"/>
 	
 </project>

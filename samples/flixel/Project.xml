@@ -36,7 +36,6 @@
 
 	<haxeflag name="-swf-lib" value="lib/crossbridge-lua.swc" if="flash" />
 	<haxelib name="flixel"/>
-	<haxelib name="lua"/>
 	<haxelib name="rpg-engine"/>
 	
 	<!--In case you want to use the addons package-->
