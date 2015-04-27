@@ -57,7 +57,7 @@ typedef CharacterData =
 typedef ImageData = 
 {
 	source:String, 
-	?index:Int,
+	index:Int,
 }
 
 typedef ItemData =
