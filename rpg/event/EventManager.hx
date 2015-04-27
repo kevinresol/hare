@@ -28,11 +28,6 @@ class EventManager
 		lua = new Lua();
 		lua.loadLibs(["base", "coroutine"]);
 		lua.setVars( {
-			game: {
-				variables: {},
-				eventVariables: {}
-			},
-			
 			// for events...
 			host_playSound: scriptHost.playSound,
 			host_playBackgroundMusic: scriptHost.playBackgroundMusic,
@@ -73,6 +68,16 @@ class EventManager
 		#end
 		
 		Events.on("map.switched", function(map) if(map != null) erasedEvents = []);
+	}
+	
+	public function reset():Void
+	{
+		lua.setVars({
+			game: {
+				variables: {},
+				eventVariables: {}
+			}
+		});
 	}
 	
 	public function update(elapsed:Float):Void

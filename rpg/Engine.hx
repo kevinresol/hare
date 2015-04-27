@@ -81,6 +81,10 @@ class Engine
 		// init items
 		itemManager.init(config.items);
 		
+		// reset game vars
+		eventManager.reset();
+		
+		// set game state
 		gameState = SGame;
 		
 		// always start game at map 1
