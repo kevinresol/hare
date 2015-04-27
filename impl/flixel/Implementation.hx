@@ -346,7 +346,8 @@ class Implementation implements IImplementation
 	
 	public function saveBackgroundMusic():Void
 	{
-		FlxG.sound.music.pause();
+		if(FlxG.sound.music != null)
+			FlxG.sound.music.pause();
 	}
 	
 	public function restoreBackgroundMusic():Void

@@ -202,6 +202,7 @@ class Engine
 		switch (v) 
 		{
 			case SMainMenu:
+				impl.saveBackgroundMusic();
 				mapManager.currentMap = null;
 				impl.showMainMenu(startGame, function() gameState = SLoadScreen);
 				
