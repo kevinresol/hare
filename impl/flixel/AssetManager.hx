@@ -28,13 +28,13 @@ class AssetManager implements IAssetManager
 		
 		for (asset in Assets.list())
 		{
-			if (asset.indexOf("assets/map/") >= 0)
+			if (asset.indexOf("assets/map/") >= 0 &&  ~/[0-9]{4}-.*(\.tmx)/.match(asset))
 			{
 				var f = asset.split("assets/map/")[1];
 				var id = Std.parseInt(f.split("-")[0]);
 				maps[id] = f;
 			}
-			else if (asset.indexOf("assets/script/") >= 0)
+			else if (asset.indexOf("assets/script/") >= 0 && ~/[0-9]{4}-[0-9]{4}-.*(\.lua)/.match(asset))
 			{
 				var f = asset.split("assets/script/")[1];
 				var s = f.split("-");
@@ -44,19 +44,19 @@ class AssetManager implements IAssetManager
 					scripts[mapId] = new Map();
 				scripts[mapId][eventId] = f;
 			}
-			else if (asset.indexOf("assets/music/") >= 0)
+			else if (asset.indexOf("assets/music/") >= 0 && ~/[0-9]{4}-.*(\.ogg)/.match(asset))
 			{
 				var f = asset.split("assets/music/")[1];
 				var id =  Std.parseInt(f.split("-")[0]);
 				musics[id] = f;
 			}
-			else if (asset.indexOf("assets/sounds/gameplay/") >= 0)
+			else if (asset.indexOf("assets/sounds/gameplay/") >= 0 && ~/[0-9]{4}-.*(\.ogg)/.match(asset))
 			{
 				var f = asset.split("assets/sounds/gameplay/")[1];
 				var id =  Std.parseInt(f.split("-")[0]);
 				sounds[id] = f;
 			}
-			else if (asset.indexOf("assets/sounds/system/") >= 0)
+			else if (asset.indexOf("assets/sounds/system/") >= 0 && ~/[0-9]{4}-.*(\.ogg)/.match(asset))
 			{
 				var f = asset.split("assets/sounds/system/")[1];
 				var id =  Std.parseInt(f.split("-")[0]);
