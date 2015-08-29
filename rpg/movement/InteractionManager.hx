@@ -160,11 +160,11 @@ class InteractionManager
 					{
 						case EOverlap:
 							if (object.position.x == player.position.x && object.position.y == player.position.y)
-								engine.eventManager.startEvent(id);
+								engine.eventManager.startEvent(engine.mapManager.currentMap.getScriptId(id));
 							
 						case ENearby:
 							if (isNeighbour(object.position.x, object.position.y, player.position.x, player.position.y))
-								engine.eventManager.startEvent(id);
+								engine.eventManager.startEvent(engine.mapManager.currentMap.getScriptId(id));
 								
 						default:
 					}

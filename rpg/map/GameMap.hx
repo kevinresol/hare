@@ -42,9 +42,9 @@ class GameMap
 		player = new Player(name, image, x, y);
 	}
 	
-	public function addEvent(id, x, y, layer, trigger, displayType, visible):Void
+	public function addEvent(id, x, y, layer, trigger, displayType, visible, scriptId):Void
 	{
-		objects.push(new GameMapObject(id, x, y, layer, OEvent(id, trigger), displayType, visible));
+		objects.push(new GameMapObject(id, x, y, layer, OEvent(id, trigger, scriptId), displayType, visible));
 	}
 	
 	public function addObject(id, x, y, layer, displayType, visible):Void
@@ -58,9 +58,24 @@ class GameMap
 		{
 			switch (o.type) 
 			{
-				case OEvent(eid, trigger):
+				case OEvent(eid, trigger, scriptId):
 					if(eid == id)
 						return trigger;
+				default:
+			}
+		}
+		return null;
+	}
+	
+	public function getScriptId(id):Int
+	{
+		for (o in objects)
+		{
+			switch (o.type) 
+			{
+				case OEvent(eid, trigger, scriptId):
+					if(eid == id)
+						return scriptId;
 				default:
 			}
 		}
@@ -122,7 +137,7 @@ class GameMapObject
 		return switch (type) 
 		{
 			case OObject(id): 'Object $id: ($x, $y)';
-			case OEvent(id, trigger):'Event $id: ($x, $y, $trigger)';
+			case OEvent(id, trigger, scriptId):'Event $id: ($x, $y, $trigger, $scriptId)';
 			default: "";
 		}
 	}
@@ -131,7 +146,7 @@ class GameMapObject
 enum GameMapObjectType
 {
 	OObject(id:Int);
-	OEvent(id:Int, trigger:EventTrigger);
+	OEvent(id:Int, trigger:EventTrigger, scriptId:Int);
 }
 
 enum GameMapObjectDisplayType

@@ -73,8 +73,10 @@ class MapManager
 							case "parallel": EParallel;
 							default: EAction;
 						}
-						
-						map.addEvent(o.id, x, y, layer, trigger, displayType, visible);
+						var scriptId:Int = o.id;
+						if (o.custom.contains("scriptId"))
+							scriptId = Std.parseInt(o.custom.scriptId);
+						map.addEvent(o.id, x, y, layer, trigger, displayType, visible, scriptId);
 					
 					case "player":
 						map.addPlayer(o.name, engine.config.getCharacterImage(o.name), x, y);

@@ -88,7 +88,7 @@ class EventManager
 			{
 				switch (object.type) 
 				{
-					case OEvent(_, trigger):
+					case OEvent(_, trigger, _):
 						switch (trigger) 
 						{
 							case EAutorun:
