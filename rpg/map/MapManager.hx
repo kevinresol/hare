@@ -15,15 +15,16 @@ class MapManager
 {
 	public var currentMap(default, set):GameMap;
 	
-	private var engine:Engine;
+	@inject
+	public  var engine:Engine;
+	
 	private var maps:Map<Int, GameMap>;
 	
 	@inject 
 	public var assets:Assets;
 	
-	public function new(engine:Engine) 
+	public function new() 
 	{
-		this.engine = engine;
 		maps = new Map();
 	}
 	
@@ -57,7 +58,7 @@ class MapManager
 					DTile(imageSource, tileset.fromGid(o.gid)) 
 				else 
 				{ 
-					var i = engine.config.getCharacterImage(o.name);  
+					var i = engine.config.getCharacterImage(o.name);
 					DCharacter(engine.imageManager.getImage(ICharacter(i.source), i.index)); 
 				}
 				

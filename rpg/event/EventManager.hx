@@ -12,6 +12,8 @@ import rpg.save.SaveManager.GameData;
 class EventManager
 {
 	public var currentEvent:Int = -1;
+	
+	@inject
 	public var scriptHost:ScriptHost;
 	
 	private var lua:Lua;
@@ -24,9 +26,9 @@ class EventManager
 	@inject
 	public var engine:Engine;
 	
-	public function new() 
+	@inject
+	public function new(scriptHost:ScriptHost) 
 	{
-		scriptHost = new ScriptHost(engine);
 		pendingTrigger = [];
 		
 		lua = new Lua();

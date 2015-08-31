@@ -17,8 +17,6 @@ class Sound extends Module
 		
 	}
 
-	 
-
 	public function playSystemSound(id:Int, volume:Float):Void
 	{
 		

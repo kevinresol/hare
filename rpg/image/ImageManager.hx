@@ -10,15 +10,15 @@ import rpg.impl.Assets;
  */
 class ImageManager
 {
-	private var engine:Engine;
+	@inject
+	public  var engine:Engine;
 	
 	private var packedImages:Map<String, PackedImage>;
 	@inject 
 	public var assets:Assets;
 	
-	public function new(engine:Engine) 
+	public function new() 
 	{
-		this.engine = engine;
 		
 		packedImages = new Map(); 
 	}

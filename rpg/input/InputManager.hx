@@ -15,11 +15,11 @@ class InputManager
 	public var enter(default, null):Bool;
 	public var esc(default, null):Bool;
 	
-	private var engine:Engine;
+	@inject
+	public  var engine:Engine;
 	
-	public function new(engine:Engine) 
+	public function new() 
 	{
-		this.engine = engine;
 	}
 	
 	/**

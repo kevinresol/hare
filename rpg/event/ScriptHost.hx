@@ -16,7 +16,9 @@ using Lambda;
  */
 class ScriptHost
 {
-	private var engine:Engine;
+	@inject
+	public  var engine:Engine;
+	
 	private var resume:Void->Void;
 	private var resumeWithData:Dynamic->Void;
 	@inject 
@@ -32,9 +34,8 @@ class ScriptHost
 	@inject 
 	public var system:System;
 	
-	public function new(engine:Engine) 
+	public function new() 
 	{
-		this.engine = engine;
 		resume = function() engine.eventManager.resume();
 		resumeWithData = function(data) engine.eventManager.resume(-1, data);
 	}

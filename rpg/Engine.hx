@@ -4,6 +4,7 @@ import haxe.Timer;
 import minject.Injector;
 import rpg.config.Config;
 import rpg.event.EventManager;
+import rpg.event.ScriptHost;
 import rpg.image.ImageManager;
 import rpg.impl.Assets;
 import rpg.impl.Game;
@@ -89,6 +90,7 @@ class Engine
 		
 		injector.map(MapManager).asSingleton();
 		injector.map(EventManager).asSingleton();
+		injector.map(ScriptHost).asSingleton();
 		injector.map(InputManager).asSingleton();
 		injector.map(InteractionManager).asSingleton();
 		injector.map(SaveManager).asSingleton();

@@ -332,8 +332,6 @@ class RpgState extends FlxState
 			engine.press(KEnter);
 		if (justPressed.ESCAPE)
 			engine.press(KEsc);
-			
-		
 	}
 	
 	/**
