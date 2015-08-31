@@ -67,7 +67,7 @@ class GameMap
 		return null;
 	}
 	
-	public function getScriptId(id):Int
+	public function getScriptId(id):Null<Int>
 	{
 		for (o in objects)
 		{
