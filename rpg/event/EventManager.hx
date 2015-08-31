@@ -14,7 +14,6 @@ class EventManager
 	public var currentEvent:Int = -1;
 	public var scriptHost:ScriptHost;
 	
-	private var engine:Engine;
 	private var lua:Lua;
 	private var erasedEvents:Array<Int>;
 	private var pendingTrigger:Array<Int>;
@@ -22,10 +21,11 @@ class EventManager
 	@inject
 	public var assets:Assets;
 	
-	public function new(engine:Engine) 
+	@inject
+	public var engine:Engine;
+	
+	public function new() 
 	{
-		this.engine = engine;
-		
 		scriptHost = new ScriptHost(engine);
 		pendingTrigger = [];
 		

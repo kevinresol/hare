@@ -8,12 +8,12 @@ import flixel.FlxG;
  */
 class Sound extends rpg.impl.Sound
 {
-	var assets:Assets;
+	@inject
+	public var assets:Assets;
 	
-	public function new(impl,assets:Assets) 
+	public function new() 
 	{
 		super();
-		this.assets = assets;
 	}
 	
 	

@@ -20,17 +20,15 @@ class InteractionManager
 	public var movementEnabled:Bool = true;
 	public var objects:Array<MovableObject>; //TODO: rename Player class
 	
-	private var engine:Engine;
+	@inject
+	public var engine:Engine;
 	
 	@inject
 	public var movement:Movement;
 	
-	
-	
+	@inject
 	public function new(engine:Engine) 
 	{
-		this.engine = engine;
-		
 		player = new MovableObject(MPlayer);
 		
 		movementKeyListener = Events.on("key.justPressed", function(key:InputKey)

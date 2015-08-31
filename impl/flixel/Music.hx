@@ -7,12 +7,12 @@ import flixel.FlxG;
  */
 class Music extends rpg.impl.Music
 {
-	var assets:Assets;
+	@inject
+	public var assets:Assets;
 	
-	public function new(impl,assets:Assets) 
+	public function new() 
 	{
 		super();
-		this.assets = assets;
 	}
 	
 	override public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void

@@ -3,14 +3,12 @@ import haxe.Serializer;
 import haxe.Unserializer;
 import rpg.config.Config;
 import rpg.config.Config.ItemData;
-import rpg.Engine;
 import rpg.event.EventManager;
 import rpg.geom.Direction;
 import rpg.geom.IntPoint;
 import rpg.image.ImageManager;
 import rpg.impl.Assets;
-import rpg.impl.Game;
-import rpg.impl.Implementation;
+import rpg.impl.Renderer;
 import rpg.item.ItemManager;
 import rpg.map.MapManager;
 import rpg.movement.InteractionManager;
@@ -25,7 +23,7 @@ class SaveManager
 	public var displayData(get, never):Array<SaveDisplayData>;
 	
 	@inject
-	public var game:Game;
+	public var renderer:Renderer;
 	
 	@inject 
 	public var assets:Assets;
@@ -85,7 +83,7 @@ class SaveManager
 			itemManager.init(data.items);
 			var playerImage = config.getCharacterImage(data.playerName);
 			var image = imageManager.getImage(ICharacter(playerImage.source), playerImage.index);
-			game.createPlayer(image);
+			renderer.createPlayer(image);
 			eventManager.scriptHost.teleportPlayer(data.mapId, data.playerPosition.x, data.playerPosition.y, { facing:Direction.toString(data.playerFacing) } );
 		}
 	}

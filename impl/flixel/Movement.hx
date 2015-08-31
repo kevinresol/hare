@@ -21,20 +21,15 @@ class Movement extends rpg.impl.Movement
 {
 	@inject
 	public var system:System;
+	@inject
+	public var renderer:Renderer;
 	
 	@inject
 	public var engine:Engine;
-	
-	var player:FlxSprite;
-	var objects:Map<Int, Object>;
-	var hudCamera:FlxCamera;
 
-	public function new(impl,player,objects,hudCamera) 
+	public function new() 
 	{
 		super();
-		this.player = player;
-		this.objects = objects;
-		this.hudCamera = hudCamera;
 	}
 	
 	override public function moveObject(callback:Void->Bool, type:MovableObjectType, dx:Int, dy:Int, speed:Float):Void
@@ -43,8 +38,8 @@ class Movement extends rpg.impl.Movement
 		
 		var sprite = switch (type) 
 		{
-			case MPlayer: player;
-			case MEvent(id): objects[id].sprite;
+			case MPlayer: renderer.player;
+			case MEvent(id): renderer.objects[id].sprite;
 		}
 		
 		var speed = engine.currentMap.tileWidth * speed;
@@ -70,7 +65,7 @@ class Movement extends rpg.impl.Movement
 				sprite.y = Math.round(sprite.y / map.tileHeight) * map.tileHeight;
 				if (!callback())
 				{
-					sprite.animation.play(StringTools.replace(player.animation.name, "walking-", ""));
+					sprite.animation.play(StringTools.replace(renderer.player.animation.name, "walking-", ""));
 				}
 			}} 
 		);
@@ -81,8 +76,8 @@ class Movement extends rpg.impl.Movement
 	{
 		var sprite = switch (type) 
 		{
-			case MPlayer: player;
-			case MEvent(id): objects[id] == null ? return : objects[id].sprite;
+			case MPlayer: renderer.player;
+			case MEvent(id): renderer.objects[id] == null ? return : renderer.objects[id].sprite;
 		}
 		sprite.animation.play(Direction.toString(dir));
 	}
@@ -102,21 +97,21 @@ class Movement extends rpg.impl.Movement
 			
 			for (camera in FlxG.cameras.list)
 			{
-				if (camera != hudCamera)
+				if (camera != renderer.hudCamera)
 				{
-					camera.follow(player, LOCKON);
+					camera.follow(renderer.player, LOCKON);
 					camera.setScrollBoundsRect(x, y, w, h);
 				}
 			}
 		}
 		
-		player.x = x * map.tileWidth;
-		player.y = y * map.tileHeight;
+		renderer.player.x = x * map.tileWidth;
+		renderer.player.y = y * map.tileHeight;
 		
 		switch (options.facing) 
 		{
 			case FRetain: // do nothing
-			default: player.animation.play(options.facing);
+			default: renderer.player.animation.play(options.facing);
 		}
 	}
 }

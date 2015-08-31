@@ -14,7 +14,7 @@ class Assets extends rpg.impl.Assets
 	private var sounds:Map<Int, String>;
 	private var systemSounds:Map<Int, String>;
 
-	public function new(impl) 
+	public function new() 
 	{
 		super();
 		

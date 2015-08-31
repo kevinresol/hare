@@ -13,29 +13,29 @@ import rpg.util.Tools;
  */
 class Message extends rpg.impl.Message
 {
-	var dialogPanel:DialogPanel;
+	@inject
+	public var renderer:Renderer;
 	
-	public function new(impl, dialogPanel:DialogPanel) 
+	public function new() 
 	{
 		super();
-		this.dialogPanel = dialogPanel;
 	}
 	
 	override public function showText(callback:Void->Void, image:Image, message:String, options:ShowTextOptions):Void
 	{
 		Tools.checkCallback(callback);
-		dialogPanel.showText(callback, image, message, options);
+		renderer.dialogPanel.showText(callback, image, message, options);
 	}
 	
 	override public function showChoices(callback:Int->Void, image:Image, prompt:String, choices:Array<ShowChoicesChoice>, options:ShowChoicesOptions):Void
 	{
 		Tools.checkCallback(callback);
-		dialogPanel.showChoices(callback, image, prompt, choices, options);
+		renderer.dialogPanel.showChoices(callback, image, prompt, choices, options);
 	}
 	
 	override public function inputNumber(callback:Int->Void, image:Image, prompt:String, numDigit:Int, options:InputNumberOptions):Void
 	{
 		Tools.checkCallback(callback);
-		dialogPanel.inputNumber(callback, image, prompt, numDigit, options);
+		renderer.dialogPanel.inputNumber(callback, image, prompt, numDigit, options);
 	}
 }

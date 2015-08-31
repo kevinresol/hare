@@ -2,7 +2,6 @@ package;
 
 import flixel.FlxState;
 import impl.flixel.Assets;
-import impl.flixel.Implementation;
 import rpg.Engine;
 
 /**

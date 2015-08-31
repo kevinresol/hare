@@ -1,4 +1,5 @@
 package rpg.impl;
+import minject.Injector;
 
 /**
  * ...
@@ -6,6 +7,8 @@ package rpg.impl;
  */
 class Module
 {
+	@inject
+	public var injector:Injector;
 
 	public function new() 
 	{

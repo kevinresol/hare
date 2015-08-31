@@ -22,79 +22,62 @@ import rpg.save.SaveManager.SaveDisplayData;
  */
 class System extends rpg.impl.System
 {
-	var layers:Array<FlxTypedGroup<FlxObject>>;
-	var mainMenu:MainMenu;
-	var gameMenu:GameMenu;
-	var saveLoadScreen:SaveLoadScreen;
-	var gameCamera:FlxCamera;
-	var player:FlxSprite;
-	var objects:Map<Int, Object>;
+	@inject
+	public var renderer:Renderer;
 	
-	var gameLayer:FlxGroup;
-	
-	public function new(impl,layers,mainMenu,gameMenu,saveLoadScreen,gameCamera,player,gameLayer,objects) 
+	public function new() 
 	{
 		super();
-		this.layers = layers;
-		this.gameLayer = gameLayer;
-		
-		this.mainMenu = mainMenu;
-		this.gameMenu = gameMenu;
-		this.saveLoadScreen = saveLoadScreen;
-		this.gameCamera = gameCamera;
-		
-		this.player = player;
-		this.objects = objects;
 	}
 	
 	override public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void
 	{
-		if(layers[2] != null)
-			layers[2].remove(player, true);
+		if(renderer.layers[2] != null)
+			renderer.layers[2].remove(renderer.player, true);
 		
-		while(layers.length > 0)
-			layers.pop().destroy();
+		while(renderer.layers.length > 0)
+			renderer.layers.pop().destroy();
 		
-		gameLayer.clear();
+		renderer.gameLayer.clear();
 		
-		mainMenu.show(startGameCallback, loadGameCallback);
-		gameCamera.visible = false;
+		renderer.mainMenu.show(startGameCallback, loadGameCallback);
+		renderer.gameCamera.visible = false;
 	}
 	
 	override public function hideMainMenu():Void
 	{
-		mainMenu.visible = false;
-		gameCamera.visible = true;
+		renderer.mainMenu.visible = false;
+		renderer.gameCamera.visible = true;
 	}
 	
 	override public function showGameMenu(callback:GameMenuAction->Void, cancelCallback:Void->Void):Void
 	{
-		gameMenu.show(callback, cancelCallback);
+		renderer.gameMenu.show(callback, cancelCallback);
 	}
 	
 	override public function hideGameMenu():Void
 	{
-		gameMenu.visible = false;
+		renderer.gameMenu.visible = false;
 	}
 	
 	override public function showSaveScreen(saveGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
-		saveLoadScreen.showSaveScreen(saveGameCallback, cancelCallback, data);
+		renderer.saveLoadScreen.showSaveScreen(saveGameCallback, cancelCallback, data);
 	}
 	
 	override public function hideSaveScreen():Void
 	{
-		saveLoadScreen.visible = false;
+		renderer.saveLoadScreen.visible = false;
 	}
 	
 	override public function showLoadScreen(loadGameCallback:Int->Void, cancelCallback:Void->Void, data:Array<SaveDisplayData>):Void
 	{
-		saveLoadScreen.showLoadScreen(loadGameCallback, cancelCallback, data);
+		renderer.saveLoadScreen.showLoadScreen(loadGameCallback, cancelCallback, data);
 	}
 	
 	override public function hideLoadScreen():Void
 	{
-		saveLoadScreen.visible = false;
+		renderer.saveLoadScreen.visible = false;
 	}
 	
 	override public function log(message:String, level:LogLevel):Void 

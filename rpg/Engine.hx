@@ -85,6 +85,8 @@ class Engine
 		injector = new Injector();
 		injector.map(Engine).toValue(this);
 		
+		injector.map(Injector).toValue(injector);
+		
 		injector.map(MapManager).asSingleton();
 		injector.map(EventManager).asSingleton();
 		injector.map(InputManager).asSingleton();
@@ -93,15 +95,17 @@ class Engine
 		injector.map(ItemManager).asSingleton();
 		injector.map(ImageManager).asSingleton();
 		
-		injector.map(rpg.impl.Assets).toSingleton(options.assets);
-		injector.map(rpg.impl.Message).toSingleton(options.message);
-		injector.map(rpg.impl.Movement).toSingleton(options.movement);
-		injector.map(rpg.impl.Music).toSingleton(options.music);
-		injector.map(rpg.impl.Screen).toSingleton(options.screen);
-		injector.map(rpg.impl.Sound).toSingleton(options.sound);
-		injector.map(rpg.impl.System).toSingleton(options.system);
-		injector.map(rpg.impl.Game).toSingleton(options.game);
-		injector.map(rpg.impl.Renderer).toSingleton(options.renderer);
+		// map modules to singleton (e.g. both rpg.impl.Assets and options.assets map to the same singleton)
+		injector.map(rpg.impl.Assets).toMapping(   	injector.mapRuntimeTypeOf(options.assets).toSingleton(options.assets)     );
+		injector.map(rpg.impl.Message).toMapping(	injector.mapRuntimeTypeOf(options.message).toSingleton(options.message)   );
+		injector.map(rpg.impl.Movement).toMapping(	injector.mapRuntimeTypeOf(options.movement).toSingleton(options.movement) );
+		injector.map(rpg.impl.Music).toMapping(		injector.mapRuntimeTypeOf(options.music).toSingleton(options.music)       );
+		injector.map(rpg.impl.Screen).toMapping(   	injector.mapRuntimeTypeOf(options.screen).toSingleton(options.screen)     );
+		injector.map(rpg.impl.Sound).toMapping(		injector.mapRuntimeTypeOf(options.sound).toSingleton(options.sound)       );
+		injector.map(rpg.impl.System).toMapping(	injector.mapRuntimeTypeOf(options.system).toSingleton(options.system)     );
+		injector.map(rpg.impl.Game).toMapping(		injector.mapRuntimeTypeOf(options.game).toSingleton(options.game)         );
+		injector.map(rpg.impl.Renderer).toMapping(	injector.mapRuntimeTypeOf(options.renderer).toSingleton(options.renderer) );
+		
 		
 		injector.injectInto(this);
 		
@@ -156,7 +160,7 @@ class Engine
 		if (map.player != null)
 		{
 			var image = imageManager.getImage(ICharacter(map.player.image.source), map.player.image.index);
-			game.createPlayer(image);
+			renderer.createPlayer(image);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
 			screen.fadeInScreen(200);
 		}

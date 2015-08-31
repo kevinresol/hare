@@ -1,5 +1,6 @@
 package rpg.impl;
 import rpg.image.Image;
+import rpg.map.GameMap;
 
 /**
  * ...
@@ -14,6 +15,16 @@ class Renderer extends Module
 	}
 	
 	public function init(mainMenuBackgroundImage:Image):Void
+	{
+		
+	}
+	
+	public function switchMap(map:GameMap):Void
+	{
+		
+	}
+	
+	public function createPlayer(image:Image):Void
 	{
 		
 	}
