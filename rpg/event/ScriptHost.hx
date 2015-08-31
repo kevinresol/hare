@@ -1,6 +1,12 @@
 package rpg.event;
 import rpg.Engine;
 import rpg.geom.Direction;
+import rpg.impl.Message;
+import rpg.impl.Movement;
+import rpg.impl.Music;
+import rpg.impl.Screen;
+import rpg.impl.Sound;
+import rpg.impl.System;
 import rpg.movement.InteractionManager;
 
 using Lambda;
@@ -13,6 +19,18 @@ class ScriptHost
 	private var engine:Engine;
 	private var resume:Void->Void;
 	private var resumeWithData:Dynamic->Void;
+	@inject 
+	public var sound:Sound;
+	@inject 
+	public var music:Music;
+	@inject 
+	public var message:Message;
+	@inject 
+	public var screen:Screen;
+	@inject 
+	public var movement:Movement;
+	@inject 
+	public var system:System;
 	
 	public function new(engine:Engine) 
 	{
@@ -23,32 +41,32 @@ class ScriptHost
 	
 	public function playSound(id:Int, volume:Float, pitch:Float):Void
 	{
-		engine.impl.sound.playSound(id, volume, pitch);
+		sound.playSound(id, volume, pitch);
 	}
 	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
 	{
-		engine.impl.music.playBackgroundMusic(id, volume, pitch);
+		music.playBackgroundMusic(id, volume, pitch);
 	}
 	
 	public function saveBackgroundMusic():Void
 	{
-		engine.impl.music.saveBackgroundMusic();
+		music.saveBackgroundMusic();
 	}
 	
 	public function restoreBackgroundMusic():Void
 	{
-		engine.impl.music.restoreBackgroundMusic();
+		music.restoreBackgroundMusic();
 	}
 	
 	public function fadeOutBackgroundMusic(ms:Int):Void
 	{
-		engine.impl.music.fadeOutBackgroundMusic(ms);
+		music.fadeOutBackgroundMusic(ms);
 	}
 	
 	public function fadeInBackgroundMusic(ms:Int):Void
 	{
-		engine.impl.music.fadeInBackgroundMusic(ms);
+		music.fadeInBackgroundMusic(ms);
 	}
 	
 	public function showText(imageStr:String, message:String, ?options:ShowTextOptions):Void
@@ -69,7 +87,7 @@ class ScriptHost
 			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
 			engine.imageManager.getImage(IFace(s.join(",")), index);
 		}
-		engine.impl.message.showText(resume, image, message, options);
+		this.message.showText(resume, image, message, options);
 	}
 	
 	public function showChoices(imageStr:String, prompt:String, choices:Array<ShowChoicesChoice>, ?options:ShowChoicesOptions)
@@ -90,7 +108,7 @@ class ScriptHost
 			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
 			engine.imageManager.getImage(IFace(s.join(",")), index);
 		}
-		engine.impl.message.showChoices(resumeWithData, image, prompt, choices, options);
+		message.showChoices(resumeWithData, image, prompt, choices, options);
 	}
 	
 	public function inputNumber(imageStr:String, prompt:String, numDigit:Int, ?options:InputNumberOptions):Void
@@ -111,17 +129,17 @@ class ScriptHost
 			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
 			engine.imageManager.getImage(IFace(s.join(",")), index);
 		}
-		engine.impl.message.inputNumber(resumeWithData, image, prompt, numDigit, options);
+		message.inputNumber(resumeWithData, image, prompt, numDigit, options);
 	}
 	
 	public function fadeOutScreen(ms:Int):Void
 	{
-		engine.impl.screen.fadeOutScreen(ms);
+		screen.fadeOutScreen(ms);
 	}
 	
 	public function fadeInScreen(ms:Int):Void
 	{
-		engine.impl.screen.fadeInScreen(ms);
+		screen.fadeInScreen(ms);
 	}
 	
 	public function changeFacing(target:String, facing:String):Void
@@ -133,13 +151,13 @@ class ScriptHost
 			default: MPlayer;
 		}
 		
-		engine.impl.movement.changeObjectFacing(t, Direction.fromString(facing));
+		movement.changeObjectFacing(t, Direction.fromString(facing));
 	}
 	
 	public function teleportPlayer(mapId:Int, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
 		var map = engine.mapManager.getMap(mapId);
-		engine.impl.movement.teleportPlayer(map, x, y, options);
+		movement.teleportPlayer(map, x, y, options);
 		engine.mapManager.currentMap = map;
 		engine.interactionManager.player.map = map;
 		engine.interactionManager.player.position.set(x, y);
@@ -210,7 +228,7 @@ class ScriptHost
 						
 						if (force || engine.interactionManager.checkPassage(type, dx, dy))
 						{
-							engine.impl.movement.moveObject(function()
+							movement.moveObject(function()
 							{
 								target.position.x += dx;
 								target.position.y += dy;
@@ -220,13 +238,13 @@ class ScriptHost
 						}
 						else
 						{
-							engine.impl.movement.changeObjectFacing(type, dir);
+							movement.changeObjectFacing(type, dir);
 							engine.delayedCall(runNextCommand, 1);
 						}
 						
 					case CFace(dir):
 						target.facing = dir;
-						engine.impl.movement.changeObjectFacing(type, dir);
+						movement.changeObjectFacing(type, dir);
 						engine.delayedCall(runNextCommand, 1);
 					
 					case CSleep(ms):
@@ -266,7 +284,7 @@ class ScriptHost
 	
 	public function log(message:String):Void
 	{
-		engine.impl.system.log(message, LInfo);
+		system.log(message, LInfo);
 	}
 	
 	public function showSaveScreen():Void

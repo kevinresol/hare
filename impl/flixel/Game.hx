@@ -7,7 +7,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.tile.FlxTilemap;
 import impl.flixel.display.GameMenu;
 import impl.flixel.display.MainMenu;
-import impl.flixel.Implementation.Object;
+import impl.flixel.Renderer.Object;
 import rpg.image.Image;
 import rpg.map.GameMap;
 
@@ -25,7 +25,7 @@ class Game extends rpg.impl.Game
 	
 	public function new(impl,layers,player,gameLayer,objects) 
 	{
-		super(impl);
+		super();
 		this.layers = layers;
 		this.gameLayer = gameLayer;
 		

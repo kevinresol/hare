@@ -12,9 +12,9 @@ import rpg.image.Image;
 class Message extends Module
 {
 
-	public function new(impl) 
+	public function new() 
 	{
-		super(impl);
+		super();
 	}
 	
 	/**

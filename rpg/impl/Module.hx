@@ -1,5 +1,4 @@
 package rpg.impl;
-import rpg.Engine;
 
 /**
  * ...
@@ -7,13 +6,14 @@ import rpg.Engine;
  */
 class Module
 {
-	var impl:Implementation;
-	var engine(get, never):Engine;
-	
-	public function new(impl) 
+
+	public function new() 
 	{
-		this.impl = impl;
+		
 	}
 	
-	private inline function get_engine():Engine return impl.engine;
+	public function update(elapsed:Float):Void
+	{
+		
+	}
 }

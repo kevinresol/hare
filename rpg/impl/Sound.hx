@@ -7,9 +7,9 @@ package rpg.impl;
 class Sound extends Module
 {
 
-	public function new(impl) 
+	public function new() 
 	{
-		super(impl);
+		super();
 	}
 	
 	public function playSound(id:Int, volume:Float, pitch:Float):Void

@@ -7,9 +7,9 @@ package rpg.impl;
 class Assets extends Module
 {
 
-	public function new(impl) 
+	public function new() 
 	{
-		super(impl);
+		super();
 	}
 	
 	public function getConfig():String

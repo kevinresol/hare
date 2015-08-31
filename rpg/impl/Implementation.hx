@@ -1,4 +1,5 @@
 package rpg.impl;
+import minject.Injector;
 import rpg.image.Image;
 
 /**
@@ -7,18 +8,12 @@ import rpg.image.Image;
  */
 class Implementation
 {
+	@inject
 	public var engine:Engine;
 	
-	public var game:Game;
-	public var assets:Assets;
-	public var system:System;
-	public var message:Message;
-	public var movement:Movement;
-	public var music:Music;
-	public var screen:Screen;
-	public var sound:Sound;
+	public var injector(get, never):Injector;
 	
-	public function new() 
+	public function new()
 	{
 		
 	}
@@ -32,4 +27,6 @@ class Implementation
 	{
 		
 	}
+	
+	private inline function get_injector():Injector return engine.injector;
 }

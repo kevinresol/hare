@@ -7,9 +7,9 @@ package rpg.impl;
 class Music extends Module
 {
 
-	public function new(impl) 
+	public function new() 
 	{
-		super(impl);
+		super();
 	}
 	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void

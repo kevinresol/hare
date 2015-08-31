@@ -7,9 +7,9 @@ package rpg.impl;
 class Screen extends Module
 {
 
-	public function new(impl) 
+	public function new() 
 	{
-		super(impl);
+		super();
 	}
 	
 	 

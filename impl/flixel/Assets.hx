@@ -16,7 +16,7 @@ class Assets extends rpg.impl.Assets
 
 	public function new(impl) 
 	{
-		super(impl);
+		super();
 		
 		maps = new Map();
 		scripts = new Map();

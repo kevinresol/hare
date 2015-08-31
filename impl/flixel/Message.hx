@@ -17,7 +17,7 @@ class Message extends rpg.impl.Message
 	
 	public function new(impl, dialogPanel:DialogPanel) 
 	{
-		super(impl);
+		super();
 		this.dialogPanel = dialogPanel;
 	}
 	

@@ -10,9 +10,9 @@ import rpg.movement.InteractionManager.MovableObjectType;
 class Movement extends Module
 {
 
-	public function new(impl) 
+	public function new() 
 	{
-		super(impl);
+		super();
 	}
 	
 	

@@ -9,9 +9,9 @@ import rpg.map.GameMap;
 class Game extends Module
 {
 
-	public function new(impl) 
+	public function new() 
 	{
-		super(impl);
+		super();
 	}
 	
 	public function switchMap(map:GameMap):Void

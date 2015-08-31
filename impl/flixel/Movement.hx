@@ -3,10 +3,11 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
-import impl.flixel.Implementation.Object;
+import impl.flixel.Renderer.Object;
 import rpg.Engine;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.geom.Direction;
+import rpg.impl.System;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
 import rpg.util.Tools;
@@ -18,13 +19,19 @@ import rpg.util.Tools;
  */
 class Movement extends rpg.impl.Movement
 {
+	@inject
+	public var system:System;
+	
+	@inject
+	public var engine:Engine;
+	
 	var player:FlxSprite;
 	var objects:Map<Int, Object>;
 	var hudCamera:FlxCamera;
 
 	public function new(impl,player,objects,hudCamera) 
 	{
-		super(impl);
+		super();
 		this.player = player;
 		this.objects = objects;
 		this.hudCamera = hudCamera;
@@ -84,7 +91,7 @@ class Movement extends rpg.impl.Movement
 	{
 		if (map != engine.currentMap)
 		{
-			impl.system.switchMap(map);
+			system.switchMap(map);
 			
 			var mapWidth = map.gridWidth * map.tileWidth;
 			var mapHeight = map.gridHeight * map.tileHeight;

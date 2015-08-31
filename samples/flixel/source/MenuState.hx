@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxState;
+import impl.flixel.Assets;
 import impl.flixel.Implementation;
 import rpg.Engine;
 
@@ -9,7 +10,6 @@ import rpg.Engine;
  */
 class MenuState extends FlxState
 {
-	private var engine:Engine;
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -17,13 +17,22 @@ class MenuState extends FlxState
 	{
 		super.create();
 		
-		engine = new Engine(new Implementation(this));
+		var engine = new Engine({
+			game:impl.flixel.Game,
+			music:impl.flixel.Music,
+			sound:impl.flixel.Sound,
+			assets:impl.flixel.Assets,
+			screen:impl.flixel.Screen,
+			system:impl.flixel.System,
+			message:impl.flixel.Message,
+			movement:impl.flixel.Movement,
+			renderer:impl.flixel.Renderer,
+		});
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
-		engine.update(elapsed);
 	}
 	
 	/**

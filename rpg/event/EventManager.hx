@@ -2,6 +2,7 @@ package rpg.event;
 import lua.Lua;
 import rpg.Engine;
 import rpg.geom.Direction;
+import rpg.impl.Assets;
 import rpg.save.SaveManager.GameData;
 
 /**
@@ -17,6 +18,9 @@ class EventManager
 	private var lua:Lua;
 	private var erasedEvents:Array<Int>;
 	private var pendingTrigger:Array<Int>;
+	
+	@inject
+	public var assets:Assets;
 	
 	public function new(engine:Engine) 
 	{
@@ -131,7 +135,7 @@ class EventManager
 		var eraseEvent = 'local eraseEvent = function() host_eraseEvent($id) end';
 		
 		// get event script
-		var body = engine.impl.assets.getScript(engine.currentMap.id, id);
+		var body = assets.getScript(engine.currentMap.id, id);
 		
 		// execute script
 		var script = 'co$id = coroutine.create(function() $init $getEventVar $setEventVar $eraseEvent $body end)';

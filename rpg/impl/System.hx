@@ -11,9 +11,9 @@ import rpg.save.SaveManager.SaveDisplayData;
 class System extends Module
 {
 
-	public function new(impl) 
+	public function new() 
 	{
-		super(impl);
+		super();
 	}
 	
 	public function showMainMenu(startGameCallback:Void->Void, loadGameCallback:Void->Void):Void

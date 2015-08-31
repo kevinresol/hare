@@ -12,7 +12,7 @@ class Sound extends rpg.impl.Sound
 	
 	public function new(impl,assets:Assets) 
 	{
-		super(impl);
+		super();
 		this.assets = assets;
 	}
 	

@@ -9,7 +9,7 @@ import flixel.tile.FlxTilemap;
 import impl.flixel.display.GameMenu;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
-import impl.flixel.Implementation.Object;
+import impl.flixel.Renderer.Object;
 import rpg.Engine;
 import rpg.image.Image;
 import rpg.map.GameMap;
@@ -34,7 +34,7 @@ class System extends rpg.impl.System
 	
 	public function new(impl,layers,mainMenu,gameMenu,saveLoadScreen,gameCamera,player,gameLayer,objects) 
 	{
-		super(impl);
+		super();
 		this.layers = layers;
 		this.gameLayer = gameLayer;
 		

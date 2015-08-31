@@ -11,7 +11,7 @@ class Music extends rpg.impl.Music
 	
 	public function new(impl,assets:Assets) 
 	{
-		super(impl);
+		super();
 		this.assets = assets;
 	}
 	

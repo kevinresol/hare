@@ -11,7 +11,7 @@ class Screen extends rpg.impl.Screen
 	var gameCamera:FlxCamera;
 	public function new(impl,gameCamera) 
 	{
-		super(impl);
+		super();
 		this.gameCamera = gameCamera;
 	}
 	

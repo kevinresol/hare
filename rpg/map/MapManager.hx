@@ -1,6 +1,7 @@
 package rpg.map;
 import rpg.Engine;
 import rpg.geom.Direction;
+import rpg.impl.Assets;
 import rpg.map.GameMap.EventTrigger;
 import rpg.map.GameMap.GameMapObjectDisplayType;
 import rpg.map.GameMap.TileLayer;
@@ -17,6 +18,9 @@ class MapManager
 	private var engine:Engine;
 	private var maps:Map<Int, GameMap>;
 	
+	@inject 
+	public var assets:Assets;
+	
 	public function new(engine:Engine) 
 	{
 		this.engine = engine;
@@ -27,7 +31,7 @@ class MapManager
 	{
 		if (maps[id] == null)
 		{
-			var mapData = engine.impl.assets.getMapData(id);
+			var mapData = assets.getMapData(id);
 			var tiledMap = new TiledMap(Xml.parse(mapData));
 			
 			var map = new GameMap(id, tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
