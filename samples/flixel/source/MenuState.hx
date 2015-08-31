@@ -9,7 +9,7 @@ import rpg.Engine;
  */
 class MenuState extends FlxState
 {
-	private var impl:Implementation;
+	private var engine:Engine;
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
@@ -17,14 +17,13 @@ class MenuState extends FlxState
 	{
 		super.create();
 		
-		impl = new Implementation(this);
-		var engine = new Engine(impl, impl.assetManager);
+		engine = new Engine(new Implementation(this));
 	}
 	
 	override public function update(elapsed:Float):Void 
 	{
 		super.update(elapsed);
-		impl.update(elapsed);
+		engine.update(elapsed);
 	}
 	
 	/**

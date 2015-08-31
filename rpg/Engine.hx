@@ -1,22 +1,21 @@
 package rpg;
 import haxe.Json;
 import haxe.Timer;
-import hscript.Interp;
-import hscript.Parser;
-import impl.IAssetManager;
-import impl.IImplementation;
 import rpg.config.Config;
 import rpg.event.EventManager;
 import rpg.image.ImageManager;
+import rpg.impl.Implementation;
 import rpg.input.InputManager;
 import rpg.item.ItemManager;
 import rpg.map.GameMap;
 import rpg.map.MapManager;
 import rpg.movement.InteractionManager;
 import rpg.save.SaveManager;
+import rpg.util.Tools;
 
 /**
- * ...
+ * Revamp:
+ * Input use single function (onkeydown)
  * @author Kevin
  */
 @:allow(rpg)
@@ -25,8 +24,7 @@ class Engine
 	public var currentMap(get, never):GameMap;
 	public var config(default, null):Config;
 	
-	private var impl:IImplementation;
-	private var assetManager:IAssetManager;
+	private var impl:Implementation;
 	
 	private var mapManager:MapManager;
 	private var eventManager:EventManager;
@@ -41,10 +39,11 @@ class Engine
 	private var delayedCalls:Array<DelayedCall>;
 	private var called:Array<DelayedCall>;
 	
-	public function new(impl:IImplementation, assetManager:IAssetManager) 
+	public function new(impl:Implementation) 
 	{
+		Tools.engine = this;
+		
 		this.impl = impl;
-		this.assetManager = assetManager;
 		
 		impl.engine = this;
 		
@@ -94,9 +93,9 @@ class Engine
 		if (map.player != null)
 		{
 			var image = imageManager.getImage(ICharacter(map.player.image.source), map.player.image.index);
-			impl.createPlayer(image);
+			impl.game.createPlayer(image);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
-			impl.fadeInScreen(200);
+			impl.screen.fadeInScreen(200);
 		}
 		else
 			log("Player (an object with type=player) must be placed in Map 1", LError);
@@ -106,7 +105,7 @@ class Engine
 	{
 		var data = try
 		{
-			Json.parse(assetManager.getConfig());
+			Json.parse(impl.assets.getConfig());
 		}
 		catch (e:Dynamic) 
 		{
@@ -136,6 +135,7 @@ class Engine
 	
 	public function update(elapsed:Float):Void
 	{
+		impl.update(elapsed);
 		eventManager.update(elapsed);
 		
 		var now = #if sys Sys.time() #else Timer.stamp() #end;
@@ -164,7 +164,7 @@ class Engine
 	
 	public function log(message:String, level:LogLevel):Void
 	{
-		impl.log(message, level);
+		impl.system.log(message, level);
 	}
 	
 	private inline function delayedCall(callback:Void->Void, ms:Int):Void
@@ -188,16 +188,16 @@ class Engine
 			switch (currentState) 
 			{
 				case SMainMenu:
-					impl.hideMainMenu();
+					impl.system.hideMainMenu();
 					
 				case SLoadScreen:
-					impl.hideLoadScreen();
+					impl.system.hideLoadScreen();
 					
 				case SSaveScreen:
-					impl.hideSaveScreen();
+					impl.system.hideSaveScreen();
 				
 				case SGameMenu:
-					impl.hideGameMenu();
+					impl.system.hideGameMenu();
 					
 				default:
 			}
@@ -206,18 +206,18 @@ class Engine
 		switch (v) 
 		{
 			case SMainMenu:
-				impl.saveBackgroundMusic();
+				impl.music.saveBackgroundMusic();
 				mapManager.currentMap = null;
-				impl.showMainMenu(startGame, function() gameState = SLoadScreen);
+				impl.system.showMainMenu(startGame, function() gameState = SLoadScreen);
 				
 			case SLoadScreen:
-				impl.showLoadScreen(loadGame, function() gameState = currentState, saveManager.displayData);
+				impl.system.showLoadScreen(loadGame, function() gameState = currentState, saveManager.displayData);
 				
 			case SSaveScreen:
-				impl.showSaveScreen(saveGame, function() gameState = currentState, saveManager.displayData);
+				impl.system.showSaveScreen(saveGame, function() gameState = currentState, saveManager.displayData);
 				
 			case SGameMenu:
-				impl.showGameMenu(function(action)
+				impl.system.showGameMenu(function(action)
 				{
 					switch (action) 
 					{

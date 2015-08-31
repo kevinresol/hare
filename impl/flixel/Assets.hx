@@ -1,24 +1,22 @@
 package impl.flixel ;
 import flixel.util.FlxSave;
-import openfl.Assets;
+import openfl.Assets in OpenflAssets;
 using Lambda;
 /**
  * ...
  * @author Kevin
  */
-class AssetManager implements IAssetManager
+class Assets extends rpg.impl.Assets
 {
-	public static var instance:AssetManager;
-	
 	private var maps:Map<Int, String>;
 	private var scripts:Map<Int, Map<Int, String>>;
 	private var musics:Map<Int, String>;
 	private var sounds:Map<Int, String>;
 	private var systemSounds:Map<Int, String>;
 
-	public function new() 
+	public function new(impl) 
 	{
-		instance = this;
+		super(impl);
 		
 		maps = new Map();
 		scripts = new Map();
@@ -26,7 +24,7 @@ class AssetManager implements IAssetManager
 		sounds = new Map();
 		systemSounds = new Map();
 		
-		for (asset in Assets.list())
+		for (asset in OpenflAssets.list())
 		{
 			if (asset.indexOf("assets/map/") >= 0 &&  ~/[0-9]{4}-.*(\.tmx)/.match(asset))
 			{
@@ -65,43 +63,43 @@ class AssetManager implements IAssetManager
 		}
 	}
 	
-	public function getConfig():String
+	override public function getConfig():String
 	{
-		var config = Assets.list().find(function(s) return s.indexOf("assets/config") != -1);
-		return Assets.getText(config);
+		var config = OpenflAssets.list().find(function(s) return s.indexOf("assets/config") != -1);
+		return OpenflAssets.getText(config);
 	}
 	
-	public function getMapData(id:Int):String 
+	override public function getMapData(id:Int):String 
 	{
 		var filename = maps[id];
-		return Assets.getText('assets/map/$filename');
+		return OpenflAssets.getText('assets/map/$filename');
 	}
 	
-	public function getScript(mapId:Int, eventId:Int):String 
+	override public function getScript(mapId:Int, eventId:Int):String 
 	{
 		var filename = scripts[mapId][eventId];
-		return Assets.getText('assets/script/$filename');
+		return OpenflAssets.getText('assets/script/$filename');
 	}
 	
 	public function getMusic(musicId:Int):String
 	{
 		var filename = musics[musicId];
-		return Assets.getPath('assets/music/$filename');
+		return OpenflAssets.getPath('assets/music/$filename');
 	}
 	
 	public function getSound(soundId:Int):String
 	{
 		var filename = sounds[soundId];
-		return Assets.getPath('assets/sounds/gameplay/$filename');
+		return OpenflAssets.getPath('assets/sounds/gameplay/$filename');
 	}
 	
 	public function getSystemSound(soundId:Int):String
 	{
 		var filename = systemSounds[soundId];
-		return Assets.getPath('assets/sounds/system/$filename');
+		return OpenflAssets.getPath('assets/sounds/system/$filename');
 	}
 	
-	public function getSaveData():String 
+	override public function getSaveData():String 
 	{
 		var save = new FlxSave();
 		save.bind("save");
@@ -111,7 +109,7 @@ class AssetManager implements IAssetManager
 		return s;
 	}
 	
-	public function setSaveData(data:String):Void 
+	override public function setSaveData(data:String):Void 
 	{
 		var save = new FlxSave();
 		save.bind("save");
@@ -120,11 +118,11 @@ class AssetManager implements IAssetManager
 		save.close();
 	}
 	
-	public function getImageDimension(source:String):{width:Int, height:Int}
+	override public function getImageDimension(source:String):{width:Int, height:Int}
 	{
-		if (Assets.exists(source))
+		if (OpenflAssets.exists(source))
 		{
-			var b = Assets.getBitmapData(source);
+			var b = OpenflAssets.getBitmapData(source);
 			return {width:b.width, height:b.height};
 		}
 		else

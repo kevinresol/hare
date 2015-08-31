@@ -23,32 +23,32 @@ class ScriptHost
 	
 	public function playSound(id:Int, volume:Float, pitch:Float):Void
 	{
-		engine.impl.playSound(id, volume, pitch);
+		engine.impl.sound.playSound(id, volume, pitch);
 	}
 	
 	public function playBackgroundMusic(id:Int, volume:Float, pitch:Float):Void
 	{
-		engine.impl.playBackgroundMusic(id, volume, pitch);
+		engine.impl.music.playBackgroundMusic(id, volume, pitch);
 	}
 	
 	public function saveBackgroundMusic():Void
 	{
-		engine.impl.saveBackgroundMusic();
+		engine.impl.music.saveBackgroundMusic();
 	}
 	
 	public function restoreBackgroundMusic():Void
 	{
-		engine.impl.restoreBackgroundMusic();
+		engine.impl.music.restoreBackgroundMusic();
 	}
 	
 	public function fadeOutBackgroundMusic(ms:Int):Void
 	{
-		engine.impl.fadeOutBackgroundMusic(ms);
+		engine.impl.music.fadeOutBackgroundMusic(ms);
 	}
 	
 	public function fadeInBackgroundMusic(ms:Int):Void
 	{
-		engine.impl.fadeInBackgroundMusic(ms);
+		engine.impl.music.fadeInBackgroundMusic(ms);
 	}
 	
 	public function showText(imageStr:String, message:String, ?options:ShowTextOptions):Void
@@ -69,7 +69,7 @@ class ScriptHost
 			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
 			engine.imageManager.getImage(IFace(s.join(",")), index);
 		}
-		engine.impl.showText(resume, image, message, options);
+		engine.impl.message.showText(resume, image, message, options);
 	}
 	
 	public function showChoices(imageStr:String, prompt:String, choices:Array<ShowChoicesChoice>, ?options:ShowChoicesOptions)
@@ -90,7 +90,7 @@ class ScriptHost
 			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
 			engine.imageManager.getImage(IFace(s.join(",")), index);
 		}
-		engine.impl.showChoices(resumeWithData, image, prompt, choices, options);
+		engine.impl.message.showChoices(resumeWithData, image, prompt, choices, options);
 	}
 	
 	public function inputNumber(imageStr:String, prompt:String, numDigit:Int, ?options:InputNumberOptions):Void
@@ -111,17 +111,17 @@ class ScriptHost
 			var index = s.length == 1 ? 0 : Std.parseInt(s.pop());
 			engine.imageManager.getImage(IFace(s.join(",")), index);
 		}
-		engine.impl.inputNumber(resumeWithData, image, prompt, numDigit, options);
+		engine.impl.message.inputNumber(resumeWithData, image, prompt, numDigit, options);
 	}
 	
 	public function fadeOutScreen(ms:Int):Void
 	{
-		engine.impl.fadeOutScreen(ms);
+		engine.impl.screen.fadeOutScreen(ms);
 	}
 	
 	public function fadeInScreen(ms:Int):Void
 	{
-		engine.impl.fadeInScreen(ms);
+		engine.impl.screen.fadeInScreen(ms);
 	}
 	
 	public function changeFacing(target:String, facing:String):Void
@@ -133,13 +133,13 @@ class ScriptHost
 			default: MPlayer;
 		}
 		
-		engine.impl.changeObjectFacing(t, Direction.fromString(facing));
+		engine.impl.movement.changeObjectFacing(t, Direction.fromString(facing));
 	}
 	
 	public function teleportPlayer(mapId:Int, x:Int, y:Int, ?options:TeleportPlayerOptions):Void
 	{
 		var map = engine.mapManager.getMap(mapId);
-		engine.impl.teleportPlayer(map, x, y, options);
+		engine.impl.movement.teleportPlayer(map, x, y, options);
 		engine.mapManager.currentMap = map;
 		engine.interactionManager.player.map = map;
 		engine.interactionManager.player.position.set(x, y);
@@ -210,7 +210,7 @@ class ScriptHost
 						
 						if (force || engine.interactionManager.checkPassage(type, dx, dy))
 						{
-							engine.impl.moveObject(function()
+							engine.impl.movement.moveObject(function()
 							{
 								target.position.x += dx;
 								target.position.y += dy;
@@ -220,13 +220,13 @@ class ScriptHost
 						}
 						else
 						{
-							engine.impl.changeObjectFacing(type, dir);
+							engine.impl.movement.changeObjectFacing(type, dir);
 							engine.delayedCall(runNextCommand, 1);
 						}
 						
 					case CFace(dir):
 						target.facing = dir;
-						engine.impl.changeObjectFacing(type, dir);
+						engine.impl.movement.changeObjectFacing(type, dir);
 						engine.delayedCall(runNextCommand, 1);
 					
 					case CSleep(ms):
@@ -266,7 +266,7 @@ class ScriptHost
 	
 	public function log(message:String):Void
 	{
-		engine.impl.log(message, LInfo);
+		engine.impl.system.log(message, LInfo);
 	}
 	
 	public function showSaveScreen():Void

@@ -38,7 +38,7 @@ class ImageManager
 		
 		if (!packedImages.exists(source))
 		{
-			var dimension = engine.assetManager.getImageDimension(source);
+			var dimension = engine.impl.assets.getImageDimension(source);
 			if (dimension != null)
 			{
 				var packedImage = new PackedImage(source, dimension.width, dimension.height, isSpriteSheet);

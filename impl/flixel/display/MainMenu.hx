@@ -60,16 +60,16 @@ class MainMenu extends FlxSpriteGroup
 			switch (key) 
 			{
 				case KUp:
-					impl.playSystemSound(1, 1);
+					impl.sound.playSystemSound(1, 1);
 					selected -= 1;
 					
 				case KDown:
-					impl.playSystemSound(1, 1);
+					impl.sound.playSystemSound(1, 1);
 					selected += 1;
 					
 				case KEnter:
 					visible = false;
-					impl.playSystemSound(1, 1);
+					impl.sound.playSystemSound(1, 1);
 					
 					switch (selected) 
 					{

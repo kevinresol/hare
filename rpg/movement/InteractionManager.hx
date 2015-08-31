@@ -64,7 +64,7 @@ class InteractionManager
 												case EAction | EBump:
 													if (object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
 													{
-														engine.impl.changeObjectFacing(MEvent(id), Direction.turnAround(player.facing));
+														engine.impl.movement.changeObjectFacing(MEvent(id), Direction.turnAround(player.facing));
 														engine.eventManager.startEvent(id);
 													}
 														
@@ -138,7 +138,7 @@ class InteractionManager
 	public function startMove(dx:Int, dy:Int):Void
 	{
 		player.moving = true;
-		engine.impl.moveObject(endMove.bind(player.position.x + dx, player.position.y + dy), MPlayer, dx, dy, MOVEMENT_SPEED);
+		engine.impl.movement.moveObject(endMove.bind(player.position.x + dx, player.position.y + dy), MPlayer, dx, dy, MOVEMENT_SPEED);
 	}
 	
 	/**
@@ -221,7 +221,7 @@ class InteractionManager
 		}
 		else // can't move because the attempted direction is impassable, just change the facing
 		{
-			engine.impl.changeObjectFacing(MPlayer, dir);
+			engine.impl.movement.changeObjectFacing(MPlayer, dir);
 		}
 		
 		return false;
