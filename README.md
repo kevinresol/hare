@@ -1,4 +1,4 @@
-![Travis Build](https://travis-ci.org/kevinresol/hare.svg?branch=develop)
+[![Travis Build](https://travis-ci.org/kevinresol/hare.svg?branch=develop)](https://travis-ci.org/kevinresol/hare)
 
 # Hare
 
