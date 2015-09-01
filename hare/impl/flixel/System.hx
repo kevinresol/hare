@@ -1,4 +1,4 @@
-package impl.flixel;
+package hare.impl.flixel;
 import flixel.FlxG;
 import hare.impl.System;
 import hare.save.SaveManager;

@@ -1,4 +1,4 @@
-package impl.flixel ;
+package hare.impl.flixel ;
 import flixel.util.FlxSave;
 import openfl.Assets in OpenflAssets;
 using Lambda;

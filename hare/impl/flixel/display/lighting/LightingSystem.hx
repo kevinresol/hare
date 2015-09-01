@@ -1,4 +1,4 @@
-package impl.flixel.display.lighting;
+package hare.impl.flixel.display.lighting;
 import flixel.effects.postprocess.PostProcess;
 import flixel.FlxCamera;
 import flixel.FlxG;

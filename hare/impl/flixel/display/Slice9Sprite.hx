@@ -1,4 +1,4 @@
-package impl.flixel.display;
+package hare.impl.flixel.display;
 
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxFramesCollection;

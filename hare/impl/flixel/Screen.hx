@@ -1,4 +1,4 @@
-package impl.flixel;
+package hare.impl.flixel;
 import flixel.FlxCamera;
 import hare.impl.Screen;
 

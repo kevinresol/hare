@@ -1,4 +1,4 @@
-package impl.flixel.display;
+package hare.impl.flixel.display;
 
 import flixel.text.FlxText;
 import openfl.Assets;

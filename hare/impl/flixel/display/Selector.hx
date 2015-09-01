@@ -1,4 +1,4 @@
-package impl.flixel.display;
+package hare.impl.flixel.display;
 
 import flixel.tweens.FlxTween;
 import hare.geom.Rectangle;

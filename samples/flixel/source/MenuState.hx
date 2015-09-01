@@ -2,9 +2,17 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxState;
-import impl.flixel.Assets;
-import impl.flixel.HareFlixel;
+import hare.impl.flixel.Assets;
+import hare.impl.flixel.Game;
+import hare.impl.flixel.HareFlixel;
 import hare.Engine;
+import hare.impl.flixel.Message;
+import hare.impl.flixel.Movement;
+import hare.impl.flixel.Music;
+import hare.impl.flixel.Renderer;
+import hare.impl.flixel.Screen;
+import hare.impl.flixel.Sound;
+import hare.impl.flixel.System;
 
 /**
  * A FlxState which can be used for the game's menu.
@@ -21,15 +29,15 @@ class MenuState extends FlxState
 		
 		HareFlixel.state = this;
 		engine = new Engine({
-			game:impl.flixel.Game,
-			music:impl.flixel.Music,
-			sound:impl.flixel.Sound,
-			assets:impl.flixel.Assets,
-			screen:impl.flixel.Screen,
-			system:impl.flixel.System,
-			message:impl.flixel.Message,
-			movement:impl.flixel.Movement,
-			renderer:impl.flixel.Renderer,
+			game:hare.impl.flixel.Game,
+			music:hare.impl.flixel.Music,
+			sound:hare.impl.flixel.Sound,
+			assets:hare.impl.flixel.Assets,
+			screen:hare.impl.flixel.Screen,
+			system:hare.impl.flixel.System,
+			message:hare.impl.flixel.Message,
+			movement:hare.impl.flixel.Movement,
+			renderer:hare.impl.flixel.Renderer,
 		});
 	}
 	

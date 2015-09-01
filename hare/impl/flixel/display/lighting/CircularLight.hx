@@ -1,4 +1,4 @@
-package impl.flixel.display.lighting;
+package hare.impl.flixel.display.lighting;
 
 import flixel.FlxSprite;
 import flixel.util.FlxSpriteUtil;

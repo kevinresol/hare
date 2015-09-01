@@ -1,4 +1,4 @@
-package impl.flixel;
+package hare.impl.flixel;
 import flixel.FlxG;
 import flixel.tweens.FlxTween;
 import hare.event.ScriptHost;

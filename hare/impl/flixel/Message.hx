@@ -1,4 +1,4 @@
-package impl.flixel;
+package hare.impl.flixel;
 import hare.event.ScriptHost;
 import hare.impl.Message;
 import hare.event.ScriptHost.InputNumberOptions;

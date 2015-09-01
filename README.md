@@ -43,17 +43,17 @@ override public function create():Void
 {
 	super.create();
 	
-	impl.flixel.HareFlixel.state = this;
+	hare.impl.flixel.HareFlixel.state = this;
 	engine = new hareEngine({
-		game:impl.flixel.Game,
-		music:impl.flixel.Music,
-		sound:impl.flixel.Sound,
-		assets:impl.flixel.Assets,
-		screen:impl.flixel.Screen,
-		system:impl.flixel.System,
-		message:impl.flixel.Message,
-		movement:impl.flixel.Movement,
-		renderer:impl.flixel.Renderer,
+		game:hare.impl.flixel.Game,
+		music:hare.impl.flixel.Music,
+		sound:hare.impl.flixel.Sound,
+		assets:hare.impl.flixel.Assets,
+		screen:hare.impl.flixel.Screen,
+		system:hare.impl.flixel.System,
+		message:hare.impl.flixel.Message,
+		movement:hare.impl.flixel.Movement,
+		renderer:hare.impl.flixel.Renderer,
 	});
 }
 
