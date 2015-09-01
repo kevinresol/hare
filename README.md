@@ -1,4 +1,6 @@
-# RPG Engine
+# Hare
+
+**Ha**xe **R**PG **E**ngine
 
 A RPG engine for Haxe including the following core components while the visuals and user input are abstracted away:
 
@@ -35,28 +37,36 @@ lime rebuild lua windows
 In any `FlxState`:
 
 ```haxe
-private var impl:impl.flixel.Implementation;
+var engine:hare.Engine;
 
 override public function create():Void
 {
 	super.create();
 	
-	impl = new impl.flixel.Implementation(this);
-	new rpg.Engine(impl);
+	impl.flixel.HareFlixel.state = this;
+	engine = new hareEngine({
+		game:impl.flixel.Game,
+		music:impl.flixel.Music,
+		sound:impl.flixel.Sound,
+		assets:impl.flixel.Assets,
+		screen:impl.flixel.Screen,
+		system:impl.flixel.System,
+		message:impl.flixel.Message,
+		movement:impl.flixel.Movement,
+		renderer:impl.flixel.Renderer,
+	});
 }
 
 override public function update(elapsed:Float):Void 
 {
 	super.update(elapsed);
-	impl.update(elapsed);
+	engine.update(elapsed);
 }
 ```
 
 ## Implement on other game frameworks
 
-Implement the follow interfaces:
-- `IAssetManager`
-- `IImplementation`
+Override the classes in the `hare.impl` package
 
 ## Game contents
 
