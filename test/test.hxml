@@ -1,34 +1,23 @@
 ## Neko
--main TestMain
 -lib munit
--lib rpg-engine
+-lib lua
+-lib hare
+-lib minject:2.0.0-rc.1
 -cp src
-
 -cp test
+-main TestMain
 -neko build/neko_test.n
 
 --next
 
-## Flash 9+
-##-main TestMain
-##-lib munit
-##-lib rpg-engine
-##-swf-lib lib/crossbridge-lua.swc
-##-cp src
-##
-##-cp test
-##-swf-version 15.0
-##-swf-header 800:600:30:FFFFFF 
-##-swf build/as3_test.swf
-##--next
-
 ## CPP
--main TestMain
 -lib munit
--lib rpg-engine
+-lib lua
+-lib hare
+-lib minject:2.0.0-rc.1
 -cp src
-
 -cp test
+-main TestMain
 #-D HXCPP_M64
 -cpp build/cpp_test
 

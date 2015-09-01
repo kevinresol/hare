@@ -1,3 +1,5 @@
+![Travis Build](https://travis-ci.org/kevinresol/hare.svg?branch=develop)
+
 # Hare
 
 **Ha**xe **R**PG **E**ngine
@@ -18,6 +20,7 @@ But it could be easily implemented on other game frameworks.
 
 Currently only supports neko and cpp due to the Lua dependency.
 
+Flash support pending due to https://github.com/HaxeFoundation/haxe/issues/4150
 
 ## Install
 

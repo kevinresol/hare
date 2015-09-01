@@ -8,8 +8,6 @@
   "releasenote": "Work in Progress",
   "contributors": ["KevinResoL"],
   "dependencies": {
-	  "lua":"",
-	  "hscript":"",
-	  "minject":""
+	  "minject":"2.0.0-rc.1"
   }
 }
