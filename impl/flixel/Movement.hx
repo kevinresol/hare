@@ -1,9 +1,6 @@
 package impl.flixel;
-import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.tweens.FlxTween;
-import impl.flixel.Renderer.Object;
 import rpg.Engine;
 import rpg.event.ScriptHost.TeleportPlayerOptions;
 import rpg.geom.Direction;
@@ -86,7 +83,7 @@ class Movement extends rpg.impl.Movement
 	{
 		if (map != engine.currentMap)
 		{
-			system.switchMap(map);
+			renderer.switchMap(map);
 			
 			var mapWidth = map.gridWidth * map.tileWidth;
 			var mapHeight = map.gridHeight * map.tileHeight;

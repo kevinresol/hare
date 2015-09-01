@@ -1,6 +1,6 @@
 package impl.flixel ;
 import flixel.util.FlxSave;
-import openfl.Assets in OpenflAssets;
+import openfl.Assets;
 using Lambda;
 /**
  * ...

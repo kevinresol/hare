@@ -40,7 +40,7 @@ class MainMenu extends FlxSpriteGroup
 		
 		background = new FlxSprite();
 		background.makeGraphic(1, 1, 0);
-		add(background);
+		//add(background);
 		
 		var items = ["New Game", "Load Game", "Quit Game"];
 		for (i in 0...items.length)

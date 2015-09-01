@@ -1,7 +1,4 @@
 package rpg.impl;
-import rpg.Engine;
-import rpg.image.Image;
-import rpg.map.GameMap;
 import rpg.save.SaveManager.SaveDisplayData;
 
 /**
@@ -52,11 +49,6 @@ class System extends Module
 	}
 	
 	public function hideLoadScreen():Void
-	{
-		
-	}
-	
-	public function switchMap(map:GameMap):Void
 	{
 		
 	}

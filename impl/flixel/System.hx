@@ -1,18 +1,5 @@
 package impl.flixel;
-import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.FlxObject;
-import flixel.FlxSprite;
-import flixel.group.FlxGroup;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.tile.FlxTilemap;
-import impl.flixel.display.GameMenu;
-import impl.flixel.display.MainMenu;
-import impl.flixel.display.SaveLoadScreen;
-import impl.flixel.Renderer.Object;
-import rpg.Engine;
-import rpg.image.Image;
-import rpg.map.GameMap;
 import rpg.save.SaveManager.SaveDisplayData;
 
 

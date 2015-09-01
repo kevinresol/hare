@@ -43,14 +43,14 @@ class Renderer extends rpg.impl.Renderer
 	public function new(engine:Engine) 
 	{
 		super();
-		state = new RpgState(engine);
-		FlxG.switchState(state);
+		state = HareFlixel.state;
+		//FlxG.switchState(state);
 	}
 	
 	@post
 	public function postInject()
 	{
-		state.bgColor = 0;
+		state.bgColor = 0; 
 		state.add(gameLayer = new FlxGroup());
 		state.add(hudLayer = new FlxGroup());
 		
@@ -76,8 +76,6 @@ class Renderer extends rpg.impl.Renderer
 		virtualPad.alpha = 0.3;
 		hudLayer.add(virtualPad);
 		#end
-		
-		
 
 		mainMenu = new MainMenu();
 		gameMenu = new GameMenu();
@@ -94,12 +92,10 @@ class Renderer extends rpg.impl.Renderer
 		hudLayer.add(gameMenu);
 		hudLayer.add(saveLoadScreen);
 		
-		
-		
 		gameCamera = FlxG.camera;
-		FlxG.cameras.add(hudCamera = new FlxCamera());/*
+		FlxG.cameras.add(hudCamera = new FlxCamera());
 		FlxCamera.defaultCameras = [gameCamera];
-		setCamera(hudLayer, hudCamera);*/
+		setCamera(hudLayer, hudCamera);
 		
 		var lighting = new LightingSystem(state);
 		FlxG.addPostProcess(lighting);
@@ -279,70 +275,6 @@ class Renderer extends rpg.impl.Renderer
 		sprite.animation.play("down");
 	}
 	
-}
-
-class RpgState extends FlxState
-{
-	var engine:Engine;
-	
-	public function new(engine)
-	{
-		super();
-		this.engine = engine;
-	}
-	
-	/**
-	 * Function that is called up when to state is created to set it up. 
-	 */
-	override public function create():Void
-	{
-		super.create();
-	}
-	
-	override public function update(elapsed:Float):Void 
-	{
-		super.update(elapsed);
-		engine.update(elapsed);
-		
-		var justPressed = FlxG.keys.justPressed;
-		var justReleased = FlxG.keys.justReleased;
-		
-		if (justReleased.LEFT)
-			engine.release(KLeft);
-		if (justReleased.RIGHT)
-			engine.release(KRight);
-		if (justReleased.UP)
-			engine.release(KUp);
-		if (justReleased.DOWN)
-			engine.release(KDown);
-		if (justReleased.ENTER || justReleased.SPACE)
-			engine.release(KEnter);
-		if (justReleased.ESCAPE)
-			engine.release(KEsc);
-			
-		if (justPressed.LEFT)
-			engine.press(KLeft);
-		if (justPressed.RIGHT)
-			engine.press(KRight);
-		if (justPressed.UP)
-			engine.press(KUp);
-		if (justPressed.DOWN)
-			engine.press(KDown);
-		if (justPressed.ENTER || justPressed.SPACE)
-			engine.press(KEnter);
-		if (justPressed.ESCAPE)
-			engine.press(KEsc);
-	}
-	
-	/**
-	 * Function that is called when this state is destroyed - you might want to 
-	 * consider setting all objects this state uses to null to help garbage collection.
-	 */
-	override public function destroy():Void
-	{
-		super.destroy();
-	}
-
 }
 
 class Object

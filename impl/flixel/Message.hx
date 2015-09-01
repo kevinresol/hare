@@ -1,5 +1,4 @@
 package impl.flixel;
-import impl.flixel.display.DialogPanel;
 import rpg.event.ScriptHost.InputNumberOptions;
 import rpg.event.ScriptHost.ShowChoicesChoice;
 import rpg.event.ScriptHost.ShowChoicesOptions;
