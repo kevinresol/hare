@@ -1,12 +1,13 @@
 package impl.flixel;
 import flixel.FlxCamera;
+import hare.impl.Screen;
 
 
 /**
  * ...
  * @author Kevin
  */
-class Screen extends rpg.impl.Screen
+class Screen extends hare.impl.Screen
 {
 	@inject
 	public var renderer:Renderer;

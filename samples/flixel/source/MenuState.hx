@@ -4,7 +4,7 @@ import flixel.FlxG;
 import flixel.FlxState;
 import impl.flixel.Assets;
 import impl.flixel.HareFlixel;
-import rpg.Engine;
+import hare.Engine;
 
 /**
  * A FlxState which can be used for the game's menu.

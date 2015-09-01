@@ -1,12 +1,13 @@
 package ;
+import hare.impl.Assets;
 import haxe.Json;
-import rpg.config.Config;
+import hare.config.Config;
 
 /**
  * ...
  * @author Kevin
  */
-class TestAssets extends rpg.impl.Assets
+class TestAssets extends hare.impl.Assets
 {
 
 	public function new() 

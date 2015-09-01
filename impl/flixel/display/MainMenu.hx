@@ -3,11 +3,12 @@ package impl.flixel.display;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+import hare.input.InputManager;
 import openfl.system.System;
-import rpg.Events;
-import rpg.image.Image;
-import rpg.impl.Sound;
-import rpg.input.InputManager.InputKey;
+import hare.Events;
+import hare.image.Image;
+import hare.impl.Sound;
+import hare.input.InputManager.InputKey;
 
 /**
  * ...

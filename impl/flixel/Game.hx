@@ -1,10 +1,11 @@
 package impl.flixel;
+import hare.impl.Game;
 
 /**
  * ...
  * @author Kevin
  */
-class Game extends rpg.impl.Game
+class Game extends hare.impl.Game
 {
 	
 	public function new() 

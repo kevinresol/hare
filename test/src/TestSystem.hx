@@ -1,13 +1,15 @@
 package;
-import rpg.Engine.GameMenuAction;
-import rpg.Engine.LogLevel;
-import rpg.save.SaveManager.SaveDisplayData;
+import hare.impl.System;
+import hare.save.SaveManager;
+import hare.Engine.GameMenuAction;
+import hare.Engine.LogLevel;
+import hare.save.SaveManager.SaveDisplayData;
 
 /**
  * ...
  * @author Kevin
  */
-class TestSystem extends rpg.impl.System
+class TestSystem extends hare.impl.System
 {
 
 	public function new() 

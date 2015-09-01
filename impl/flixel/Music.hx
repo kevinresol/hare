@@ -1,11 +1,12 @@
 package impl.flixel;
 import flixel.FlxG;
+import hare.impl.Music;
 
 /**
  * ...
  * @author Kevin
  */
-class Music extends rpg.impl.Music
+class Music extends hare.impl.Music
 {
 	@inject
 	public var assets:Assets;

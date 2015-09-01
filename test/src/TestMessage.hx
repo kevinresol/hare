@@ -1,15 +1,17 @@
 package ;
-import rpg.event.ScriptHost.InputNumberOptions;
-import rpg.event.ScriptHost.ShowChoicesChoice;
-import rpg.event.ScriptHost.ShowChoicesOptions;
-import rpg.event.ScriptHost.ShowTextOptions;
-import rpg.image.Image;
+import hare.event.ScriptHost;
+import hare.impl.Message;
+import hare.event.ScriptHost.InputNumberOptions;
+import hare.event.ScriptHost.ShowChoicesChoice;
+import hare.event.ScriptHost.ShowChoicesOptions;
+import hare.event.ScriptHost.ShowTextOptions;
+import hare.image.Image;
 
 /**
  * ...
  * @author Kevin
  */
-class TestMessage extends rpg.impl.Message
+class TestMessage extends hare.impl.Message
 {
 
 	public function new() 

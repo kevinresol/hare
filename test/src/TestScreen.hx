@@ -1,10 +1,11 @@
 package ;
+import hare.impl.Screen;
 
 /**
  * ...
  * @author Kevin
  */
-class TestScreen extends rpg.impl.Screen
+class TestScreen extends hare.impl.Screen
 {
 
 	public function new() 

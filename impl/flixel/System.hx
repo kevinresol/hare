@@ -1,15 +1,17 @@
 package impl.flixel;
 import flixel.FlxG;
-import rpg.Engine.GameMenuAction;
-import rpg.Engine.LogLevel;
-import rpg.save.SaveManager.SaveDisplayData;
+import hare.impl.System;
+import hare.save.SaveManager;
+import hare.Engine.GameMenuAction;
+import hare.Engine.LogLevel;
+import hare.save.SaveManager.SaveDisplayData;
 
 
 /**
  * ...
  * @author Kevin
  */
-class System extends rpg.impl.System
+class System extends hare.impl.System
 {
 	@inject
 	public var renderer:Renderer;

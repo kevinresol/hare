@@ -3,9 +3,10 @@ package impl.flixel.display;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
-import rpg.Engine.GameMenuAction;
-import rpg.Events;
-import rpg.input.InputManager.InputKey;
+import hare.input.InputManager;
+import hare.Engine.GameMenuAction;
+import hare.Events;
+import hare.input.InputManager.InputKey;
 
 /**
  * ...

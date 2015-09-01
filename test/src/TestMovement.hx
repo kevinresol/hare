@@ -1,13 +1,16 @@
 package;
-import rpg.event.ScriptHost.TeleportPlayerOptions;
-import rpg.map.GameMap;
-import rpg.movement.InteractionManager.MovableObjectType;
+import hare.event.ScriptHost;
+import hare.impl.Movement;
+import hare.movement.InteractionManager;
+import hare.event.ScriptHost.TeleportPlayerOptions;
+import hare.map.GameMap;
+import hare.movement.InteractionManager.MovableObjectType;
 
 /**
  * ...
  * @author Kevin
  */
-class TestMovement extends rpg.impl.Movement
+class TestMovement extends hare.impl.Movement
 {
 
 	public function new() 

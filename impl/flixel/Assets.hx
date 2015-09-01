@@ -6,7 +6,7 @@ using Lambda;
  * ...
  * @author Kevin
  */
-class Assets extends rpg.impl.Assets
+class Assets extends hare.impl.Assets
 {
 	private var maps:Map<Int, String>;
 	private var scripts:Map<Int, Map<Int, String>>;
@@ -103,6 +103,7 @@ class Assets extends rpg.impl.Assets
 	{
 		var save = new FlxSave();
 		save.bind("save");
+		
 		var s = save.data.serialized;
 		if (s == null) s = "";
 		save.close();

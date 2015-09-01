@@ -5,7 +5,7 @@ import flixel.graphics.frames.FlxFramesCollection;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxGraphicAsset;
-import rpg.geom.Rectangle;
+import hare.geom.Rectangle;
 
 /**
  * ...

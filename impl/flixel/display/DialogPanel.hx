@@ -3,13 +3,15 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.tweens.FlxTween;
-import rpg.event.ScriptHost.InputNumberOptions;
-import rpg.event.ScriptHost.ShowChoicesChoice;
-import rpg.event.ScriptHost.ShowChoicesOptions;
-import rpg.event.ScriptHost.ShowTextOptions;
-import rpg.Events;
-import rpg.image.Image;
-import rpg.input.InputManager.InputKey;
+import hare.event.ScriptHost;
+import hare.input.InputManager;
+import hare.event.ScriptHost.InputNumberOptions;
+import hare.event.ScriptHost.ShowChoicesChoice;
+import hare.event.ScriptHost.ShowChoicesOptions;
+import hare.event.ScriptHost.ShowTextOptions;
+import hare.Events;
+import hare.image.Image;
+import hare.input.InputManager.InputKey;
 
 /**
  * TODO handle disabled and hidden choices
@@ -225,9 +227,7 @@ class DialogPanel extends FlxSpriteGroup
 		handleOptions(options);
 		
 		inputNumberCallback = callback;
-		
 		handleFaceSprite(image);
-		
 		message = prompt;
 		text.text = "";
 		tween = FlxTween.num(0, message.length, message.length / 15, { onComplete: function(t) inputNumberPanel.show(numDigit) }, function(v) text.text = message.substr(0, Std.int(v)));

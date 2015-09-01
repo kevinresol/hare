@@ -1,12 +1,13 @@
 package ;
-import rpg.image.Image;
-import rpg.map.GameMap;
+import hare.impl.Renderer;
+import hare.image.Image;
+import hare.map.GameMap;
 
 /**
  * ...
  * @author Kevin
  */
-class TestRenderer extends rpg.impl.Renderer
+class TestRenderer extends hare.impl.Renderer
 {
 
 	public function new() 

@@ -1,7 +1,7 @@
 package impl.flixel.display;
 
 import flixel.tweens.FlxTween;
-import rpg.geom.Rectangle;
+import hare.geom.Rectangle;
 
 /**
  * ...

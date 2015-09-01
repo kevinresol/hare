@@ -1,9 +1,10 @@
 package impl.flixel.display;
+import hare.input.InputManager;
 
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
-import rpg.Events;
-import rpg.input.InputManager.InputKey;
+import hare.Events;
+import hare.input.InputManager.InputKey;
 
 using Lambda;
 /**

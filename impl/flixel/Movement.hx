@@ -1,20 +1,23 @@
 package impl.flixel;
 import flixel.FlxG;
 import flixel.tweens.FlxTween;
-import rpg.Engine;
-import rpg.event.ScriptHost.TeleportPlayerOptions;
-import rpg.geom.Direction;
-import rpg.impl.System;
-import rpg.map.GameMap;
-import rpg.movement.InteractionManager.MovableObjectType;
-import rpg.util.Tools;
+import hare.event.ScriptHost;
+import hare.impl.Movement;
+import hare.movement.InteractionManager;
+import hare.Engine;
+import hare.event.ScriptHost.TeleportPlayerOptions;
+import hare.geom.Direction;
+import hare.impl.System;
+import hare.map.GameMap;
+import hare.movement.InteractionManager.MovableObjectType;
+import hare.util.Tools;
 
 
 /**
  * ...
  * @author Kevin
  */
-class Movement extends rpg.impl.Movement
+class Movement extends hare.impl.Movement
 {
 	@inject
 	public var system:System;

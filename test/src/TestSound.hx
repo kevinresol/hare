@@ -1,10 +1,11 @@
 package;
+import hare.impl.Sound;
 
 /**
  * ...
  * @author Kevin
  */
-class TestSound extends rpg.impl.Sound
+class TestSound extends hare.impl.Sound
 {
 
 	public function new() 

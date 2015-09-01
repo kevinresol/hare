@@ -9,21 +9,22 @@ import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.tile.FlxTilemap;
 import flixel.util.FlxSort;
+import hare.impl.Renderer;
 import impl.flixel.display.DialogPanel;
 import impl.flixel.display.GameMenu;
 import impl.flixel.display.lighting.LightingSystem;
 import impl.flixel.display.MainMenu;
 import impl.flixel.display.SaveLoadScreen;
-import rpg.Engine;
-import rpg.Events;
-import rpg.image.Image;
-import rpg.map.GameMap;
+import hare.Engine;
+import hare.Events;
+import hare.image.Image;
+import hare.map.GameMap;
 
 /**
  * ...
  * @author Kevin
  */
-class Renderer extends rpg.impl.Renderer
+class Renderer extends hare.impl.Renderer
 {
 	public var state:FlxState;
 	

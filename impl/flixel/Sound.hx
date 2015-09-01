@@ -1,12 +1,13 @@
 package impl.flixel;
 import flixel.FlxG;
+import hare.impl.Sound;
 
 
 /**
  * ...
  * @author Kevin
  */
-class Sound extends rpg.impl.Sound
+class Sound extends hare.impl.Sound
 {
 	@inject
 	public var assets:Assets;
