@@ -31,7 +31,7 @@ haxelib git rpg-engine http://gitlab.vicehope.com/kevin/rpg-engine
 ## Usage with HaxeFlixel
 
 ```
-haxelib git rpg-engine http://gitlab.vicehope.com/kevin/rpg-engine
+haxelib git hare http://github.com/kevinresol/hare
 haxelib git flixel https://github.com/HaxeFlixel/flixel.git
 haxelib git lua https://github.com/kevinresol/hx-lua
 lime rebuild lua windows
