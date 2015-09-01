@@ -1,0 +1,14 @@
+language: haxe
+haxe:
+  - "3.2.0"
+  - development
+neko: "2.0.0"
+install:
+  - yes | haxelib git lua https://github.com/kevinresol/hx-lua
+  - yes | haxelib git flixel https://github.com/HaxeFlixel/flixel
+  - yes | haxelib git hare https://github.com/kevinresol/hare
+  - ./setupDev # Set up the submodules as the `haxelib dev` paths.
+  - haxelib list
+  
+script:
+  - cd test && haxelib run munit test -neko && haxelib run munit test -cpp
