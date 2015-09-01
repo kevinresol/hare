@@ -16,8 +16,17 @@ class EngineTest
 	@BeforeClass
 	public function beforeClass():Void
 	{
-		var impl = new TestImplementation();
-		engine = new Engine(impl, impl.assetManager);
+		engine = new Engine({
+			game:TestGame,
+			music:TestMusic,
+			sound:TestSound,
+			assets:TestAssets,
+			screen:TestScreen,
+			system:TestSystem,
+			message:TestMessage,
+			movement:TestMovement,
+			renderer:TestRenderer,
+		});
 	}
 	
 	@AfterClass

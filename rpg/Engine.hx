@@ -83,6 +83,21 @@ class Engine
 	{
 		Tools.engine = this;
 		
+		if (options == null)
+		{
+			options = {
+				game:rpg.impl.Game,
+				music:rpg.impl.Music,
+				sound:rpg.impl.Sound,
+				assets:rpg.impl.Assets,
+				screen:rpg.impl.Screen,
+				system:rpg.impl.System,
+				message:rpg.impl.Message,
+				movement:rpg.impl.Movement,
+				renderer:rpg.impl.Renderer,
+			}
+		}
+		
 		injector = new Injector();
 		injector.map(Engine).toValue(this);
 		
