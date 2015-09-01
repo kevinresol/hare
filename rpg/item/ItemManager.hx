@@ -11,12 +11,13 @@ class ItemManager
 {
 	public var itemData(get, never):Array<ItemData>;
 	
-	private var engine:Engine;
+	
+	@inject
+	public  var engine:Engine;
 	private var items:Map<Int, Item>;
 
-	public function new(engine:Engine) 
+	public function new() 
 	{
-		this.engine = engine;
 	}
 	
 	public function init(data:Array<ItemData>):Void

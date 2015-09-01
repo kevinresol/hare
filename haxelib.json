@@ -9,6 +9,7 @@
   "contributors": ["KevinResoL"],
   "dependencies": {
 	  "lua":"",
-	  "hscript":""
+	  "hscript":"",
+	  "minject":""
   }
 }

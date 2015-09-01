@@ -1,6 +1,7 @@
 package rpg.map;
 import rpg.Engine;
 import rpg.geom.Direction;
+import rpg.impl.Assets;
 import rpg.map.GameMap.EventTrigger;
 import rpg.map.GameMap.GameMapObjectDisplayType;
 import rpg.map.GameMap.TileLayer;
@@ -14,12 +15,16 @@ class MapManager
 {
 	public var currentMap(default, set):GameMap;
 	
-	private var engine:Engine;
+	@inject
+	public  var engine:Engine;
+	
 	private var maps:Map<Int, GameMap>;
 	
-	public function new(engine:Engine) 
+	@inject 
+	public var assets:Assets;
+	
+	public function new() 
 	{
-		this.engine = engine;
 		maps = new Map();
 	}
 	
@@ -27,7 +32,7 @@ class MapManager
 	{
 		if (maps[id] == null)
 		{
-			var mapData = engine.assetManager.getMapData(id);
+			var mapData = assets.getMapData(id);
 			var tiledMap = new TiledMap(Xml.parse(mapData));
 			
 			var map = new GameMap(id, tiledMap.width, tiledMap.height, tiledMap.tileWidth, tiledMap.tileHeight);
@@ -53,7 +58,7 @@ class MapManager
 					DTile(imageSource, tileset.fromGid(o.gid)) 
 				else 
 				{ 
-					var i = engine.config.getCharacterImage(o.name);  
+					var i = engine.config.getCharacterImage(o.name);
 					DCharacter(engine.imageManager.getImage(ICharacter(i.source), i.index)); 
 				}
 				

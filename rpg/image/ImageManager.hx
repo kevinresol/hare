@@ -2,6 +2,7 @@ package rpg.image;
 import rpg.Engine;
 import rpg.image.Image;
 import rpg.image.Image.PackedImage;
+import rpg.impl.Assets;
 
 /**
  * ...
@@ -9,13 +10,15 @@ import rpg.image.Image.PackedImage;
  */
 class ImageManager
 {
-	private var engine:Engine;
+	@inject
+	public  var engine:Engine;
 	
 	private var packedImages:Map<String, PackedImage>;
+	@inject 
+	public var assets:Assets;
 	
-	public function new(engine:Engine) 
+	public function new() 
 	{
-		this.engine = engine;
 		
 		packedImages = new Map(); 
 	}
@@ -38,7 +41,7 @@ class ImageManager
 		
 		if (!packedImages.exists(source))
 		{
-			var dimension = engine.assetManager.getImageDimension(source);
+			var dimension = assets.getImageDimension(source);
 			if (dimension != null)
 			{
 				var packedImage = new PackedImage(source, dimension.width, dimension.height, isSpriteSheet);

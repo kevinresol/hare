@@ -1,22 +1,32 @@
 package rpg;
 import haxe.Json;
 import haxe.Timer;
-import hscript.Interp;
-import hscript.Parser;
-import impl.IAssetManager;
-import impl.IImplementation;
+import minject.Injector;
 import rpg.config.Config;
 import rpg.event.EventManager;
+import rpg.event.ScriptHost;
 import rpg.image.ImageManager;
+import rpg.impl.Assets;
+import rpg.impl.Game;
+import rpg.impl.Message;
+import rpg.impl.Module;
+import rpg.impl.Movement;
+import rpg.impl.Music;
+import rpg.impl.Renderer;
+import rpg.impl.Screen;
+import rpg.impl.Sound;
+import rpg.impl.System;
 import rpg.input.InputManager;
 import rpg.item.ItemManager;
 import rpg.map.GameMap;
 import rpg.map.MapManager;
 import rpg.movement.InteractionManager;
 import rpg.save.SaveManager;
+import rpg.util.Tools;
 
 /**
- * ...
+ * Revamp:
+ * Input use single function (onkeydown)
  * @author Kevin
  */
 @:allow(rpg)
@@ -25,39 +35,112 @@ class Engine
 	public var currentMap(get, never):GameMap;
 	public var config(default, null):Config;
 	
-	private var impl:IImplementation;
-	private var assetManager:IAssetManager;
 	
-	private var mapManager:MapManager;
-	private var eventManager:EventManager;
-	private var inputManager:InputManager;
-	private var interactionManager:InteractionManager;
-	private var saveManager:SaveManager;
-	private var itemManager:ItemManager;
-	private var imageManager:ImageManager;
+	var modules:Array<Module>;
+	
+	@inject 
+	public var assets:Assets;
+	@inject 
+	public var game:Game;
+	@inject 
+	public var sound:Sound;
+	@inject 
+	public var system:System;
+	@inject 
+	public var music:Music;
+	@inject 
+	public var screen:Screen;
+	@inject 
+	public var message:Message;
+	@inject 
+	public var movement:Movement;
+	@inject 
+	public var renderer:Renderer;
+	
+	@inject 
+	public var mapManager:MapManager;
+	@inject 
+	public var eventManager:EventManager;
+	@inject 
+	public var inputManager:InputManager;
+	@inject 
+	public var interactionManager:InteractionManager;
+	@inject 
+	public var saveManager:SaveManager;
+	@inject 
+	public var itemManager:ItemManager;
+	@inject 
+	public var imageManager:ImageManager;
 	
 	private var gameState(default, set):GameState;
 	
 	private var delayedCalls:Array<DelayedCall>;
 	private var called:Array<DelayedCall>;
 	
-	public function new(impl:IImplementation, assetManager:IAssetManager) 
+	public var injector(default, null):Injector;
+	
+	public function new(options:EngineOptions) 
 	{
-		this.impl = impl;
-		this.assetManager = assetManager;
+		Tools.engine = this;
 		
-		impl.engine = this;
+		if (options == null)
+		{
+			options = {
+				game:rpg.impl.Game,
+				music:rpg.impl.Music,
+				sound:rpg.impl.Sound,
+				assets:rpg.impl.Assets,
+				screen:rpg.impl.Screen,
+				system:rpg.impl.System,
+				message:rpg.impl.Message,
+				movement:rpg.impl.Movement,
+				renderer:rpg.impl.Renderer,
+			}
+		}
+		
+		injector = new Injector();
+		injector.map(Engine).toValue(this);
+		
+		injector.map(Injector).toValue(injector);
+		
+		injector.map(MapManager).asSingleton();
+		injector.map(EventManager).asSingleton();
+		injector.map(ScriptHost).asSingleton();
+		injector.map(InputManager).asSingleton();
+		injector.map(InteractionManager).asSingleton();
+		injector.map(SaveManager).asSingleton();
+		injector.map(ItemManager).asSingleton();
+		injector.map(ImageManager).asSingleton();
+		
+		// map modules to singleton (e.g. both rpg.impl.Assets and options.assets map to the same singleton)
+		injector.map(rpg.impl.Assets).toMapping(   	injector.mapRuntimeTypeOf(options.assets).toSingleton(options.assets)     );
+		injector.map(rpg.impl.Message).toMapping(	injector.mapRuntimeTypeOf(options.message).toSingleton(options.message)   );
+		injector.map(rpg.impl.Movement).toMapping(	injector.mapRuntimeTypeOf(options.movement).toSingleton(options.movement) );
+		injector.map(rpg.impl.Music).toMapping(		injector.mapRuntimeTypeOf(options.music).toSingleton(options.music)       );
+		injector.map(rpg.impl.Screen).toMapping(   	injector.mapRuntimeTypeOf(options.screen).toSingleton(options.screen)     );
+		injector.map(rpg.impl.Sound).toMapping(		injector.mapRuntimeTypeOf(options.sound).toSingleton(options.sound)       );
+		injector.map(rpg.impl.System).toMapping(	injector.mapRuntimeTypeOf(options.system).toSingleton(options.system)     );
+		injector.map(rpg.impl.Game).toMapping(		injector.mapRuntimeTypeOf(options.game).toSingleton(options.game)         );
+		injector.map(rpg.impl.Renderer).toMapping(	injector.mapRuntimeTypeOf(options.renderer).toSingleton(options.renderer) );
+		
+		
+		injector.injectInto(this);
+		
+		modules = [
+			game,
+			music,
+			sound,
+			assets,
+			screen,
+			system,
+			message,
+			movement,
+			renderer,
+		];
+		
 		
 		delayedCalls = [];
 		called = [];
-		
-		mapManager = new MapManager(this);
-		eventManager = new EventManager(this);
-		inputManager = new InputManager(this);
-		interactionManager = new InteractionManager(this);
-		saveManager = new SaveManager(this);
-		itemManager = new ItemManager(this);
-		imageManager = new ImageManager(this);
 		
 		#if !RPG_ENGINE_EDITOR
 		loadConfig();
@@ -70,7 +153,7 @@ class Engine
 				null
 			else
 				imageManager.getImage(IMainMenu(config.mainMenu.image), 0);
-		impl.init(mainMenuBackgroundImage);
+		renderer.init(mainMenuBackgroundImage);
 	}
 	
 	/**
@@ -94,9 +177,9 @@ class Engine
 		if (map.player != null)
 		{
 			var image = imageManager.getImage(ICharacter(map.player.image.source), map.player.image.index);
-			impl.createPlayer(image);
+			renderer.createPlayer(image);
 			eventManager.scriptHost.teleportPlayer(1, map.player.x, map.player.y, {facing:"down"});
-			impl.fadeInScreen(200);
+			screen.fadeInScreen(200);
 		}
 		else
 			log("Player (an object with type=player) must be placed in Map 1", LError);
@@ -106,7 +189,7 @@ class Engine
 	{
 		var data = try
 		{
-			Json.parse(assetManager.getConfig());
+			Json.parse(assets.getConfig());
 		}
 		catch (e:Dynamic) 
 		{
@@ -124,7 +207,7 @@ class Engine
 	 */
 	public function loadGame(id:Int):Void
 	{
-		saveManager.load(id);
+		saveManager.load(id, config);
 		gameState = SGame;
 	}
 	
@@ -137,6 +220,8 @@ class Engine
 	public function update(elapsed:Float):Void
 	{
 		eventManager.update(elapsed);
+		
+		for (mod in modules) mod.update(elapsed);
 		
 		var now = #if sys Sys.time() #else Timer.stamp() #end;
 		for (c in delayedCalls)
@@ -164,7 +249,7 @@ class Engine
 	
 	public function log(message:String, level:LogLevel):Void
 	{
-		impl.log(message, level);
+		system.log(message, level);
 	}
 	
 	private inline function delayedCall(callback:Void->Void, ms:Int):Void
@@ -188,16 +273,16 @@ class Engine
 			switch (currentState) 
 			{
 				case SMainMenu:
-					impl.hideMainMenu();
+					system.hideMainMenu();
 					
 				case SLoadScreen:
-					impl.hideLoadScreen();
+					system.hideLoadScreen();
 					
 				case SSaveScreen:
-					impl.hideSaveScreen();
+					system.hideSaveScreen();
 				
 				case SGameMenu:
-					impl.hideGameMenu();
+					system.hideGameMenu();
 					
 				default:
 			}
@@ -206,18 +291,18 @@ class Engine
 		switch (v) 
 		{
 			case SMainMenu:
-				impl.saveBackgroundMusic();
+				music.saveBackgroundMusic();
 				mapManager.currentMap = null;
-				impl.showMainMenu(startGame, function() gameState = SLoadScreen);
+				system.showMainMenu(startGame, function() gameState = SLoadScreen);
 				
 			case SLoadScreen:
-				impl.showLoadScreen(loadGame, function() gameState = currentState, saveManager.displayData);
+				system.showLoadScreen(loadGame, function() gameState = currentState, saveManager.displayData);
 				
 			case SSaveScreen:
-				impl.showSaveScreen(saveGame, function() gameState = currentState, saveManager.displayData);
+				system.showSaveScreen(saveGame, function() gameState = currentState, saveManager.displayData);
 				
 			case SGameMenu:
-				impl.showGameMenu(function(action)
+				system.showGameMenu(function(action)
 				{
 					switch (action) 
 					{
@@ -274,4 +359,18 @@ enum LogLevel
 	LError;
 	LInfo;
 	LWarn;
+}
+
+
+typedef EngineOptions = 
+{
+	game:Class<rpg.impl.Game>,
+	music:Class<rpg.impl.Music>,
+	sound:Class<rpg.impl.Sound>,
+	assets:Class<rpg.impl.Assets>,
+	screen:Class<rpg.impl.Screen>,
+	system:Class<rpg.impl.System>,
+	message:Class<rpg.impl.Message>,
+	movement:Class<rpg.impl.Movement>,
+	renderer:Class<rpg.impl.Renderer>,
 }

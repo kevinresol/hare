@@ -3,10 +3,10 @@ package impl.flixel.display;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
-import impl.flixel.Implementation;
 import openfl.system.System;
 import rpg.Events;
 import rpg.image.Image;
+import rpg.impl.Sound;
 import rpg.input.InputManager.InputKey;
 
 /**
@@ -23,8 +23,11 @@ class MainMenu extends FlxSpriteGroup
 	private var selected(default, set):Int;
 	private var startGameCallback:Void->Void;
 	private var loadGameCallback:Void->Void;
+	
+	@inject
+	public var sound:Sound;
 
-	public function new(impl:Implementation) 
+	public function new() 
 	{
 		super();
 		
@@ -37,7 +40,7 @@ class MainMenu extends FlxSpriteGroup
 		
 		background = new FlxSprite();
 		background.makeGraphic(1, 1, 0);
-		add(background);
+		//add(background);
 		
 		var items = ["New Game", "Load Game", "Quit Game"];
 		for (i in 0...items.length)
@@ -60,16 +63,16 @@ class MainMenu extends FlxSpriteGroup
 			switch (key) 
 			{
 				case KUp:
-					impl.playSystemSound(1, 1);
+					sound.playSystemSound(1, 1);
 					selected -= 1;
 					
 				case KDown:
-					impl.playSystemSound(1, 1);
+					sound.playSystemSound(1, 1);
 					selected += 1;
 					
 				case KEnter:
 					visible = false;
-					impl.playSystemSound(1, 1);
+					sound.playSystemSound(1, 1);
 					
 					switch (selected) 
 					{

@@ -2,6 +2,7 @@ package rpg.movement;
 import rpg.Engine;
 import rpg.geom.Direction;
 import rpg.geom.IntPoint;
+import rpg.impl.Movement;
 import rpg.input.InputManager.InputKey;
 import rpg.map.GameMap;
 import rpg.movement.InteractionManager.MovableObjectType;
@@ -19,13 +20,15 @@ class InteractionManager
 	public var movementEnabled:Bool = true;
 	public var objects:Array<MovableObject>; //TODO: rename Player class
 	
-	private var engine:Engine;
+	@inject
+	public var engine:Engine;
 	
+	@inject
+	public var movement:Movement;
 	
+	@inject
 	public function new(engine:Engine) 
 	{
-		this.engine = engine;
-		
 		player = new MovableObject(MPlayer);
 		
 		movementKeyListener = Events.on("key.justPressed", function(key:InputKey)
@@ -64,7 +67,7 @@ class InteractionManager
 												case EAction | EBump:
 													if (object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
 													{
-														engine.impl.changeObjectFacing(MEvent(id), Direction.turnAround(player.facing));
+														movement.changeObjectFacing(MEvent(id), Direction.turnAround(player.facing));
 														engine.eventManager.startEvent(id);
 													}
 														
@@ -138,7 +141,7 @@ class InteractionManager
 	public function startMove(dx:Int, dy:Int):Void
 	{
 		player.moving = true;
-		engine.impl.moveObject(endMove.bind(player.position.x + dx, player.position.y + dy), MPlayer, dx, dy, MOVEMENT_SPEED);
+		movement.moveObject(endMove.bind(player.position.x + dx, player.position.y + dy), MPlayer, dx, dy, MOVEMENT_SPEED);
 	}
 	
 	/**
@@ -221,7 +224,7 @@ class InteractionManager
 		}
 		else // can't move because the attempted direction is impassable, just change the facing
 		{
-			engine.impl.changeObjectFacing(MPlayer, dir);
+			movement.changeObjectFacing(MPlayer, dir);
 		}
 		
 		return false;
