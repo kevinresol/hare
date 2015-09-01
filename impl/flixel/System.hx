@@ -1,5 +1,7 @@
 package impl.flixel;
 import flixel.FlxG;
+import rpg.Engine.GameMenuAction;
+import rpg.Engine.LogLevel;
 import rpg.save.SaveManager.SaveDisplayData;
 
 

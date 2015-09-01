@@ -1,4 +1,6 @@
 package rpg.impl;
+import rpg.Engine.GameMenuAction;
+import rpg.Engine.LogLevel;
 import rpg.save.SaveManager.SaveDisplayData;
 
 /**
