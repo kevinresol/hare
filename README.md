@@ -47,7 +47,7 @@ override public function create():Void
 	super.create();
 	
 	hare.impl.flixel.HareFlixel.state = this;
-	engine = new hareEngine({
+	engine = new hare.Engine({
 		game:hare.impl.flixel.Game,
 		music:hare.impl.flixel.Music,
 		sound:hare.impl.flixel.Sound,
