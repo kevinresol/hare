@@ -226,10 +226,6 @@ class ScriptHost
 				
 				switch(command)
 				{
-					case CChangeSpeed(s):
-						speed = s;
-						engine.delayedCall(runNextCommand, 1);
-						
 					case CMove(dx, dy):
 						var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.DOWN else if (dy == -1) Direction.UP else 0;
 						target.facing = dir;
@@ -250,6 +246,10 @@ class ScriptHost
 							engine.delayedCall(runNextCommand, 1);
 						}
 						
+					case CChangeSpeed(s):
+						speed = s;
+						engine.delayedCall(runNextCommand, 1);
+					
 					case CFace(dir):
 						target.facing = dir;
 						movement.changeObjectFacing(type, dir);
