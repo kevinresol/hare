@@ -25,7 +25,7 @@ Flash support pending due to https://github.com/HaxeFoundation/haxe/issues/4150
 ## Install
 
 ```
-haxelib git rpg-engine http://gitlab.vicehope.com/kevin/rpg-engine
+haxelib git hare http://github.com/kevinresol/hare
 ```
 
 ## Usage with HaxeFlixel
