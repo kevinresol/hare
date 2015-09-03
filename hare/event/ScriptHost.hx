@@ -10,6 +10,8 @@ import hare.impl.System;
 import hare.movement.InteractionManager;
 
 using Lambda;
+using StringTools;
+
 /**
  * ...
  * @author Kevin
@@ -174,6 +176,7 @@ class ScriptHost
 	{
 		var type;
 		var target;
+		var speed:Float = InteractionManager.MOVEMENT_SPEED;
 		
 		switch (object) 
 		{
@@ -216,13 +219,17 @@ class ScriptHost
 					case "turnleft": CFace(Direction.turnLeft(target.facing));
 					case "turnright": CFace(Direction.turnRight(target.facing));
 					case "turnaround": CFace(Direction.turnAround(target.facing));
-					case t if (t.indexOf("sleep") >= 0): CSleep(Std.parseInt(StringTools.replace(t, "sleep", "")));
-						
+					case t if (t.startsWith("sleep")): CSleep(Std.parseInt(t.replace("sleep", "")));
+					case t if (t.startsWith("speed")): CChangeSpeed(Std.parseFloat(t.replace("speed", "")));
 					default: engine.log('unknown command for setMoveRoute: $commandText', LError); null;
 				}
 				
 				switch(command)
 				{
+					case CChangeSpeed(s):
+						speed = s;
+						engine.delayedCall(runNextCommand, 1);
+						
 					case CMove(dx, dy):
 						var dir = if (dx == 1) Direction.RIGHT else if (dx == -1) Direction.LEFT else if (dy == 1) Direction.DOWN else if (dy == -1) Direction.UP else 0;
 						target.facing = dir;
@@ -234,7 +241,7 @@ class ScriptHost
 								target.position.x += dx;
 								target.position.y += dy;
 								return runNextCommand();
-							}, type, dx, dy, InteractionManager.MOVEMENT_SPEED);
+							}, type, dx, dy, speed);
 							return true;
 						}
 						else
@@ -358,4 +365,5 @@ enum SetMoveRouteCommand
 	CMove(dx:Int, dy:Int);
 	CFace(direction:Int);
 	CSleep(ms:Int);
+	CChangeSpeed(speed:Float);
 }
