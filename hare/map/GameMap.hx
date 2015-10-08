@@ -1,4 +1,5 @@
 package hare.map;
+import hare.event.Event;
 import hare.geom.IntPoint;
 import hare.image.Image;
 
@@ -42,41 +43,37 @@ class GameMap
 		player = new Player(name, image, x, y);
 	}
 	
-	public function addEvent(id, x, y, layer, trigger, displayType, visible, scriptId):Void
+	public function addEvent(id, x, y, layer, event, displayType, visible):Void
 	{
-		objects.push(new GameMapObject(id, x, y, layer, OEvent(id, trigger, scriptId), displayType, visible));
+		objects.push(new GameMapObject(id, x, y, layer, event, displayType, visible));
 	}
 	
 	public function addObject(id, x, y, layer, displayType, visible):Void
 	{
-		objects.push(new GameMapObject(id, x, y, layer, OObject(id), displayType, visible));
+		objects.push(new GameMapObject(id, x, y, layer, null, displayType, visible));
 	}
 	
-	public function getEventTrigger(id):EventTrigger
+	public function getEventTrigger(id, ?page):EventTrigger
 	{
 		for (o in objects)
 		{
-			switch (o.type) 
+			if (o.id == id && o.event != null) 
 			{
-				case OEvent(eid, trigger, scriptId):
-					if(eid == id)
-						return trigger;
-				default:
+				return if(page == null) o.event.currentPage.trigger
+				else o.event.pages[page].trigger;
 			}
 		}
 		return null;
 	}
 	
-	public function getScriptId(id):Null<Int>
+	public function getScript(id, ?page):String
 	{
 		for (o in objects)
 		{
-			switch (o.type) 
+			if (o.id == id && o.event != null) 
 			{
-				case OEvent(eid, trigger, scriptId):
-					if(eid == id)
-						return scriptId;
-				default:
+				return if(page == null) o.event.currentPage.script
+				else o.event.pages[page].script;
 			}
 		}
 		return null;
@@ -118,50 +115,28 @@ class GameMapObject
 	public var x:Int;
 	public var y:Int;
 	public var layer:Float;
-	public var type:GameMapObjectType;
+	public var event:Event;
 	public var displayType:GameMapObjectDisplayType;
 	
-	public function new(id, x, y, layer, type, displayType, visible)
+	public function new(id, x, y, layer, event, displayType, visible)
 	{
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.layer = layer;
-		this.type = type;
+		this.event = event;
 		this.displayType = displayType;
 		this.visible = visible;
 	}
 	
 	public function toString():String
 	{
-		return switch (type) 
-		{
-			case OObject(id): 'Object $id: ($x, $y)';
-			case OEvent(id, trigger, scriptId):'Event $id: ($x, $y, $trigger, $scriptId)';
-			default: "";
-		}
+		return event == null ? 'Object $id: ($x, $y)' : 'Event $id: ($x, $y)';
 	}
-}
-
-enum GameMapObjectType
-{
-	OObject(id:Int);
-	OEvent(id:Int, trigger:EventTrigger, scriptId:Int);
 }
 
 enum GameMapObjectDisplayType
 {
 	DTile(imageSource:String, tileId:Int);
 	DCharacter(image:Image);
-}
-
-enum EventTrigger
-{
-	EOverlapAction;
-	EAction;
-	EBump;
-	EOverlap;
-	ENearby;
-	EAutorun;
-	EParallel;
 }

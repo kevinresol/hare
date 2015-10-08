@@ -31,8 +31,13 @@ class Assets extends Module
 	{
 		throw "";
 	}
+	
+	public function getEventData(mapId:Int):String
+	{
+		throw "";
+	}
 
-	public function getScript(mapId:Int, eventId:Int):String
+	public function getScript(mapId:Int, eventId:Int, page:Int):String
 	{
 		throw "";
 	}

@@ -1,0 +1,71 @@
+[
+	{
+		"id":1,
+		"pages":[
+			{
+				"trigger": "action"
+			}
+		]
+	},
+	{
+		"id":5,
+		"pages":[
+			{
+				"trigger": "overlap"
+			}
+		]
+	},
+	{
+		"id":6,
+		"pages":[
+			{
+				"trigger": "overlap"
+			}
+		]
+	},
+	{
+		"id":7,
+		"pages":[
+			{
+				"trigger": "overlap"
+			}
+		]
+	},
+	{
+		"id":8,
+		"pages":[
+			{
+				"trigger": "bump"
+			}
+		]
+	},
+	{
+		"id":9,
+		"pages":[
+			{
+				"trigger": "overlap"
+			}
+		]
+	},
+	{
+		"id":10,
+		"pages":[
+			{
+				"trigger": "nearby"
+			}
+		]
+	},
+	{
+		"id":12,
+		"pages":[
+			{
+				"conditions": "getGameVar('harrison_talked')",
+				"trigger": "action",
+				"script": "2,12,2"
+			},
+			{
+				"trigger": "action"
+			}
+		]
+	}
+]

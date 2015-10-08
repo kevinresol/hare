@@ -1,12 +1,16 @@
 package hare.event;
+import hare.event.Event;
 import hare.Events;
+import hare.map.GameMap;
 import hare.save.SaveManager;
+import haxe.Json;
 import lua.Lua;
 import hare.Engine;
 import hare.geom.Direction;
 import hare.impl.Assets;
 import hare.save.SaveManager.GameData;
 
+using Lambda;
 /**
  * ...
  * @author Kevin
@@ -21,6 +25,7 @@ class EventManager
 	private var lua:Lua;
 	private var erasedEvents:Array<Int>;
 	private var pendingTrigger:Array<Int>;
+	private var events:Map<String, Event>;
 	
 	@inject
 	public var assets:Assets;
@@ -31,6 +36,7 @@ class EventManager
 	@inject
 	public function new(scriptHost:ScriptHost) 
 	{
+		events = new Map();
 		pendingTrigger = [];
 		
 		lua = new Lua();
@@ -94,16 +100,65 @@ class EventManager
 		{
 			for (object in engine.mapManager.currentMap.objects)
 			{
-				switch (object.type) 
+				if (object.event != null && object.event.currentPage.trigger == EAutorun)
 				{
-					case OEvent(_, EAutorun, _):
-						startEvent(object.id);
-						break; // break the for loop
-					default:
-						
+					startEvent(object.id);
+					break; // break the for loop
 				}
 			}
 		}
+		
+		// quick and dirty: update pages every frame 
+		// (should update only when something happens such as game var changed)
+		updatePages();
+	}
+	
+	public function updatePages():Void
+	{
+		if (engine.currentMap == null) return;
+		var currentMapId = engine.currentMap.id;
+		for (event in events)
+		{
+			if(event.mapId == currentMapId) for (page in event.pages)
+			{
+				if (page.conditions == null || execute("return " + page.conditions) == true)
+				{
+					event.currentPage = page;
+					break;
+				}
+			}
+		}
+	}
+	
+	public function getEvent(eventId:Int, ?mapId:Int):Event
+	{
+		if (mapId == null) mapId = engine.currentMap.id;
+		var gid = '$mapId-$eventId';
+		if (!events.exists(gid))
+		{
+			var mapEventData:Array<EventData> = Json.parse(assets.getEventData(mapId));
+			if (mapEventData == null) throw 'EventData for mapID=$mapId not defined';
+			
+			var eventData:EventData = mapEventData.find(function(e) return e.id == eventId);
+			if (eventData == null) throw 'EventData for mapID=$mapId, eventID=$eventId not defined';
+			
+			var pageData:Array<EventPageData> = eventData.pages;
+			
+			for (i in 0...pageData.length)
+			{
+				var data = pageData[i];
+				if (data.script == null)
+					data.script = assets.getScript(mapId, eventId, i);
+				else
+				{
+					var s = data.script.split(",").map(function(s) return Std.parseInt(s));
+					data.script = assets.getScript(s[0], s[1], s[2]); 
+				}
+			}
+			events[gid] = new Event(mapId, eventId, pageData);
+		}
+		
+		return events[gid];
 	}
 	
 	/**
@@ -133,7 +188,7 @@ class EventManager
 		var eraseEvent = 'local eraseEvent = function() host_eraseEvent($id) end';
 		
 		// get event script
-		var body = assets.getScript(engine.currentMap.id, id);
+		var body = getEvent(id).currentPage.script;
 		
 		// execute script
 		var script = 'co$id = coroutine.create(function() $init $getEventVar $setEventVar $eraseEvent $body end)';

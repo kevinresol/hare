@@ -1,9 +1,9 @@
 package hare.map;
-import hare.Events;
 import hare.Engine;
+import hare.event.Event.EventTrigger;
+import hare.Events;
 import hare.geom.Direction;
 import hare.impl.Assets;
-import hare.map.GameMap.EventTrigger;
 import hare.map.GameMap.GameMapObjectDisplayType;
 import hare.map.GameMap.TileLayer;
 
@@ -68,21 +68,7 @@ class MapManager
 				switch (o.type)
 				{
 					case "event":
-						var trigger:EventTrigger = switch (o.custom.trigger) 
-						{
-							case "overlapaction": EOverlapAction;
-							case "action": EAction;
-							case "bump": EBump;
-							case "overlap": EOverlap;
-							case "nearby": ENearby;
-							case "autorun": EAutorun;
-							case "parallel": EParallel;
-							default: EAction;
-						}
-						var scriptId:Int = o.id;
-						if (o.custom.contains("scriptId"))
-							scriptId = Std.parseInt(o.custom.scriptId);
-						map.addEvent(o.id, x, y, layer, trigger, displayType, visible, scriptId);
+						map.addEvent(o.id, x, y, layer, engine.eventManager.getEvent(o.id, id), displayType, visible);
 					
 					case "player":
 						map.addPlayer(o.name, engine.config.getCharacterImage(o.name), x, y);

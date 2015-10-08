@@ -9,7 +9,8 @@ using Lambda;
 class Assets extends hare.impl.Assets
 {
 	private var maps:Map<Int, String>;
-	private var scripts:Map<Int, Map<Int, String>>;
+	private var events:Map<Int, String>;
+	private var scripts:Map<String, String>;
 	private var musics:Map<Int, String>;
 	private var sounds:Map<Int, String>;
 	private var systemSounds:Map<Int, String>;
@@ -19,6 +20,7 @@ class Assets extends hare.impl.Assets
 		super();
 		
 		maps = new Map();
+		events = new Map();
 		scripts = new Map();
 		musics = new Map();
 		sounds = new Map();
@@ -32,15 +34,24 @@ class Assets extends hare.impl.Assets
 				var id = Std.parseInt(f.split("-")[0]);
 				maps[id] = f;
 			}
+			else if (asset.indexOf("assets/event/") >= 0 && ~/[0-9]{4}(\.json)/.match(asset))
+			{
+				var f = asset.split("assets/event/")[1];
+				var s = f.split("-");
+				var mapId = Std.parseInt(s[0]);
+				events[mapId] = f;
+			}
 			else if (asset.indexOf("assets/script/") >= 0 && ~/[0-9]{4}-[0-9]{4}-.*(\.lua)/.match(asset))
 			{
 				var f = asset.split("assets/script/")[1];
 				var s = f.split("-");
 				var mapId = Std.parseInt(s[0]);
 				var eventId = Std.parseInt(s[1]);
-				if (!scripts.exists(mapId))
-					scripts[mapId] = new Map();
-				scripts[mapId][eventId] = f;
+				var page = Std.parseInt(s[2]); // TODO: could be buggy if filename is "0001-0002-0myscript.lua"
+				if (page == null) page = 0;
+				
+				var scriptId = '$mapId-$eventId-$page';
+				scripts[scriptId] = f;
 			}
 			else if (asset.indexOf("assets/music/") >= 0 && ~/[0-9]{4}-.*(\.ogg)/.match(asset))
 			{
@@ -75,9 +86,15 @@ class Assets extends hare.impl.Assets
 		return OpenflAssets.getText('assets/map/$filename');
 	}
 	
-	override public function getScript(mapId:Int, eventId:Int):String 
+	override public function getEventData(mapId:Int):String 
 	{
-		var filename = scripts[mapId][eventId];
+		var filename = events[mapId];
+		return OpenflAssets.getText('assets/event/$filename');
+	}
+	
+	override public function getScript(mapId:Int, eventId:Int, page:Int):String 
+	{
+		var filename = scripts['$mapId-$eventId-$page'];
 		return OpenflAssets.getText('assets/script/$filename');
 	}
 	
