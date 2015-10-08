@@ -1,0 +1,10 @@
+{
+	"pages": [
+		{
+			"conditions": "getGameVar('test')"
+		},
+		{
+			"conditions": "getGameVar('test')"
+		}
+	]	
+}

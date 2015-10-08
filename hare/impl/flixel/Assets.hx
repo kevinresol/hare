@@ -75,7 +75,7 @@ class Assets extends hare.impl.Assets
 		return OpenflAssets.getText('assets/map/$filename');
 	}
 	
-	override public function getScript(mapId:Int, eventId:Int):String 
+	override public function getScript(mapId:Int, eventId:Int, page:Int):String 
 	{
 		var filename = scripts[mapId][eventId];
 		return OpenflAssets.getText('assets/script/$filename');

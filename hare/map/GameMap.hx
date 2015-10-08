@@ -44,25 +44,20 @@ class GameMap
 	
 	public function addEvent(id, x, y, layer, trigger, displayType, visible, scriptId):Void
 	{
-		objects.push(new GameMapObject(id, x, y, layer, OEvent(id, trigger, scriptId), displayType, visible));
+		objects.push(new GameMapObject(id, x, y, layer, new Event(id, trigger, scriptId), displayType, visible));
 	}
 	
 	public function addObject(id, x, y, layer, displayType, visible):Void
 	{
-		objects.push(new GameMapObject(id, x, y, layer, OObject(id), displayType, visible));
+		objects.push(new GameMapObject(id, x, y, layer, null, displayType, visible));
 	}
 	
 	public function getEventTrigger(id):EventTrigger
 	{
 		for (o in objects)
 		{
-			switch (o.type) 
-			{
-				case OEvent(eid, trigger, scriptId):
-					if(eid == id)
-						return trigger;
-				default:
-			}
+			if (o.id == id && o.event != null) 
+				return o.event.trigger;
 		}
 		return null;
 	}
@@ -71,13 +66,8 @@ class GameMap
 	{
 		for (o in objects)
 		{
-			switch (o.type) 
-			{
-				case OEvent(eid, trigger, scriptId):
-					if(eid == id)
-						return scriptId;
-				default:
-			}
+			if (o.id == id && o.event != null) 
+				return o.event.scriptId;
 		}
 		return null;
 	}
@@ -118,35 +108,24 @@ class GameMapObject
 	public var x:Int;
 	public var y:Int;
 	public var layer:Float;
-	public var type:GameMapObjectType;
+	public var event:Event;
 	public var displayType:GameMapObjectDisplayType;
 	
-	public function new(id, x, y, layer, type, displayType, visible)
+	public function new(id, x, y, layer, event, displayType, visible)
 	{
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.layer = layer;
-		this.type = type;
+		this.event = event;
 		this.displayType = displayType;
 		this.visible = visible;
 	}
 	
 	public function toString():String
 	{
-		return switch (type) 
-		{
-			case OObject(id): 'Object $id: ($x, $y)';
-			case OEvent(id, trigger, scriptId):'Event $id: ($x, $y, $trigger, $scriptId)';
-			default: "";
-		}
+		return event == null ? 'Object $id: ($x, $y)' : 'Event $id: ($x, $y, ${event.trigger}, ${event.scriptId})';
 	}
-}
-
-enum GameMapObjectType
-{
-	OObject(id:Int);
-	OEvent(id:Int, trigger:EventTrigger, scriptId:Int);
 }
 
 enum GameMapObjectDisplayType
@@ -164,4 +143,18 @@ enum EventTrigger
 	ENearby;
 	EAutorun;
 	EParallel;
+}
+
+class Event
+{
+	public var id:Int;
+	public var trigger:EventTrigger;
+	public var scriptId:Int;
+	
+	public function new (id, trigger, scriptId)
+	{
+		this.id = id;
+		this.trigger = trigger;
+		this.scriptId = scriptId;
+	}
 }

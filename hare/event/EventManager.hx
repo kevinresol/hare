@@ -94,13 +94,10 @@ class EventManager
 		{
 			for (object in engine.mapManager.currentMap.objects)
 			{
-				switch (object.type) 
+				if (object.event != null && object.event.trigger == EAutorun)
 				{
-					case OEvent(_, EAutorun, _):
-						startEvent(object.id);
-						break; // break the for loop
-					default:
-						
+					startEvent(object.id, 1);
+					break; // break the for loop
 				}
 			}
 		}
@@ -110,7 +107,7 @@ class EventManager
 	 * Trigger a event (i.e. start running a piece of Lua script)
 	 * @param	id
 	 */
-	public function startEvent(id:Int):Void
+	public function startEvent(id:Int, page:Int):Void
 	{
 		// erased
 		if (erasedEvents.indexOf(id) != -1)
@@ -133,7 +130,7 @@ class EventManager
 		var eraseEvent = 'local eraseEvent = function() host_eraseEvent($id) end';
 		
 		// get event script
-		var body = assets.getScript(engine.currentMap.id, id);
+		var body = assets.getScript(engine.currentMap.id, id, page);
 		
 		// execute script
 		var script = 'co$id = coroutine.create(function() $init $getEventVar $setEventVar $eraseEvent $body end)';
@@ -147,7 +144,7 @@ class EventManager
 		engine.interactionManager.enableMovement();
 		
 		if (pendingTrigger.length > 0)
-			startEvent(pendingTrigger.shift());
+			startEvent(pendingTrigger.shift(), 1);
 	}
 	
 	/**

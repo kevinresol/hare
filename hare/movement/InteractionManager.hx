@@ -70,12 +70,12 @@ class InteractionManager
 													if (object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
 													{
 														movement.changeObjectFacing(MEvent(id), Direction.turnAround(player.facing));
-														engine.eventManager.startEvent(id);
+														engine.eventManager.startEvent(id, 1);
 													}
 														
 												case EOverlapAction:
 													if (object.position.x == player.position.x && object.position.y == player.position.y)
-														engine.eventManager.startEvent(id);
+														engine.eventManager.startEvent(id, 1);
 														
 												default:
 											}
@@ -101,13 +101,11 @@ class InteractionManager
 			objects = [];
 			for (mo in map.objects)
 			{
-				switch (mo.type) 
+				if(mo.event != null)
 				{
-					case OEvent(id, _):
-						var o = new MovableObject(MEvent(mo.id));
-						o.position.set(mo.x, mo.y);
-						objects.push(o);
-					default:
+					var o = new MovableObject(MEvent(mo.id));
+					o.position.set(mo.x, mo.y);
+					objects.push(o);
 				}
 			}
 		});
@@ -165,11 +163,11 @@ class InteractionManager
 					{
 						case EOverlap:
 							if (object.position.x == player.position.x && object.position.y == player.position.y)
-								engine.eventManager.startEvent(engine.mapManager.currentMap.getScriptId(id));
+								engine.eventManager.startEvent(engine.mapManager.currentMap.getScriptId(id), 1);
 							
 						case ENearby:
 							if (isNeighbour(object.position.x, object.position.y, player.position.x, player.position.y))
-								engine.eventManager.startEvent(engine.mapManager.currentMap.getScriptId(id));
+								engine.eventManager.startEvent(engine.mapManager.currentMap.getScriptId(id), 1);
 								
 						default:
 					}
@@ -213,7 +211,7 @@ class InteractionManager
 				case MEvent(id):
 					var trigger = engine.mapManager.currentMap.getEventTrigger(id);
 					if (trigger == EBump && object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
-						engine.eventManager.startEvent(id);
+						engine.eventManager.startEvent(id, 1);
 					
 				default:
 			}
