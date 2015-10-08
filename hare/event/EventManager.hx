@@ -1,6 +1,7 @@
 package hare.event;
 import hare.event.Event;
 import hare.Events;
+import hare.map.GameMap;
 import hare.save.SaveManager;
 import haxe.Json;
 import lua.Lua;
@@ -105,6 +106,27 @@ class EventManager
 				}
 			}
 		}
+		
+		// quick and dirty: update pages every frame 
+		// (should update only when something happens such as game var changed)
+		updatePages();
+	}
+	
+	public function updatePages():Void
+	{
+		if (engine.currentMap == null) return;
+		var currentMapId = engine.currentMap.id;
+		for (event in events)
+		{
+			if(event.mapId == currentMapId) for (page in event.pages)
+			{
+				if (page.conditions == null || execute("return " + page.conditions) == true)
+				{
+					event.currentPage = page;
+					break;
+				}
+			}
+		}
 	}
 	
 	public function getEvent(eventId:Int, ?mapId:Int):Event
@@ -122,7 +144,7 @@ class EventManager
 				else
 					data.script = assets.getScript(mapId, eventId, i); //TODO allow specifying a piece of script (for sharing same script among events)
 			}
-			events[gid] = new Event(gid, pageData);
+			events[gid] = new Event(mapId, eventId, pageData);
 		}
 		
 		return events[gid];

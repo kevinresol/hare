@@ -1,5 +1,9 @@
 [
 	{
+		"conditions": "getGameVar('harrison_talked')",
+		"trigger": "action"
+	},
+	{
 		"trigger": "action"
 	}
 ]

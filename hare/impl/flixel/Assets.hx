@@ -10,7 +10,7 @@ class Assets extends hare.impl.Assets
 {
 	private var maps:Map<Int, String>;
 	private var events:Map<Int, Map<Int, String>>;
-	private var scripts:Map<Int, Map<Int, String>>;
+	private var scripts:Map<String, String>;
 	private var musics:Map<Int, String>;
 	private var sounds:Map<Int, String>;
 	private var systemSounds:Map<Int, String>;
@@ -50,9 +50,11 @@ class Assets extends hare.impl.Assets
 				var s = f.split("-");
 				var mapId = Std.parseInt(s[0]);
 				var eventId = Std.parseInt(s[1]);
-				if (!scripts.exists(mapId))
-					scripts[mapId] = new Map();
-				scripts[mapId][eventId] = f;
+				var page = Std.parseInt(s[2]); // TODO: could be buggy if filename is "0001-0002-0myscript.lua"
+				if (page == null) page = 0;
+				
+				var scriptId = '$mapId-$eventId-$page';
+				scripts[scriptId] = f;
 			}
 			else if (asset.indexOf("assets/music/") >= 0 && ~/[0-9]{4}-.*(\.ogg)/.match(asset))
 			{
@@ -95,7 +97,7 @@ class Assets extends hare.impl.Assets
 	
 	override public function getScript(mapId:Int, eventId:Int, page:Int):String 
 	{
-		var filename = scripts[mapId][eventId];
+		var filename = scripts['$mapId-$eventId-$page'];
 		return OpenflAssets.getText('assets/script/$filename');
 	}
 	

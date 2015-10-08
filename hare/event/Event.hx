@@ -7,13 +7,15 @@ package hare.event;
 
 class Event
 {
-	public var id:String;
+	public var mapId:Int;
+	public var eventId:Int;
 	public var currentPage:EventPage;
 	public var pages:Array<EventPage>;
 	
-	public function new (id, pageData:Array<EventPageData>)
+	public function new (mapId, eventId, pageData:Array<EventPageData>)
 	{
-		this.id = id;
+		this.mapId = mapId;
+		this.eventId = eventId;
 		
 		pages = [for (pd in pageData) new EventPage(pd.conditions, pd.trigger, pd.script)];
 		currentPage = pages[0];
