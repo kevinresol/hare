@@ -16,6 +16,7 @@ class Event
 		this.id = id;
 		
 		pages = [for (pd in pageData) new EventPage(pd.conditions, pd.trigger, pd.script)];
+		currentPage = pages[0];
 	}
 }
 
@@ -56,7 +57,7 @@ enum EventTrigger
 
 typedef EventPageData = 
 {
-	conditions:String,
+	?conditions:String,
 	trigger:String,
 	script:String,
 }
