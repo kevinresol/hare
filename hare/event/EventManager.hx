@@ -96,15 +96,9 @@ class EventManager
 			{
 				switch (object.type) 
 				{
-					case OEvent(_, trigger, _):
-						switch (trigger) 
-						{
-							case EAutorun:
-								startEvent(object.id);
-								break;
-								
-							default:
-						}
+					case OEvent(_, EAutorun, _):
+						startEvent(object.id);
+						break; // break the for loop
 					default:
 						
 				}
