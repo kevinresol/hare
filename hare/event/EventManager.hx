@@ -1,6 +1,8 @@
 package hare.event;
+import hare.event.Event;
 import hare.Events;
 import hare.save.SaveManager;
+import haxe.Json;
 import lua.Lua;
 import hare.Engine;
 import hare.geom.Direction;
@@ -21,6 +23,7 @@ class EventManager
 	private var lua:Lua;
 	private var erasedEvents:Array<Int>;
 	private var pendingTrigger:Array<Int>;
+	private var events:Map<String, Event>;
 	
 	@inject
 	public var assets:Assets;
@@ -31,6 +34,7 @@ class EventManager
 	@inject
 	public function new(scriptHost:ScriptHost) 
 	{
+		events = new Map();
 		pendingTrigger = [];
 		
 		lua = new Lua();
@@ -94,20 +98,41 @@ class EventManager
 		{
 			for (object in engine.mapManager.currentMap.objects)
 			{
-				if (object.event != null && object.event.trigger == EAutorun)
+				if (object.event != null && object.event.currentPage.trigger == EAutorun)
 				{
-					startEvent(object.id, 1);
+					startEvent(object.id);
 					break; // break the for loop
 				}
 			}
 		}
 	}
 	
+	public function getEvent(eventId:Int, ?mapId:Int):Event
+	{
+		if (mapId == null) mapId = engine.currentMap.id;
+		var gid = '$mapId-$eventId';
+		if (!events.exists(gid))
+		{
+			var pageData:Array<EventPageData> = Json.parse(assets.getEventData(mapId, eventId));
+			for (i in 0...pageData.length)
+			{
+				var data = pageData[i];
+				if (data.script == null)
+					data.script = assets.getScript(mapId, eventId, i);
+				else
+					data.script = assets.getScript(mapId, eventId, i); //TODO allow specifying a piece of script (for sharing same script among events)
+			}
+			events[gid] = new Event(gid, pageData);
+		}
+		
+		return events[gid];
+	}
+	
 	/**
 	 * Trigger a event (i.e. start running a piece of Lua script)
 	 * @param	id
 	 */
-	public function startEvent(id:Int, page:Int):Void
+	public function startEvent(id:Int):Void
 	{
 		// erased
 		if (erasedEvents.indexOf(id) != -1)
@@ -130,7 +155,7 @@ class EventManager
 		var eraseEvent = 'local eraseEvent = function() host_eraseEvent($id) end';
 		
 		// get event script
-		var body = assets.getScript(engine.currentMap.id, id, page);
+		var body =  getEvent(id).currentPage.script;
 		
 		// execute script
 		var script = 'co$id = coroutine.create(function() $init $getEventVar $setEventVar $eraseEvent $body end)';
@@ -144,7 +169,7 @@ class EventManager
 		engine.interactionManager.enableMovement();
 		
 		if (pendingTrigger.length > 0)
-			startEvent(pendingTrigger.shift(), 1);
+			startEvent(pendingTrigger.shift());
 	}
 	
 	/**

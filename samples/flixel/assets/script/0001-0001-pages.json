@@ -1,10 +1,10 @@
-{
-	"pages": [
-		{
-			"conditions": "getGameVar('test')"
-		},
-		{
-			"conditions": "getGameVar('test')"
-		}
-	]	
-}
+[
+	{
+		"conditions": "getGameVar('test')",
+		"trigger": "overlap"
+	},
+	{
+		"conditions": "getGameVar('test')"
+		"trigger": "overlap"
+	}
+]

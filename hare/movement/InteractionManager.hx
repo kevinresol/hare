@@ -70,12 +70,12 @@ class InteractionManager
 													if (object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
 													{
 														movement.changeObjectFacing(MEvent(id), Direction.turnAround(player.facing));
-														engine.eventManager.startEvent(id, 1);
+														engine.eventManager.startEvent(id);
 													}
 														
 												case EOverlapAction:
 													if (object.position.x == player.position.x && object.position.y == player.position.y)
-														engine.eventManager.startEvent(id, 1);
+														engine.eventManager.startEvent(id);
 														
 												default:
 											}
@@ -163,11 +163,11 @@ class InteractionManager
 					{
 						case EOverlap:
 							if (object.position.x == player.position.x && object.position.y == player.position.y)
-								engine.eventManager.startEvent(engine.mapManager.currentMap.getScriptId(id), 1);
+								engine.eventManager.startEvent(id);
 							
 						case ENearby:
 							if (isNeighbour(object.position.x, object.position.y, player.position.x, player.position.y))
-								engine.eventManager.startEvent(engine.mapManager.currentMap.getScriptId(id), 1);
+								engine.eventManager.startEvent(id);
 								
 						default:
 					}
@@ -211,7 +211,7 @@ class InteractionManager
 				case MEvent(id):
 					var trigger = engine.mapManager.currentMap.getEventTrigger(id);
 					if (trigger == EBump && object.position.x == player.position.x + dx && object.position.y == player.position.y + dy)
-						engine.eventManager.startEvent(id, 1);
+						engine.eventManager.startEvent(id);
 					
 				default:
 			}

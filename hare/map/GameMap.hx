@@ -1,4 +1,5 @@
 package hare.map;
+import hare.event.Event;
 import hare.geom.IntPoint;
 import hare.image.Image;
 
@@ -42,9 +43,9 @@ class GameMap
 		player = new Player(name, image, x, y);
 	}
 	
-	public function addEvent(id, x, y, layer, trigger, displayType, visible, scriptId):Void
+	public function addEvent(id, x, y, layer, event, displayType, visible):Void
 	{
-		objects.push(new GameMapObject(id, x, y, layer, new Event(id, trigger, scriptId), displayType, visible));
+		objects.push(new GameMapObject(id, x, y, layer, event, displayType, visible));
 	}
 	
 	public function addObject(id, x, y, layer, displayType, visible):Void
@@ -52,22 +53,28 @@ class GameMap
 		objects.push(new GameMapObject(id, x, y, layer, null, displayType, visible));
 	}
 	
-	public function getEventTrigger(id):EventTrigger
+	public function getEventTrigger(id, ?page):EventTrigger
 	{
 		for (o in objects)
 		{
 			if (o.id == id && o.event != null) 
-				return o.event.trigger;
+			{
+				return if(page == null) o.event.currentPage.trigger
+				else o.event.pages[page].trigger;
+			}
 		}
 		return null;
 	}
 	
-	public function getScriptId(id):Null<Int>
+	public function getScript(id, ?page):String
 	{
 		for (o in objects)
 		{
 			if (o.id == id && o.event != null) 
-				return o.event.scriptId;
+			{
+				return if(page == null) o.event.currentPage.script
+				else o.event.pages[page].script;
+			}
 		}
 		return null;
 	}
@@ -124,7 +131,7 @@ class GameMapObject
 	
 	public function toString():String
 	{
-		return event == null ? 'Object $id: ($x, $y)' : 'Event $id: ($x, $y, ${event.trigger}, ${event.scriptId})';
+		return event == null ? 'Object $id: ($x, $y)' : 'Event $id: ($x, $y)';
 	}
 }
 
@@ -132,29 +139,4 @@ enum GameMapObjectDisplayType
 {
 	DTile(imageSource:String, tileId:Int);
 	DCharacter(image:Image);
-}
-
-enum EventTrigger
-{
-	EOverlapAction;
-	EAction;
-	EBump;
-	EOverlap;
-	ENearby;
-	EAutorun;
-	EParallel;
-}
-
-class Event
-{
-	public var id:Int;
-	public var trigger:EventTrigger;
-	public var scriptId:Int;
-	
-	public function new (id, trigger, scriptId)
-	{
-		this.id = id;
-		this.trigger = trigger;
-		this.scriptId = scriptId;
-	}
 }
