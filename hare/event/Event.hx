@@ -57,6 +57,12 @@ enum EventTrigger
 	EParallel;
 }
 
+typedef EventData = 
+{
+	id:Int,
+	pages:Array<EventPageData>,
+}
+
 typedef EventPageData = 
 {
 	?conditions:String,

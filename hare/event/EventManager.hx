@@ -10,6 +10,7 @@ import hare.geom.Direction;
 import hare.impl.Assets;
 import hare.save.SaveManager.GameData;
 
+using Lambda;
 /**
  * ...
  * @author Kevin
@@ -135,14 +136,24 @@ class EventManager
 		var gid = '$mapId-$eventId';
 		if (!events.exists(gid))
 		{
-			var pageData:Array<EventPageData> = Json.parse(assets.getEventData(mapId, eventId));
+			var mapEventData:Array<EventData> = Json.parse(assets.getEventData(mapId));
+			if (mapEventData == null) throw 'EventData for mapID=$mapId not defined';
+			
+			var eventData:EventData = mapEventData.find(function(e) return e.id == eventId);
+			if (eventData == null) throw 'EventData for mapID=$mapId, eventID=$eventId not defined';
+			
+			var pageData:Array<EventPageData> = eventData.pages;
+			
 			for (i in 0...pageData.length)
 			{
 				var data = pageData[i];
 				if (data.script == null)
 					data.script = assets.getScript(mapId, eventId, i);
 				else
-					data.script = assets.getScript(mapId, eventId, i); //TODO allow specifying a piece of script (for sharing same script among events)
+				{
+					var s = data.script.split(",").map(function(s) return Std.parseInt(s));
+					data.script = assets.getScript(s[0], s[1], s[2]); 
+				}
 			}
 			events[gid] = new Event(mapId, eventId, pageData);
 		}

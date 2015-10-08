@@ -9,7 +9,7 @@ using Lambda;
 class Assets extends hare.impl.Assets
 {
 	private var maps:Map<Int, String>;
-	private var events:Map<Int, Map<Int, String>>;
+	private var events:Map<Int, String>;
 	private var scripts:Map<String, String>;
 	private var musics:Map<Int, String>;
 	private var sounds:Map<Int, String>;
@@ -34,15 +34,12 @@ class Assets extends hare.impl.Assets
 				var id = Std.parseInt(f.split("-")[0]);
 				maps[id] = f;
 			}
-			else if (asset.indexOf("assets/event/") >= 0 && ~/[0-9]{4}-[0-9]{4}-.*(\.json)/.match(asset))
+			else if (asset.indexOf("assets/event/") >= 0 && ~/[0-9]{4}(\.json)/.match(asset))
 			{
 				var f = asset.split("assets/event/")[1];
 				var s = f.split("-");
 				var mapId = Std.parseInt(s[0]);
-				var eventId = Std.parseInt(s[1]);
-				if (!events.exists(mapId))
-					events[mapId] = new Map();
-				events[mapId][eventId] = f;
+				events[mapId] = f;
 			}
 			else if (asset.indexOf("assets/script/") >= 0 && ~/[0-9]{4}-[0-9]{4}-.*(\.lua)/.match(asset))
 			{
@@ -89,9 +86,9 @@ class Assets extends hare.impl.Assets
 		return OpenflAssets.getText('assets/map/$filename');
 	}
 	
-	override public function getEventData(mapId:Int, eventId:Int):String 
+	override public function getEventData(mapId:Int):String 
 	{
-		var filename = events[mapId][eventId];
+		var filename = events[mapId];
 		return OpenflAssets.getText('assets/event/$filename');
 	}
 	

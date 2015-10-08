@@ -32,7 +32,7 @@ class Assets extends Module
 		throw "";
 	}
 	
-	public function getEventData(mapId:Int, eventId:Int):String
+	public function getEventData(mapId:Int):String
 	{
 		throw "";
 	}
