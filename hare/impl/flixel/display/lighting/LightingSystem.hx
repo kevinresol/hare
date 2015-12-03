@@ -62,7 +62,7 @@ class LightingSystem extends PostProcess
 		
 		enable();
 		
-		lightTextureUniform = shader.uniform("uImage1");
+		lightTextureUniform = postProcessShader.uniform("uImage1");
 		
 		ambientColor = 0xFF8D9BB1;
 		
@@ -149,7 +149,7 @@ class LightingSystem extends PostProcess
 		GL.bindFramebuffer(GL.FRAMEBUFFER, renderTo);
 		GL.viewport(0, 0, screenWidth, screenHeight);
 		
-		shader.bind();
+		postProcessShader.bind();
 
 		GL.enableVertexAttribArray(vertexSlot);
 		GL.enableVertexAttribArray(texCoordSlot);
