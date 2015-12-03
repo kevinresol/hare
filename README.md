@@ -21,6 +21,10 @@ But it could be easily implemented on other game frameworks.
 Currently only supports neko and cpp due to the Lua dependency.
 
 Flash support pending due to https://github.com/HaxeFoundation/haxe/issues/4150
+	
+No support for HTML5 right now. I am not sure if there are any Lua vm on js. 
+Please kindly let me know if there are any good candidates. 
+However, I am not sure if it is a good idea to run a vm in a vm after all. (same for Flash in fact)
 
 ## Install
 
